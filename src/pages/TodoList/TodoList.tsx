@@ -1,8 +1,7 @@
+import TodoListComponent from "../../components/Todo/Todo.component";
 
 function TodoList() {
-  return (
-    <div>TodoList</div>
-  )
+  return <TodoListComponent />;
 }
 
-export default TodoList
+export default TodoList;
