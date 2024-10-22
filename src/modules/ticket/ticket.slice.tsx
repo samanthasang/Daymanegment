@@ -12,8 +12,6 @@ export const ticketSlice = createSlice({
 	},
 	reducers: {
 		setTicketId: (state: TicketState, action: PayloadAction<string>) => {
-			console.log(action.payload);
-
 			state.ticketId = action.payload;
 		},
 	},

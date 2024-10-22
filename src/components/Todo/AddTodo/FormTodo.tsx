@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useAppDispatch } from "../../../lib/hook";
+import { setToDoList } from "../../../modules/toDoList/todo.slice";
 
-export default function FormTodo({ setList }) {
+export default function FormTodo() {
   const [value, setValue] = useState("");
+  const dispatch = useAppDispatch();
+
 
   return (
     <>
@@ -17,9 +21,8 @@ export default function FormTodo({ setList }) {
           type="submit"
           onClick={(e) => {
             e.preventDefault();
-            setList((prev) => {
-              return prev ? [...prev, value] : [value];
-            });
+            dispatch(setToDoList(value));
+            setValue("");
           }}
         >
           submit

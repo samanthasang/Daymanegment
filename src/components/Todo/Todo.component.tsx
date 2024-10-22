@@ -1,28 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useAppSelector } from "../../lib/hook";
 import AddToDo from "./AddTodo/AddToDo";
 
 function TodoListComponent() {
-  const [list, setList] = useState(null);
-
+  const { toDoList } = useAppSelector((state) => state.todoList) || [];
   useEffect(() => {
-    console.log(list);
-    list && list.map((li) => console.log(li));
-  }, [list]);
+    console.log(toDoList);
+  }, [toDoList]);
 
   return (
     <>
       <div>TodoList</div>
       <div className="flex flex-row gap-4">
-        <AddToDo setList={setList} />
-        {list != null && list.length > 0 && (
+        <AddToDo />
+        {toDoList != null && toDoList.length > 0 && (
           <div className="flex flex-col gap-4 red">
-            {list.map((li) => (
-              <span>{li}</span>
+            {toDoList?.map((li) => (
+              <span>{li.title}</span>
             ))}
           </div>
         )}
       </div>
-      <button onClick={() => listTOdo && addList(listTOdo)}>get</button>
     </>
   );
 }
