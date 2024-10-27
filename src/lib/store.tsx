@@ -4,7 +4,7 @@ import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
 
 export const reducers = combineReducers({
-  timeer: ticketReducer,
+  timer: ticketReducer,
   todoList: todoReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
