@@ -1,11 +1,15 @@
-import { Button, TextField } from "@mui/material";
-import moment from "moment";
-import { useEffect, useRef, useState } from "react";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+"use client"
+import { Button } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
 import _ from "lodash";
+import { useCallback, useEffect, useRef, useState } from "react";import utc from 'dayjs/plugin/utc.js'
+import timezone from 'dayjs/plugin/timezone.js'
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 
 export default function TimerComponent() {
   const [todayTime, setTodyTime] = useState<any>([]);
@@ -19,7 +23,9 @@ export default function TimerComponent() {
 
     inputRef.current.showPicker();
   };
-  const handleTime = () => {
+  const handleTime = useCallback(
+    () => {
+      
     const pair = _.chunk(todayTime, 2);
     pair.map((p) => {
       console.log(dayjs(p[1]).diff(dayjs(p[0])));
@@ -27,12 +33,13 @@ export default function TimerComponent() {
       //   dayjs.duration(dayjs(p[1]).diff(dayjs(p[0]))).format("HH:mm:ss")
       // );
     });
-    console.log(pair);
-  };
+    },
+    [todayTime],
+  );
 
   useEffect(() => {
-    todayTime.length > 2 && handleTime();
-  }, [todayTime]);
+    if(todayTime.length > 2) handleTime();
+  }, [handleTime, todayTime]);
 
   function repeatStr(n, s) {
     
@@ -44,14 +51,14 @@ export default function TimerComponent() {
       <div className="flex flex-col gap-4 h-4/5">
         {todayTime.length > 0 &&
           todayTime.map((time, index) => (
-            <div className="flex justify-between w-60" onClick={handleClick}>
+            <div key={index} className="flex justify-between w-60" onClick={handleClick}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker
                   id="datetime-local"
                   label={index % 2 == 0 ? "inter" : "Exit"}
                   defaultValue={dayjs(
-                    moment.unix(time).format("yyyy-MM-DDThh:mm")
-                  )}
+                    dayjs(time).unix()
+                  ).format("yyyy-MM-DDThh:mm")}
                   sx={{
                     width: 250,
                     color: "#fff",

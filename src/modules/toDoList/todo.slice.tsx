@@ -1,20 +1,36 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
+export type TToDoList= {
+    id: string; 
+    name: string;
+    priority: string;
+    dob: Date;
+    isComplete: boolean
+
+  }
+
 interface InitialState {
-  toDoList: { id: string; title: string; isComplete: boolean }[];
+  toDoList: {
+    id: string; 
+    name: string;
+    priority: string;
+    dob: Date;
+    isComplete: boolean
+  }[];
 }
 
 export const todoListSlice = createSlice({
   reducerPath: "todoList",
   name: "@todoList",
   initialState: {
-    toDoList: [],
+    toDoList: [] as TToDoList[],
   },
   reducers: {
-    setToDoList: (state: InitialState, action: PayloadAction<string>) => {
+    addToDoList: (state: InitialState, action: PayloadAction<string>) => {
+      const {name,priority,dob} = JSON.parse(action.payload)
       state.toDoList = [
         ...state.toDoList,
-        { id: nanoid(), title: action.payload, isComplete: false },
+        { id: nanoid(),  name, priority, dob, isComplete: false },
       ];
     },
     delToDoList: (state: InitialState, action: PayloadAction<string>) => {
@@ -35,5 +51,5 @@ export const todoListSlice = createSlice({
 export const todoReducer = todoListSlice.reducer;
 export const todoReducerPath = todoListSlice.reducerPath;
 
-export const { setToDoList, delToDoList, updateToDoList } =
+export const { addToDoList, delToDoList, updateToDoList } =
   todoListSlice.actions;
