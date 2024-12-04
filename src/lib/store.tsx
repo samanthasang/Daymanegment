@@ -2,6 +2,8 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import apiService from "./api.service";
 import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
@@ -9,29 +11,24 @@ export const reducers = combineReducers({
   [apiService.reducerPath]: apiService.reducer,
 });
 
-const localStorageMiddleware = ({ getState }) => {
-  return (next) => (action) => {
-    const result = next(action);
-    localStorage.setItem("applicationState", JSON.stringify(getState()));
-    return result;
-  };
+const persistConfig = {
+  key: "root",
+  storage,
 };
-
-const reHydrateStore = () => {
-    if (localStorage?.getItem("applicationState") !== null) {
-    return JSON.parse(localStorage.getItem("applicationState") as string); // re-hydrate the store
-  }
-}; 
+const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({
-  reducer: reducers,
-  preloadedState: reHydrateStore(),
+  reducer: persistedReducer,
   middleware(getDefaultMiddleware) {
-    return getDefaultMiddleware()
-      .concat(apiService.middleware)
-      .concat(localStorageMiddleware);
+    return getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    })
+      .concat(apiService.middleware);
   },
   devTools: true,
 });
 
+export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

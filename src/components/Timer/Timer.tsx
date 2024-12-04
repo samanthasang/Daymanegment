@@ -47,7 +47,7 @@ export default function TimerComponent() {
   }
   console.log(repeatStr(3, "*"));
   return (
-    <div className="h-full">
+      <div className="flex flex-col gap-4 w-full h-[86vh] bg-slate-500 m-auto p-10">
       <div className="flex flex-col gap-4 h-4/5">
         {todayTime.length > 0 &&
           todayTime.map((time, index) => (
@@ -58,7 +58,7 @@ export default function TimerComponent() {
                   label={index % 2 == 0 ? "inter" : "Exit"}
                   defaultValue={dayjs(
                     dayjs(time).unix()
-                  ).format("yyyy-MM-DDThh:mm")}
+                  )}
                   sx={{
                     width: 250,
                     color: "#fff",
