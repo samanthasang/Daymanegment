@@ -1,6 +1,12 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
-export type ToDo = { id: string; title: string; isComplete: boolean }
+export type TToDo = {
+  id: string
+  title: string
+  isComplete: boolean
+  date: string,
+  priority: string
+}
 
 export interface InitialState {
   ListToDo: ToDo[];
@@ -15,12 +21,29 @@ export const todoListSlice = createSlice({
     selectedToDo: {}
   },
   reducers: {
-    setToDoList: (state: InitialState, action: PayloadAction<string>) => {
+    setToDoList: (state: InitialState, action: PayloadAction<{
+      id: string,
+      title:string,
+      date: string,
+      priority: string
+    }>) => {
       state.ListToDo = state.ListToDo ? [
         ...state.ListToDo,
-        { id: nanoid(), title: action.payload, isComplete: false },
+        {
+          id: nanoid(),
+          title: action.payload.title,
+          priority: action.payload.priority,
+          date: action.payload.date,
+          isComplete: false
+        },
       ] : [
-        { id: nanoid(), title: action.payload, isComplete: false },
+          {
+            id: nanoid(),
+            priority: action.payload.priority,
+            date: action.payload.date,
+            title: action.payload.title,
+            isComplete: false
+          },
       ];
     },
     delToDoList: (state: InitialState, action: PayloadAction<string>) => {
@@ -35,10 +58,21 @@ export const todoListSlice = createSlice({
           : todo
       );
     },
-    updateToDoList: (state: InitialState, action: PayloadAction<{ id: any; title: string; }>) => {
+    updateToDoList: (state: InitialState, action: PayloadAction<{
+      id: any
+      title: string
+      date: string
+      priority: string
+    }>) => {
       state.ListToDo = state.ListToDo.map((todo) =>
         todo.id == action.payload.id
-          ? { ...todo, title: action.payload.title, isComplete: todo.isComplete }
+          ? {
+            ...todo,
+            title: action.payload.title,
+            isComplete: todo.isComplete,
+            priority: action.payload.priority,
+            date: action.payload.date,
+          }
           : todo
       );
     },
@@ -53,5 +87,11 @@ export const todoListSlice = createSlice({
 export const todoReducer = todoListSlice.reducer;
 export const todoReducerPath = todoListSlice.reducerPath;
 
-export const { completeToDoList, setToDoList, delToDoList, updateToDoList, selectToDoList } =
+export const {
+  completeToDoList,
+  setToDoList,
+  delToDoList,
+  updateToDoList,
+  selectToDoList
+} =
   todoListSlice.actions;

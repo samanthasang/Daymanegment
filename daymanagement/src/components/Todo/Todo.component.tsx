@@ -3,8 +3,9 @@ import { useEffect } from "react";
 import { useAppSelector } from "../../lib/hook";
 import AddToDo from "./AddTodo/AddToDo";
 import TodoItem from "./TodoItem/Todo.component";
+import { TToDo } from "@/modules/toDoList/todo.slice";
 
-export type ToDo = { id: string; title: string; isComplete: boolean }
+// export type ToDo = { id: string; title: string; isComplete: boolean }
 
 function TodoListComponent() {
   const { ListToDo }: {
@@ -25,10 +26,10 @@ function TodoListComponent() {
 
         {ListToDo != null && ListToDo.length > 0 && (
           <div className="flex flex-col gap-4 w-full ">
-            {ListToDo?.map((li: ToDo) => (
+            {ListToDo?.map((li: TToDo) => (
               <TodoItem
                 key={li.id}
-              item={li}
+                item={li}
                             
               />
             ))}

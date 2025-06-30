@@ -26,6 +26,8 @@ import { Input } from "@/components/ui/input";
 
 interface IFormInputs {
   todo: string
+  priority: string
+  date: string
 }
 
 export default function FormTodo() {
@@ -79,7 +81,19 @@ export default function FormTodo() {
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
     
-    selectedToDo?.title ? dispatch(updateToDoList({id: selectedToDo.id, title: data.todo})) : dispatch(setToDoList(data.todo))
+    selectedToDo?.title ? dispatch(updateToDoList(
+      {
+        id: selectedToDo.id,
+        title: data.todo,
+        date: data.date,
+        priority: data.priority
+      })) :
+      dispatch(setToDoList({
+        id: selectedToDo.id,
+        title: data.todo,
+        date: data.date,
+        priority: data.priority
+      }))
     dispatch(selectToDoList(""))
     reset()
   };
