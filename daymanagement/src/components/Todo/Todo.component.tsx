@@ -5,11 +5,10 @@ import AddToDo from "./AddTodo/AddToDo";
 import TodoItem from "./TodoItem/Todo.component";
 import { TToDo } from "@/modules/toDoList/todo.slice";
 
-// export type ToDo = { id: string; title: string; isComplete: boolean }
 
 function TodoListComponent() {
   const { ListToDo }: {
-    ListToDo: never[];
+    ListToDo: TToDo[];
     selectedToDo: {};
 } = useAppSelector((state) => state.todoList) || [];
   useEffect(() => {
@@ -25,7 +24,16 @@ function TodoListComponent() {
          scroll-m-0 overflow-y-scroll">
 
         {ListToDo != null && ListToDo.length > 0 && (
-          <div className="flex flex-col gap-4 w-full ">
+            <div className="flex flex-col gap-4 w-full ">
+              <div className="flex justify-between w-full">
+                <span>
+                  {"Todos : " +  ListToDo?.length}
+                </span>
+                <span>
+                  {"Completed : " +  ListToDo?.filter((todo) => todo.isComplete == true).length}
+                </span>
+
+              </div>
             {ListToDo?.map((li: TToDo) => (
               <TodoItem
                 key={li.id}

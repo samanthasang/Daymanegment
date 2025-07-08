@@ -1,5 +1,5 @@
 "use client"
-import { Edit, Remove } from "@/components/table";
+import { ChevronSmallUp, CheckCircle, CheckMark, Edit, Remove, ChevronSmallTripleUp, ChevronSmallDoubleUp } from "@/components/table";
 import { useAppDispatch } from "@/lib/hook";
 import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
 import { Checkbox } from "@mui/material";
@@ -8,6 +8,8 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
+import { CheckCheck } from "lucide-react";
+import More from "@/components/table/More";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
 dayjs.extend(utc);
@@ -26,51 +28,55 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
 
   return (
     <div              
-    className="cursor-pointer grid-cols-5 grid items-center justify-evenly border p-3 rounded-2xl border-white"
+    className="cursor-pointer grid-cols-12 grid items-center justify-evenly border p-3 rounded-2xl border-white"
     >
-      <div className="flex gap-2 justify-start items-start">
-        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
-          <label
-            onClick={(e) => {
+      <div onClick={(e) => {
               e.preventDefault();
               dispatch(completeToDoList(item.id));
-            }}
+      }}
+        className="select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
+        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
+          <label
             htmlFor="terms"
-            className={`cursor-pointer ${item.isComplete ? "line-through" : ""}`}>
+            className={`cursor-pointer flex justify-center items-center gap-2`}>
+            
+            { item.priority == "High" && <ChevronSmallTripleUp className='fill-red-500' />}
+            { item.priority == "Medium" && <ChevronSmallDoubleUp className='fill-red-500' />}
+            { item.priority == "Low" && <ChevronSmallUp className='fill-red-500' />}
             {item.title}
           </label>
         </div>
-      <div className="flex gap-2 justify-start items-start">
-        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
-          <label
-            onClick={(e) => {
+      <div onClick={(e) => {
               e.preventDefault();
               dispatch(completeToDoList(item.id));
-            }}
-            htmlFor="terms"
-            className={`""`}>
-              {item.priority}
-          </label>
-        </div>
-      <div className="flex gap-2 justify-start items-start">
+      }}
+        className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
           <label
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(completeToDoList(item.id));
-            }}
             htmlFor="terms"
-            className={`""`}>
+            className={`cursor-pointer`}>
               {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
           </label>
         </div>
-      <div className="flex gap-2 justify-center items-center">
+      <div 
+        className="select-none flex col-span-1 gap-2 justify-center items-center">
           <span
             className={`""`}>
-            {item.isComplete ? "Complete" : "not Complete"}
+            {item.isComplete ? 
+              <CheckCircle  /> : 
+              <CheckMark  />}
           </span>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(selectToDoList(item.id));
+          }}
+          className="text-red-400"
+          >
+            <More />
+        </button>
       </div>
-      <div className="flex gap-2 justify-end items-end">
+      <div className="flex col-span-2 gap-2 justify-end items-end">
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -87,7 +93,7 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
           }}
           className="text-red-400"
           >
-          <Remove className='fill-red-500'  />
+          <Remove className='fill-red-500' />
         </button>
       </div>
     </div>

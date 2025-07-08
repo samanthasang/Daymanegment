@@ -97,6 +97,12 @@ export default function FormTodo() {
     dispatch(selectToDoList(""))
     reset()
   };
+  const onReset = () => {
+    console.log("reset");
+    
+    dispatch(selectToDoList(""))
+    reset()
+  };
 
   return (
     <div className="col-span-1">
@@ -184,7 +190,12 @@ export default function FormTodo() {
       }
       />
                 {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          <Button className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
+          { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+          
+          { selectedToDo?.title && <div className="flex gap-4">
+            <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
+            <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
+          </div>}
       </form>
       </div>
       {/* <div className="flex flex-col gap-4 w-full bg-white red col-span-2">

@@ -9,8 +9,8 @@ export type TToDo = {
 }
 
 export interface InitialState {
-  ListToDo: ToDo[];
-  selectedToDo: ToDo | {}
+  ListToDo: TToDo[];
+  selectedToDo: TToDo | {}
 }
 
 export const todoListSlice = createSlice({
