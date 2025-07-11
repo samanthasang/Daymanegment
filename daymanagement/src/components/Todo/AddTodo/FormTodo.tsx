@@ -89,7 +89,7 @@ export default function FormTodo() {
         priority: data.priority
       })) :
       dispatch(setToDoList({
-        id: selectedToDo.id,
+        id: "",
         title: data.todo,
         date: data.date,
         priority: data.priority
@@ -120,6 +120,7 @@ export default function FormTodo() {
         render={({ field }) =>
           <Input
             className="!text-white w-full px-3 border-white rounded py-1"
+            placeholder="Name"
             {...field}
         />
       }

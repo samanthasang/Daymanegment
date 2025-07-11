@@ -2,11 +2,10 @@
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
 import { useEffect } from "react";
 import { useAppSelector } from "../../lib/hook";
-import AddHabbit from "./AddHabbit/AddHabbit";
 import { HabbitItem } from "./HabbitItem/Habbit.component";
 
 
-function HabbitListComponent() {
+function MyHabbitListComponent() {
   const { ListHabbit }: {
     ListHabbit: Thabbit[];
     selectedhabbit: {};
@@ -18,8 +17,6 @@ function HabbitListComponent() {
   return (
     <div className="w-2/3 m-auto bg-secondary">
       <div className="w-full text-center border-b p-3">HabbitList</div>
-      <div className=" w-full grid grid-cols-3 gap-4 h-[75vh]">
-        <AddHabbit />
         <div className="col-span-2 flex justify-center w-full py-3 px-6 border-l h-full
          scroll-m-0 overflow-y-scroll">
 
@@ -42,10 +39,9 @@ function HabbitListComponent() {
             ))}
           </div>
         )}
-        </div>
       </div>
     </div>
   );
 }
 
-export default HabbitListComponent;
+export default MyHabbitListComponent;

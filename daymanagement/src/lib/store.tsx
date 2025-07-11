@@ -2,10 +2,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import apiService from "./api.service";
 import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
+import { habbitReducer } from "@/modules/habbitList/habbit.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
   todoList: todoReducer,
+  habbitList: habbitReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
 
