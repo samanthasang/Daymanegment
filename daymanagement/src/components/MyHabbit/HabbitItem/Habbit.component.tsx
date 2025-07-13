@@ -1,5 +1,5 @@
 "use client"
-import { ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
+import { CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
 import More from "@/components/table/More";
 import { useAppDispatch } from "@/lib/hook";
 import { completeHabbitList, delHabbitList, selectHabbitList, Thabbit } from "@/modules/habbitList/habbit.slice";
@@ -8,10 +8,13 @@ import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import { CheckCircle } from "lucide-react";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+const currentUnixTimestamp = dayjs().unix();
 
 // export type ToDo = {
 //   id: string
@@ -26,7 +29,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
 
   return (
     <div              
-    className="cursor-pointer grid-cols-9 grid items-center justify-evenly border p-3 rounded-2xl border-white"
+    className="cursor-pointer grid-cols-10 grid items-center justify-evenly border p-3 rounded-2xl border-white"
     >
       <div onClick={(e) => {
               e.preventDefault();
@@ -49,6 +52,24 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
           <span
             className={`""`}>
             {item.score || 0}
+          </span>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(selectHabbitList(item.id));
+          }}
+          className="text-red-400"
+          >
+            <More />
+        </button>
+      </div>
+      <div 
+        className="select-none flex col-span-1 gap-2 justify-center items-center">
+          <span
+            className={`""`}>
+            {+item.lastUpdate == currentUnixTimestamp ? 
+              <CheckCircle  /> : 
+              <CheckMark  />}
           </span>
         <button
           onClick={(e) => {

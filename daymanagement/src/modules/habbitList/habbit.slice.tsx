@@ -1,11 +1,14 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import dayjs from 'dayjs';
 
+const currentUnixTimestamp = dayjs().unix(); 
 export type Thabbit = {
   id: string
   title: string
   score: number
   description: string,
-  priority: string
+  priority: string,
+  lastUpdate: string
 }
 
 export interface InitialState {
@@ -26,6 +29,7 @@ export const habbitListSlice = createSlice({
       title:string,
       description: string,
       priority: string,
+      lastUpdate: string
     }>) => {
       state.ListHabbit = state.ListHabbit ? [
         ...state.ListHabbit,
@@ -34,7 +38,8 @@ export const habbitListSlice = createSlice({
           title: action.payload.title,
           priority: action.payload.priority,
           description: action.payload.description,
-          score: 0
+          score: 0,
+          lastUpdate: currentUnixTimestamp
         },
       ] : [
           {
@@ -42,7 +47,8 @@ export const habbitListSlice = createSlice({
             priority: action.payload.priority,
             description: action.payload.description,
             title: action.payload.title,
-            score: 0
+            score: 0,
+            lastUpdate: currentUnixTimestamp
           },
       ];
     },
@@ -54,7 +60,12 @@ export const habbitListSlice = createSlice({
     completeHabbitList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListHabbit = state.ListHabbit.map((Habbit) =>
         Habbit.id == action.payload
-          ? { ...Habbit, score: Habbit.score + 1 }
+          ? {
+            ...Habbit,
+            score: currentUnixTimestamp != +Habbit.lastUpdate ?
+              Habbit.score : Habbit.score + 1,
+            
+          }
           : Habbit
       );
     },
