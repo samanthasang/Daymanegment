@@ -1,4 +1,4 @@
-import MyHabbitListComponent from "@/components/MyHabbit/Habbit.component";
+import MyHabbitListComponent from "@/components/MyHabbit/MyHabbit.component";
 
 function page() {
   return <MyHabbitListComponent />;

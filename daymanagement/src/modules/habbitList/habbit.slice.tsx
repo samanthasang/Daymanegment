@@ -8,7 +8,7 @@ export type Thabbit = {
   score: number
   description: string,
   priority: string,
-  lastUpdate: string
+  lastUpdate: number
 }
 
 export interface InitialState {

@@ -29,7 +29,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
 
   return (
     <div              
-    className="cursor-pointer grid-cols-10 grid items-center justify-evenly border p-3 rounded-2xl border-white"
+    className="cursor-pointer grid-cols-12 grid items-center justify-evenly border p-3 rounded-2xl border-white"
     >
       <div onClick={(e) => {
               e.preventDefault();
@@ -47,6 +47,18 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
             {item.title}
           </label>
         </div>
+              <div onClick={(e) => {
+                      e.preventDefault();
+                      dispatch(completeHabbitList(item.id));
+              }}
+                className="select-none cursor-pointer flex col-span-2 gap-2 justify-start items-start">
+                {/* <Checkbox checked={item.isComplete} id="terms" /> */}
+                  <label
+                    htmlFor="terms"
+                    className={`cursor-pointer`}>
+                      {dayjs(item.lastUpdate).format("YYYY-MM-DD")}
+                  </label>
+                </div>
       <div 
         className="select-none flex col-span-1 gap-2 justify-center items-center">
           <span

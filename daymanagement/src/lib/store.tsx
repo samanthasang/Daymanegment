@@ -3,11 +3,15 @@ import apiService from "./api.service";
 import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
 import { habbitReducer } from "@/modules/habbitList/habbit.slice";
+import { MyHaBBITReducer } from "@/modules/myHabbitList/myHabbit.slice";
+import { timerReducer } from "@/modules/timerList/timer.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
   todoList: todoReducer,
   habbitList: habbitReducer,
+  MYhabbitList: MyHaBBITReducer,
+  TimerList: timerReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
 

@@ -1,40 +1,43 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
-export type Thabbit = {
+export type TMyHaBBIT = {
   id: string
   title: string
   score: number
   description: string,
-  priority: string
+  priority: string,
+  lastUpdate: number
 }
 
 export interface InitialState {
-  ListHabbit: Thabbit[];
-  selectedhabbit: Thabbit | {}
+  ListMyHaBBIT: TMyHaBBIT[];
+  selectedMyHaBBIT: TMyHaBBIT | {}
 }
 
-export const habbitListSlice = createSlice({
-  reducerPath: "habbitList",
-  name: "@habbitList",
+export const MyHaBBITListSlice = createSlice({
+  reducerPath: "MyHaBBITList",
+  name: "@MyHaBBITList",
   initialState: {
-    ListHabbit: [],
-    selectedhabbit: {}
+    ListMyHaBBIT: [],
+    selectedMyHaBBIT: {}
   },
   reducers: {
-    setHabbitList: (state: InitialState, action: PayloadAction<{
+    setMyHaBBITList: (state: InitialState, action: PayloadAction<{
       id: string,
       title:string,
       description: string,
       priority: string,
+      lastUpdate: string
     }>) => {
-      state.ListHabbit = state.ListHabbit ? [
-        ...state.ListHabbit,
+      state.ListMyHaBBIT = state.ListMyHaBBIT ? [
+        ...state.ListMyHaBBIT,
         {
           id: nanoid(),
           title: action.payload.title,
           priority: action.payload.priority,
           description: action.payload.description,
-          score: 0
+          score: 0,
+          lastUpdate: 0
         },
       ] : [
           {
@@ -42,56 +45,57 @@ export const habbitListSlice = createSlice({
             priority: action.payload.priority,
             description: action.payload.description,
             title: action.payload.title,
-            score: 0
+            score: 0,
+            lastUpdate: 0
           },
       ];
     },
-    delHabbitList: (state: InitialState, action: PayloadAction<string>) => {
-      state.ListHabbit = state.ListHabbit.filter(
-        (Habbit) => Habbit.id != action.payload
+    delMyHaBBITList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListMyHaBBIT = state.ListMyHaBBIT.filter(
+        (MyHaBBIT) => MyHaBBIT.id != action.payload
       );
     },
-    completeHabbitList: (state: InitialState, action: PayloadAction<string>) => {
-      state.ListHabbit = state.ListHabbit.map((Habbit) =>
-        Habbit.id == action.payload
-          ? { ...Habbit, score: Habbit.score + 1 }
-          : Habbit
+    completeMyHaBBITList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListMyHaBBIT = state.ListMyHaBBIT.map((MyHaBBIT) =>
+        MyHaBBIT.id == action.payload
+          ? { ...MyHaBBIT, score: MyHaBBIT.score + 1 }
+          : MyHaBBIT
       );
     },
-    updateHabbitList: (state: InitialState, action: PayloadAction<{
+    updateMyHaBBITList: (state: InitialState, action: PayloadAction<{
       id: any
       title: string
       description: string
       priority: string
     }>) => {
-      state.ListHabbit = state.ListHabbit.map((Habbit) =>
-        Habbit.id == action.payload.id
+      state.ListMyHaBBIT = state.ListMyHaBBIT.map((MyHaBBIT) =>
+        MyHaBBIT.id == action.payload.id
           ? {
-            ...Habbit,
+            ...MyHaBBIT,
             title: action.payload.title,
-            score: Habbit.score,
+            score: MyHaBBIT.score,
             priority: action.payload.priority,
             description: action.payload.description,
           }
-          : Habbit
+          : MyHaBBIT
       );
     },
-    selectHabbitList: (state: InitialState, action: PayloadAction<string>) => {
-      state.selectedhabbit = state.ListHabbit.filter(
-        (Habbit) => Habbit.id == action.payload
+    selectMyHaBBITList: (state: InitialState, action: PayloadAction<string>) => {
+      state.selectedMyHaBBIT = state.ListMyHaBBIT.filter(
+        (MyHaBBIT) => MyHaBBIT.id == action.payload
       )[0];
     },
   },
 });
 
-export const habbitReducer = habbitListSlice.reducer;
-export const habbitReducerPath = habbitListSlice.reducerPath;
+export const MyHaBBITReducer = MyHaBBITListSlice.reducer;
+export const MyHaBBITReducerPath = MyHaBBITListSlice.reducerPath;
 
 export const {
-  completeHabbitList,
-  setHabbitList,
-  delHabbitList,
-  updateHabbitList,
-  selectHabbitList
+  completeMyHaBBITList,
+  setMyHaBBITList,
+  delMyHaBBITList,
+  updateMyHaBBITList,
+  selectMyHaBBITList
 } =
-habbitListSlice .actions;
+MyHaBBITListSlice .actions;
