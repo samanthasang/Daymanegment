@@ -1,6 +1,5 @@
-import React from "react";
-import TimerComponent from "../../components/Timer/Timer";
+import TimerListComponent from "@/components/Timer/Timer.component";
 
 export default function page() {
-  return <TimerComponent />;
+  return <TimerListComponent />;
 }

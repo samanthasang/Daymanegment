@@ -26,6 +26,7 @@ export const timerListSlice = createSlice({
       title:string,
       startDate: string,
       endDate: string,
+      isComplete: boolean,
     }>) => {
       state.ListTimer = state.ListTimer ? [
         ...state.ListTimer,
@@ -71,7 +72,8 @@ export const timerListSlice = createSlice({
       id: any
       title: string
       startDate: string
-      priority: string
+      endDate: string
+      isComplete: boolean
     }>) => {
       state.ListTimer = state.ListTimer.map((timer) =>
         timer.id == action.payload.id
@@ -79,8 +81,8 @@ export const timerListSlice = createSlice({
             ...timer,
             title: action.payload.title,
             isComplete: timer.isComplete,
-            priority: action.payload.priority,
             startDate: action.payload.startDate,
+            endDate: action.payload.endDate,
           }
           : timer
       );
