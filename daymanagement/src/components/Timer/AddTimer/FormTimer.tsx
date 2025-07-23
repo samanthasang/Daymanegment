@@ -21,13 +21,14 @@ import { CalendarIcon } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
 import { Input } from "@/components/ui/input";
+import { setTimerList, updateTimerList } from "@/modules/timerList/timer.slice";
+import dayjs from "dayjs";
 
 interface IFormInputs {
-  todo: string
-  priority: string
-  date: string
+  title: string
+  startDate: string
+  endDate: string
 }
 
 export default function FormTimer() {
@@ -41,21 +42,25 @@ export default function FormTimer() {
   
   
   const dispatch = useAppDispatch();
-  const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
+  const { selectedTimer } : any = useAppSelector((state) => state.TimerList) || {};
   
     useEffect(() => {
-        if (date) {
-            setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
+        if (selectedTimer) {
+            setValue("title", selectedTimer.title)
+            setValue("startDate", dayjs(dayjs.unix(Number(selectedTimer.startDate))).format("YYYY-MM-DD HH:MM"))
+            setValue("endDate", dayjs(dayjs.unix(Number(selectedTimer.startDate))).format("YYYY-MM-DD HH:MM"))
         }
-    }, [date])
+    }, [selectedTimer])
 
-  // const [todoList ,setTodoList]= useState<string[]>([])
+  // const [titleList ,settitleList]= useState<string[]>([])
 
+  console.log(selectedTimer);
+  
 // creating a schema for strings 
    const formSchema = z.object({
-    todo: z.string().min(4, { message: 'Name is required' }),
-    priority: z.string().min(1, { message: 'priority is required' }),
-    date: z.string().min(1, { message: 'date is required' }),
+    title: z.string().min(4, { message: 'Name is required' }),
+    startDate: z.string().min(1, { message: 'date is required' }),
+    endDate: z.string().min(1, { message: 'date is required' }),
   });
   type FormData = z.infer<typeof formSchema>
   const {
@@ -70,8 +75,8 @@ export default function FormTimer() {
   });
   
   useEffect(() => {
-    setValue("todo", selectedToDo?.title)
-  }, [selectedToDo])
+    setValue("title", selectedTimer?.title)
+  }, [selectedTimer])
 
   useEffect(() => {
     getValues()
@@ -81,26 +86,28 @@ export default function FormTimer() {
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
     
-    selectedToDo?.title ? dispatch(updateToDoList(
+    selectedTimer?.title ? dispatch(updateTimerList(
       {
-        id: selectedToDo.id,
-        title: data.todo,
-        date: data.date,
-        priority: data.priority
+        id: selectedTimer.id,
+        title: data.title,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        isComplete: selectedTimer.isComplete
       })) :
-      dispatch(setToDoList({
+      dispatch(setTimerList({
         id: "",
-        title: data.todo,
-        date: data.date,
-        priority: data.priority
+        title: data.title,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        isComplete: selectedTimer.isComplete
       }))
-    dispatch(selectToDoList(""))
+    dispatch(selectedTimer(""))
     reset()
   };
   const onReset = () => {
     console.log("reset");
     
-    dispatch(selectToDoList(""))
+    dispatch(selectedTimer(""))
     reset()
   };
 
@@ -114,7 +121,7 @@ export default function FormTimer() {
           
       <Controller
         defaultValue = {''}
-        name="todo"
+        name="title"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
@@ -125,7 +132,7 @@ export default function FormTimer() {
         />
       }
       />
-                {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+                {errors.title?.message && <p className="text-xs text-red-500">{errors.title?.message}</p>}
 
               <Popover>
       <PopoverTrigger asChild>
@@ -145,7 +152,7 @@ export default function FormTimer() {
         className="flex w-auto flex-col space-y-2 p-2"
       >
       <Controller
-        name="date"
+        name="startDate"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
@@ -171,7 +178,7 @@ export default function FormTimer() {
         </div>
       </PopoverContent>
     </Popover>
-                {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+                {errors.startDate?.message && <p className="text-xs text-red-500">{errors.startDate?.message}</p>}
       <Controller
         defaultValue = {''}
         name="priority"
@@ -191,21 +198,21 @@ export default function FormTimer() {
       }
       />
                 {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+          { !selectedTimer?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
           
-          { selectedToDo?.title && <div className="flex gap-4">
+          { selectedTimer?.title && <div className="flex gap-4">
             <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
             <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
           </div>}
       </form>
       </div>
       {/* <div className="flex flex-col gap-4 w-full bg-white red col-span-2">
-            {todoList?.map((li) => (
+            {titleList?.map((li) => (
               <div
                 key={li}
                 onClick={(e) => {
                   e.preventDefault();
-                  dispatch(updateToDoList(li.id));
+                  dispatch(updatetitleList(li.id));
                 }}
                 className="flex items-center justify-between text-black"
               >
@@ -215,7 +222,7 @@ export default function FormTimer() {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    // dispatch(delToDoList(li.id));
+                    // dispatch(deltitleList(li.id));
                   }}
                 >
                   Delete

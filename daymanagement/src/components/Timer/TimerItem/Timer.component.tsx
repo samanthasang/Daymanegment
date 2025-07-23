@@ -2,7 +2,7 @@
 import { CheckCircle, CheckMark, Edit, Remove } from "@/components/table";
 import More from "@/components/table/More";
 import { useAppDispatch } from "@/lib/hook";
-import { TTimer } from "@/modules/timerList/timer.slice";
+import { completeTimerList, delTimerList, selectTimerList, TTimer } from "@/modules/timerList/timer.slice";
 import { completeToDoList, delToDoList, selectToDoList } from "@/modules/toDoList/todo.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
@@ -31,9 +31,9 @@ export const TimerItem = ({ item }: {item : TTimer }) =>  {
     >
       <div onClick={(e) => {
               e.preventDefault();
-              dispatch(completeToDoList(item.id));
+              !item.isComplete && dispatch(completeTimerList({ id:item.id, endDate: `${Math.floor(Date.now() / 1000)}`}));
       }}
-        className="select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
+        className="select-none cursor-pointer flex col-span-3 gap-3 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
           <label
             htmlFor="terms"
@@ -43,26 +43,26 @@ export const TimerItem = ({ item }: {item : TTimer }) =>  {
         </div>
       <div onClick={(e) => {
               e.preventDefault();
-              dispatch(completeToDoList(item.id));
+              !item.isComplete && dispatch(completeTimerList({ id:item.id, endDate: `${Math.floor(Date.now() / 1000)}`}));
       }}
         className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
           <label
             htmlFor="terms"
             className={`cursor-pointer`}>
-              {dayjs(dayjs.unix(Number(item.startDate))).format("YYYY-MM-DD")}
+              {dayjs(dayjs.unix(Number(item.startDate))).format("YYYY-MM-DD HH:MM")}
           </label>
         </div>
       <div onClick={(e) => {
               e.preventDefault();
-              dispatch(completeToDoList(item.id));
+              !item.isComplete && dispatch(completeTimerList({ id:item.id, endDate: `${Math.floor(Date.now() / 1000)}`}));
       }}
         className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
           <label
             htmlFor="terms"
             className={`cursor-pointer`}>
-              {dayjs(dayjs.unix(Number(item.endDate))).format("YYYY-MM-DD")}
+              {item.startDate != item.endDate && dayjs(dayjs.unix(Number(item.endDate))).format("YYYY-MM-DD HH:MM")}
           </label>
         </div>
       <div 
@@ -87,7 +87,7 @@ export const TimerItem = ({ item }: {item : TTimer }) =>  {
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(selectToDoList(item.id));
+            dispatch(selectTimerList(item.id));
           }}
           className="text-red-400"
           >
@@ -96,7 +96,7 @@ export const TimerItem = ({ item }: {item : TTimer }) =>  {
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(delToDoList(item.id));
+            dispatch(delTimerList(item.id));
           }}
           className="text-red-400"
           >
