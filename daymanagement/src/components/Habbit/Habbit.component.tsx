@@ -7,13 +7,17 @@ import { HabbitItem } from "./HabbitItem/Habbit.component";
 
 
 function HabbitListComponent() {
-  const { ListHabbit }: {
+  const { ListHabbit, selectedhabbit }: {
     ListHabbit: Thabbit[];
-    selectedhabbit: {};
+    selectedhabbit: Thabbit | {};
 } = useAppSelector((state) => state.habbitList) || [];
   useEffect(() => {
     console.log(ListHabbit);
   }, [ListHabbit]);
+
+  useEffect(() => {
+    console.log(selectedhabbit);
+  }, [selectedhabbit]);
 
   return (
     <div className="w-2/3 m-auto bg-secondary">

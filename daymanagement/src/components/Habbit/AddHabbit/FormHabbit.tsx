@@ -26,7 +26,12 @@ interface IFormInputs {
 export default function FormHabbit() {
   
   const dispatch = useAppDispatch();
-  const { selectedHabbit } : any = useAppSelector((state) => state.habbitList) || {};
+  const { selectedhabbit }: any = useAppSelector((state) => state.habbitList) || {};
+  
+  useEffect(() => {
+    console.log(selectedhabbit);
+  }, [selectedhabbit]);
+  
   
 
 // creating a schema for strings 
@@ -48,8 +53,10 @@ export default function FormHabbit() {
   });
   
   useEffect(() => {
-    setValue("habbit", selectedHabbit?.title)
-  }, [selectedHabbit])
+    setValue("habbit", selectedhabbit?.title)
+    setValue("description", selectedhabbit?.description)
+    setValue("priority", selectedhabbit?.priority)
+  }, [selectedhabbit])
 
   useEffect(() => {
     getValues()
@@ -59,9 +66,9 @@ export default function FormHabbit() {
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
     
-    selectedHabbit?.title ? dispatch(updateHabbitList(
+    selectedhabbit?.title ? dispatch(updateHabbitList(
       {
-        id: selectedHabbit.id,
+        id: selectedhabbit.id,
         title: data.habbit,
         description: data.description,
         priority: data.priority
@@ -70,7 +77,7 @@ export default function FormHabbit() {
         id: "",
         title: data.habbit,
         description: data.description,
-        priority: data.priority
+        priority: data.priority,
       }))
     dispatch(selectHabbitList(""))
     reset()
@@ -137,9 +144,9 @@ export default function FormHabbit() {
       }
       />
                 {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          { !selectedHabbit?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+          { !selectedhabbit?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
           
-          { selectedHabbit?.title && <div className="flex gap-4">
+          { selectedhabbit?.title && <div className="flex gap-4">
             <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
             <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
           </div>}

@@ -2,13 +2,14 @@
 import { CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
 import More from "@/components/table/More";
 import { useAppDispatch } from "@/lib/hook";
-import { completeHabbitList, delHabbitList, selectHabbitList, Thabbit } from "@/modules/habbitList/habbit.slice";
+import { completeMyHaBBITList, delMyHaBBITList, selectMyHaBBITList, TMyHaBBIT } from "@/modules/myHabbitList/myHabbit.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { CheckCircle } from "lucide-react";
+import { useEffect } from "react";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
 dayjs.extend(utc);
@@ -16,24 +17,24 @@ dayjs.extend(timezone);
 
 const currentUnixTimestamp = dayjs().unix();
 
-// export type ToDo = {
-//   id: string
-//   title: string
-//   isComplete: boolean
-//   date: string
-//   priority: string
-// }
-
-export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
+export const HabbitItem = ({ item }: {item : TMyHaBBIT }) =>  {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    
+    console.log(dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
+    // console.log(dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') < 2);
+  
+  }, [])
+  
 
   return (
     <div              
-    className="cursor-pointer grid-cols-10 grid items-center justify-evenly border p-3 rounded-2xl border-white"
+    className="cursor-pointer grid-cols-12 grid items-center justify-evenly border p-3 rounded-2xl border-white"
     >
       <div onClick={(e) => {
               e.preventDefault();
-              dispatch(completeHabbitList(item.id));
+              dispatch(completeMyHaBBITList(item.id));
       }}
         className="select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
@@ -47,6 +48,18 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
             {item.title}
           </label>
         </div>
+              <div onClick={(e) => {
+                e.preventDefault();
+                dispatch(completeMyHaBBITList(item.id));
+              }}
+                        className="select-none cursor-pointer flex col-span-2 gap-2 justify-start items-start">
+                        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
+                          <label
+                            htmlFor="terms"
+                            className={`cursor-pointer`}>
+                              {dayjs(dayjs.unix(Number(item.lastUpdate))).format("YYYY-MM-DD")}
+                          </label>
+                        </div>
       <div 
         className="select-none flex col-span-1 gap-2 justify-center items-center">
           <span
@@ -56,7 +69,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(selectHabbitList(item.id));
+            dispatch(selectMyHaBBITList(item.id));
           }}
           className="text-red-400"
           >
@@ -66,15 +79,16 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
       <div 
         className="select-none flex col-span-1 gap-2 justify-center items-center">
           <span
-            className={`""`}>
-            {+item.lastUpdate == currentUnixTimestamp ? 
-              <CheckCircle  /> : 
-              <CheckMark  />}
+              className={`""`}>
+            {dayjs(dayjs.unix(Number(item.lastUpdate))).format("DD")
+                !=  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") ? 
+                <CheckCircle  /> : 
+                <CheckMark  />}
           </span>
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(selectHabbitList(item.id));
+            dispatch(selectMyHaBBITList(item.id));
           }}
           className="text-red-400"
           >
@@ -85,7 +99,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(selectHabbitList(item.id));
+            dispatch(selectMyHaBBITList(item.id));
           }}
           className="text-red-400"
           >
@@ -94,7 +108,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(delHabbitList(item.id));
+            dispatch(delMyHaBBITList(item.id));
           }}
           className="text-red-400"
           >

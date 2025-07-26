@@ -8,14 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textArea";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { selectHabbitList, updateHabbitList } from "@/modules/habbitList/habbit.slice";
+import { setMyHaBBITList } from "@/modules/myHabbitList/myHabbit.slice";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
-import { selectHabbitList, setHabbitList, updateHabbitList } from "@/modules/habbitList/habbit.slice";
-import { Textarea } from "@/components/ui/textArea";
 
 interface IFormInputs {
   habbit: string
@@ -56,6 +57,8 @@ export default function FormHabbit() {
   }, [getValues()])
   
 
+
+const currentUnixTimestamp = dayjs().unix(); 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
     
@@ -66,11 +69,12 @@ export default function FormHabbit() {
         description: data.description,
         priority: data.priority
       })) :
-      dispatch(setHabbitList({
+      dispatch(setMyHaBBITList({
         id: "",
         title: data.habbit,
         description: data.description,
-        priority: data.priority
+        priority: data.priority,
+        lastUpdate: currentUnixTimestamp
       }))
     dispatch(selectHabbitList(""))
     reset()

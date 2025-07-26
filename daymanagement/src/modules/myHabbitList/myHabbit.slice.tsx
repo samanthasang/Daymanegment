@@ -1,5 +1,8 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 
+
+const currentUnixTimestamp = dayjs().unix(); 
 export type TMyHaBBIT = {
   id: string
   title: string
@@ -27,7 +30,8 @@ export const MyHaBBITListSlice = createSlice({
       title:string,
       description: string,
       priority: string,
-      lastUpdate: string
+      score?: number,
+      lastUpdate?: number
     }>) => {
       state.ListMyHaBBIT = state.ListMyHaBBIT ? [
         ...state.ListMyHaBBIT,
@@ -36,8 +40,8 @@ export const MyHaBBITListSlice = createSlice({
           title: action.payload.title,
           priority: action.payload.priority,
           description: action.payload.description,
-          score: 0,
-          lastUpdate: 0
+          score: action.payload.score || 0,
+          lastUpdate: action.payload.lastUpdate || 0
         },
       ] : [
           {
@@ -45,8 +49,8 @@ export const MyHaBBITListSlice = createSlice({
             priority: action.payload.priority,
             description: action.payload.description,
             title: action.payload.title,
-            score: 0,
-            lastUpdate: 0
+            score: action.payload.score || 0,
+            lastUpdate: action.payload.lastUpdate || 0
           },
       ];
     },
@@ -58,7 +62,14 @@ export const MyHaBBITListSlice = createSlice({
     completeMyHaBBITList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListMyHaBBIT = state.ListMyHaBBIT.map((MyHaBBIT) =>
         MyHaBBIT.id == action.payload
-          ? { ...MyHaBBIT, score: MyHaBBIT.score + 1 }
+          ? {
+            ...MyHaBBIT,
+            score:
+              dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+              != dayjs(dayjs.unix(Number(MyHaBBIT.lastUpdate))).format("DD") || MyHaBBIT.score == 0?
+              MyHaBBIT.score + 1 : MyHaBBIT.score,
+            lastUpdate: currentUnixTimestamp
+          }
           : MyHaBBIT
       );
     },

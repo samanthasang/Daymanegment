@@ -3,7 +3,9 @@ import { TMyHaBBIT } from "@/modules/myHabbitList/myHabbit.slice";
 import { useEffect } from "react";
 import { useAppSelector } from "../../lib/hook";
 import { HabbitItem } from "./HabbitItem/Habbit.component";
+import dayjs from "dayjs";
 
+const currentUnixTimestamp = dayjs().unix();
 
 function MyHabbitListComponent() {
   const { ListMyHaBBIT }: {

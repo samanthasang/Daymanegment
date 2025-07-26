@@ -29,7 +29,6 @@ export const habbitListSlice = createSlice({
       title:string,
       description: string,
       priority: string,
-      lastUpdate: string
     }>) => {
       state.ListHabbit = state.ListHabbit ? [
         ...state.ListHabbit,
@@ -62,8 +61,11 @@ export const habbitListSlice = createSlice({
         Habbit.id == action.payload
           ? {
             ...Habbit,
-            score: currentUnixTimestamp != +Habbit.lastUpdate ?
-              Habbit.score : Habbit.score + 1,
+            score:
+              dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+              != dayjs(dayjs.unix(Number(Habbit.lastUpdate))).format("DD") || Habbit.score == 0?
+              Habbit.score + 1 : Habbit.score,
+            lastUpdate: currentUnixTimestamp
             
           }
           : Habbit
