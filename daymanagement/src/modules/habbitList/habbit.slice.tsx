@@ -9,6 +9,7 @@ export type Thabbit = {
   description: string,
   priority: string,
   lastUpdate: number
+  completeUpdate: number
 }
 
 export interface InitialState {
@@ -29,6 +30,7 @@ export const habbitListSlice = createSlice({
       title:string,
       description: string,
       priority: string,
+      completeUpdate: number,
     }>) => {
       state.ListHabbit = state.ListHabbit ? [
         ...state.ListHabbit,
@@ -38,7 +40,8 @@ export const habbitListSlice = createSlice({
           priority: action.payload.priority,
           description: action.payload.description,
           score: 0,
-          lastUpdate: currentUnixTimestamp
+          lastUpdate: currentUnixTimestamp,
+          completeUpdate: action.payload.completeUpdate,
         },
       ] : [
           {
@@ -47,7 +50,8 @@ export const habbitListSlice = createSlice({
             description: action.payload.description,
             title: action.payload.title,
             score: 0,
-            lastUpdate: currentUnixTimestamp
+            lastUpdate: currentUnixTimestamp,
+            completeUpdate: action.payload.completeUpdate,
           },
       ];
     },
@@ -63,10 +67,9 @@ export const habbitListSlice = createSlice({
             ...Habbit,
             score:
               dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
-              != dayjs(dayjs.unix(Number(Habbit.lastUpdate))).format("DD") || Habbit.score == 0?
+              != dayjs(dayjs.unix(Number(Habbit.lastUpdate))).format("DD") || Habbit.score == 0 ?
               Habbit.score + 1 : Habbit.score,
             lastUpdate: currentUnixTimestamp
-            
           }
           : Habbit
       );
@@ -75,16 +78,20 @@ export const habbitListSlice = createSlice({
       id: any
       title: string
       description: string
+      score: number
       priority: string
+      lastUpdate: number
+      completeUpdate: number 
     }>) => {
       state.ListHabbit = state.ListHabbit.map((Habbit) =>
         Habbit.id == action.payload.id
           ? {
             ...Habbit,
             title: action.payload.title,
-            score: Habbit.score,
-            priority: action.payload.priority,
             description: action.payload.description,
+            score: action.payload.score || Habbit.score,
+            priority: action.payload.priority,
+            lastUpdate: action.payload.lastUpdate || Habbit.lastUpdate,
           }
           : Habbit
       );

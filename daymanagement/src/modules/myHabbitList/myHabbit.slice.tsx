@@ -10,6 +10,7 @@ export type TMyHaBBIT = {
   description: string,
   priority: string,
   lastUpdate: number
+  completeUpdate: number
 }
 
 export interface InitialState {
@@ -32,6 +33,7 @@ export const MyHaBBITListSlice = createSlice({
       priority: string,
       score?: number,
       lastUpdate?: number
+      completeUpdate?: number
     }>) => {
       state.ListMyHaBBIT = state.ListMyHaBBIT ? [
         ...state.ListMyHaBBIT,
@@ -41,7 +43,8 @@ export const MyHaBBITListSlice = createSlice({
           priority: action.payload.priority,
           description: action.payload.description,
           score: action.payload.score || 0,
-          lastUpdate: action.payload.lastUpdate || 0
+          lastUpdate: action.payload.lastUpdate || 0,
+          completeUpdate: action.payload.completeUpdate || 0,
         },
       ] : [
           {
@@ -50,7 +53,8 @@ export const MyHaBBITListSlice = createSlice({
             description: action.payload.description,
             title: action.payload.title,
             score: action.payload.score || 0,
-            lastUpdate: action.payload.lastUpdate || 0
+            lastUpdate: action.payload.lastUpdate || 0,
+            completeUpdate: action.payload.completeUpdate || 0,
           },
       ];
     },
@@ -66,9 +70,10 @@ export const MyHaBBITListSlice = createSlice({
             ...MyHaBBIT,
             score:
               dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
-              != dayjs(dayjs.unix(Number(MyHaBBIT.lastUpdate))).format("DD") || MyHaBBIT.score == 0?
+              != dayjs(dayjs.unix(Number(MyHaBBIT.lastUpdate))).format("DD") || MyHaBBIT.score == 0 ?
               MyHaBBIT.score + 1 : MyHaBBIT.score,
-            lastUpdate: currentUnixTimestamp
+            lastUpdate: currentUnixTimestamp,
+            completeUpdate: currentUnixTimestamp
           }
           : MyHaBBIT
       );

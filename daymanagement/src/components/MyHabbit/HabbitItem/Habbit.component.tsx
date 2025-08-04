@@ -21,11 +21,11 @@ export const HabbitItem = ({ item }: {item : TMyHaBBIT }) =>  {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    
-    console.log(dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
-    // console.log(dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') < 2);
-  
-  }, [])
+    console.log(item.title ,dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day') > 2);
+  }, [dayjs(dayjs.unix(Number(item.lastUpdate))).format("DD")])
+  useEffect(() => {
+    console.log(item.title ,dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.completeUpdate), 'day') > 2);
+  }, [dayjs(dayjs.unix(Number(item.lastUpdate))).format("DD")])
   
 
   return (
@@ -80,7 +80,7 @@ export const HabbitItem = ({ item }: {item : TMyHaBBIT }) =>  {
         className="select-none flex col-span-1 gap-2 justify-center items-center">
           <span
               className={`""`}>
-            {dayjs(dayjs.unix(Number(item.lastUpdate))).format("DD")
+            {dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
                 !=  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") ? 
                 <CheckCircle  /> : 
                 <CheckMark  />}

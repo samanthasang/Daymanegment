@@ -2,7 +2,7 @@
 import { CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
 import More from "@/components/table/More";
 import { useAppDispatch } from "@/lib/hook";
-import { completeHabbitList, delHabbitList, selectHabbitList, Thabbit } from "@/modules/habbitList/habbit.slice";
+import { completeHabbitList, delHabbitList, selectHabbitList, Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import { setMyHaBBITList } from "@/modules/myHabbitList/myHabbit.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
@@ -21,13 +21,25 @@ const currentUnixTimestamp = dayjs().unix();
 export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
   const dispatch = useAppDispatch();
 
-
   useEffect(() => {
-    
-    console.log(dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
-    // console.log(dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') < 2);
-  
+    console.log("lastUpdate ",item.title , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
+    console.log("currentUnixTimestamp ",item.title , dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day') > 2);
+
+    if (dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day') > 2) {
+      console.log(item.lastUpdate , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
+      console.log(currentUnixTimestamp , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
+      dispatch(updateHabbitList({
+        id: item.id || "",
+        title: item.title,
+        description: item.description,
+        score: item.score - 1,
+        priority: item.priority,
+        lastUpdate: currentUnixTimestamp
+      }))
+    }
+      
   }, [])
+  
 
   const AddToMYHabbit = (item: Thabbit) => {
     

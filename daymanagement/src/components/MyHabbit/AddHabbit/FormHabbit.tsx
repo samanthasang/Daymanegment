@@ -22,6 +22,9 @@ interface IFormInputs {
   habbit: string
   description: string
   priority: string
+  score: number
+  lastUpdate: number
+  completeUpdate: number 
 }
 
 export default function FormHabbit() {
@@ -35,6 +38,9 @@ export default function FormHabbit() {
     habbit: z.string().min(4, { message: 'Name is required' }),
     description: z.string().min(4, { message: 'Description is required' }),
     priority: z.string().min(1, { message: 'priority is required' }),
+    score: z.number().min(0, { message: 'priority is required' }),
+    lastUpdate: z.number().min(0, { message: 'priority is required' }),
+    completeUpdate: z.number().min(0, { message: 'priority is required' }),
   });
   type FormData = z.infer<typeof formSchema>
   const {
@@ -67,14 +73,18 @@ const currentUnixTimestamp = dayjs().unix();
         id: selectedHabbit.id,
         title: data.habbit,
         description: data.description,
-        priority: data.priority
+        score: data.score,
+        priority: data.priority,
+        lastUpdate: currentUnixTimestamp,
+        completeUpdate: data.completeUpdate,
       })) :
       dispatch(setMyHaBBITList({
         id: "",
         title: data.habbit,
         description: data.description,
         priority: data.priority,
-        lastUpdate: currentUnixTimestamp
+        lastUpdate: currentUnixTimestamp,
+        completeUpdate: currentUnixTimestamp,
       }))
     dispatch(selectHabbitList(""))
     reset()
