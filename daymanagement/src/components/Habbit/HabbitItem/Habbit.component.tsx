@@ -32,9 +32,10 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
         id: item.id || "",
         title: item.title,
         description: item.description,
-        score: item.score - 1,
+        score: item.score - dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day'),
         priority: item.priority,
-        lastUpdate: currentUnixTimestamp
+        lastUpdate: currentUnixTimestamp,
+        completeUpdate: currentUnixTimestamp
       }))
     }
       

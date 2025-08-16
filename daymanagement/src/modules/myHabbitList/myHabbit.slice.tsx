@@ -82,16 +82,21 @@ export const MyHaBBITListSlice = createSlice({
       id: any
       title: string
       description: string
+      score: number
       priority: string
+      lastUpdate: number
+      completeUpdate: number 
     }>) => {
       state.ListMyHaBBIT = state.ListMyHaBBIT.map((MyHaBBIT) =>
         MyHaBBIT.id == action.payload.id
           ? {
             ...MyHaBBIT,
             title: action.payload.title,
-            score: MyHaBBIT.score,
-            priority: action.payload.priority,
             description: action.payload.description,
+            score: action.payload.score || MyHaBBIT.score,
+            priority: action.payload.priority,
+            lastUpdate: action.payload.lastUpdate || MyHaBBIT.lastUpdate,
+            completeUpdate: action.payload.completeUpdate || MyHaBBIT.completeUpdate,
           }
           : MyHaBBIT
       );

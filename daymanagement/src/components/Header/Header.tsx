@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useRouter } from "next/navigation";
 
-const pages = ["Todo", "Habbit","MyHabbit", "Timer", "Installments"];
+const pages = ["Todo", "Habbit","MyHabbit", "Timer", "Reminder", "Installments"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -99,7 +99,7 @@ function Header() {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={(page) => handleChangeRout(page)}>
+                <MenuItem key={page} onClick={() => handleChangeRout(page)}>
                   <Typography sx={{ textAlign: "center" }}>{page}</Typography>
                 </MenuItem>
               ))}

@@ -30,6 +30,8 @@ export const habbitListSlice = createSlice({
       title:string,
       description: string,
       priority: string,
+      score: number,
+      lastUpdate: number,
       completeUpdate: number,
     }>) => {
       state.ListHabbit = state.ListHabbit ? [
@@ -49,7 +51,7 @@ export const habbitListSlice = createSlice({
             priority: action.payload.priority,
             description: action.payload.description,
             title: action.payload.title,
-            score: 0,
+            score: 0 || action.payload.score,
             lastUpdate: currentUnixTimestamp,
             completeUpdate: action.payload.completeUpdate,
           },
@@ -92,6 +94,7 @@ export const habbitListSlice = createSlice({
             score: action.payload.score || Habbit.score,
             priority: action.payload.priority,
             lastUpdate: action.payload.lastUpdate || Habbit.lastUpdate,
+            completeUpdate: action.payload.completeUpdate || Habbit.completeUpdate,
           }
           : Habbit
       );
