@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
-import { setTimerList, updateTimerList } from "@/modules/timerList/timer.slice";
+import { selectTimerList, setTimerList, updateTimerList } from "@/modules/timerList/timer.slice";
 import dayjs from "dayjs";
 
 interface IFormInputs {
@@ -90,24 +90,24 @@ export default function FormTimer() {
       {
         id: selectedTimer.id,
         title: data.title,
-        startDate: data.startDate,
-        endDate: data.endDate,
+        startDate: data.startDate || selectedTimer.startDate,
+        endDate: data.endDate || selectedTimer.endDate,
         isComplete: selectedTimer.isComplete
       })) :
       dispatch(setTimerList({
         id: "",
         title: data.title,
-        startDate: data.startDate,
-        endDate: data.endDate,
+        startDate: data.startDate || selectedTimer.startDate,
+        endDate: data.endDate || selectedTimer.endDate,
         isComplete: selectedTimer.isComplete
       }))
-    dispatch(selectedTimer(""))
+    dispatch(selectTimerList(""))
     reset()
   };
   const onReset = () => {
     console.log("reset");
     
-    dispatch(selectedTimer(""))
+    dispatch(selectTimerList(""))
     reset()
   };
 
@@ -179,25 +179,8 @@ export default function FormTimer() {
       </PopoverContent>
     </Popover>
                 {errors.startDate?.message && <p className="text-xs text-red-500">{errors.startDate?.message}</p>}
-      <Controller
-        defaultValue = {''}
-        name="priority"
-        control={control}
-        rules={{ required: true }}
-        render={({ field: { onChange, value } }) =>
-      <Select onValueChange={onChange} value={value}>
-        <SelectTrigger className="w-full border-white rounded py-1">
-          <SelectValue placeholder="Priority" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="High">High</SelectItem>
-          <SelectItem value="Medium">Medium</SelectItem>
-          <SelectItem value="Low">Low</SelectItem>
-        </SelectContent>
-      </Select>
-      }
-      />
-                {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+
+                {/* {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>} */}
           { !selectedTimer?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
           
           { selectedTimer?.title && <div className="flex gap-4">

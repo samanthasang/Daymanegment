@@ -1,5 +1,5 @@
 "use client"
-import { CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
+import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
 import More from "@/components/table/More";
 import { useAppDispatch } from "@/lib/hook";
 import { completeHabbitList, delHabbitList, selectHabbitList, Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
@@ -9,7 +9,6 @@ import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { CheckCircle } from "lucide-react";
 import { useEffect } from "react";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -53,7 +52,8 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
         description: item.description,
         priority: item.priority,
         score: item.score,
-        lastUpdate: item.lastUpdate
+        lastUpdate: currentUnixTimestamp,
+        completeUpdate: currentUnixTimestamp,
       }))
     } else {
       dispatch(completeHabbitList(item.id));
@@ -79,16 +79,26 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
             {item.title}
           </label>
         </div>
-      <div onClick={(e) => {
-        e.preventDefault();
-        AddToMYHabbit(item)
-      }}
-                className="select-none cursor-pointer flex col-span-2 gap-2 justify-start items-start">
+                <div onClick={(e) => {
+                  e.preventDefault();
+                  AddToMYHabbit(item)
+                }}
+                className="select-none cursor-pointer flex flex-col col-span-2 gap-2 justify-start items-start">
                 {/* <Checkbox checked={item.isComplete} id="terms" /> */}
                   <label
                     htmlFor="terms"
                     className={`cursor-pointer`}>
                       {dayjs(dayjs.unix(Number(item.lastUpdate))).format("YYYY-MM-DD")}
+                  </label>
+                  <label
+                    htmlFor="terms"
+                    className={`cursor-pointer`}>
+                      {dayjs(dayjs.unix(Number(item.completeUpdate))).format("YYYY-MM-DD")}
+                  </label>
+                  <label
+                    htmlFor="terms"
+                    className={`cursor-pointer`}>
+                      {dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("YYYY-MM-DD")}
                   </label>
                 </div>
       <div 
@@ -103,7 +113,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
           <span
             className={`""`}>
           {dayjs(dayjs.unix(Number(item.lastUpdate))).format("DD")
-             !=  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") ? 
+             ==  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") ? 
               <CheckCircle  /> : 
               <CheckMark  />}
           </span>

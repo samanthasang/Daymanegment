@@ -71,7 +71,8 @@ export const habbitListSlice = createSlice({
               dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
               != dayjs(dayjs.unix(Number(Habbit.lastUpdate))).format("DD") || Habbit.score == 0 ?
               Habbit.score + 1 : Habbit.score,
-            lastUpdate: currentUnixTimestamp
+            lastUpdate: currentUnixTimestamp,
+            completeUpdate: currentUnixTimestamp
           }
           : Habbit
       );

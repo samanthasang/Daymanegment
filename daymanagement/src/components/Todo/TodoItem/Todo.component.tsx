@@ -8,7 +8,6 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
-import { CheckCheck } from "lucide-react";
 import More from "@/components/table/More";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
