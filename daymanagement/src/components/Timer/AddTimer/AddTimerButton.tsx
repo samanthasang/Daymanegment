@@ -2,16 +2,19 @@
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { setTimerList, TTimer } from "@/modules/timerList/timer.slice";
+import dayjs from "dayjs";
+import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import { useEffect } from "react";
+dayjs.extend(relativeTime)
+dayjs.extend(duration)
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
-interface IFormInputs {
-    id?: any
-    title: string
-    startDate: string
-    endDate: string
-    isComplete: boolean
-}
 
+const currentUnixTimestamp = dayjs().unix();
 export default function AddTimerButton() {
 
     const { ListTimer }: {
@@ -26,13 +29,13 @@ export default function AddTimerButton() {
   const dispatch = useAppDispatch();
 
   const onSubmit = () => {
-    console.log("onSubmit");
+    console.log("onSubmit", dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("YYYY-MM-DD HH:MM"));
     
       dispatch(setTimerList({
         id: "",
         title: `timer${ListTimer.length}`,
-        startDate: `${Math.floor(Date.now() / 1000)}`,
-        endDate: `${Math.floor(Date.now() / 1000)}`,
+        startDate: currentUnixTimestamp,
+        endDate: currentUnixTimestamp,
         isComplete: false
       }))
   };

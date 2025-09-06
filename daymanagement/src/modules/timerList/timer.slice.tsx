@@ -4,8 +4,8 @@ export type TTimer = {
   id: string
   title: string
   isComplete: boolean
-  startDate: string
-  endDate: string
+  startDate: number
+  endDate: number
 }
 
 export interface InitialState {
@@ -24,8 +24,8 @@ export const timerListSlice = createSlice({
     setTimerList: (state: InitialState, action: PayloadAction<{
       id: string,
       title:string,
-      startDate: string,
-      endDate: string,
+      startDate: number,
+      endDate: number,
       isComplete: boolean,
     }>) => {
       state.ListTimer = state.ListTimer ? [
@@ -55,7 +55,7 @@ export const timerListSlice = createSlice({
     completeTimerList: (state: InitialState, action: PayloadAction<
       {
         id: string
-        endDate: string
+        endDate: number
       }
       >) => {
       state.ListTimer = state.ListTimer.map((timer) =>
@@ -71,8 +71,8 @@ export const timerListSlice = createSlice({
     updateTimerList: (state: InitialState, action: PayloadAction<{
       id: any
       title: string
-      startDate: string
-      endDate: string
+      startDate: number
+      endDate: number
       isComplete: boolean
     }>) => {
       state.ListTimer = state.ListTimer.map((timer) =>

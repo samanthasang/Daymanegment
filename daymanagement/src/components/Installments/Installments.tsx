@@ -1,14 +1,10 @@
 "use client"
-import { Button } from "@mui/material";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import moment from "moment";
-import { useEffect, useRef, useState } from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { z } from "zod";
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useAppSelector } from '@/lib/hook';
+import { Tinstallmentst } from '@/modules/installmentstList/installmentst.slice';
+import { TToDo } from '@/modules/toDoList/todo.slice';
+import { useEffect } from "react";
+import AddInstallments from './AddInstallments/AddInstallments';
+import InstallmentsItem from './InstallmentsItem/Installments.component';
 
 interface IFormInputs {
   installments: string;
@@ -17,82 +13,43 @@ interface IFormInputs {
 
 
 export default function Installments() {
-  const [todayTime, setTodyTime] = useState<any>([]);
-  const [todayTimeCount, setTodyTimeCount] = useState([]);
-  const inputRef = useRef<any>(null);
-
-  const handleClick = () => {
-    // check if the ref is set
-    if (inputRef.current === null) return;
-    console.log("date picker");
-
-    inputRef.current.showPicker();
-  };
-     const formSchema = z.object({
-      installments: z.string().min(1, { message: 'installments is required' }),
-      installmentstime: z.number().positive(),
-    });
-    type FormData = z.infer<typeof formSchema>
-    const {
-      control,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-  });
-  
-  
-    const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data)
-  
-  const handleTime = () => {
-    // const pair = _.chunk(todayTime, 2);
-    // pair.map((p) => {
-    //   console.log(dayjs(p[1]).diff(dayjs(p[0])));
-    //   // console.log(
-    //   //   dayjs.duration(dayjs(p[1]).diff(dayjs(p[0]))).format("HH:mm:ss")
-    //   // );
-    // });
-    // console.log(pair);
-  };
-
+  const { ListInstallmentst, selectedInstallmentst }: {
+     ListInstallmentst: Tinstallmentst[];
+    selectedInstallmentst: {};
+} = useAppSelector((state) => state.InstallmentstList) || [];
   useEffect(() => {
-    todayTime.length > 2 && handleTime();
-  }, [todayTime]);
-
+    console.log(ListInstallmentst);
+  }, [ListInstallmentst]);
   return (
-    <div className="">
-      <div className="flex flex-col gap-4 h-4/5">
-      <form 
-      onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        defaultValue = {''}
-        name="installments"
-        control={control}
-        rules={{ required: true }}
-          render={({ field }) =>
-            <input
-            type="text"
-          className="text-black"
-          {...field}
-          />
-          }
-      />
-      <Controller
-        defaultValue = {1}
-        name="installmentstime"
-        control={control}
-        rules={{ required: true }}
-          render={({ field }) =>
-            <input
-              type="number"
-          className="text-black"
-          {...field}
-          />
-          }
-      />
-      <input type="submit" />
-      </form>
+      <div className="w-2/3 m-auto bg-secondary">
+        <div className="w-full text-center border-b p-3">TodoList</div>
+        <div className=" w-full grid grid-cols-3 gap-4 h-[75vh]">
+          <AddInstallments />
+          <div className="col-span-2 flex justify-center w-full py-3 px-6 border-l h-full
+           scroll-m-0 overflow-y-scroll">
+  
+          {ListInstallmentst != null && ListInstallmentst.length > 0 && (
+              <div className="flex flex-col gap-4 w-full ">
+                <div className="flex justify-between w-full">
+                  <span>
+                    {"Todos : " +  ListInstallmentst?.length}
+                  </span>
+                  <span>
+                    {"Completed : " +  ListInstallmentst?.filter((todo) => todo.isComplete == true).length}
+                  </span>
+  
+                </div>
+              {ListInstallmentst?.map((li: Tinstallmentst) => (
+                <InstallmentsItem
+                  key={li.id}
+                  item={li}
+                              
+                />
+              ))}
+            </div>
+          )}
+          </div>
+        </div>
       </div>
-    </div>
   );
 }

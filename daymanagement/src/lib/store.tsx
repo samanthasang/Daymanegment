@@ -1,10 +1,11 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, Middleware } from "@reduxjs/toolkit";
 import apiService from "./api.service";
 import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
 import { habbitReducer } from "@/modules/habbitList/habbit.slice";
 import { MyHaBBITReducer } from "@/modules/myHabbitList/myHabbit.slice";
 import { timerReducer } from "@/modules/timerList/timer.slice";
+import { installmentstReducer } from "@/modules/installmentstList/installmentst.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
@@ -12,15 +13,24 @@ export const reducers = combineReducers({
   habbitList: habbitReducer,
   MYhabbitList: MyHaBBITReducer,
   TimerList: timerReducer,
+  InstallmentstList: installmentstReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
 
-const localStorageMiddleware = ({ getState }) => {
-  return (next) => (action) => {
+const localStorageMiddleware: Middleware = (store) => (next) => (action) => {
+    // Run the action first to update the state
     const result = next(action);
-    localStorage.setItem("applicationState", JSON.stringify(getState()));
+    
+    // Get the current state after the action
+    const state = store.getState();
+    
+    try {
+        localStorage.setItem("applicationState", JSON.stringify(state));
+    } catch (error) {
+        console.warn("Failed to persist state to localStorage:", error);
+    }
+    
     return result;
-  };
 };
 
 const reHydrateStore = () => {

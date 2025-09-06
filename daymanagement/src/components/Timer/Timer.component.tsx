@@ -17,7 +17,7 @@ function TimerListComponent() {
 
   return (
     <div className="w-2/3 m-auto bg-secondary">
-      <div className="w-full text-center border-b p-3">TodoList</div>
+      <div className="w-full text-center border-b p-3">TimerList</div>
       <div className=" w-full grid grid-cols-3 gap-4 h-[75vh]">
         <AddTimer />
         <div className="col-span-2 flex justify-center w-full py-3 px-6 border-l h-full
@@ -27,10 +27,10 @@ function TimerListComponent() {
             <div className="flex flex-col gap-4 w-full ">
               <div className="flex justify-between w-full">
                 <span>
-                  {"Todos : " +  ListTimer?.length}
+                  {"Timers : " +  ListTimer?.length}
                 </span>
                 <span>
-                  {"Completed : " +  ListTimer?.filter((todo) => todo.isComplete == true).length}
+                  {"Active : " +  ListTimer?.filter((todo) => todo.isComplete == false).length}
                 </span>
 
               </div>
