@@ -56,7 +56,7 @@ export const HabbitItem = ({ item }: {item : TMyHaBBIT }) =>  {
           score: item.score - dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day'),
           priority: item.priority,
           lastUpdate: currentUnixTimestamp,
-          completeUpdate: item.completeUpdate
+          completeUpdate: currentUnixTimestamp
         }))
        }
     }

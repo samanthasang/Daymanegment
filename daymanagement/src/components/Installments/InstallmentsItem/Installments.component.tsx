@@ -9,6 +9,7 @@ import timezone from 'dayjs/plugin/timezone';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
 import More from "@/components/table/More";
+import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
 dayjs.extend(utc);
@@ -22,7 +23,7 @@ dayjs.extend(timezone);
 //   priority: string
 // }
 
-export const InstallmentsItem = ({ item }: {item : TToDo }) =>  {
+export const InstallmentsItem = ({ item }: {item : TInstallmentst }) =>  {
   const dispatch = useAppDispatch();
 
   return (
@@ -33,7 +34,7 @@ export const InstallmentsItem = ({ item }: {item : TToDo }) =>  {
               e.preventDefault();
               dispatch(completeToDoList(item.id));
       }}
-        className="select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
+        className="select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
           <label
             htmlFor="terms"
@@ -49,21 +50,31 @@ export const InstallmentsItem = ({ item }: {item : TToDo }) =>  {
               e.preventDefault();
               dispatch(completeToDoList(item.id));
       }}
+        className="select-none cursor-pointer flex col-span-2 gap-3 justify-start items-start">
+        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
+          <label
+            htmlFor="terms"
+            className={`cursor-pointer flex justify-center items-center gap-2`}>
+            {item.paymentCompleteValue}
+          </label>
+        </div>
+      <div onClick={(e) => {
+              e.preventDefault();
+              dispatch(completeToDoList(item.id));
+      }}
         className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
           <label
             htmlFor="terms"
             className={`cursor-pointer`}>
-              {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
+              {dayjs.unix(item.startDate).format("YYYY-MM-DD HH:mm")}
           </label>
         </div>
       <div 
         className="select-none flex col-span-1 gap-2 justify-center items-center">
           <span
             className={`""`}>
-            {item.isComplete ? 
-              <CheckCircle  /> : 
-              <CheckMark  />}
+            {item.paymentNumber}
           </span>
         <button
           onClick={(e) => {

@@ -2,19 +2,21 @@ import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import dayjs from 'dayjs';
 
 const currentUnixTimestamp = dayjs().unix(); 
-export type Tinstallmentst = {
+export type TInstallmentst = {
   id: string
   title: string
-  score: number
+  startDate: number
   description: string,
   priority: string,
   lastUpdate: number
   completeUpdate: number
+  paymentNumber:string
+  paymentCompleteValue:string
 }
 
 export interface InitialState {
-  ListInstallmentst: Tinstallmentst[];
-  selectedInstallmentst: Tinstallmentst | {}
+  ListInstallmentst: TInstallmentst[];
+  selectedInstallmentst: TInstallmentst | {}
 }
 
 export const installmentstListSlice = createSlice({
@@ -30,9 +32,11 @@ export const installmentstListSlice = createSlice({
       title:string,
       description: string,
       priority: string,
-      score: number,
+      startDate: number,
       lastUpdate: number,
       completeUpdate: number,
+      paymentNumber:string,
+      paymentCompleteValue:string
     }>) => {
       state.ListInstallmentst = state.ListInstallmentst ? [
         ...state.ListInstallmentst,
@@ -41,9 +45,11 @@ export const installmentstListSlice = createSlice({
           title: action.payload.title,
           priority: action.payload.priority,
           description: action.payload.description,
-          score: 0,
+          startDate: action.payload.startDate,
           lastUpdate: currentUnixTimestamp,
           completeUpdate: action.payload.completeUpdate,
+          paymentNumber: action.payload.paymentNumber,
+          paymentCompleteValue: action.payload.paymentCompleteValue
         },
       ] : [
           {
@@ -51,9 +57,11 @@ export const installmentstListSlice = createSlice({
             priority: action.payload.priority,
             description: action.payload.description,
             title: action.payload.title,
-            score: 0 || action.payload.score,
+            startDate:action.payload.startDate,
             lastUpdate: currentUnixTimestamp,
             completeUpdate: action.payload.completeUpdate,
+            paymentNumber: action.payload.paymentNumber,
+            paymentCompleteValue: action.payload.paymentCompleteValue
           },
       ];
     },
@@ -67,10 +75,10 @@ export const installmentstListSlice = createSlice({
         installmentst.id == action.payload
           ? {
             ...installmentst,
-            score:
+            startDate:
               dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
-              != dayjs(dayjs.unix(Number(installmentst.lastUpdate))).format("DD") || installmentst.score == 0 ?
-              installmentst.score + 1 : installmentst.score,
+              != dayjs(dayjs.unix(Number(installmentst.lastUpdate))).format("DD") || installmentst.startDate == 0 ?
+              installmentst.startDate + 1 : installmentst.startDate,
             lastUpdate: currentUnixTimestamp,
             completeUpdate: currentUnixTimestamp
           }
@@ -79,12 +87,14 @@ export const installmentstListSlice = createSlice({
     },
     updateInstallmentstList: (state: InitialState, action: PayloadAction<{
       id: any
-      title: string
-      description: string
-      score: number
-      priority: string
-      lastUpdate: number
-      completeUpdate: number 
+      title:string,
+      description: string,
+      priority: string,
+      startDate: number,
+      lastUpdate: number,
+      completeUpdate: number,
+      paymentNumber:string,
+      paymentCompleteValue:string
     }>) => {
       state.ListInstallmentst = state.ListInstallmentst.map((installmentst) =>
         installmentst.id == action.payload.id
@@ -92,7 +102,7 @@ export const installmentstListSlice = createSlice({
             ...installmentst,
             title: action.payload.title,
             description: action.payload.description,
-            score: action.payload.score || installmentst.score,
+            startDate: action.payload.startDate || installmentst.startDate,
             priority: action.payload.priority,
             lastUpdate: action.payload.lastUpdate || installmentst.lastUpdate,
             completeUpdate: action.payload.completeUpdate || installmentst.completeUpdate,

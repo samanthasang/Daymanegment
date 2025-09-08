@@ -1,7 +1,6 @@
 "use client"
 import { useAppSelector } from '@/lib/hook';
-import { Tinstallmentst } from '@/modules/installmentstList/installmentst.slice';
-import { TToDo } from '@/modules/toDoList/todo.slice';
+import { TInstallmentst, Tinstallmentst } from '@/modules/installmentstList/installmentst.slice';
 import { useEffect } from "react";
 import AddInstallments from './AddInstallments/AddInstallments';
 import InstallmentsItem from './InstallmentsItem/Installments.component';
@@ -39,11 +38,10 @@ export default function Installments() {
                   </span>
   
                 </div>
-              {ListInstallmentst?.map((li: Tinstallmentst) => (
+              {ListInstallmentst?.map((li: TInstallmentst) => (
                 <InstallmentsItem
                   key={li.id}
-                  item={li}
-                              
+                  item={li}           
                 />
               ))}
             </div>

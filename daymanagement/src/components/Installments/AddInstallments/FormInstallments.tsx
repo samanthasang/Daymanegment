@@ -23,13 +23,21 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
 import { Input } from "@/components/ui/input";
+import { setInstallmentstList, updateInstallmentstList } from "@/modules/installmentstList/installmentst.slice";
+import { Textarea } from "@/components/ui/textArea";
+import dayjs from "dayjs";
 
 interface IFormInputs {
-  todo: string
+  title: string
   priority: string
-  date: string
+  startDate: number
+  description: string
+  paymentNumber:string
+  paymentCompleteValue:string
 }
 
+
+const currentUnixTimestamp = dayjs().unix(); 
 export default function FormInstallments() {
 
   const [date, setDate] = useState<Date>()
@@ -41,11 +49,11 @@ export default function FormInstallments() {
   
   
   const dispatch = useAppDispatch();
-  const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
+  const { selectedInstallmentst } : any = useAppSelector((state) => state.InstallmentstList) || {};
   
     useEffect(() => {
         if (date) {
-            setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
+            setValue("startDate", currentUnixTimestamp)
         }
     }, [date])
 
@@ -53,9 +61,12 @@ export default function FormInstallments() {
 
 // creating a schema for strings 
    const formSchema = z.object({
-    todo: z.string().min(4, { message: 'Name is required' }),
+    title: z.string().min(4, { message: 'Name is required' }),
+    description: z.string().min(4, { message: 'Name is required' }),
     priority: z.string().min(1, { message: 'priority is required' }),
-    date: z.string().min(1, { message: 'date is required' }),
+    startDate: z.number().min(1, { message: 'date is required' }),
+    paymentNumber: z.string().min(1, { message: 'paymentNumber is required' }),
+    paymentCompleteValue: z.string().min(1, { message: 'paymentCompleteValue is required' }),
   });
   type FormData = z.infer<typeof formSchema>
   const {
@@ -70,8 +81,8 @@ export default function FormInstallments() {
   });
   
   useEffect(() => {
-    setValue("todo", selectedToDo?.title)
-  }, [selectedToDo])
+    setValue("title", selectedInstallmentst?.title)
+  }, [selectedInstallmentst])
 
   useEffect(() => {
     getValues()
@@ -81,18 +92,28 @@ export default function FormInstallments() {
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
     
-    selectedToDo?.title ? dispatch(updateToDoList(
+    selectedInstallmentst?.title ? dispatch(updateInstallmentstList(
       {
-        id: selectedToDo.id,
-        title: data.todo,
-        date: data.date,
-        priority: data.priority
+        id: selectedInstallmentst.id,
+        title: data.title,
+        description: data.description,
+        priority: data.priority,
+        startDate: data.startDate,
+        lastUpdate: selectedInstallmentst || 0,
+        completeUpdate: selectedInstallmentst || 0,
+        paymentNumber: data.paymentNumber,
+        paymentCompleteValue: data.paymentCompleteValue
       })) :
-      dispatch(setToDoList({
+      dispatch(setInstallmentstList({
         id: "",
-        title: data.todo,
-        date: data.date,
-        priority: data.priority
+        title: data.title,
+        description: data.description,
+        priority: data.priority,
+        startDate: data.startDate,
+        lastUpdate: 0,
+        completeUpdate: 0,
+        paymentNumber: data.paymentNumber,
+        paymentCompleteValue: data.paymentCompleteValue
       }))
     dispatch(selectToDoList(""))
     reset()
@@ -114,7 +135,7 @@ export default function FormInstallments() {
           
       <Controller
         defaultValue = {''}
-        name="todo"
+        name="title"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
@@ -122,10 +143,10 @@ export default function FormInstallments() {
             className="!text-white w-full px-3 border-white rounded py-1"
             placeholder="Name"
             {...field}
-        />
-      }
+          />
+        }
       />
-                {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+      {errors.title?.message && <p className="text-xs text-red-500">{errors.title?.message}</p>}
 
               <Popover>
       <PopoverTrigger asChild>
@@ -145,7 +166,7 @@ export default function FormInstallments() {
         className="flex w-auto flex-col space-y-2 p-2"
       >
       <Controller
-        name="date"
+        name="startDate"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
@@ -171,7 +192,7 @@ export default function FormInstallments() {
         </div>
       </PopoverContent>
     </Popover>
-                {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+                {errors.startDate?.message && <p className="text-xs text-red-500">{errors.startDate?.message}</p>}
       <Controller
         defaultValue = {''}
         name="priority"
@@ -190,10 +211,57 @@ export default function FormInstallments() {
       </Select>
       }
       />
-                {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+          {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+      <Controller
+        defaultValue = {""}
+        name="paymentNumber"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) =>
+          <Input
+            className="!text-white w-full px-3 border-white rounded py-1"
+            placeholder="Total Payment Number"
+            type="number"
+            {...field}
+          />
+      }
+      />
+          {errors.paymentNumber?.message && <p className="text-xs text-red-500">{errors.paymentNumber?.message}</p>}
+      <Controller
+        defaultValue = {""}
+        name="paymentCompleteValue"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) =>
+          <Input
+            className="!text-white w-full px-3 border-white rounded py-1"
+            placeholder="Total Payment"
+            type="number"
+            {...field}
+          />
+      }
+      />
+          {errors.paymentCompleteValue?.message && <p className="text-xs text-red-500">{errors.paymentCompleteValue?.message}</p>}
           
-          { selectedToDo?.title && <div className="flex gap-4">
+          <Controller
+            defaultValue = {''}
+            name="description"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) =>
+              <Textarea
+                className="!text-white w-full px-3 border-white rounded py-1"
+                placeholder="Description"
+                {...field}
+            />
+          }
+          />
+          {errors.description?.message && <p className="text-xs text-red-500">{errors.description?.message}</p>}
+     
+
+          { !selectedInstallmentst?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+          
+          { selectedInstallmentst?.title && <div className="flex gap-4">
             <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
             <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
           </div>}
