@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useAppSelector } from "../../lib/hook";
 import AddHabbit from "./AddHabbit/AddHabbit";
 import { HabbitItem } from "./HabbitItem/Habbit.component";
+import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
 
 
 function HabbitListComponent() {
@@ -22,6 +23,7 @@ function HabbitListComponent() {
   return (
     <div className="w-2/3 m-auto bg-secondary">
       <div className="w-full text-center border-b p-3">HabbitList</div>
+      <DrawerDialogDemo drawerType={'ReminderList'} formType="add" />
       <div className=" w-full grid grid-cols-3 gap-4 h-[75vh]">
         <AddHabbit />
         <div className="col-span-2 flex justify-center w-full py-3 px-6 border-l h-full

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useAppSelector } from "../../lib/hook";
 import AddReminder from "./AddReminder/AddReminder";
 import { ReminderItem } from "./ReminderItem/Reminder.component";
+import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
 
 
 function ReminderListComponent() {
@@ -18,6 +19,7 @@ function ReminderListComponent() {
   return (
     <div className="w-2/3 m-auto bg-secondary">
       <div className="w-full text-center border-b p-3">ReminderList</div>
+      <DrawerDialogDemo drawerType={'ReminderList'} formType="add" />
       <div className=" w-full grid grid-cols-3 gap-4 h-[75vh]">
         <AddReminder />
         <div className="col-span-2 flex justify-center w-full py-3 px-6 border-l h-full

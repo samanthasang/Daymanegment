@@ -21,8 +21,9 @@ import { CalendarIcon } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
+import { selectToDoList, setToDoList, TToDo, updateToDoList } from "../../../modules/toDoList/todo.slice";
 import { Input } from "@/components/ui/input";
+import dayjs from "dayjs";
 
 interface IFormInputs {
   todo: string
@@ -35,19 +36,20 @@ export default function FormTodo() {
   const [date, setDate] = useState<Date>()
   const [priority, setPriority] = useState<string>()
   useEffect(() => {
-    console.log(priority);
+    console.log(selectedToDo);
    date && console.log(Math.floor(new Date(date).getTime()/1000.0));
   }, [date,priority])
   
   
   const dispatch = useAppDispatch();
-  const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
+  const todoList = useAppSelector((state) => state.todoList);
+  const selectedToDo = todoList?.selectedToDo as TToDo;
   
-    useEffect(() => {
-        if (date) {
-            setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
-        }
-    }, [date])
+    // useEffect(() => {
+    //     if (!date) {
+    //         setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
+    //     }
+    // }, [date])
 
   // const [todoList ,setTodoList]= useState<string[]>([])
 
@@ -70,7 +72,13 @@ export default function FormTodo() {
   });
   
   useEffect(() => {
-    setValue("todo", selectedToDo?.title)
+    if (selectedToDo && selectedToDo.id) {
+      console.log(selectedToDo)
+      setValue("todo", selectedToDo?.title)
+      setValue("priority", selectedToDo.priority)
+      setValue("date", selectedToDo.date)
+      setDate( new Date(Number(selectedToDo.date) * 1000))
+    }
   }, [selectedToDo])
 
   useEffect(() => {
@@ -103,6 +111,10 @@ export default function FormTodo() {
     dispatch(selectToDoList(""))
     reset()
   };
+  const dateMatcher: Date | null = selectedToDo ?
+    new Date(Number(getValues('date')) * 1000) : null;
+  console.log(dateMatcher)
+  console.log(date)
 
   return (
     <div className="col-span-1">
@@ -167,7 +179,10 @@ export default function FormTodo() {
       }
       />
         <div className=" border-white rounded py-1">
-          <Calendar mode="single" selected={date} onSelect={setDate} className=" border-white rounded py-1" />
+                <Calendar
+                  mode="single" 
+                  selected={date}
+                  onSelect={setDate} className=" border-white rounded py-1" />
         </div>
       </PopoverContent>
     </Popover>
@@ -177,8 +192,8 @@ export default function FormTodo() {
         name="priority"
         control={control}
         rules={{ required: true }}
-        render={({ field: { onChange, value } }) =>
-      <Select onValueChange={onChange} value={value}>
+        render={({ field: { onChange } }) =>
+      <Select value={getValues('priority')} onValueChange={onChange}>
         <SelectTrigger className="w-full border-white rounded py-1">
           <SelectValue placeholder="Priority" />
         </SelectTrigger>

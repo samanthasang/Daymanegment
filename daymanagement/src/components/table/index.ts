@@ -7,7 +7,7 @@ import CheckMark from "./CheckMark";
 import { ChevronSmallUp } from "./ChevronSmallUp";
 import { ChevronSmallDoubleUp } from "./ChevronSmallDoubleUp";
 import { ChevronSmallTripleUp } from "./ChevronSmallTripleUp";
-import { More } from "./More";
+import More from "./More";
 
 export {
     Edit,
