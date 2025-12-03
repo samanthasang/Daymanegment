@@ -112,7 +112,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
         className="select-none flex col-span-1 gap-2 justify-center items-center">
           <span
             className={`""`}>
-          {dayjs(dayjs.unix(Number(item.lastUpdate))).format("DD")
+          {dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
              ==  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") ? 
               <CheckCircle  /> : 
               <CheckMark  />}
