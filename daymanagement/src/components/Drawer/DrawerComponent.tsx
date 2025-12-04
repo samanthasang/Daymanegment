@@ -58,7 +58,7 @@ export function DrawerDialogDemo({
         <DialogTrigger asChild>
           <Button variant="outline"><More /></Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent onSubmit={() => openReminderDrawer(false)} className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>

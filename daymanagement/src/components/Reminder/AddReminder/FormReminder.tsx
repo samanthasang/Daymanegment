@@ -1,11 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popovers";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -14,16 +10,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addDays, format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { selectToDoList, setToDoList, TToDo, updateToDoList } from "../../../modules/toDoList/todo.slice";
-import { Input } from "@/components/ui/input";
-import dayjs from "dayjs";
 
 interface IFormInputs {
   todo: string
@@ -88,6 +79,7 @@ export default function FormTodo() {
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
+    console.log(date);
     
     selectedToDo?.title ? dispatch(updateToDoList(
       {
@@ -139,8 +131,8 @@ export default function FormTodo() {
       />
                 {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
 
-              <Popover>
-      <PopoverTrigger asChild>
+              {/* <Popover> */}
+      {/* <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
@@ -177,15 +169,15 @@ export default function FormTodo() {
           </SelectContent>
         </Select>
       }
-      />
+      /> */}
         <div className=" border-white rounded py-1">
-                <Calendar
-                  mode="single" 
-                  selected={date}
-                  onSelect={setDate} className=" border-white rounded py-1" />
+          <Calendar
+            mode="single" 
+            selected={date}
+            onSelect={setDate} className=" border-white rounded py-1" />
         </div>
-      </PopoverContent>
-    </Popover>
+      {/* </PopoverContent>
+    </Popover> */}
                 {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
       <Controller
         defaultValue = {''}

@@ -71,7 +71,7 @@ export default function FormHabbit() {
         id: selectedhabbit.id,
         title: data.habbit,
         description: data.description,
-        priority: data.priority
+        priority: data.priority,
       })) :
       dispatch(setHabbitList({
         id: "",

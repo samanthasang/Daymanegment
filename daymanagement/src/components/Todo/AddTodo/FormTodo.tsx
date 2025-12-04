@@ -43,11 +43,20 @@ export default function FormTodo() {
   const dispatch = useAppDispatch();
   const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
   
-    useEffect(() => {
-        if (date) {
-            setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
-        }
-    }, [date])
+    // useEffect(() => {
+    //     if (date) {
+    //         setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
+    //     }
+    // }, [date])
+  useEffect(() => {
+    if (selectedToDo && selectedToDo.id) {
+      console.log(selectedToDo)
+      setValue("todo", selectedToDo?.title)
+      setValue("priority", selectedToDo.priority)
+      setValue("date", selectedToDo.date)
+      setDate( new Date(Number(selectedToDo.date) * 1000))
+    }
+  }, [selectedToDo])
 
   // const [todoList ,setTodoList]= useState<string[]>([])
 
@@ -80,18 +89,25 @@ export default function FormTodo() {
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
+    console.log(date);
+    console.log({
+        id: selectedToDo.id,
+        title: data.todo,
+        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
+        priority: data.priority
+      });
     
     selectedToDo?.title ? dispatch(updateToDoList(
       {
         id: selectedToDo.id,
         title: data.todo,
-        date: data.date,
+        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
         priority: data.priority
       })) :
       dispatch(setToDoList({
         id: "",
         title: data.todo,
-        date: data.date,
+        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
         priority: data.priority
       }))
     dispatch(selectToDoList(""))
@@ -125,10 +141,8 @@ export default function FormTodo() {
         />
       }
       />
-                {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+        {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
 
-              <Popover>
-      <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
@@ -139,39 +153,17 @@ export default function FormTodo() {
           <CalendarIcon />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="start"
-        className="flex w-auto flex-col space-y-2 p-2"
-      >
       <Controller
         name="date"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
-        <Select 
-          onValueChange={(value) =>
-            setDate(addDays(new Date(), parseInt(value)))
-          }
-        >
-          <SelectTrigger>
-            <SelectValue  placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="0">Today</SelectItem>
-            <SelectItem value="1">Tomorrow</SelectItem>
-            <SelectItem value="3">In 3 days</SelectItem>
-            <SelectItem value="7">In a week</SelectItem>
-          </SelectContent>
-        </Select>
+          <div className=" border-white rounded py-1">
+            <Calendar mode="single" selected={date} onSelect={setDate} className=" border-white rounded py-1" />
+          </div>
       }
       />
-        <div className=" border-white rounded py-1">
-          <Calendar mode="single" selected={date} onSelect={setDate} className=" border-white rounded py-1" />
-        </div>
-      </PopoverContent>
-    </Popover>
-                {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+        {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
       <Controller
         defaultValue = {''}
         name="priority"
