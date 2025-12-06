@@ -68,3 +68,22 @@
     @apply bg-background text-foreground;
   }
 }
+::-webkit-scrollbar {
+    width: 10px; /* Set scrollbar width */
+    background: transparent; /* Background color */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Track color */
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0f172a; /* Thumb color */
+    width: 5px;
+    border-radius: 3px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0f172a; /* Thumb color on hover */
+}

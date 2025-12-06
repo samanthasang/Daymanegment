@@ -99,6 +99,8 @@ function ProfileForm({ drawerType, className }: { drawerType : string, className
   switch (drawerType) {
     case "ReminderList":
       return <FormTodo />
+    case "TodoList":
+      return <FormTodo />
     case "HabbitList":
       return <FormHabbit />
   

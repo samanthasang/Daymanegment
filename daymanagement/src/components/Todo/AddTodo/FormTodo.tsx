@@ -1,11 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popovers";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -16,13 +12,12 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addDays, format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
-import { Input } from "@/components/ui/input";
 
 interface IFormInputs {
   todo: string
@@ -36,7 +31,7 @@ export default function FormTodo() {
   const [priority, setPriority] = useState<string>()
   useEffect(() => {
     console.log(priority);
-   date && console.log(Math.floor(new Date(date).getTime()/1000.0));
+     date && setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
   }, [date,priority])
   
   
@@ -90,13 +85,6 @@ export default function FormTodo() {
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
     console.log(date);
-    console.log({
-        id: selectedToDo.id,
-        title: data.todo,
-        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
-        priority: data.priority
-      });
-    
     selectedToDo?.title ? dispatch(updateToDoList(
       {
         id: selectedToDo.id,
@@ -111,12 +99,14 @@ export default function FormTodo() {
         priority: data.priority
       }))
     dispatch(selectToDoList(""))
+      setValue("date", "")
     reset()
   };
   const onReset = () => {
     console.log("reset");
     
     dispatch(selectToDoList(""))
+      setValue("date", "")
     reset()
   };
 
@@ -143,7 +133,8 @@ export default function FormTodo() {
       />
         {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
 
-        <Button
+          <Button
+            disabled
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
@@ -159,7 +150,12 @@ export default function FormTodo() {
         rules={{ required: true }}
         render={({ field }) =>
           <div className=" border-white rounded py-1">
-            <Calendar mode="single" selected={date} onSelect={setDate} className=" border-white rounded py-1" />
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              className=" border-white rounded py-1"
+              captionLayout="dropdown" />
           </div>
       }
       />

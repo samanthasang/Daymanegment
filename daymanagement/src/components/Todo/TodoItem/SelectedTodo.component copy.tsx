@@ -1,6 +1,6 @@
 "use client"
 import { ChevronSmallUp, CheckCircle, CheckMark, Edit, Remove, ChevronSmallTripleUp, ChevronSmallDoubleUp } from "@/components/table";
-import { useAppDispatch } from "@/lib/hook";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
 import { Checkbox } from "@mui/material";
 import dayjs from "dayjs";
@@ -22,52 +22,59 @@ dayjs.extend(timezone);
 //   priority: string
 // }
 
-export const TodoItem = ({ item }: {item : TToDo }) =>  {
+export const SelectedTodo = () =>  {
   const dispatch = useAppDispatch();
+  const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
 
   return (
+    selectedToDo ?
     <div              
-    className="cursor-pointer grid-rows-2 grid items-center justify-evenly border p-3 rounded-2xl border-white"
-    >
-      <div onClick={(e) => {
-              e.preventDefault();
-              dispatch(completeToDoList(item.id));
-      }}
+    className="cursor-pointer flex-1 flex flex-row items-start justify-start border p-3 rounded-2xl border-white"
+      >
+        <div className="w-full flex flex-col">
+      <div 
         className="select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
-        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
+        {/* <Checkbox checked={selectedToDo.isComplete} id="terms" /> */}
           <label
             htmlFor="terms"
             className={`cursor-pointer flex justify-center items-center gap-2`}>
             
-            { item.priority == "High" && <ChevronSmallTripleUp className='fill-red-500' />}
-            { item.priority == "Medium" && <ChevronSmallDoubleUp className='fill-red-500' />}
-            { item.priority == "Low" && <ChevronSmallUp className='fill-red-500' />}
-            {item.title}
+            { selectedToDo.priority == "High" && <ChevronSmallTripleUp className='fill-red-500' />}
+            { selectedToDo.priority == "Medium" && <ChevronSmallDoubleUp className='fill-red-500' />}
+            { selectedToDo.priority == "Low" && <ChevronSmallUp className='fill-red-500' />}
+            {selectedToDo.title}
           </label>
         </div>
       <div 
-        className="select-none flex col-span-1 gap-2 justify-center items-center">
+        className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
+        {/* <Checkbox checked={selectedToDo.isComplete} id="terms" /> */}
+          <label
+            htmlFor="terms"
+            className={`cursor-pointer`}>
+              {dayjs(dayjs.unix(Number(selectedToDo.date))).format("YYYY-MM-DD")}
+          </label>
+          </div>
+        </div>
+      <div className="flex flex-col col-span-2 gap-2 justify-end items-end">
           <span
             className={`""`}>
-            {item.isComplete ? 
+            {selectedToDo.isComplete ? 
               <CheckCircle  /> : 
               <CheckMark  />}
           </span>
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(selectToDoList(item.id));
+            dispatch(selectToDoList(selectedToDo.id));
           }}
           className="text-red-400"
           >
             <More />
         </button>
-      </div>
-      <div className="flex col-span-2 gap-2 justify-end items-end">
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(selectToDoList(item.id));
+            dispatch(selectToDoList(selectedToDo.id));
           }}
           className="text-red-400"
           >
@@ -76,15 +83,18 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
         <button
           onClick={(e) => {
             e.preventDefault();
-            dispatch(delToDoList(item.id));
+            dispatch(delToDoList(selectedToDo.id));
           }}
           className="text-red-400"
           >
           <Remove className='fill-red-500' />
         </button>
       </div>
-    </div>
+      </div> : 
+      <div className="h-full w-full flex items-center justify-center">
+        <span className="text-muted-foreground">No ToDo Selected</span>
+      </div>
   );
 }
 
-export default TodoItem;
+export default SelectedTodo;
