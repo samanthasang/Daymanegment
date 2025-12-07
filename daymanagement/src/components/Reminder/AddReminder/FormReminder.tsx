@@ -22,7 +22,7 @@ interface IFormInputs {
   date: string
 }
 
-export default function FormTodo() {
+export default function FormReminder({ onSubmitForm }:{onSubmitForm: () => void}) {
 
   const [date, setDate] = useState<Date>()
   const [priority, setPriority] = useState<string>()
@@ -96,6 +96,7 @@ export default function FormTodo() {
       }))
     dispatch(selectToDoList(""))
     reset()
+    onSubmitForm()
   };
   const onReset = () => {
     console.log("reset");

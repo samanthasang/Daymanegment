@@ -25,11 +25,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import FormTodo from "../Reminder/AddReminder/FormReminder"
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit"
 import { useAppDispatch } from "@/lib/hook"
 import { selectToDoList } from "@/modules/toDoList/todo.slice"
 import { More } from "@/components/table";
+import FormReminder from "../Reminder/AddReminder/FormReminder"
+import FormTodo from "../Todo/AddTodo/FormTodo"
 
 
 export function DrawerDialogDemo({
@@ -56,9 +57,9 @@ export function DrawerDialogDemo({
     return (
       <Dialog open={open} onOpenChange={(e) => openReminderDrawer(e)}>
         <DialogTrigger asChild>
-          <Button variant="outline"><More /></Button>
+          <Button variant="outline"><span>ADD</span></Button>
         </DialogTrigger>
-        <DialogContent onSubmit={() => openReminderDrawer(false)} className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
@@ -66,7 +67,7 @@ export function DrawerDialogDemo({
               done.
             </DialogDescription>
           </DialogHeader>
-          <ProfileForm drawerType={drawerType} />
+          <ProfileForm drawerType={drawerType} onSubmit={() => openReminderDrawer(false)}/>
         </DialogContent>
       </Dialog>
     )
@@ -75,7 +76,7 @@ export function DrawerDialogDemo({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline"><More /></Button>
+        <Button variant="outline"><span>ADD</span></Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
@@ -84,7 +85,7 @@ export function DrawerDialogDemo({
             Make changes to your profile here. Click save when you&apos;re done.
           </DrawerDescription>
         </DrawerHeader>
-          <ProfileForm drawerType={drawerType} />
+          <ProfileForm drawerType={drawerType} onSubmit={() => openReminderDrawer(false)}/>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -95,12 +96,12 @@ export function DrawerDialogDemo({
   )
 }
 
-function ProfileForm({ drawerType, className }: { drawerType : string, className?: React.ComponentProps<"form">}) {
+function ProfileForm({ drawerType, className, onSubmit }: { drawerType : string, className?: React.ComponentProps<"form">, onSubmit: () => void}) {
   switch (drawerType) {
     case "ReminderList":
-      return <FormTodo />
+      return <FormReminder onSubmitForm={onSubmit} />
     case "TodoList":
-      return <FormTodo />
+      return <FormTodo onSubmitForm={onSubmit} />
     case "HabbitList":
       return <FormHabbit />
   

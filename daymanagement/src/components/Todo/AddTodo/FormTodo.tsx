@@ -25,14 +25,13 @@ interface IFormInputs {
   date: string
 }
 
-export default function FormTodo() {
+export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
 
   const [date, setDate] = useState<Date>()
-  const [priority, setPriority] = useState<string>()
+  
   useEffect(() => {
-    console.log(priority);
      date && setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
-  }, [date,priority])
+  }, [date])
   
   
   const dispatch = useAppDispatch();
@@ -73,14 +72,6 @@ export default function FormTodo() {
   resolver: zodResolver(formSchema),
   });
   
-  useEffect(() => {
-    setValue("todo", selectedToDo?.title)
-  }, [selectedToDo])
-
-  useEffect(() => {
-    getValues()
-  }, [getValues()])
-  
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
@@ -101,6 +92,7 @@ export default function FormTodo() {
     dispatch(selectToDoList(""))
       setValue("date", "")
     reset()
+    onSubmitForm()
   };
   const onReset = () => {
     console.log("reset");

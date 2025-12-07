@@ -27,13 +27,14 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
 
   return (
     <div              
-    className="cursor-pointer grid-rows-2 grid items-center justify-evenly border p-3 rounded-2xl border-white"
+    className="cursor-pointer flex flex-row items-center justify-between border p-1 rounded-2xl border-white"
     >
-      <div onClick={(e) => {
-              e.preventDefault();
-              dispatch(completeToDoList(item.id));
-      }}
-        className="select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
+      <div
+        onClick={(e) => {
+            e.preventDefault();
+            dispatch(selectToDoList(item.id));
+          }}
+        className="select-none cursor-pointer flex  gap-3 justify-start items-start">
         {/* <Checkbox checked={item.isComplete} id="terms" /> */}
           <label
             htmlFor="terms"
@@ -45,43 +46,17 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
             {item.title}
           </label>
         </div>
-      <div 
-        className="select-none flex col-span-1 gap-2 justify-center items-center">
-          <span
+      <div>
+        <span
+        onClick={(e) => {
+              e.preventDefault();
+              dispatch(completeToDoList(item.id));
+      }}
             className={`""`}>
             {item.isComplete ? 
               <CheckCircle  /> : 
               <CheckMark  />}
-          </span>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(selectToDoList(item.id));
-          }}
-          className="text-red-400"
-          >
-            <More />
-        </button>
-      </div>
-      <div className="flex col-span-2 gap-2 justify-end items-end">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(selectToDoList(item.id));
-          }}
-          className="text-red-400"
-          >
-          <Edit />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(delToDoList(item.id));
-          }}
-          className="text-red-400"
-          >
-          <Remove className='fill-red-500' />
-        </button>
+        </span>
       </div>
     </div>
   );
