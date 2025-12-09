@@ -1,16 +1,14 @@
 "use client"
-import { ChevronSmallUp, CheckCircle, CheckMark, Edit, Remove, ChevronSmallTripleUp, ChevronSmallDoubleUp } from "@/components/table";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
+import { useAppDispatch } from "@/lib/hook";
 import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
-import { Checkbox } from "@mui/material";
 import dayjs from "dayjs";
-import { AnimatePresence, delay, motion } from "motion/react"
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
-import More from "@/components/table/More";
-import { useEffect, useState } from "react";
+import relativeTime from 'dayjs/plugin/relativeTime';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
 dayjs.extend(utc);

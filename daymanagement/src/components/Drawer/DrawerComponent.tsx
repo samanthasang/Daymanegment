@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -25,12 +24,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import FormHabbit from "../Habbit/AddHabbit/FormHabbit"
 import { useAppDispatch } from "@/lib/hook"
-import { selectToDoList } from "@/modules/toDoList/todo.slice"
-import { More } from "@/components/table";
+import { cn } from "@/lib/utils"
+import FormHabbit from "../Habbit/AddHabbit/FormHabbit"
 import FormReminder from "../Reminder/AddReminder/FormReminder"
 import FormTodo from "../Todo/AddTodo/FormTodo"
+import CategoryForm from "../Category/CategoryForm"
 
 
 export function DrawerDialogDemo({
@@ -47,9 +46,6 @@ export function DrawerDialogDemo({
   const openReminderDrawer = (e: boolean) => {
     console.log(e)
     console.log(drawerType)
-    if (formType == 'add') {
-      dispatch(selectToDoList(""));
-    }
     setOpen(e)
   }
 
@@ -104,6 +100,8 @@ function ProfileForm({ drawerType, className, onSubmit }: { drawerType : string,
       return <FormTodo onSubmitForm={onSubmit} />
     case "HabbitList":
       return <FormHabbit />
+    case "CategoryList":
+      return <CategoryForm onSubmitForm={onSubmit}/>
   
     default:
     return (
