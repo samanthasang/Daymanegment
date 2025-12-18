@@ -30,6 +30,7 @@ import FormHabbit from "../Habbit/AddHabbit/FormHabbit"
 import FormReminder from "../Reminder/AddReminder/FormReminder"
 import FormTodo from "../Todo/AddTodo/FormTodo"
 import CategoryForm from "../Category/CategoryForm"
+import TagForm from "../Tags/TagForm"
 
 
 export function DrawerDialogDemo({
@@ -102,6 +103,8 @@ function ProfileForm({ drawerType, className, onSubmit }: { drawerType : string,
       return <FormHabbit />
     case "CategoryList":
       return <CategoryForm onSubmitForm={onSubmit}/>
+    case "TagList":
+      return <TagForm onSubmitForm={onSubmit}/>
   
     default:
     return (

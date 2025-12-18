@@ -7,6 +7,7 @@ import { MyHaBBITReducer } from "@/modules/myHabbitList/myHabbit.slice";
 import { timerReducer } from "@/modules/timerList/timer.slice";
 import { installmentstReducer } from "@/modules/installmentstList/installmentst.slice";
 import { CategoryReducer } from "@/modules/category/categoryList.slice";
+import { TagReducer } from "@/modules/tag/TagList.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
@@ -15,6 +16,7 @@ export const reducers = combineReducers({
   MYhabbitList: MyHaBBITReducer,
   TimerList: timerReducer,
   CategoryList: CategoryReducer,
+  TagList: TagReducer,
   InstallmentstList: installmentstReducer,
   [apiService.reducerPath]: apiService.reducer,
 });

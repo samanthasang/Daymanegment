@@ -42,9 +42,7 @@ function TodoListComponent() {
   const [listAfterFilter, setListAfterFilter] = useState< TToDo[] | undefined>(ListToDo)
 
   useEffect(() => {
-  const filterdList = 
-    () => {
-      const today = new Date().setHours(0, 0, 0, 0);
+  const filterdList = () => {
       const fromToday = dateRange?.from && new Date(dateRange?.from).setHours(0, 0, 0, 0);
       const toToday = dateRange?.to && new Date(dateRange?.to).setHours(0, 0, 0, 0);
 
@@ -55,16 +53,19 @@ function TodoListComponent() {
     console.log(fromDay)
     console.log(toDay)
     
-    if (fromDay && toDay) {
-      const filterByTime = fromDay && toDay && ListToDo.filter((list) => list.date >= fromDay && list.date <= toDay)
-      return filterByTime
+    if (fromDay ) {
+        if (toDay) {
+          const filterByTime =  ListToDo.filter((list) => list.date >= fromDay && list.date <= toDay)
+          return filterByTime
+        }
+        return ListToDo
     }
-    return ListToDo
+    return null
     } 
   
-  const list= filterdList() 
+  const list = filterdList() 
 
-    list != "" ? setListAfterFilter(list) : setListAfterFilter([])
+    list ? setListAfterFilter(list) : setListAfterFilter([])
     console.log(list)
   }, [ListToDo, dateRange])
   
@@ -115,8 +116,8 @@ function TodoListComponent() {
                           <SelectValue placeholder="Category" />
                         </SelectTrigger>
                             <SelectContent>
-                              {ListCategory.map((category) => 
-                          <SelectItem value={category.title}>{category.title}</SelectItem>)}
+                              {ListCategory.map((category, index) => 
+                          <SelectItem key={index} value={category.title}>{category.title}</SelectItem>)}
                         </SelectContent>
                       </Select>
                   </div>
@@ -126,7 +127,7 @@ function TodoListComponent() {
           <div className="flex justify-between w-full mx-auto h-9">
             <DrawerDialogDemo drawerType={'TodoList'} formType="add" />
             <DrawerDialogDemo drawerType={'CategoryList'} formType="add" />
-            <DrawerDialogDemo drawerType={'TodoList'} formType="add" />
+            <DrawerDialogDemo drawerType={'TagList'} formType="add" />
           </div>
               </div>
               </div>
