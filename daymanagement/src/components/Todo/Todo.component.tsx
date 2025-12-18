@@ -1,5 +1,8 @@
 "use client"
+import UseDateRangeComponent from "@/lib/Hooks/DateCOMPONENT";
 import { cn } from "@/lib/utils";
+import { TCategory } from "@/modules/category/categoryList.slice";
+import { TTag } from "@/modules/tag/TagList.slice";
 import { TToDo } from "@/modules/toDoList/todo.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
@@ -8,13 +11,11 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useAppDispatch, useAppSelector } from "../../lib/hook";
+import { useAppSelector } from "../../lib/hook";
 import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
-import { Button } from "../ui/button";
-import { Calendar } from "../ui/calendar";
-import SelectedTodo from "./TodoItem/SelectedTodo.component";
-import { Controller } from "react-hook-form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import SelectedTodo from "./TodoItem/SelectedTodo.component";
+import { useSearchParams } from "next/navigation";
 
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
@@ -28,26 +29,31 @@ function TodoListComponent() {
     ListToDo: TToDo[];
     selectedToDo: {};
 } = useAppSelector((state) => state.todoList) || [];
+  const { ListCategory }: {
+    ListCategory: TCategory[];
+    selectedCategory: {};
+} = useAppSelector((state) => state.CategoryList) || [];
+  const { ListTag }: {
+    ListTag: TTag[];
+    selectedTag: {};
+} = useAppSelector((state) => state.TagList) || [];
   useEffect(() => {
     console.log(ListToDo);
   }, [ListToDo]);
-    const dispatch = useAppDispatch();
-    const CategoryList = useAppSelector((state) => state.CategoryList) || {};
-    const { ListCategory, selectedCategory } = CategoryList
 
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  })
+    const searchParams = useSearchParams()
+
+  const dateFrom = searchParams.get("dateFrom")
+  const hasdateFrom = searchParams.has("dateFrom")
+  const dateTo = searchParams.get("dateTo")
+  const hasdateTo = searchParams.has("dateTo")
+  
   const [listAfterFilter, setListAfterFilter] = useState< TToDo[] | undefined>(ListToDo)
 
   useEffect(() => {
   const filterdList = () => {
-      const fromToday = dateRange?.from && new Date(dateRange?.from).setHours(0, 0, 0, 0);
-      const toToday = dateRange?.to && new Date(dateRange?.to).setHours(0, 0, 0, 0);
-
-      const fromDay = fromToday && Math.floor(new Date(fromToday).getTime()/1000.0).toString()
-      const toDay = toToday && Math.floor(new Date(toToday).getTime()/1000.0).toString()
+      const fromDay = hasdateFrom && dateFrom
+      const toDay = hasdateTo && dateTo
 
     console.log(ListToDo)
     console.log(fromDay)
@@ -67,7 +73,7 @@ function TodoListComponent() {
 
     list ? setListAfterFilter(list) : setListAfterFilter([])
     console.log(list)
-  }, [ListToDo, dateRange])
+  }, [ListToDo, dateFrom, dateTo])
   
   
   const order: { [key: string]: number} = { High: 1, Medium: 2, Low: 3 }
@@ -95,20 +101,7 @@ function TodoListComponent() {
                   item={li}
                 />
               ))} */}
-                  <Calendar
-                    mode="range"
-                    defaultMonth={dateRange?.from}
-                    selected={dateRange}
-                    onSelect={setDateRange}
-                    numberOfMonths={1}
-                    className="rounded-lg border shadow-sm"
-                  />
-                  <Button disabled={!dateRange?.from} onClick={() => setDateRange({
-                      from: new Date(),
-                      to: new Date(),
-                    })} >
-                    Reset
-                  </Button>
+                  <UseDateRangeComponent />
 
                   <div>
                       <Select  onValueChange={(e) => console.log(e)}>
@@ -118,6 +111,17 @@ function TodoListComponent() {
                             <SelectContent>
                               {ListCategory.map((category, index) => 
                           <SelectItem key={index} value={category.title}>{category.title}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                  </div>
+                  <div>
+                      <Select  onValueChange={(e) => console.log(e)}>
+                        <SelectTrigger className="w-full border-white rounded py-1">
+                          <SelectValue placeholder="Tag" />
+                        </SelectTrigger>
+                            <SelectContent>
+                              {ListTag.map((tag, index) => 
+                          <SelectItem key={index} value={tag.title}>{tag.title}</SelectItem>)}
                         </SelectContent>
                       </Select>
                   </div>
