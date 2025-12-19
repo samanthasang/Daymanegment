@@ -35,6 +35,7 @@ function UseDateRangeComponent() {
 
     const fromToday = dateRange?.from && new Date(dateRange?.from).setHours(0, 0, 0, 0);
     const toToday = dateRange?.to && new Date(dateRange?.to).setHours(0, 0, 0, 0);
+    const fromTodayNow =  new Date().setHours(0, 0, 0, 0);
 
     const fromDay = fromToday && Math.floor(new Date(fromToday).getTime()/1000.0).toString()
     const toDay = toToday && Math.floor(new Date(toToday).getTime() / 1000.0).toString()
@@ -43,7 +44,7 @@ function UseDateRangeComponent() {
         dateRange && console.log(toDay);
 
         toDay ? applyFilter("dateTo", toDay) :
-            applyFilter("dateTo", false)
+            applyFilter("dateTo", Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString())
       
     }, [dateRange?.to])
     
@@ -51,7 +52,7 @@ function UseDateRangeComponent() {
         dateRange && console.log(fromDay);
         
         fromDay ? applyFilter("dateFrom", fromDay) :
-            applyFilter("dateFrom", false)
+            applyFilter("dateFrom", Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString())
       
     }, [dateRange?.from])
     

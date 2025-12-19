@@ -77,11 +77,10 @@ function TodoListComponent() {
   
   
   const order: { [key: string]: number} = { High: 1, Medium: 2, Low: 3 }
-  console.log(
-      listAfterFilter && listAfterFilter.sort(function (a, b) {
-          return order[a.priority] - order[b.priority];
-    })
-    )
+    console.log(
+        listAfterFilter && listAfterFilter.sort(function (a, b) {
+            return order[a.priority] - order[b.priority];
+    }))
   return (
     <div className="w-2/3 m-auto bg-secondary">
       <div className="w-full text-center border-b p-3">TodoList</div>
