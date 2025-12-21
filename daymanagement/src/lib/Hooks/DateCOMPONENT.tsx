@@ -39,20 +39,21 @@ function UseDateRangeComponent() {
 
     const fromDay = fromToday && Math.floor(new Date(fromToday).getTime()/1000.0).toString()
     const toDay = toToday && Math.floor(new Date(toToday).getTime() / 1000.0).toString()
+    const toDaUnix = Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString()
     
     useEffect(() => {
         dateRange && console.log(toDay);
 
-        toDay ? applyFilter("dateTo", toDay) :
-            applyFilter("dateTo", Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString())
+        dateRange && dateRange.to && toDay ? applyFilter("dateTo", toDay) :
+            applyFilter("dateTo", toDaUnix)
       
     }, [dateRange?.to])
     
     useEffect(() => {
         dateRange && console.log(fromDay);
         
-        fromDay ? applyFilter("dateFrom", fromDay) :
-            applyFilter("dateFrom", Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString())
+        dateRange && dateRange.from && fromDay ? applyFilter("dateFrom", fromDay) :
+            applyFilter("dateFrom", toDaUnix)
       
     }, [dateRange?.from])
     

@@ -47,13 +47,15 @@ function TodoListComponent() {
   const hasdateFrom = searchParams.has("dateFrom")
   const dateTo = searchParams.get("dateTo")
   const hasdateTo = searchParams.has("dateTo")
+  const fromTodayNow = new Date().setHours(0, 0, 0, 0);
+
   
   const [listAfterFilter, setListAfterFilter] = useState< TToDo[] | undefined>(ListToDo)
 
   useEffect(() => {
   const filterdList = () => {
-      const fromDay = hasdateFrom && dateFrom
-      const toDay = hasdateTo && dateTo
+      const fromDay = hasdateFrom ? dateFrom : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString()
+      const toDay = hasdateTo ? dateTo : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString()
 
     console.log(ListToDo)
     console.log(fromDay)
