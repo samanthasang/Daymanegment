@@ -48,7 +48,7 @@ function TodoListComponent() {
   const dateTo = searchParams.get("dateTo")
   const hasdateTo = searchParams.has("dateTo")
   const fromTodayNow = new Date().setHours(0, 0, 0, 0);
-
+ 
   
   const [listAfterFilter, setListAfterFilter] = useState< TToDo[] | undefined>(ListToDo)
 
@@ -131,8 +131,8 @@ function TodoListComponent() {
 
           <div className="flex justify-between w-full mx-auto h-9">
             <DrawerDialogDemo drawerType={'TodoList'} formType="add" />
-            <DrawerDialogDemo drawerType={'CategoryList'} formType="add" />
-            <DrawerDialogDemo drawerType={'TagList'} formType="add" />
+            <DrawerDialogDemo drawerType={'CategoryList'} formType="category" />
+            <DrawerDialogDemo drawerType={'TagList'} formType="tag" />
           </div>
               </div>
               </div>

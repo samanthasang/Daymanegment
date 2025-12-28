@@ -54,7 +54,7 @@ export function DrawerDialogDemo({
     return (
       <Dialog open={open} onOpenChange={(e) => openReminderDrawer(e)}>
         <DialogTrigger asChild>
-          <Button variant="outline"><span>ADD</span></Button>
+          <Button variant="outline"><span>{formType}</span></Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
