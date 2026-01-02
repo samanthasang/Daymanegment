@@ -17,18 +17,51 @@ import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
+import { selectToDoList, setToDoList, TToDo, updateToDoList } from "../../../modules/toDoList/todo.slice";
+import dayjs from "dayjs";
+import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import TagSelectComponent from "@/components/Tags/TagSelect.component";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Edit } from "@/components/table";
 
 interface IFormInputs {
   todo: string
   priority: string
   date: string
+  category: string
+  tag: string
 }
 
 export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
 
   const [date, setDate] = useState<Date>()
   
+// creating a schema for strings 
+   const formSchema = z.object({
+    todo: z.string().min(4, { message: 'Name is required' }),
+    priority: z.string().min(1, { message: 'priority is required' }),
+    category: z.string().min(1, { message: 'Category is required' }),
+    tag: z.string().min(1, { message: 'Tag is required' }),
+    date: z.string().min(1, { message: 'date is required' }),
+  });
+  type FormData = z.infer<typeof formSchema>
+
+  const methods = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+    setValue,
+    getValues,
+    watch,
+    reset
+  } = methods;
+
   useEffect(() => {
      date && setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
   }, [date])
@@ -37,41 +70,51 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
   const dispatch = useAppDispatch();
   const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
   
+  //   const { ListToDo, selectedToDo }: {
+  //     ListToDo: TToDo[];
+  //     selectedToDo: TToDo | {};
+  // } = useAppSelector((state) => state.todoList) || [];
     // useEffect(() => {
     //     if (date) {
     //         setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
     //     }
-    // }, [date])
+  // }, [date])
+
   useEffect(() => {
-    if (selectedToDo && selectedToDo.id) {
+    if (selectedToDo) {
       console.log(selectedToDo)
       setValue("todo", selectedToDo?.title)
       setValue("priority", selectedToDo.priority)
+      setValue("category", selectedToDo.category)
+      setValue("tag", selectedToDo.tag)
       setValue("date", selectedToDo.date)
-      setDate( new Date(Number(selectedToDo.date) * 1000))
-    }
-  }, [selectedToDo])
+      setDate(new Date(Number(selectedToDo.date) * 1000))
 
+      console.log(getValues())
+      console.log(control._fields)
+      
+    }
+  }, [selectedToDo, setValue])
+  console.log(selectedToDo);
+  
+
+
+  const handlePriority = (data: string) => {
+    console.log(data);
+    
+    setValue("priority", data)
+  }
+  const handleCategory = (data: string) => {
+    console.log(data);
+    setValue("category", data)
+  }
+  const handleTag = (data: string) => {
+    console.log(data);
+    
+    setValue("tag", data)
+  }
   // const [todoList ,setTodoList]= useState<string[]>([])
 
-// creating a schema for strings 
-   const formSchema = z.object({
-    todo: z.string().min(4, { message: 'Name is required' }),
-    priority: z.string().min(1, { message: 'priority is required' }),
-    date: z.string().min(1, { message: 'date is required' }),
-  });
-  type FormData = z.infer<typeof formSchema>
-  const {
-    control,
-    setValue,
-    getValues,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm<FormData>({
-  resolver: zodResolver(formSchema),
-  });
-  
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
@@ -81,13 +124,17 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
         id: selectedToDo.id,
         title: data.todo,
         date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
-        priority: data.priority
+        priority: data.priority,
+        category: data.category,
+        tag: data.tag
       })) :
       dispatch(setToDoList({
         id: "",
         title: data.todo,
         date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
-        priority: data.priority
+        priority: data.priority,
+        category: data.category,
+        tag: data.tag
       }))
     dispatch(selectToDoList(""))
       setValue("date", "")
@@ -102,6 +149,17 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
     reset()
   };
 
+  useEffect(() => {
+    
+  console.log(date);
+  console.log(dayjs(date).format("YY-MM"));
+  console.log(dayjs(date).format("MMMM"));
+  console.log(date?.getUTCMonth);
+  console.log(date?.getMonth());
+  console.log(date?.getDate());
+  console.log(date?.valueOf());
+  }, [date])
+  
   return (
     <div className="col-span-1">
       <div className="flex flex-row gap-2 ">
@@ -141,10 +199,11 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
-          <div className=" border-white rounded py-1">
+          <div className=" border-white rounded py-1 flex justify-center">
             <Calendar
               mode="single"
               selected={date}
+              month={date}
               onSelect={setDate}
               className=" border-white rounded py-1"
               captionLayout="dropdown" />
@@ -152,31 +211,76 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
       }
       />
         {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+      
       <Controller
         defaultValue = {''}
         name="priority"
         control={control}
         rules={{ required: true }}
-        render={({ field: { onChange, value } }) =>
-      <Select onValueChange={onChange} value={value}>
-        <SelectTrigger className="w-full border-white rounded py-1">
-          <SelectValue placeholder="Priority" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="High">High</SelectItem>
-          <SelectItem value="Medium">Medium</SelectItem>
-          <SelectItem value="Low">Low</SelectItem>
-        </SelectContent>
-      </Select>
-      }
-      />
-                {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+        render={({ field }) =>
+              // <span>{field.value}</span>
+          <Select onValueChange={(data) => data && handlePriority(data)} value={field.value}>
+            <SelectTrigger className="w-full border-white rounded py-1">
+              <SelectValue placeholder="Priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={"High"}>High</SelectItem>
+              <SelectItem value={"Medium"}>Medium</SelectItem>
+              <SelectItem value={"Low"}>Low</SelectItem>
+            </SelectContent>
+          </Select>
+          }
+          />
+          {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+          <div className="flex flex-row">
+            <div className="flex-1">
+              <Controller
+                defaultValue = {''}
+                name="category"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) =>
+                  <CategotySelectComponent onClickChange={handleCategory} value={field.value} />
+                  }
+              />
+              {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+            </div>
+            <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+              <DialogTrigger asChild>
+                <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                  <Edit />
+                </div> 
+              </DialogTrigger>
+            </DrawerDialogDemo>
+          </div>
           
-          { selectedToDo?.title && <div className="flex gap-4">
-            <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
-            <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
-          </div>}
+          <div className="flex flex-row">
+            <div className="flex-1">
+                <Controller
+                  defaultValue = {''}
+                  name="tag"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) =>
+                    <TagSelectComponent onClickChange={handleTag} value={field.value} />
+                    }
+                />
+                {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+              </div>
+              <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+                <DialogTrigger asChild>
+                  <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                    <Edit />
+                  </div> 
+                </DialogTrigger>
+              </DrawerDialogDemo>
+          </div>
+        { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+        
+        { selectedToDo?.title && <div className="flex gap-4">
+          <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
+          <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
+        </div>}
       </form>
       </div>
       {/* <div className="flex flex-col gap-4 w-full bg-white red col-span-2">

@@ -31,14 +31,17 @@ import FormReminder from "../Reminder/AddReminder/FormReminder"
 import FormTodo from "../Todo/AddTodo/FormTodo"
 import CategoryForm from "../Category/CategoryForm"
 import TagForm from "../Tags/TagForm"
+import { selectToDoList } from "@/modules/toDoList/todo.slice"
 
 
 export function DrawerDialogDemo({
   drawerType,
-  formType
+  formType,
+  children
 }: {
     drawerType: string,
-    formType: string
+    formType: string,
+    children?: React.ReactNode;
   }) {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -46,6 +49,9 @@ export function DrawerDialogDemo({
 
   const openReminderDrawer = (e: boolean) => {
     console.log(e)
+    if (e == false) {
+      dispatch(selectToDoList(""))
+    }
     console.log(drawerType)
     setOpen(e)
   }
@@ -53,16 +59,14 @@ export function DrawerDialogDemo({
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={(e) => openReminderDrawer(e)}>
-        <DialogTrigger asChild>
-          <Button variant="outline"><span>{formType}</span></Button>
-        </DialogTrigger>
+        {children}
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
-            <DialogDescription>
+            {/* <DialogDescription>
               Make changes to your profile here. Click save when you&apos;re
               done.
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
           <ProfileForm drawerType={drawerType} onSubmit={() => openReminderDrawer(false)}/>
         </DialogContent>
@@ -78,9 +82,9 @@ export function DrawerDialogDemo({
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit profile</DrawerTitle>
-          <DrawerDescription>
+          {/* <DrawerDescription>
             Make changes to your profile here. Click save when you&apos;re done.
-          </DrawerDescription>
+          </DrawerDescription> */}
         </DrawerHeader>
           <ProfileForm drawerType={drawerType} onSubmit={() => openReminderDrawer(false)}/>
         <DrawerFooter className="pt-2">

@@ -67,6 +67,7 @@ function UseDateRangeComponent() {
             selected={dateRange}
             onSelect={setDateRange}
             numberOfMonths={1}
+            captionLayout="dropdown"
             className="rounded-lg border shadow-sm"
             />
             <Button disabled={!dateRange?.from} onClick={() => setDateRange({

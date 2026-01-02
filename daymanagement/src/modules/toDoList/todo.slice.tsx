@@ -1,11 +1,13 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TToDo = {
-  id: string
+  id?: string
   title: string
   isComplete: boolean
   date: string,
   priority: string
+  category: string
+  tag: string
 }
 
 export interface InitialState {
@@ -26,6 +28,8 @@ export const todoListSlice = createSlice({
       title:string,
       date: string,
       priority: string
+      category: string
+      tag: string
     }>) => {
       state.ListToDo = state.ListToDo ? [
         ...state.ListToDo,
@@ -33,6 +37,8 @@ export const todoListSlice = createSlice({
           id: nanoid(),
           title: action.payload.title,
           priority: action.payload.priority,
+          category: action.payload.category,
+          tag: action.payload.tag,
           date: action.payload.date,
           isComplete: false
         },
@@ -42,6 +48,8 @@ export const todoListSlice = createSlice({
             priority: action.payload.priority,
             date: action.payload.date,
             title: action.payload.title,
+            category: action.payload.category,
+            tag: action.payload.tag,
             isComplete: false
           },
       ];
@@ -63,6 +71,8 @@ export const todoListSlice = createSlice({
       title: string
       date: string
       priority: string
+      category: string
+      tag: string
     }>) => {
       state.ListToDo = state.ListToDo.map((todo) =>
         todo.id == action.payload.id
@@ -72,6 +82,8 @@ export const todoListSlice = createSlice({
             isComplete: todo.isComplete,
             priority: action.payload.priority,
             date: action.payload.date,
+            category: action.payload.category,
+            tag: action.payload.tag,
           }
           : todo
       );
