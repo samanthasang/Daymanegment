@@ -11,6 +11,8 @@ export type TMyHaBBIT = {
   priority: string,
   lastUpdate: number
   completeUpdate: number
+  category: string
+  tag: string
 }
 
 export interface InitialState {
@@ -34,6 +36,8 @@ export const MyHaBBITListSlice = createSlice({
       score?: number,
       lastUpdate?: number
       completeUpdate?: number
+      category: string,
+      tag: string
     }>) => {
       state.ListMyHaBBIT = state.ListMyHaBBIT ? [
         ...state.ListMyHaBBIT,
@@ -45,6 +49,8 @@ export const MyHaBBITListSlice = createSlice({
           score: action.payload.score || 0,
           lastUpdate: action.payload.lastUpdate || 0,
           completeUpdate: action.payload.completeUpdate || 0,
+          category: action.payload.category,
+          tag: action.payload.tag,
         },
       ] : [
           {
@@ -55,6 +61,8 @@ export const MyHaBBITListSlice = createSlice({
             score: action.payload.score || 0,
             lastUpdate: action.payload.lastUpdate || 0,
             completeUpdate: action.payload.completeUpdate || 0,
+            category: action.payload.category,
+            tag: action.payload.tag,
           },
       ];
     },
@@ -86,6 +94,8 @@ export const MyHaBBITListSlice = createSlice({
       priority: string
       lastUpdate: number
       completeUpdate: number 
+      category: string
+      tag: string
     }>) => {
       state.ListMyHaBBIT = state.ListMyHaBBIT.map((MyHaBBIT) =>
         MyHaBBIT.id == action.payload.id
@@ -97,6 +107,8 @@ export const MyHaBBITListSlice = createSlice({
             priority: action.payload.priority,
             lastUpdate: action.payload.lastUpdate || MyHaBBIT.lastUpdate,
             completeUpdate: action.payload.completeUpdate || MyHaBBIT.completeUpdate,
+            category: action.payload.category,
+            tag: action.payload.tag,
           }
           : MyHaBBIT
       );

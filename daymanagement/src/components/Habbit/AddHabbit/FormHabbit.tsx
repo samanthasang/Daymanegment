@@ -1,4 +1,8 @@
 "use client"
+import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { Edit } from "@/components/table";
+import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,19 +12,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textArea";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { selectHabbitList, setHabbitList, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from "react";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
-import { selectHabbitList, setHabbitList, updateHabbitList } from "@/modules/habbitList/habbit.slice";
-import { Textarea } from "@/components/ui/textArea";
 
 interface IFormInputs {
   habbit: string
   description: string
   priority: string
+  category: string
+  tag: string
 }
 
 export default function FormHabbit() {
@@ -39,6 +45,8 @@ export default function FormHabbit() {
     habbit: z.string().min(4, { message: 'Name is required' }),
     description: z.string().min(4, { message: 'Description is required' }),
     priority: z.string().min(1, { message: 'priority is required' }),
+    category: z.string().min(1, { message: 'Category is required' }),
+    tag: z.string().min(1, { message: 'Tag is required' }),
   });
   type FormData = z.infer<typeof formSchema>
   const {
@@ -56,12 +64,19 @@ export default function FormHabbit() {
     setValue("habbit", selectedhabbit?.title)
     setValue("description", selectedhabbit?.description)
     setValue("priority", selectedhabbit?.priority)
+    setValue("category", selectedhabbit?.category)
+    setValue("tag", selectedhabbit?.tag)
   }, [selectedhabbit])
 
-  useEffect(() => {
-    getValues()
-  }, [getValues()])
-  
+  const handlePriority = (data: string) => {
+    setValue("priority", data)
+  }
+  const handleCategory = (data: string) => {
+    setValue("category", data)
+  }
+  const handleTag = (data: string) => {
+    setValue("tag", data)
+  }
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
@@ -72,12 +87,22 @@ export default function FormHabbit() {
         title: data.habbit,
         description: data.description,
         priority: data.priority,
+        completeUpdate: selectedhabbit.completeUpdate,
+        lastUpdate: selectedhabbit.lastUpdate,
+        score: selectedhabbit.score,
+        category: data.category,
+        tag: data.tag
       })) :
       dispatch(setHabbitList({
         id: "",
         title: data.habbit,
         description: data.description,
         priority: data.priority,
+        completeUpdate: selectedhabbit.completeUpdate,
+        lastUpdate: selectedhabbit.lastUpdate,
+        score: selectedhabbit.score,
+        category: data.category,
+        tag: data.tag
       }))
     dispatch(selectHabbitList(""))
     reset()
@@ -125,26 +150,73 @@ export default function FormHabbit() {
       }
       />
                 {errors.description?.message && <p className="text-xs text-red-500">{errors.description?.message}</p>}
+      
+          
       <Controller
         defaultValue = {''}
         name="priority"
         control={control}
         rules={{ required: true }}
-        render={({ field: { onChange, value } }) =>
-      <Select onValueChange={onChange} value={value}>
-        <SelectTrigger className="w-full border-white rounded py-1">
-          <SelectValue placeholder="Priority" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="High">High</SelectItem>
-          <SelectItem value="Medium">Medium</SelectItem>
-          <SelectItem value="Low">Low</SelectItem>
-        </SelectContent>
-      </Select>
-      }
-      />
-                {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          { !selectedhabbit?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+        render={({ field }) =>
+          <Select onValueChange={(data) => data && handlePriority(data)} value={field.value}>
+            <SelectTrigger className="w-full border-white rounded py-1">
+              <SelectValue placeholder="Priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={"High"}>High</SelectItem>
+              <SelectItem value={"Medium"}>Medium</SelectItem>
+              <SelectItem value={"Low"}>Low</SelectItem>
+            </SelectContent>
+          </Select>
+          }
+          />
+          {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+          <div className="flex flex-row">
+            <div className="flex-1">
+              <Controller
+                defaultValue = {''}
+                name="category"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) =>
+                  <CategotySelectComponent onClickChange={handleCategory} value={field.value} />
+                  }
+              />
+              {errors.category?.message && <p className="text-xs text-red-500">{errors.category?.message}</p>}
+            </div>
+            <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+              <DialogTrigger asChild>
+                <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                  <Edit />
+                </div> 
+              </DialogTrigger>
+            </DrawerDialogDemo>
+          </div>
+          
+          <div className="flex flex-row">
+            <div className="flex-1">
+                <Controller
+                  defaultValue = {''}
+                  name="tag"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) =>
+                    <TagSelectComponent onClickChange={handleTag} value={field.value} />
+                    }
+                />
+                {errors.tag?.message && <p className="text-xs text-red-500">{errors.tag?.message}</p>}
+              </div>
+              <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+                <DialogTrigger asChild>
+                  <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                    <Edit />
+                  </div> 
+                </DialogTrigger>
+              </DrawerDialogDemo>
+          </div>
+        
+          
+          {!selectedhabbit?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
           
           { selectedhabbit?.title && <div className="flex gap-4">
             <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
@@ -152,30 +224,6 @@ export default function FormHabbit() {
           </div>}
       </form>
       </div>
-      {/* <div className="flex flex-col gap-4 w-full bg-white red col-span-2">
-            {habbitList?.map((li) => (
-              <div
-                key={li}
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(updatehabbitList(li.id));
-                }}
-                className="flex items-center justify-between text-black"
-              >
-                <span className={`${li ? "line-through" : ""}`}>
-                  {li}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // dispatch(delToDoList(li.id));
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div> */}
     </div>
   );
 }

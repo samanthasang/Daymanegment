@@ -67,7 +67,7 @@ function useTodoList() {
     } 
   const list = filterdList() 
 
-    list ? setListAfterFilter(list.sort((a, b) => +a.date - +b.date)) : setListAfterFilter([])
+    list ? setListAfterFilter(list) : setListAfterFilter([])
     console.log(list)
   }, [ListToDo, dateFrom, dateTo, tagSearch, categorySearch])
   

@@ -2,17 +2,11 @@
 import useTodoList from "@/lib/Hooks/Lists/UseTodoList.component";
 import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
-import { Button } from "../ui/button";
-import FilterComponent from "./Todo.component";
+import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
+import { Button } from "../../ui/button";
+import FilterComponent from "../../Filter/Todo.component";
 
-function SideBar({
-    drawerType,
-    formType,
-  }: {
-    drawerType: string,
-    formType: string,
-  }) {
+function TodoSideBar() {
 
   const ListToDo = useTodoList()
    
@@ -22,10 +16,10 @@ function SideBar({
         <div className="h-full">
           <div className={cn("flex flex-col justify-start gap-y-3 w-full")}>
 
-            <FilterComponent />
+            <FilterComponent witDate />
 
             <div className="flex justify-between w-full mx-auto h-9">
-              <DrawerDialogDemo drawerType={drawerType} formType={formType}>
+              <DrawerDialogDemo drawerType={'TodoList'} formType="add" >
                 <DialogTrigger asChild>
                   <Button variant="outline"><span>add</span></Button>
                 </DialogTrigger>
@@ -45,4 +39,4 @@ function SideBar({
   );
 }
 
-export default SideBar;
+export default TodoSideBar;

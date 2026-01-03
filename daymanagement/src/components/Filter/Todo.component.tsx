@@ -4,11 +4,11 @@ import UseDateRangeComponent from "@/lib/Hooks/DateFilter.component";
 import UseResetFilterComponent from "@/lib/Hooks/ResetFilter.component";
 import UseTagFilterComponent from "@/lib/Hooks/TagFilter.component";
 
-function FilterComponent() {
+function FilterComponent({witDate} : {witDate: boolean}) {
    
   return (
     <>
-      <UseDateRangeComponent />
+      {witDate && <UseDateRangeComponent />}
       <UseCategoryFilterComponent />
       <UseTagFilterComponent />
       <UseResetFilterComponent />

@@ -27,8 +27,8 @@ export const todoListSlice = createSlice({
       id: string,
       title:string,
       date: string,
-      priority: string
-      category: string
+      priority: string,
+      category: string,
       tag: string
     }>) => {
       state.ListToDo = state.ListToDo ? [

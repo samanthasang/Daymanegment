@@ -2,7 +2,7 @@
 import useTodoList from "@/lib/Hooks/Lists/UseTodoList.component";
 import { cn } from "@/lib/utils";
 import { TToDo } from "@/modules/toDoList/todo.slice";
-import SelectedTodo from "./TodoItem/SelectedTodo.component";
+import SelectedTodo from "../TodoItem/SelectedTodo.component";
 
 function TodoList() {
 

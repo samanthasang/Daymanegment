@@ -44,10 +44,10 @@ export function DrawerDialogDemo({
     const dispatch = useAppDispatch();
 
   const openReminderDrawer = (e: boolean) => {
-    console.log(e)
-    if (e == false) {
-      dispatch(selectToDoList(""))
-    }
+    // console.log(e)
+    // if (e == false) {
+    //   dispatch(selectToDoList(""))
+    // }
     console.log(drawerType)
     setOpen(e)
   }

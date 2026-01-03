@@ -10,6 +10,8 @@ export type Thabbit = {
   priority: string,
   lastUpdate: number
   completeUpdate: number
+  category: string
+  tag: string
 }
 
 export interface InitialState {
@@ -33,6 +35,8 @@ export const habbitListSlice = createSlice({
       score: number,
       lastUpdate: number,
       completeUpdate: number,
+      category: string,
+      tag: string
     }>) => {
       state.ListHabbit = state.ListHabbit ? [
         ...state.ListHabbit,
@@ -41,6 +45,8 @@ export const habbitListSlice = createSlice({
           title: action.payload.title,
           priority: action.payload.priority,
           description: action.payload.description,
+          category: action.payload.category,
+          tag: action.payload.tag,
           score: 0,
           lastUpdate: currentUnixTimestamp,
           completeUpdate: action.payload.completeUpdate,
@@ -51,6 +57,8 @@ export const habbitListSlice = createSlice({
             priority: action.payload.priority,
             description: action.payload.description,
             title: action.payload.title,
+            category: action.payload.category,
+            tag: action.payload.tag,
             score: 0 || action.payload.score,
             lastUpdate: currentUnixTimestamp,
             completeUpdate: action.payload.completeUpdate,
@@ -85,6 +93,8 @@ export const habbitListSlice = createSlice({
       priority: string
       lastUpdate: number
       completeUpdate: number 
+      category: string
+      tag: string
     }>) => {
       state.ListHabbit = state.ListHabbit.map((Habbit) =>
         Habbit.id == action.payload.id
@@ -94,6 +104,8 @@ export const habbitListSlice = createSlice({
             description: action.payload.description,
             score: action.payload.score || Habbit.score,
             priority: action.payload.priority,
+            category: action.payload.category,
+            tag: action.payload.tag,
             lastUpdate: action.payload.lastUpdate || Habbit.lastUpdate,
             completeUpdate: action.payload.completeUpdate || Habbit.completeUpdate,
           }
