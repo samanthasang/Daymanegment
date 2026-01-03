@@ -16,8 +16,6 @@ dayjs.extend(duration)
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-
-
 function UseDateRangeComponent() {
     const { applyFilter } = useFilters();
 
@@ -58,6 +56,46 @@ function UseDateRangeComponent() {
     }, [dateRange?.from])
     
 
+    useEffect(() => {
+        hasdateFrom && console.log(dateRange?.from);
+        hasdateFrom && fromDay && console.log(new Date(
+                dayjs(
+                    dayjs.unix(
+                        Number(dateFrom
+                        )
+                    )
+                ).toDate()
+            ));
+        hasdateTo && console.log(
+            new Date(
+                dayjs(
+                    dayjs.unix(
+                        Number(dateTo
+                        )
+                    )
+                ).toDate()
+            )
+        );
+
+        hasdateTo && dateTo && dateFrom && dateFrom !== fromDay && dateTo !== toDay && setDateRange({
+            from: new Date(
+                dayjs(
+                    dayjs.unix(
+                        Number(dateFrom
+                        )
+                    )
+                ).toDate()
+            ),
+            to: new Date(
+                dayjs(
+                    dayjs.unix(
+                        Number(dateTo
+                        )
+                    )
+                ).toDate()
+            )
+        })
+    }, [dateFrom, dateTo])
 
     return(
         <>
@@ -70,12 +108,6 @@ function UseDateRangeComponent() {
             captionLayout="dropdown"
             className="rounded-lg border shadow-sm"
             />
-            <Button disabled={!dateRange?.from} onClick={() => setDateRange({
-                from: new Date(),
-                to: new Date(),
-            })} >
-                Reset
-            </Button>
         </>
     )
 }

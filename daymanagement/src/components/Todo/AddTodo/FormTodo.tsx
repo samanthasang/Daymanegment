@@ -1,4 +1,8 @@
 "use client"
+import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { Edit } from "@/components/table";
+import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -12,18 +16,13 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DialogTrigger } from "@radix-ui/react-dialog";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, TToDo, updateToDoList } from "../../../modules/toDoList/todo.slice";
-import dayjs from "dayjs";
-import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import TagSelectComponent from "@/components/Tags/TagSelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { Edit } from "@/components/table";
+import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
 
 interface IFormInputs {
   todo: string
@@ -52,13 +51,10 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
   });
 
   const {
-    register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors },
     setValue,
-    getValues,
-    watch,
     reset
   } = methods;
 
@@ -70,55 +66,30 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
   const dispatch = useAppDispatch();
   const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
   
-  //   const { ListToDo, selectedToDo }: {
-  //     ListToDo: TToDo[];
-  //     selectedToDo: TToDo | {};
-  // } = useAppSelector((state) => state.todoList) || [];
-    // useEffect(() => {
-    //     if (date) {
-    //         setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
-    //     }
-  // }, [date])
 
   useEffect(() => {
     if (selectedToDo) {
-      console.log(selectedToDo)
       setValue("todo", selectedToDo?.title)
       setValue("priority", selectedToDo.priority)
       setValue("category", selectedToDo.category)
       setValue("tag", selectedToDo.tag)
       setValue("date", selectedToDo.date)
       setDate(new Date(Number(selectedToDo.date) * 1000))
-
-      console.log(getValues())
-      console.log(control._fields)
-      
     }
   }, [selectedToDo, setValue])
-  console.log(selectedToDo);
   
 
-
   const handlePriority = (data: string) => {
-    console.log(data);
-    
     setValue("priority", data)
   }
   const handleCategory = (data: string) => {
-    console.log(data);
     setValue("category", data)
   }
   const handleTag = (data: string) => {
-    console.log(data);
-    
     setValue("tag", data)
   }
-  // const [todoList ,setTodoList]= useState<string[]>([])
-
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-    console.log(date);
     selectedToDo?.title ? dispatch(updateToDoList(
       {
         id: selectedToDo.id,
@@ -142,23 +113,10 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
     onSubmitForm()
   };
   const onReset = () => {
-    console.log("reset");
-    
     dispatch(selectToDoList(""))
       setValue("date", "")
     reset()
   };
-
-  useEffect(() => {
-    
-  console.log(date);
-  console.log(dayjs(date).format("YY-MM"));
-  console.log(dayjs(date).format("MMMM"));
-  console.log(date?.getUTCMonth);
-  console.log(date?.getMonth());
-  console.log(date?.getDate());
-  console.log(date?.valueOf());
-  }, [date])
   
   return (
     <div className="col-span-1">
@@ -218,7 +176,6 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
-              // <span>{field.value}</span>
           <Select onValueChange={(data) => data && handlePriority(data)} value={field.value}>
             <SelectTrigger className="w-full border-white rounded py-1">
               <SelectValue placeholder="Priority" />
@@ -243,7 +200,7 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
                   <CategotySelectComponent onClickChange={handleCategory} value={field.value} />
                   }
               />
-              {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+              {errors.category?.message && <p className="text-xs text-red-500">{errors.category?.message}</p>}
             </div>
             <DrawerDialogDemo drawerType={'TagList'} formType="tag">
               <DialogTrigger asChild>
@@ -265,7 +222,7 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
                     <TagSelectComponent onClickChange={handleTag} value={field.value} />
                     }
                 />
-                {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+                {errors.tag?.message && <p className="text-xs text-red-500">{errors.tag?.message}</p>}
               </div>
               <DrawerDialogDemo drawerType={'TagList'} formType="tag">
                 <DialogTrigger asChild>
@@ -283,30 +240,6 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
         </div>}
       </form>
       </div>
-      {/* <div className="flex flex-col gap-4 w-full bg-white red col-span-2">
-            {todoList?.map((li) => (
-              <div
-                key={li}
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(updateToDoList(li.id));
-                }}
-                className="flex items-center justify-between text-black"
-              >
-                <span className={`${li ? "line-through" : ""}`}>
-                  {li}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // dispatch(delToDoList(li.id));
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div> */}
     </div>
   );
 }

@@ -2,7 +2,9 @@
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
 import { DialogTrigger } from "@/components/ui/dialog";
-import { useAppDispatch } from "@/lib/hook";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { TCategory } from "@/modules/category/categoryList.slice";
+import { TTag } from "@/modules/tag/TagList.slice";
 import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
@@ -19,11 +21,36 @@ dayjs.extend(timezone);
 
 export const SelectedTodo = ({ item }: {item : TToDo }) =>  {
   const dispatch = useAppDispatch();
-    const [isExpanded, setIsVisible] = useState(false)
+  const [isExpanded, setIsVisible] = useState(false)
 
+  const { ListCategory }: {
+    ListCategory: TCategory[];
+    selectedCategory: {};
+  } = useAppSelector((state) => state.CategoryList) || [];
+   
 
+  const categorySelected = ListCategory ?
+      ListCategory.filter((category) => category.id == item.category)[0] :
+      {
+        id: "",
+        title: ""
+    }
+
+  const { ListTag }: {
+    ListTag: TTag[];
+    selectedTag: {};
+  } = useAppSelector((state) => state.TagList) || [];
+   
+
+  const tagSelected = ListTag ?
+      ListTag.filter((category) => category.id == item.tag )[0] :
+      {
+        id: "",
+        title: ""
+    }
+    
   return (
-      <AnimatePresence >
+    <AnimatePresence >
         <motion.div  
       initial={{ height: 80 }}
       animate={{ height: isExpanded ? "auto" : 80 }}
@@ -64,19 +91,16 @@ export const SelectedTodo = ({ item }: {item : TToDo }) =>  {
                 className="flex flex-col select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
                 {/* <Checkbox checked={item.isComplete} id="terms" /> */}
                   <label
-                    htmlFor="terms"
                     className={`cursor-pointer`}>
                       {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
                   </label>
                   <label
-                    htmlFor="terms"
                     className={`cursor-pointer`}>
-                      {item.category}
+                      {categorySelected && categorySelected.title || ""}
                   </label>
                   <label
-                    htmlFor="terms"
                     className={`cursor-pointer`}>
-                      {item.tag}
+                      {tagSelected && tagSelected.title || ""}
                   </label>
                   </div>
                     </motion.div>
@@ -129,7 +153,7 @@ export const SelectedTodo = ({ item }: {item : TToDo }) =>  {
             </AnimatePresence>
       
         </motion.div>
-      </AnimatePresence>
+    </AnimatePresence>
   );
 }
 

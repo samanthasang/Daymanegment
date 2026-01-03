@@ -6,39 +6,35 @@ import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogTitle
 } from "@/components/ui/dialog"
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
+  DrawerTitle
 } from "@/components/ui/Drawer"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { useAppDispatch } from "@/lib/hook"
 import { cn } from "@/lib/utils"
+import { selectToDoList } from "@/modules/toDoList/todo.slice"
+import CategoryForm from "../Category/CategoryForm"
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit"
 import FormReminder from "../Reminder/AddReminder/FormReminder"
-import FormTodo from "../Todo/AddTodo/FormTodo"
-import CategoryForm from "../Category/CategoryForm"
 import TagForm from "../Tags/TagForm"
-import { selectToDoList } from "@/modules/toDoList/todo.slice"
+import FormTodo from "../Todo/AddTodo/FormTodo"
 
 
 export function DrawerDialogDemo({
-  drawerType,
-  formType,
-  children
-}: {
+    drawerType,
+    formType,
+    children
+  }: {
     drawerType: string,
     formType: string,
     children?: React.ReactNode;
@@ -76,9 +72,7 @@ export function DrawerDialogDemo({
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <Button variant="outline"><span>ADD</span></Button>
-      </DrawerTrigger>
+      {children}
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit profile</DrawerTitle>

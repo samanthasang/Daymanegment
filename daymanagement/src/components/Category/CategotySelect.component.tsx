@@ -20,9 +20,9 @@ function CategotySelectComponent({ onClickChange, value } : ICategotySelect) {
       <SelectTrigger className="w-full border-white rounded py-1">
         <SelectValue placeholder="Category" />
       </SelectTrigger>
-          <SelectContent>
-            {ListCategory.map((category, index) => 
-        <SelectItem key={index} value={category.title}>{category.title}</SelectItem>)}
+      <SelectContent>
+        {ListCategory.map((category, index) => 
+          <SelectItem key={index} value={category.id}>{category.title}</SelectItem>)}
       </SelectContent>
     </Select>
   );

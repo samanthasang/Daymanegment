@@ -10,7 +10,7 @@ import { selectTagList, setTagList, TTag, updateTagList } from "@/modules/tag/Ta
 import TagList from "./Tag.component";
 
 interface IFormInputs {
-  todo: string
+  tag: string
 }
 
 export default function TagForm({ onSubmitForm }:{onSubmitForm: () => void}) {
@@ -22,15 +22,12 @@ export default function TagForm({ onSubmitForm }:{onSubmitForm: () => void}) {
   useEffect(() => {
     if (selectedTag && selectedTag.id) {
       console.log(selectedTag)
-      setValue("todo", selectedTag?.title)
+      setValue("tag", selectedTag?.title)
     }
   }, [selectedTag])
 
-  // const [todoList ,setTodoList]= useState<string[]>([])
-
-// creating a schema for strings 
    const formSchema = z.object({
-    todo: z.string().min(4, { message: 'Name is required' }),
+    tag: z.string().min(3, { message: 'Name is required' }),
   });
   type FormData = z.infer<typeof formSchema>
   const {
@@ -44,18 +41,17 @@ export default function TagForm({ onSubmitForm }:{onSubmitForm: () => void}) {
   resolver: zodResolver(formSchema),
   });
   
-
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
 
     selectedTag?.title ? dispatch(updateTagList(
       {
         id: selectedTag.id,
-        title: data.todo,
+        title: data.tag,
       })) :
       dispatch(setTagList({
         id: "",
-        title: data.todo,
+        title: data.tag,
       }))
     dispatch(selectTagList(""))
     reset()
@@ -78,7 +74,7 @@ export default function TagForm({ onSubmitForm }:{onSubmitForm: () => void}) {
           
         <Controller
           defaultValue = {''}
-          name="todo"
+          name="tag"
           control={control}
           rules={{ required: true }}
           render={({ field }) =>
@@ -89,7 +85,7 @@ export default function TagForm({ onSubmitForm }:{onSubmitForm: () => void}) {
           />
         }
         />
-          {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+          {errors.tag?.message && <p className="text-xs text-red-500">{errors.tag?.message}</p>}
             { !selectedTag?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
           
           { selectedTag?.title && <div className="flex gap-4">

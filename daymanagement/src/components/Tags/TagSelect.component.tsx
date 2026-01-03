@@ -22,7 +22,7 @@ function TagSelectComponent({ onClickChange, value } : ICategotySelect) {
       </SelectTrigger>
           <SelectContent>
             {ListTag.map((tag, index) => 
-        <SelectItem key={index} value={tag.title}>{tag.title}</SelectItem>)}
+        <SelectItem key={index} value={tag.id}>{tag.title}</SelectItem>)}
       </SelectContent>
     </Select>
   );

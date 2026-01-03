@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { CategoryList } from "./Category.component";
 
 interface IFormInputs {
-  todo: string
+  category: string
 }
 
 export default function CategoryForm({ onSubmitForm }:{onSubmitForm: () => void}) {
@@ -22,7 +22,7 @@ export default function CategoryForm({ onSubmitForm }:{onSubmitForm: () => void}
   useEffect(() => {
     if (selectedCategory && selectedCategory.id) {
       console.log(selectedCategory)
-      setValue("todo", selectedCategory?.title)
+      setValue("category", selectedCategory?.title)
     }
   }, [selectedCategory])
 
@@ -30,7 +30,7 @@ export default function CategoryForm({ onSubmitForm }:{onSubmitForm: () => void}
 
 // creating a schema for strings 
    const formSchema = z.object({
-    todo: z.string().min(4, { message: 'Name is required' }),
+    category: z.string().min(3, { message: 'Category is required' }),
   });
   type FormData = z.infer<typeof formSchema>
   const {
@@ -47,15 +47,16 @@ export default function CategoryForm({ onSubmitForm }:{onSubmitForm: () => void}
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
+    console.log(errors);
 
     selectedCategory?.title ? dispatch(updateCategoryList(
       {
         id: selectedCategory.id,
-        title: data.todo,
+        title: data.category,
       })) :
       dispatch(setCategoryList({
         id: "",
-        title: data.todo,
+        title: data.category,
       }))
     dispatch(selectCategoryList(""))
     reset()
@@ -78,7 +79,7 @@ export default function CategoryForm({ onSubmitForm }:{onSubmitForm: () => void}
           
         <Controller
           defaultValue = {''}
-          name="todo"
+          name="category"
           control={control}
           rules={{ required: true }}
           render={({ field }) =>
@@ -89,7 +90,7 @@ export default function CategoryForm({ onSubmitForm }:{onSubmitForm: () => void}
           />
         }
         />
-          {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+          {errors.category?.message && <p className="text-xs text-red-500">{errors.category?.message}</p>}
             { !selectedCategory?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
           
           { selectedCategory?.title && <div className="flex gap-4">
