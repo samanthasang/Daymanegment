@@ -22,11 +22,11 @@ import { Label } from "@/components/ui/label"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { useAppDispatch } from "@/lib/hook"
 import { cn } from "@/lib/utils"
-import { selectToDoList } from "@/modules/toDoList/todo.slice"
 import CategoryForm from "../Category/CategoryForm"
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit"
 import FormReminder from "../Reminder/AddReminder/FormReminder"
 import TagForm from "../Tags/TagForm"
+import FormTimer from "../Timer/AddTimer/FormTimer"
 import FormTodo from "../Todo/AddTodo/FormTodo"
 
 
@@ -103,6 +103,8 @@ function ProfileForm({ drawerType, className, onSubmit }: { drawerType : string,
       return <CategoryForm onSubmitForm={onSubmit}/>
     case "TagList":
       return <TagForm onSubmitForm={onSubmit}/>
+    case "TimerList":
+      return <FormTimer onSubmitForm={onSubmit}/>
   
     default:
     return (

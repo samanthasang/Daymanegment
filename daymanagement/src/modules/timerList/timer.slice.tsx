@@ -4,8 +4,10 @@ export type TTimer = {
   id: string
   title: string
   isComplete: boolean
-  startDate: number
-  endDate: number
+  startDate: string
+  endDate: string
+  category: string
+  tag: string
 }
 
 export interface InitialState {
@@ -24,9 +26,11 @@ export const timerListSlice = createSlice({
     setTimerList: (state: InitialState, action: PayloadAction<{
       id: string,
       title:string,
-      startDate: number,
-      endDate: number,
+      startDate: string,
+      endDate: string,
       isComplete: boolean,
+      category: string,
+      tag: string
     }>) => {
       state.ListTimer = state.ListTimer ? [
         ...state.ListTimer,
@@ -35,6 +39,8 @@ export const timerListSlice = createSlice({
           title: action.payload.title,
           startDate: action.payload.startDate,
           endDate: action.payload.endDate,
+          category: action.payload.category,
+          tag: action.payload.tag,
           isComplete: false
         },
       ] : [
@@ -43,6 +49,8 @@ export const timerListSlice = createSlice({
             startDate: action.payload.startDate,
             endDate: action.payload.startDate,
             title: action.payload.title,
+          category: action.payload.category,
+          tag: action.payload.tag,
             isComplete: false
           },
       ];
@@ -55,7 +63,7 @@ export const timerListSlice = createSlice({
     completeTimerList: (state: InitialState, action: PayloadAction<
       {
         id: string
-        endDate: number
+        endDate: string
       }
       >) => {
       state.ListTimer = state.ListTimer.map((timer) =>
@@ -71,9 +79,11 @@ export const timerListSlice = createSlice({
     updateTimerList: (state: InitialState, action: PayloadAction<{
       id: any
       title: string
-      startDate: number
-      endDate: number
+      startDate: string
+      endDate: string
       isComplete: boolean
+      category: string
+      tag: string
     }>) => {
       state.ListTimer = state.ListTimer.map((timer) =>
         timer.id == action.payload.id
@@ -83,6 +93,8 @@ export const timerListSlice = createSlice({
             isComplete: timer.isComplete,
             startDate: action.payload.startDate,
             endDate: action.payload.endDate,
+          category: action.payload.category,
+          tag: action.payload.tag,
           }
           : timer
       );

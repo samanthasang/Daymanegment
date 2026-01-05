@@ -20,6 +20,8 @@ interface IFormInputs {
   todo: string
   priority: string
   date: string
+  category: string
+  tag: string
 }
 
 export default function FormReminder({ onSubmitForm }:{onSubmitForm: () => void}) {
@@ -49,6 +51,8 @@ export default function FormReminder({ onSubmitForm }:{onSubmitForm: () => void}
     todo: z.string().min(4, { message: 'Name is required' }),
     priority: z.string().min(1, { message: 'priority is required' }),
     date: z.string().min(1, { message: 'date is required' }),
+    category: z.string().min(1, { message: 'category is required' }),
+    tag: z.string().min(1, { message: 'tag is required' }),
   });
   type FormData = z.infer<typeof formSchema>
   const {
@@ -86,13 +90,17 @@ export default function FormReminder({ onSubmitForm }:{onSubmitForm: () => void}
         id: selectedToDo.id,
         title: data.todo,
         date: data.date,
-        priority: data.priority
+        priority: data.priority,
+        category: data.category,
+        tag: data.tag,
       })) :
       dispatch(setToDoList({
         id: "",
         title: data.todo,
         date: data.date,
-        priority: data.priority
+        priority: data.priority,
+        category: data.category,
+        tag: data.tag,
       }))
     dispatch(selectToDoList(""))
     reset()

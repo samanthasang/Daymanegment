@@ -2,7 +2,7 @@
 import TodoSideBar from "./TodoFilter/TodoSideBar.componen";
 import TodoList from "./TodoList/TodoList.component";
 
-function TodoListComponent() {
+function TimerListComponent() {
    
   return (
     <div className="w-full lg:w-2/3 m-auto bg-secondary">
@@ -19,4 +19,4 @@ function TodoListComponent() {
   );
 }
 
-export default TodoListComponent;
+export default TimerListComponent;

@@ -1,11 +1,11 @@
 "use client"
+import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { Edit } from "@/components/table";
+import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popovers";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -16,101 +16,108 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addDays, format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "@/components/ui/input";
-import { selectTimerList, setTimerList, updateTimerList } from "@/modules/timerList/timer.slice";
-import dayjs from "dayjs";
+import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
 
 interface IFormInputs {
-  title: string
-  startDate: string
-  endDate: string
+  todo: string
+  priority: string
+  date: string
+  category: string
+  tag: string
 }
 
-export default function FormTimer() {
+export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
 
   const [date, setDate] = useState<Date>()
-  const [priority, setPriority] = useState<string>()
-  useEffect(() => {
-    console.log(priority);
-   date && console.log(Math.floor(new Date(date).getTime()/1000.0));
-  }, [date,priority])
-  
-  
-  const dispatch = useAppDispatch();
-  const { selectedTimer } : any = useAppSelector((state) => state.TimerList) || {};
-  
-    useEffect(() => {
-        if (selectedTimer) {
-            setValue("title", selectedTimer.title)
-            setValue("startDate", dayjs(dayjs.unix(Number(selectedTimer.startDate))).format("YYYY-MM-DD HH:MM"))
-            setValue("endDate", dayjs(dayjs.unix(Number(selectedTimer.startDate))).format("YYYY-MM-DD HH:MM"))
-        }
-    }, [selectedTimer])
-
-  // const [titleList ,settitleList]= useState<string[]>([])
-
-  console.log(selectedTimer);
   
 // creating a schema for strings 
    const formSchema = z.object({
-    title: z.string().min(4, { message: 'Name is required' }),
-    startDate: z.string().min(1, { message: 'date is required' }),
-    endDate: z.string().min(1, { message: 'date is required' }),
+    todo: z.string().min(4, { message: 'Name is required' }),
+    priority: z.string().min(1, { message: 'priority is required' }),
+    category: z.string().min(1, { message: 'Category is required' }),
+    tag: z.string().min(1, { message: 'Tag is required' }),
+    date: z.string().min(1, { message: 'date is required' }),
   });
   type FormData = z.infer<typeof formSchema>
-  const {
-    control,
-    setValue,
-    getValues,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm<FormData>({
-  resolver: zodResolver(formSchema),
+
+  const methods = useForm<FormData>({
+    resolver: zodResolver(formSchema),
   });
-  
-  useEffect(() => {
-    setValue("title", selectedTimer?.title)
-  }, [selectedTimer])
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    setValue,
+    reset
+  } = methods;
 
   useEffect(() => {
-    getValues()
-  }, [getValues()])
+     date && setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
+  }, [date])
   
+  
+  const dispatch = useAppDispatch();
+  const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
+  
+
+  useEffect(() => {
+    if (selectedToDo) {
+      setValue("todo", selectedToDo?.title)
+      setValue("priority", selectedToDo.priority)
+      setValue("category", selectedToDo.category)
+      setValue("tag", selectedToDo.tag)
+      setValue("date", selectedToDo.date)
+      setDate(new Date(Number(selectedToDo.date) * 1000))
+    }
+  }, [selectedToDo, setValue])
+  
+
+  const handlePriority = (data: string) => {
+    setValue("priority", data)
+  }
+  const handleCategory = (data: string) => {
+    setValue("category", data)
+  }
+  const handleTag = (data: string) => {
+    setValue("tag", data)
+  }
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-    
-    selectedTimer?.title ? dispatch(updateTimerList(
+    selectedToDo?.title ? dispatch(updateToDoList(
       {
-        id: selectedTimer.id,
-        title: data.title,
-        startDate: data.startDate || selectedTimer.startDate,
-        endDate: data.endDate || selectedTimer.endDate,
-        isComplete: selectedTimer.isComplete
+        id: selectedToDo.id,
+        title: data.todo,
+        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
+        priority: data.priority,
+        category: data.category,
+        tag: data.tag
       })) :
-      dispatch(setTimerList({
+      dispatch(setToDoList({
         id: "",
-        title: data.title,
-        startDate: data.startDate || selectedTimer.startDate,
-        endDate: data.endDate || selectedTimer.endDate,
-        isComplete: selectedTimer.isComplete
+        title: data.todo,
+        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
+        priority: data.priority,
+        category: data.category,
+        tag: data.tag
       }))
-    dispatch(selectTimerList(""))
+    dispatch(selectToDoList(""))
+      setValue("date", "")
     reset()
+    onSubmitForm()
   };
   const onReset = () => {
-    console.log("reset");
-    
-    dispatch(selectTimerList(""))
+    dispatch(selectToDoList(""))
+      setValue("date", "")
     reset()
   };
-
+  
   return (
     <div className="col-span-1">
       <div className="flex flex-row gap-2 ">
@@ -121,7 +128,7 @@ export default function FormTimer() {
           
       <Controller
         defaultValue = {''}
-        name="title"
+        name="todo"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
@@ -132,11 +139,10 @@ export default function FormTimer() {
         />
       }
       />
-                {errors.title?.message && <p className="text-xs text-red-500">{errors.title?.message}</p>}
+        {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
 
-              <Popover>
-      <PopoverTrigger asChild>
-        <Button
+          <Button
+            disabled
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
@@ -146,73 +152,94 @@ export default function FormTimer() {
           <CalendarIcon />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="start"
-        className="flex w-auto flex-col space-y-2 p-2"
-      >
       <Controller
-        name="startDate"
+        name="date"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
-        <Select 
-          onValueChange={(value) =>
-            setDate(addDays(new Date(), parseInt(value)))
-          }
-        >
-          <SelectTrigger>
-            <SelectValue  placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="0">Today</SelectItem>
-            <SelectItem value="1">Tomorrow</SelectItem>
-            <SelectItem value="3">In 3 days</SelectItem>
-            <SelectItem value="7">In a week</SelectItem>
-          </SelectContent>
-        </Select>
+          <div className=" border-white rounded py-1 flex justify-center">
+            <Calendar
+              mode="single"
+              selected={date}
+              month={date}
+              onSelect={setDate}
+              className=" border-white rounded py-1"
+              captionLayout="dropdown" />
+          </div>
       }
       />
-        <div className=" border-white rounded py-1">
-          <Calendar mode="single" selected={date} onSelect={setDate} className=" border-white rounded py-1" />
-        </div>
-      </PopoverContent>
-    </Popover>
-                {errors.startDate?.message && <p className="text-xs text-red-500">{errors.startDate?.message}</p>}
-
-                {/* {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>} */}
-          { !selectedTimer?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+        {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+      
+      <Controller
+        defaultValue = {''}
+        name="priority"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) =>
+          <Select onValueChange={(data) => data && handlePriority(data)} value={field.value}>
+            <SelectTrigger className="w-full border-white rounded py-1">
+              <SelectValue placeholder="Priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={"High"}>High</SelectItem>
+              <SelectItem value={"Medium"}>Medium</SelectItem>
+              <SelectItem value={"Low"}>Low</SelectItem>
+            </SelectContent>
+          </Select>
+          }
+          />
+          {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+          <div className="flex flex-row">
+            <div className="flex-1">
+              <Controller
+                defaultValue = {''}
+                name="category"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) =>
+                  <CategotySelectComponent onClickChange={handleCategory} value={field.value} />
+                  }
+              />
+              {errors.category?.message && <p className="text-xs text-red-500">{errors.category?.message}</p>}
+            </div>
+            <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+              <DialogTrigger asChild>
+                <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                  <Edit />
+                </div> 
+              </DialogTrigger>
+            </DrawerDialogDemo>
+          </div>
           
-          { selectedTimer?.title && <div className="flex gap-4">
-            <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
-            <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
-          </div>}
+          <div className="flex flex-row">
+            <div className="flex-1">
+                <Controller
+                  defaultValue = {''}
+                  name="tag"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) =>
+                    <TagSelectComponent onClickChange={handleTag} value={field.value} />
+                    }
+                />
+                {errors.tag?.message && <p className="text-xs text-red-500">{errors.tag?.message}</p>}
+              </div>
+              <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+                <DialogTrigger asChild>
+                  <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                    <Edit />
+                  </div> 
+                </DialogTrigger>
+              </DrawerDialogDemo>
+          </div>
+        { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+        
+        { selectedToDo?.title && <div className="flex gap-4">
+          <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
+          <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
+        </div>}
       </form>
       </div>
-      {/* <div className="flex flex-col gap-4 w-full bg-white red col-span-2">
-            {titleList?.map((li) => (
-              <div
-                key={li}
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(updatetitleList(li.id));
-                }}
-                className="flex items-center justify-between text-black"
-              >
-                <span className={`${li ? "line-through" : ""}`}>
-                  {li}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // dispatch(deltitleList(li.id));
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div> */}
     </div>
   );
 }

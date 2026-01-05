@@ -1,28 +1,28 @@
 "use client"
-import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Remove } from "@/components/table";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
+import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
-import { Thabbit } from "@/modules/habbitList/habbit.slice";
-import { completeMyHaBBITList, delMyHaBBITList, updateMyHaBBITList } from "@/modules/myHabbitList/myHabbit.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
+import { TTimer } from "@/modules/timerList/timer.slice";
+import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 dayjs.extend(relativeTime)
 dayjs.extend(duration)
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const currentUnixTimestamp = dayjs().unix(); 
 
-export const MyHabbitItem = ({ item }: {item : Thabbit }) =>  {
+export const SelectedTimer = ({ item }: {item : TTimer }) =>  {
   const dispatch = useAppDispatch();
   const [isExpanded, setIsVisible] = useState(false)
-
 
   const { ListCategory }: {
     ListCategory: TCategory[];
@@ -49,28 +49,7 @@ export const MyHabbitItem = ({ item }: {item : Thabbit }) =>  {
         id: "",
         title: ""
     }
-  useEffect(() => {
-    console.log("lastUpdate ",item.title , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
-    console.log("currentUnixTimestamp ",item.title , dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day') > 2);
-
-    if (dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day') > 2) {
-      console.log(item.lastUpdate , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
-      console.log(currentUnixTimestamp , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
-      dispatch(updateMyHaBBITList({
-        id: item.id || "",
-        title: item.title,
-        description: item.description,
-        score: item.score - dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day'),
-        priority: item.priority,
-        lastUpdate: currentUnixTimestamp,
-        completeUpdate: item.completeUpdate,
-        category: item.category,
-        tag: item.tag,
-      }))
-    }
-      
-  }, [])
-  
+    
   return (
     <AnimatePresence >
         <motion.div  
@@ -86,20 +65,12 @@ export const MyHabbitItem = ({ item }: {item : Thabbit }) =>  {
           <label
             htmlFor="terms"
             className={`cursor-pointer flex justify-center items-center gap-2`}>
-            {item.title}{`(${item.score || 0})`}
+            {item.title}
           </label>
         </div>
       <div 
         className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
-          <label
-            htmlFor="terms"
-            className={`cursor-pointer flex justify-center items-center gap-2`}>
-            
-            { item.priority == "High" && <ChevronSmallTripleUp className='fill-red-500' />}
-            { item.priority == "Medium" && <ChevronSmallDoubleUp className='fill-red-500' />}
-            { item.priority == "Low" && <ChevronSmallUp className='fill-red-500' />}
-            {item.priority}
-          </label>
+          
           </div>
           <AnimatePresence initial={false}>         
             <motion.div
@@ -109,7 +80,17 @@ export const MyHabbitItem = ({ item }: {item : Thabbit }) =>  {
               style={{ overflow: "hidden" }}
               key="box"
             >
-          <div className="flex flex-col select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
+          <div 
+                className="flex flex-col select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
+                {/* <Checkbox checked={item.isComplete} id="terms" /> */}
+                  <label
+                    className={`cursor-pointer`}>
+                      {dayjs(dayjs.unix(Number(item.startDate))).format("YYYY-MM-DD")}
+                  </label>
+                  <label
+                    className={`cursor-pointer`}>
+                      {dayjs(dayjs.unix(Number(item.endDate))).format("YYYY-MM-DD")}
+                  </label>
                   <label
                     className={`cursor-pointer`}>
                       {categorySelected && categorySelected.title || ""}
@@ -117,21 +98,6 @@ export const MyHabbitItem = ({ item }: {item : Thabbit }) =>  {
                   <label
                     className={`cursor-pointer`}>
                       {tagSelected && tagSelected.title || ""}
-                </label>
-                <label
-                    htmlFor="terms"
-                    className={`cursor-pointer`}>
-                      {dayjs(dayjs.unix(Number(item.lastUpdate))).format("YYYY-MM-DD")}
-                  </label>
-                  <label
-                    htmlFor="terms"
-                    className={`cursor-pointer`}>
-                      {dayjs(dayjs.unix(Number(item.completeUpdate))).format("YYYY-MM-DD")}
-                  </label>
-                  <label
-                    htmlFor="terms"
-                    className={`cursor-pointer`}>
-                      {dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("YYYY-MM-DD")}
                   </label>
                   </div>
                     </motion.div>
@@ -149,31 +115,29 @@ export const MyHabbitItem = ({ item }: {item : Thabbit }) =>  {
           <span
                 onClick={(e) => {
                       e.preventDefault();
-                      dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
-                         !=  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") && item.id && dispatch(completeMyHaBBITList(item.id));
+                      item.id && dispatch(completeToDoList(item.id));
               }}
             className={`""`}>
-            {dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
-                         ==  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") ? 
+            {item.isComplete ? 
               <CheckCircle  /> : 
               <CheckMark  />}
           </span>
-        {/* <DrawerDialogDemo drawerType={'MyHaBBITList'} formType="add">
+        <DrawerDialogDemo drawerType={'TimerList'} formType="add">
           <DialogTrigger asChild>
             <div
               onClick={(e) => {
-                item.id && dispatch(selectMyHaBBITList(item.id));
+                item.id && dispatch(selectToDoList(item.id));
               }}
               className="text-red-400"
               >
               <Edit />
             </div> 
           </DialogTrigger>
-        </DrawerDialogDemo> */}
+        </DrawerDialogDemo>
         <button
           onClick={(e) => {
             e.preventDefault();
-            item.id && dispatch(delMyHaBBITList(item.id));
+            item.id && dispatch(delToDoList(item.id));
           }}
           className="text-red-400"
           >
@@ -190,4 +154,4 @@ export const MyHabbitItem = ({ item }: {item : Thabbit }) =>  {
   );
 }
 
-export default MyHabbitItem;
+export default SelectedTimer;
