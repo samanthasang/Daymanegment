@@ -122,7 +122,7 @@ export const SelectedTimer = ({ item }: {item : TTimer }) =>  {
               <CheckCircle  /> : 
               <CheckMark  />}
           </span>
-        <DrawerDialogDemo drawerType={'TimerList'} formType="add">
+        <DrawerDialogDemo drawerType={'TimerList'} formType="Edit Timer">
           <DialogTrigger asChild>
             <div
               onClick={(e) => {

@@ -2,7 +2,7 @@
 import useTodoList from "@/lib/Hooks/Lists/UseTodoList.component";
 import { cn } from "@/lib/utils";
 import { TToDo } from "@/modules/toDoList/todo.slice";
-import SelectedTodo from "../TodoItem/SelectedTodo.component";
+import TodoItem from "../TodoItem/TodoItem.component";
 
 function TodoList() {
 
@@ -19,7 +19,7 @@ function TodoList() {
                 </span>
               </div>
             : ListToDo?.map((li: TToDo) => (
-              <SelectedTodo
+              <TodoItem
                 key={li.id}
                 item={li}
               />

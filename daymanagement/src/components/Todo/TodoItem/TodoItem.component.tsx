@@ -1,11 +1,14 @@
 "use client"
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
+import BasicSwitch from "@/components/ui/BasicSwitch";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
 import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
+import { Checkbox, Select } from "@mui/material";
+import SelectInput from "@mui/material/Select/SelectInput";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -19,7 +22,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 
-export const SelectedTodo = ({ item }: {item : TToDo }) =>  {
+export const TodoItem = ({ item }: {item : TToDo }) =>  {
   const dispatch = useAppDispatch();
   const [isExpanded, setIsVisible] = useState(false)
 
@@ -115,6 +118,13 @@ export const SelectedTodo = ({ item }: {item : TToDo }) =>  {
               key="box"
             >
               <div className="flex flex-col col-span-2 gap-2 justify-end items-end">
+              <BasicSwitch checked={item.isComplete} handleToggle={(e) =>  {
+                      e && e.preventDefault();
+                      item.id && dispatch(completeToDoList(item.id));
+              }}
+                label=""
+                key={"isComplete"}
+              />
           <span
                 onClick={(e) => {
                       e.preventDefault();
@@ -125,14 +135,14 @@ export const SelectedTodo = ({ item }: {item : TToDo }) =>  {
               <CheckCircle  /> : 
               <CheckMark  />}
           </span>
-        <DrawerDialogDemo drawerType={'TodoList'} formType="add">
+        <DrawerDialogDemo drawerType={'TodoList'} formType="Edit Todo">
           <DialogTrigger asChild>
             <div
               onClick={(e) => {
                 item.id && dispatch(selectToDoList(item.id));
               }}
               className="text-red-400"
-              >
+                  >
               <Edit />
             </div> 
           </DialogTrigger>
@@ -157,4 +167,4 @@ export const SelectedTodo = ({ item }: {item : TToDo }) =>  {
   );
 }
 
-export default SelectedTodo;
+export default TodoItem;

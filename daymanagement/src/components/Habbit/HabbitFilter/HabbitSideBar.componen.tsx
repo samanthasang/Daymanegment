@@ -31,7 +31,7 @@ function HabbitSideBar() {
             <FilterComponent witDate={false} />
 
             <div className="flex justify-between w-full mx-auto h-9">
-              <DrawerDialogDemo drawerType={'HabbitList'} formType="add" >
+              <DrawerDialogDemo drawerType={'HabbitList'} formType="Add Habbit" >
                 <DialogTrigger asChild>
                   <Button variant="outline"><span>add</span></Button>
                 </DialogTrigger>

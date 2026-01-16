@@ -202,7 +202,7 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
               />
               {errors.category?.message && <p className="text-xs text-red-500">{errors.category?.message}</p>}
             </div>
-            <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+            <DrawerDialogDemo drawerType={'TagList'} formType="Add Tag">
               <DialogTrigger asChild>
                 <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
                   <Edit />
@@ -224,7 +224,7 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
                 />
                 {errors.tag?.message && <p className="text-xs text-red-500">{errors.tag?.message}</p>}
               </div>
-              <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+              <DrawerDialogDemo drawerType={'TagList'} formType="Add Tag">
                 <DialogTrigger asChild>
                   <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
                     <Edit />

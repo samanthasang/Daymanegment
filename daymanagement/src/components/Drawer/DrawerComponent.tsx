@@ -58,7 +58,7 @@ export function DrawerDialogDemo({
         {children}
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit Profile</DialogTitle>
+            <DialogTitle>{formType}</DialogTitle>
             {/* <DialogDescription>
               Make changes to your profile here. Click save when you&apos;re
               done.

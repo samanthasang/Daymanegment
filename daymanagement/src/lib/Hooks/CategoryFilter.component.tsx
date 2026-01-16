@@ -46,7 +46,7 @@ function UseCategoryFilterComponent() {
     return (
         <div className="flex flex-row">
             <CategotySelectComponent onClickChange={handleCategorySelect} value={category} />
-            <DrawerDialogDemo drawerType={'CategoryList'} formType="category" >
+            <DrawerDialogDemo drawerType={'CategoryList'} formType="Add Category" >
             <DialogTrigger asChild>
                 <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
                   <Edit />

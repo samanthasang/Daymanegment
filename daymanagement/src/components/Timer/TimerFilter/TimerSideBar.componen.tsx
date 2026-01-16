@@ -20,7 +20,7 @@ function TimerSideBar() {
             <FilterComponent witDate />
 
             <div className="flex justify-between w-full mx-auto h-9">
-              <DrawerDialogDemo drawerType={'TimerList'} formType="add" >
+              <DrawerDialogDemo drawerType={'TimerList'} formType="Add Timer" >
                 <DialogTrigger asChild>
                   <Button variant="outline"><span>add</span></Button>
                 </DialogTrigger>

@@ -19,7 +19,7 @@ function TodoSideBar() {
             <FilterComponent witDate />
 
             <div className="flex justify-between w-full mx-auto h-9">
-              <DrawerDialogDemo drawerType={'TodoList'} formType="add" >
+              <DrawerDialogDemo drawerType={'TodoList'} formType="Add Todo" >
                 <DialogTrigger asChild>
                   <Button variant="outline"><span>add</span></Button>
                 </DialogTrigger>

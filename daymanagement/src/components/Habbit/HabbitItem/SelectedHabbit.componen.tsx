@@ -159,7 +159,7 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
               <CheckCircle  /> : 
               <CheckMark  />}
           </span>
-        <DrawerDialogDemo drawerType={'HabbitList'} formType="add">
+        <DrawerDialogDemo drawerType={'HabbitList'} formType="Edit Habbit">
           <DialogTrigger asChild>
             <div
               onClick={(e) => {

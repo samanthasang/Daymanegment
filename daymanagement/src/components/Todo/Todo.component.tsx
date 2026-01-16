@@ -5,10 +5,10 @@ import TodoList from "./TodoList/TodoList.component";
 function TimerListComponent() {
    
   return (
-    <div className="w-full lg:w-2/3 m-auto bg-secondary">
+    <div className="w-full lg:w-2/3 m-auto bg-secondary flex flex-col h-full">
       <div className="w-full text-center border-b p-3">TodoList</div>
 
-      <div className=" w-full grid grid-cols-3 h-[70vh]">
+      <div className=" w-full grid grid-cols-3 h-5 flex-1">
 
         <TodoSideBar />
 

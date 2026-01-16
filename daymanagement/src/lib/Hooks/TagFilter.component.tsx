@@ -47,7 +47,7 @@ function UseTagFilterComponent() {
     return(
         <div className="flex flex-row">
         <TagSelectComponent onClickChange={handleTagSelect} value={tag} />
-            <DrawerDialogDemo drawerType={'TagList'} formType="tag">
+            <DrawerDialogDemo drawerType={'TagList'} formType="Add Tag">
             <DialogTrigger asChild>
                 <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
                   <Edit />
