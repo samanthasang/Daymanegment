@@ -51,119 +51,87 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
         id: "",
         title: ""
     }
+  
+  const priorityIcon = () => {
+  switch (item.priority) {
+    case "High":
+      return <ChevronSmallTripleUp className='fill-red-500' />
+    case "Medium":
+      return <ChevronSmallDoubleUp className='fill-red-500' />
+    case "Low":
+      return <ChevronSmallUp className='fill-red-500' />
+  
+    default:
+      return <ChevronSmallTripleUp className='fill-red-500' />
+  }
+  }
     
   return (
-    <AnimatePresence >
-        <motion.div  
-      initial={{ height: 80 }}
-      animate={{ height: isExpanded ? "auto" : 80 }}
-      transition={{ duration: 0.3 }}
-      style={{ overflow: "hidden" }}
-    className=" cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white"
-      >
-        <div className=" h-fit w-full flex flex-col"  onClick={() => setIsVisible(!isExpanded)}>
-      <div 
-        className=" select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
-          <label
-            htmlFor="terms"
-            className={`cursor-pointer flex justify-center items-center gap-2`}>
-            {item.title}
-          </label>
-        </div>
-      <div 
-        className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
-          <label
-            htmlFor="terms"
-            className={`cursor-pointer flex justify-center items-center gap-2`}>
-            
-            { item.priority == "High" && <ChevronSmallTripleUp className='fill-red-500' />}
-            { item.priority == "Medium" && <ChevronSmallDoubleUp className='fill-red-500' />}
-            { item.priority == "Low" && <ChevronSmallUp className='fill-red-500' />}
-            {item.priority}
-          </label>
+     <DrawerDialogDemo drawerType={'TodoList'} formType="Edit Todo">
+      <DialogTrigger asChild>
+        <div
+          onClick={(e) => {
+            item.id && dispatch(selectToDoList(item.id));
+          }} className="w-full h-fit cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white" >
+     
+        <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
+          <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
+              <label
+                htmlFor="terms"
+                className={`cursor-pointer flex justify-center items-center gap-2`}>
+                  {priorityIcon() }{item.title}
+              </label>
+            </div>
+          <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
+              {categorySelected && <label
+                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
+                  {categorySelected.title || ""}
+            </label>}
+              {tagSelected && <label
+                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
+                  {tagSelected.title || ""}
+              </label>}
+              </div>
           </div>
-          <AnimatePresence initial={false}>         
-            <motion.div
-              initial={{ height: 0 }}
-              animate={{ height: isExpanded ? "auto" : 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ overflow: "hidden" }}
-              key="box"
-            >
-          <div 
-                className="flex flex-col select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
-                {/* <Checkbox checked={item.isComplete} id="terms" /> */}
-                  <label
-                    className={`cursor-pointer`}>
-                      {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
-                  </label>
-                  <label
-                    className={`cursor-pointer`}>
-                      {categorySelected && categorySelected.title || ""}
-                  </label>
-                  <label
-                    className={`cursor-pointer`}>
-                      {tagSelected && tagSelected.title || ""}
-                  </label>
-                  </div>
-                    </motion.div>
-                    </AnimatePresence>
-                </div>
-                <AnimatePresence initial={false}>
-                            <motion.div
-              initial={{ height: 20 }}
-              animate={{ height: isExpanded ? "auto" : 20 }}
-              transition={{ duration: 0.3 }}
-              style={{ overflow: "hidden" }}
-              key="box"
-            >
-              <div className="flex flex-col col-span-2 gap-2 justify-end items-end">
-              <BasicSwitch checked={item.isComplete} handleToggle={(e) =>  {
-                      e && e.preventDefault();
-                      item.id && dispatch(completeToDoList(item.id));
-              }}
-                label=""
-                key={"isComplete"}
-              />
-          <span
-                onClick={(e) => {
-                      e.preventDefault();
-                      item.id && dispatch(completeToDoList(item.id));
-              }}
-            className={`""`}>
-            {item.isComplete ? 
-              <CheckCircle  /> : 
-              <CheckMark  />}
-          </span>
-        <DrawerDialogDemo drawerType={'TodoList'} formType="Edit Todo">
-          <DialogTrigger asChild>
-            <div
+          <div className="flex flex-col w-fit gap-2 justify-end items-end">
+            <BasicSwitch checked={item.isComplete} handleToggle={(e) =>  {
+                    e && e.preventDefault();
+                    item.id && dispatch(completeToDoList(item.id));
+            }}
+              label=""
+              key={"isComplete"}
+            />
+      
+            <label
+              className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
+                {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
+            </label>
+            {/* <DrawerDialogDemo drawerType={'TodoList'} formType="Edit Todo">
+              <DialogTrigger asChild>
+                <div
+                  onClick={(e) => {
+                    item.id && dispatch(selectToDoList(item.id));
+                  }}
+                  className="text-red-400"
+                      >
+                  <Edit />
+                </div> 
+              </DialogTrigger>
+            </DrawerDialogDemo> */}
+            {/* <button
               onClick={(e) => {
-                item.id && dispatch(selectToDoList(item.id));
+                e.preventDefault();
+                item.id && dispatch(delToDoList(item.id));
               }}
               className="text-red-400"
-                  >
-              <Edit />
-            </div> 
-          </DialogTrigger>
-        </DrawerDialogDemo>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            item.id && dispatch(delToDoList(item.id));
-          }}
-          className="text-red-400"
-          >
-          <Remove className='fill-red-500' />
-        </button>
-              </div>
-            </motion.div>
-                
-         
-            </AnimatePresence>
-      
-        </motion.div>
-    </AnimatePresence>
+              >
+              <Remove className='fill-red-500' />
+            </button> */}
+          {/* </div> */}
+        </div>
+      </div> 
+    </DialogTrigger>
+  </DrawerDialogDemo>
   );
 }
 

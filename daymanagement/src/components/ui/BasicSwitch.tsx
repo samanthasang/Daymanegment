@@ -24,7 +24,7 @@ const BasicSwitch = ({ checked, handleToggle, label, labelSx }: Props) => {
           alignItems: "center",
           width: "28px",
           height: "16px",
-          backgroundColor: checked ? "#C30707" : "#A8A8A8",
+          backgroundColor: checked ? "#07C307" : "#A8A8A8",
           borderRadius: "100px",
           padding: "5px",
           position: "relative",
