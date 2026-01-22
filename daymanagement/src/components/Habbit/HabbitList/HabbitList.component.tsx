@@ -2,7 +2,7 @@
 import UseHabbitList from "@/lib/Hooks/Lists/UseHabbitList.component";
 import { cn } from "@/lib/utils";
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
-import HabbitItem from "../HabbitItem/SelectedHabbit.componen";
+import HabbitItem from "../HabbitItem/HabbitItem.componen";
 
 function HabbitList() {
 

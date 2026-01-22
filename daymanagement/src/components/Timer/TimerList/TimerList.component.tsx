@@ -1,7 +1,7 @@
 "use client"
 import useTimerList from "@/lib/Hooks/Lists/UseTimerList.component";
 import { cn } from "@/lib/utils";
-import { SelectedTimer } from "../TimerItem/SelectedTimer.component";
+import { SelectedTimer } from "../TimerItem/TimerItem.component";
 import { TTimer } from "@/modules/timerList/timer.slice";
 
 function TimerList() {

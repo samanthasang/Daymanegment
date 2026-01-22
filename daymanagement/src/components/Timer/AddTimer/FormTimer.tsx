@@ -23,18 +23,33 @@ import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
+import { selectTimerList, setTimerList, TTimer } from "@/modules/timerList/timer.slice";
 
+import dayjs from "dayjs";
+import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(relativeTime)
+dayjs.extend(duration)
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+
+const currentUnixTimestamp = dayjs().unix();
 interface IFormInputs {
   todo: string
   priority: string
-  date: string
+  startDate: string
+  endDate: string
   category: string
   tag: string
 }
 
 export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
 
-  const [date, setDate] = useState<Date>()
+  const [startDate, setStartDate] = useState<Date>()
+  const [endDate, setEndDate] = useState<Date>()
   
 // creating a schema for strings 
    const formSchema = z.object({
@@ -42,7 +57,8 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
     priority: z.string().min(1, { message: 'priority is required' }),
     category: z.string().min(1, { message: 'Category is required' }),
     tag: z.string().min(1, { message: 'Tag is required' }),
-    date: z.string().min(1, { message: 'date is required' }),
+    startDate: z.string().min(1, { message: 'date is required' }),
+    endDate: z.string().min(1, { message: 'date is required' }),
   });
   type FormData = z.infer<typeof formSchema>
 
@@ -59,24 +75,20 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
   } = methods;
 
   useEffect(() => {
-     date && setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
-  }, [date])
+     startDate && setValue("startDate", Math.floor(new Date(startDate).getTime()/1000.0).toString())
+  }, [startDate])
   
   
   const dispatch = useAppDispatch();
-  const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
   
-
-  useEffect(() => {
-    if (selectedToDo) {
-      setValue("todo", selectedToDo?.title)
-      setValue("priority", selectedToDo.priority)
-      setValue("category", selectedToDo.category)
-      setValue("tag", selectedToDo.tag)
-      setValue("date", selectedToDo.date)
-      setDate(new Date(Number(selectedToDo.date) * 1000))
-    }
-  }, [selectedToDo, setValue])
+    const { ListTimer, selectedTimer }: {
+        ListTimer: TTimer[];
+        selectedTimer: any;
+    } = useAppSelector((state) => state.TimerList) || [];
+    
+    useEffect(() => {
+    console.log(ListTimer);
+    }, [ListTimer]);
   
 
   const handlePriority = (data: string) => {
@@ -89,32 +101,40 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
     setValue("tag", data)
   }
 
+  useEffect(() => {
+    if (selectedTimer) {
+      setValue("todo", selectedTimer?.title)
+      // setValue("priority", selectedTimer.priority)
+      setValue("category", selectedTimer.category)
+      setValue("tag", selectedTimer.tag)
+      setValue("startDate", selectedTimer.startDate)
+      setValue("endDate", selectedTimer.endDate)
+      setStartDate(new Date(Number(selectedTimer.startDate) * 1000))
+      setEndDate(new Date(Number(selectedTimer.endDate) * 1000))
+    }
+  }, [selectedTimer, setValue])
+  
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    selectedToDo?.title ? dispatch(updateToDoList(
-      {
-        id: selectedToDo.id,
-        title: data.todo,
-        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
-        priority: data.priority,
-        category: data.category,
-        tag: data.tag
-      })) :
-      dispatch(setToDoList({
+    
+      dispatch(setTimerList({
         id: "",
-        title: data.todo,
-        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
-        priority: data.priority,
+        title: `timer${ListTimer.length}`,
+        startDate:  startDate ? Math.floor(new Date(startDate).getTime()/1000.0).toString() : data.startDate,
+        endDate:  endDate ? Math.floor(new Date(endDate).getTime()/1000.0).toString() : "",
+        isComplete: false,
         category: data.category,
         tag: data.tag
       }))
-    dispatch(selectToDoList(""))
-      setValue("date", "")
+    dispatch(selectTimerList(""))
+      setValue("startDate", "")
+      setValue("endDate", "")
     reset()
     onSubmitForm()
   };
   const onReset = () => {
-    dispatch(selectToDoList(""))
-      setValue("date", "")
+    dispatch(selectTimerList(""))
+      setValue("startDate", "")
+      setValue("endDate", "")
     reset()
   };
   
@@ -146,29 +166,29 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-            !date && "text-muted-foreground"
+            !startDate && "text-muted-foreground"
           )}
         >
           <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {startDate ? format(startDate, "PPP") : <span>Pick a startDate</span>}
         </Button>
       <Controller
-        name="date"
+        name="startDate"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
           <div className=" border-white rounded py-1 flex justify-center">
             <Calendar
               mode="single"
-              selected={date}
-              month={date}
-              onSelect={setDate}
+              selected={startDate}
+              month={startDate}
+              onSelect={setStartDate}
               className=" border-white rounded py-1"
               captionLayout="dropdown" />
           </div>
       }
       />
-        {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+        {errors.startDate?.message && <p className="text-xs text-red-500">{errors.startDate?.message}</p>}
       
       <Controller
         defaultValue = {''}
@@ -232,9 +252,9 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
                 </DialogTrigger>
               </DrawerDialogDemo>
           </div>
-        { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+        { !selectedTimer?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
         
-        { selectedToDo?.title && <div className="flex gap-4">
+        { selectedTimer?.title && <div className="flex gap-4">
           <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
           <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
         </div>}

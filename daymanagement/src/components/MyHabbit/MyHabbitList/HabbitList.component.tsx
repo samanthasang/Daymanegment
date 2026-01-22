@@ -3,8 +3,8 @@ import UseHabbitList from "@/lib/Hooks/Lists/UseHabbitList.component";
 import { cn } from "@/lib/utils";
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
 import UseMyHabbitList from "@/lib/Hooks/Lists/UseHabbitList.component copy";
-import HabbitItem from "@/components/Habbit/HabbitItem/SelectedHabbit.componen";
-import MyHabbitItem from "../MyHabbitItem/SelectedHabbit.componen";
+import HabbitItem from "@/components/Habbit/HabbitItem/HabbitItem.componen";
+import MyHabbitItem from "../MyHabbitItem/MyHabbitItem.componen";
 
 function MyHabbitList() {
 

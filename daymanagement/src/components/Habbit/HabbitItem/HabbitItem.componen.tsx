@@ -2,25 +2,18 @@
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import { ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp } from "@/components/table";
 import BasicSwitch from "@/components/ui/BasicSwitch";
-import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
+import { completeHabbitList, selectHabbitList, Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
-import { completeToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 import dayjs from "dayjs";
-import duration from 'dayjs/plugin/duration';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(relativeTime)
-dayjs.extend(duration)
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import { useEffect } from "react";
 
+const currentUnixTimestamp = dayjs().unix(); 
 
-export const TodoItem = ({ item }: {item : TToDo }) =>  {
+export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
   const dispatch = useAppDispatch();
-
   const { ListCategory }: {
     ListCategory: TCategory[];
     selectedCategory: {};
@@ -60,15 +53,37 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
         return <ChevronSmallTripleUp className='fill-red-500' />
       }
   }
-    
+  useEffect(() => {
+    console.log("lastUpdate ",item.title , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
+    console.log("currentUnixTimestamp ",item.title , dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day') > 2);
+
+    if (dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day') > 2) {
+      console.log(item.lastUpdate , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
+      console.log(currentUnixTimestamp , dayjs.unix(item.lastUpdate).diff(dayjs.unix(currentUnixTimestamp), 'day') > 2);
+      dispatch(updateHabbitList({
+        id: item.id || "",
+        title: item.title,
+        description: item.description,
+        score: item.score - dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(item.lastUpdate), 'day'),
+        priority: item.priority,
+        lastUpdate: currentUnixTimestamp,
+        completeUpdate: item.completeUpdate,
+        category: item.category,
+        tag: item.tag,
+      }))
+    }
+      
+  }, [])
+  
   return (
-     <DrawerDialogDemo drawerType={'TodoList'} formType="Edit Todo">
-      <DialogTrigger asChild>
-        <div
-          onClick={(e) => {
-            item.id && dispatch(selectToDoList(item.id));
+        <DrawerDialogDemo drawerType={'HabbitList'} formType="Edit Habbit">
+          <DialogTrigger asChild>
+            <div
+              onClick={(e) => {
+                item.id && dispatch(selectHabbitList(item.id));
           }} className="w-full h-fit cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white" >
-     
+          
+
         <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
           <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
               <label
@@ -88,46 +103,28 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
               </label>}
               </div>
           </div>
+
           <div className="flex flex-col w-fit gap-2 justify-end items-end">
-            <BasicSwitch checked={item.isComplete} handleToggle={(e) =>  {
+            <BasicSwitch checked={dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
+                         ==  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")} handleToggle={(e) =>  {
                     e && e.preventDefault();
-                    item.id && dispatch(completeToDoList(item.id));
-            }}
+                    dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
+                         !=  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") && item.id && dispatch(completeHabbitList(item.id));
+              }}
+            
               label=""
               key={"isComplete"}
             />
       
             <label
               className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
-                {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
+                {`(${item.score || 0})`}
             </label>
-            {/* <DrawerDialogDemo drawerType={'TodoList'} formType="Edit Todo">
-              <DialogTrigger asChild>
-                <div
-                  onClick={(e) => {
-                    item.id && dispatch(selectToDoList(item.id));
-                  }}
-                  className="text-red-400"
-                      >
-                  <Edit />
-                </div> 
-              </DialogTrigger>
-            </DrawerDialogDemo> */}
-            {/* <button
-              onClick={(e) => {
-                e.preventDefault();
-                item.id && dispatch(delToDoList(item.id));
-              }}
-              className="text-red-400"
-              >
-              <Remove className='fill-red-500' />
-            </button> */}
-          {/* </div> */}
         </div>
-      </div> 
-    </DialogTrigger>
-  </DrawerDialogDemo>
+            </div> 
+          </DialogTrigger>
+        </DrawerDialogDemo>
   );
 }
 
-export default TodoItem;
+export default HabbitItem;
