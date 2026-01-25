@@ -1,25 +1,25 @@
 "use client"
-import useTimerList from "@/lib/Hooks/Lists/UseTimerList.component";
+import useSpendsList from "@/lib/Hooks/Lists/UseSpendsList.component copy";
 import { cn } from "@/lib/utils";
-import { Timeritem } from "../TimerItem/TimerItem.component";
-import { TTimer } from "@/modules/timerList/timer.slice";
+import { TSpends } from "@/modules/spends/spends.slice";
+import SpendsItem from "../SpendsItem/SpendsItem.component";
 
-function TimerList() {
+function SpendsList() {
 
-  const ListTimer = useTimerList()
+  const ListToDo = useSpendsList()
    
   return (
     <div className={cn("flex flex-col gap-4 px-3 col-span-2 h-auto", 
-                ListTimer && ListTimer.length !== 0 ? "scroll-m-0 overflow-y-scroll" : "")}>
+                ListToDo && ListToDo.length !== 0 ? "scroll-m-0 overflow-y-scroll" : "")}>
       <div className={cn("flex flex-col gap-4 px-3 col-span-2 h-auto")}>
-          {ListTimer?.length == 0 ? 
+          {ListToDo?.length == 0 ? 
               <div className="flex items-center justify-center rounded-2xl h-full">
                 <span>
                   There is nothing to show
                 </span>
               </div>
-            : ListTimer?.map((li: TTimer) => (
-              <Timeritem
+            : ListToDo?.map((li: TSpends) => (
+              <SpendsItem
                 key={li.id}
                 item={li}
               />
@@ -31,4 +31,4 @@ function TimerList() {
   );
 }
 
-export default TimerList;
+export default SpendsList;

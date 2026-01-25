@@ -28,6 +28,12 @@ import FormReminder from "../Reminder/AddReminder/FormReminder"
 import TagForm from "../Tags/TagForm"
 import FormTimer from "../Timer/AddTimer/FormTimer"
 import FormTodo from "../Todo/AddTodo/FormTodo"
+import FormSpends from "../Spends/AddSpends/FormSpends"
+import { selectToDoList } from "@/modules/toDoList/todo.slice"
+import { selectHabbitList } from "@/modules/habbitList/habbit.slice"
+import { selectTimerList } from "@/modules/timerList/timer.slice"
+import { selectSpendsList } from "@/modules/spends/spends.slice"
+import { selectReminderList } from "@/modules/reminderList/reminder.slice"
 
 
 export function DrawerDialogDemo({
@@ -43,18 +49,22 @@ export function DrawerDialogDemo({
   const isDesktop = useMediaQuery("(min-width: 768px)")
     const dispatch = useAppDispatch();
 
-  const openReminderDrawer = (e: boolean) => {
+  const openDrawer = (e: boolean) => {
     // console.log(e)
-    // if (e == false) {
-    //   dispatch(selectToDoList(""))
-    // }
+    if (e == false) {
+      dispatch(selectToDoList(""))
+      dispatch(selectHabbitList(""))
+      dispatch(selectTimerList(""))
+      dispatch(selectSpendsList(""))
+      dispatch(selectReminderList(""))
+    }
     console.log(drawerType)
     setOpen(e)
   }
 
   if (isDesktop) {
     return (
-      <Dialog open={open} onOpenChange={(e) => openReminderDrawer(e)}>
+      <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
         {children}
         <DialogContent className="max-w-[425px] sm:max-w-fit w-fit">
           <DialogHeader>
@@ -64,7 +74,7 @@ export function DrawerDialogDemo({
               done.
             </DialogDescription> */}
           </DialogHeader>
-          <ProfileForm drawerType={drawerType} onSubmit={() => openReminderDrawer(false)}/>
+          <ProfileForm drawerType={drawerType} onSubmit={() => openDrawer(false)}/>
         </DialogContent>
       </Dialog>
     )
@@ -80,7 +90,7 @@ export function DrawerDialogDemo({
             Make changes to your profile here. Click save when you&apos;re done.
           </DrawerDescription> */}
         </DrawerHeader>
-          <ProfileForm drawerType={drawerType} onSubmit={() => openReminderDrawer(false)}/>
+          <ProfileForm drawerType={drawerType} onSubmit={() => openDrawer(false)}/>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -105,6 +115,8 @@ function ProfileForm({ drawerType, className, onSubmit }: { drawerType : string,
       return <TagForm onSubmitForm={onSubmit}/>
     case "TimerList":
       return <FormTimer onSubmitForm={onSubmit}/>
+    case "SpendsList":
+      return <FormSpends onSubmitForm={onSubmit}/>
   
     default:
     return (

@@ -17,7 +17,7 @@ dayjs.extend(duration)
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const SelectedTimer = ({ item }: {item : TTimer }) =>  {
+export const Timeritem = ({ item }: {item : TTimer }) =>  {
   const dispatch = useAppDispatch();
 
   const { ListCategory }: {
@@ -114,4 +114,4 @@ export const SelectedTimer = ({ item }: {item : TTimer }) =>  {
   );
 }
 
-export default SelectedTimer;
+export default Timeritem;

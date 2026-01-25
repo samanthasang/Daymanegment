@@ -9,6 +9,7 @@ import { installmentstReducer } from "@/modules/installmentstList/installmentst.
 import { CategoryReducer } from "@/modules/category/categoryList.slice";
 import { TagReducer } from "@/modules/tag/TagList.slice";
 import { reminderReducer } from "@/modules/reminderList/reminder.slice";
+import { spendsReducer } from "@/modules/spends/spends.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
@@ -17,6 +18,7 @@ export const reducers = combineReducers({
   habbitList: habbitReducer,
   MYhabbitList: MyHabbitReducer,
   TimerList: timerReducer,
+  SpendsList: spendsReducer,
   CategoryList: CategoryReducer,
   TagList: TagReducer,
   InstallmentstList: installmentstReducer,

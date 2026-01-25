@@ -17,10 +17,12 @@ import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { selectHabbitList, setHabbitList, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import dayjs from "dayjs";
 import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
+const currentUnixTimestamp = dayjs().unix(); 
 interface IFormInputs {
   habbit: string
   description: string
@@ -87,8 +89,8 @@ export default function FormHabbit() {
         title: data.habbit,
         description: data.description,
         priority: data.priority,
-        completeUpdate: selectedhabbit.completeUpdate,
-        lastUpdate: selectedhabbit.lastUpdate,
+        completeUpdate: selectedhabbit ? selectedhabbit.completeUpdate : currentUnixTimestamp,
+        lastUpdate: selectedhabbit ? selectedhabbit.lastUpdate : currentUnixTimestamp,
         score: selectedhabbit.score,
         category: data.category,
         tag: data.tag
@@ -98,9 +100,9 @@ export default function FormHabbit() {
         title: data.habbit,
         description: data.description,
         priority: data.priority,
-        completeUpdate: selectedhabbit.completeUpdate,
-        lastUpdate: selectedhabbit.lastUpdate,
-        score: selectedhabbit.score,
+        completeUpdate: selectedhabbit ? selectedhabbit.completeUpdate : "",
+        lastUpdate: selectedhabbit ? selectedhabbit.lastUpdate : "",
+        score: selectedhabbit ? selectedhabbit.score : 1,
         category: data.category,
         tag: data.tag
       }))

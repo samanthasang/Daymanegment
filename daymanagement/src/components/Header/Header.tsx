@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useRouter } from "next/navigation";
 
-const pages = ["Todo", "Habbit","MyHabbit", "Timer", "Reminder", "Installments", "Shop"];
+const pages = ["Todo", "Habbit","MyHabbit", "Timer", "Reminder", "Installments", "Spends"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
