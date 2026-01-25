@@ -62,11 +62,9 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
      date && setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
   }, [date])
   
-  
   const dispatch = useAppDispatch();
   const { selectedToDo } : any = useAppSelector((state) => state.todoList) || {};
   
-
   useEffect(() => {
     if (selectedToDo) {
       setValue("todo", selectedToDo?.title)
@@ -78,7 +76,6 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
     }
   }, [selectedToDo, setValue])
   
-
   const handlePriority = (data: string) => {
     setValue("priority", data)
   }
@@ -119,57 +116,32 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
   };
   
   return (
-    <div className="col-span-1">
-      <div className="flex flex-row gap-2 ">
+    <div className="col-span-1 w-auto">
+      <div className="flex flex-row gap-2 w-auto">
 
       <form 
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col w-full gap-4">
           
-      <Controller
-        defaultValue = {''}
-        name="todo"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) =>
-          <Input
-            className="!text-white w-full px-3 border-white rounded py-1"
-            placeholder="Name"
-            {...field}
-        />
-      }
-      />
-        {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+          <div className="flex flex-col sm:flex-row w-full gap-x-4">
+            <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
 
-          <Button
-            disabled
-          variant={"outline"}
-          className={cn(
-            "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-            !date && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      <Controller
-        name="date"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) =>
-          <div className=" border-white rounded py-1 flex justify-center">
-            <Calendar
-              mode="single"
-              selected={date}
-              month={date}
-              onSelect={setDate}
-              className=" border-white rounded py-1"
-              captionLayout="dropdown" />
-          </div>
-      }
-      />
-        {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
-      
+        
+              <Controller
+                defaultValue = {''}
+                name="todo"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) =>
+                  <Input
+                    className="!text-white w-full px-3 border-white rounded py-1"
+                    placeholder="Name"
+                    {...field}
+                />
+              }
+            />
+            {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+
       <Controller
         defaultValue = {''}
         name="priority"
@@ -232,6 +204,40 @@ export default function FormTodo({ onSubmitForm }:{onSubmitForm: () => void}) {
                 </DialogTrigger>
               </DrawerDialogDemo>
           </div>
+
+            </div>
+            <div>
+          <Button
+            disabled
+          variant={"outline"}
+          className={cn(
+            "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon />
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
+        </Button>
+      <Controller
+        name="date"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) =>
+          <div className=" border-white rounded py-1 flex justify-center">
+            <Calendar
+              mode="single"
+              selected={date}
+              month={date}
+              onSelect={setDate}
+              className=" border-white rounded py-1"
+              captionLayout="dropdown" />
+          </div>
+      }
+      />
+        {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+      </div>
+          </div>
+      
         { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
         
         { selectedToDo?.title && <div className="flex gap-4">

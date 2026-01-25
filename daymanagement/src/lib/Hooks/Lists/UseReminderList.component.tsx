@@ -1,6 +1,6 @@
 "use client"
 import { useAppSelector } from "@/lib/hook";
-import { TToDo } from "@/modules/toDoList/todo.slice";
+import { TReminder } from "@/modules/reminderList/reminder.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -14,14 +14,12 @@ dayjs.extend(duration)
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+function useReminderList() {
 
-
-function useTodoList() {
-
-  const { ListToDo }: {
-      ListToDo: TToDo[];
-      selectedToDo: {};
-    } = useAppSelector((state) => state.todoList) || [];
+  const { ListReminder }: {
+      ListReminder: TReminder[];
+      selectedReminder: {};
+    } = useAppSelector((state) => state.reminder) || [];
   
   const searchParams = useSearchParams()
 
@@ -36,23 +34,18 @@ function useTodoList() {
   const fromTodayNow = new Date().setHours(0, 0, 0, 0);
  
 
-  const [listAfterFilter, setListAfterFilter] = useState< TToDo[] | undefined>(ListToDo)
+  const [listAfterFilter, setListAfterFilter] = useState< TReminder[] | undefined>(ListReminder)
 
   useEffect(() => {
   const filterdList = () => {
       const fromDay = hasdateFrom ? dateFrom : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString()
       const toDay = hasdateTo ? dateTo : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString()
-    let filterArrayDay= ListToDo || []
-    if (hasdateTo && hasdateFrom && fromDay ) {
-      if (toDay) {
-          filterArrayDay =  ListToDo.filter((list) => list.date >= fromDay && list.date <= toDay)
-      }
-    }
+    let filterArrayDay= ListReminder || []
     if (fromDay && toDay && fromDay == toDay) {
-          filterArrayDay =  ListToDo.filter((list) => list.date >= fromDay && list.date <= toDay)
+          filterArrayDay =  ListReminder.filter((list) => list.date >= fromDay)
     }
     if (fromDay && toDay && fromDay != toDay) {
-      filterArrayDay = ListToDo.filter((list) => Math.floor(+list.date).toString() >= fromDay &&
+      filterArrayDay = ListReminder.filter((list) => Math.floor(+list.date).toString() >= fromDay &&
           Math.floor(+list.date).toString() <= toDay)
     }
     
@@ -65,7 +58,7 @@ function useTodoList() {
     if (hasTagSearch ) {
       filterArrayTag =  filterArrayCat.length > 0 ? filterArrayCat.filter((list) => list.tag == tagSearch ) : []
     }
-    console.log(ListToDo);
+    console.log(ListReminder);
     console.log(filterArrayDay);
     console.log(filterArrayCat);
     console.log(filterArrayTag);
@@ -76,10 +69,10 @@ function useTodoList() {
 
     list ? setListAfterFilter(list) : setListAfterFilter([])
     console.log(list)
-  }, [ListToDo, dateFrom, dateTo, tagSearch, categorySearch])
+  }, [ListReminder, dateFrom, dateTo, tagSearch, categorySearch])
   
    
   return listAfterFilter
 }
 
-export default useTodoList;
+export default useReminderList;

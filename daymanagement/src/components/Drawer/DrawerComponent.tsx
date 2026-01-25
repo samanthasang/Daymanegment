@@ -56,7 +56,7 @@ export function DrawerDialogDemo({
     return (
       <Dialog open={open} onOpenChange={(e) => openReminderDrawer(e)}>
         {children}
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit">
           <DialogHeader>
             <DialogTitle>{formType}</DialogTitle>
             {/* <DialogDescription>

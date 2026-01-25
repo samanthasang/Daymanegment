@@ -32,29 +32,31 @@ export const timerListSlice = createSlice({
       category: string,
       tag: string
     }>) => {
-      state.ListTimer = state.ListTimer ? [
-        ...state.ListTimer,
-        {
-          id: nanoid(),
-          title: action.payload.title,
-          startDate: action.payload.startDate,
-          endDate: action.payload.endDate,
-          category: action.payload.category,
-          tag: action.payload.tag,
-          isComplete: false
-        },
-      ] : [
+      state.ListTimer = state.ListTimer ?
+        [
+          ...state.ListTimer,
+          {
+            id: nanoid(),
+            title: action.payload.title,
+            startDate: action.payload.startDate,
+            endDate: action.payload.endDate,
+            category: action.payload.category,
+            tag: action.payload.tag,
+            isComplete: false
+          },
+        ] :
+        [
           {
             id: nanoid(),
             startDate: action.payload.startDate,
             endDate: action.payload.startDate,
             title: action.payload.title,
-          category: action.payload.category,
-          tag: action.payload.tag,
+            category: action.payload.category,
+            tag: action.payload.tag,
             isComplete: false
           },
-      ];
-    },
+        ];
+      },
     delTimerList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListTimer = state.ListTimer.filter(
         (timer) => timer.id != action.payload
@@ -93,8 +95,8 @@ export const timerListSlice = createSlice({
             isComplete: timer.isComplete,
             startDate: action.payload.startDate,
             endDate: action.payload.endDate,
-          category: action.payload.category,
-          tag: action.payload.tag,
+            category: action.payload.category,
+            tag: action.payload.tag,
           }
           : timer
       );

@@ -1,9 +1,12 @@
 "use client"
-import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, Edit, Remove } from "@/components/table";
-import More from "@/components/table/More";
-import { useAppDispatch } from "@/lib/hook";
-import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
-import dayjs from "dayjs";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { CheckCircle, CheckMark, ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, More, Remove } from "@/components/table";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { TCategory } from "@/modules/category/categoryList.slice";
+import { completeReminderList, delReminderList, selectReminderList, TReminder, updateTimeReminderList } from "@/modules/reminderList/reminder.slice";
+import { TTag } from "@/modules/tag/TagList.slice";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import dayjs, { ManipulateType } from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
@@ -13,88 +16,113 @@ dayjs.extend(duration)
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// export type ToDo = {
-//   id: string
-//   title: string
-//   isComplete: boolean
-//   date: string
-//   priority: string
-// }
-
-export const ReminderItem = ({ item }: {item : TToDo }) =>  {
+export const ReminderItem = ({ item }: {item : TReminder }) =>  {
   const dispatch = useAppDispatch();
+  
+    const { ListCategory }: {
+      ListCategory: TCategory[];
+      selectedCategory: {};
+    } = useAppSelector((state) => state.CategoryList) || [];
+     
+  
+  console.log(dayjs.unix(+item.date).add(+item.timeDiff, item.priodDiff as ManipulateType));
+  console.log(dayjs(dayjs.unix(+item.date).add(+item.timeDiff, item.priodDiff as ManipulateType)).unix());
+  
+  
+    const categorySelected = ListCategory ?
+        ListCategory.filter((category) => category.id == item.category)[0] :
+        {
+          id: "",
+          title: ""
+      }
+  
+    const { ListTag }: {
+      ListTag: TTag[];
+      selectedTag: {};
+    } = useAppSelector((state) => state.TagList) || [];
+     
+  
+    const tagSelected = ListTag ?
+        ListTag.filter((category) => category.id == item.tag )[0] :
+        {
+          id: "",
+          title: ""
+      }
+    
+    const priorityIcon = () => {
+      switch (item.priority) {
+        case "High":
+          return <ChevronSmallTripleUp className='fill-red-500' />
+        case "Medium":
+          return <ChevronSmallDoubleUp className='fill-red-500' />
+        case "Low":
+          return <ChevronSmallUp className='fill-red-500' />
+      
+        default:
+          return <ChevronSmallTripleUp className='fill-red-500' />
+        }
+    }
 
   return (
-    <div              
-    className="cursor-pointer grid-cols-12 grid items-center justify-evenly border p-3 rounded-2xl border-white"
-    >
-      <div onClick={(e) => {
-              e.preventDefault();
-              dispatch(completeToDoList(item.id));
-      }}
-        className="select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
-        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
-          <label
-            htmlFor="terms"
-            className={`cursor-pointer flex justify-center items-center gap-2`}>
-            
-            { item.priority == "High" && <ChevronSmallTripleUp className='fill-red-500' />}
-            { item.priority == "Medium" && <ChevronSmallDoubleUp className='fill-red-500' />}
-            { item.priority == "Low" && <ChevronSmallUp className='fill-red-500' />}
-            {item.title}
-          </label>
+    <DrawerDialogDemo drawerType={'ReminderList'} formType="Edit Todo">
+      <DialogTrigger asChild>
+        <div
+          onClick={(e) => {
+            item.id && dispatch(selectReminderList(item.id));
+          }} className="w-full h-fit cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white" >
+     
+        <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
+          <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
+              <label
+                htmlFor="terms"
+                className={`cursor-pointer flex justify-center items-center gap-2`}>
+                  {priorityIcon() }{item.title}
+              </label>
+            </div>
+          <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
+              {categorySelected && <label
+                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
+                  {categorySelected.title || ""}
+            </label>}
+              {tagSelected && <label
+                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
+                  {tagSelected.title || ""}
+              </label>}
+              </div>
+          </div>
+          <div className="flex flex-col w-fit gap-2 justify-end items-end">
+            <div className="flex flex-row gap-x-2">
+              <div onClick={(e) =>  {
+                  e && e.preventDefault();
+                  item.id && dispatch(delReminderList(item.id));
+              }}
+              >
+                <More />
+              </div>
+              <div onClick={(e) =>  {
+                      e && e.preventDefault();
+                      item.id && dispatch(completeReminderList(item.id));
+              }}
+              >
+                <CheckMark />
+              </div>
+              <div onClick={(e) =>  {
+                      e && e.preventDefault();
+                      item.id && dispatch(updateTimeReminderList(item.id));
+              }}
+              >
+                <CheckCircle />
+              </div>
+      
+            </div>
+            <label
+              className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
+                {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
+            </label>
         </div>
-      <div onClick={(e) => {
-              e.preventDefault();
-              dispatch(completeToDoList(item.id));
-      }}
-        className="select-none cursor-pointer flex col-span-3 gap-2 justify-start items-start">
-        {/* <Checkbox checked={item.isComplete} id="terms" /> */}
-          <label
-            htmlFor="terms"
-            className={`cursor-pointer`}>
-              {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
-          </label>
-        </div>
-      <div 
-        className="select-none flex col-span-1 gap-2 justify-center items-center">
-          <span
-            className={`""`}>
-            {item.isComplete ? 
-              <CheckCircle  /> : 
-              <CheckMark  />}
-          </span>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(selectToDoList(item.id));
-          }}
-          className="text-red-400"
-          >
-            <More />
-        </button>
-      </div>
-      <div className="flex col-span-2 gap-2 justify-end items-end">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(selectToDoList(item.id));
-          }}
-          className="text-red-400"
-          >
-          <Edit />
-        </button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(delToDoList(item.id));
-          }}
-          className="text-red-400"
-          >
-          <Remove className='fill-red-500' />
-        </button>
-      </div>
-    </div>
+      </div> 
+    </DialogTrigger>
+  </DrawerDialogDemo>
   );
 }
 

@@ -1,7 +1,6 @@
 "use client"
 import { useAppSelector } from "@/lib/hook";
 import { TTimer } from "@/modules/timerList/timer.slice";
-import { TToDo } from "@/modules/toDoList/todo.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -40,15 +39,17 @@ function useTimerList() {
   const [listAfterFilter, setListAfterFilter] = useState< TTimer[] | undefined>(ListTimer)
 
   useEffect(() => {
-  const filterdList = () => {
+    const filterdList = () => {
       const fromDay = hasdateFrom ? dateFrom : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString()
       const toDay = hasdateTo ? dateTo : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString()
-    let filterArrayDay= ListTimer || []
-    if (hasdateTo && hasdateFrom && fromDay ) {
-      if (toDay) {
-          filterArrayDay =  ListTimer.filter((list) => list.startDate >= fromDay && list.startDate <= toDay)
+      let filterArrayDay= ListTimer || []
+      if (fromDay && toDay && fromDay == toDay ) {
+        filterArrayDay = ListTimer.filter((list) => Math.floor(+list.startDate).toString() >= fromDay)
       }
-    }
+      if (fromDay && toDay && fromDay != toDay) {
+        filterArrayDay = ListTimer.filter((list) => Math.floor(+list.startDate).toString() >= fromDay &&
+           Math.floor(+list.endDate).toString() <= toDay)
+      }
     
     let filterArrayCat= filterArrayDay
     if (hasCategorySearch ) {
@@ -59,6 +60,9 @@ function useTimerList() {
     if (hasTagSearch ) {
       filterArrayTag =  filterArrayCat.length > 0 ? filterArrayCat.filter((list) => list.tag == tagSearch ) : []
     }
+    console.log(dayjs(dayjs.unix(Number(fromDay))))
+    console.log(fromDay);
+    console.log(toDay);
     console.log(ListTimer);
     console.log(filterArrayDay);
     console.log(filterArrayCat);
@@ -66,7 +70,7 @@ function useTimerList() {
   
     return filterArrayTag
     } 
-  const list = filterdList() 
+    const list = filterdList() 
 
     list ? setListAfterFilter(list) : setListAfterFilter([])
     console.log(list)

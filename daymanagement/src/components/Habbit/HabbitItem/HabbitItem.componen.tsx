@@ -1,10 +1,10 @@
 "use client"
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp } from "@/components/table";
+import { ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, More, Remove } from "@/components/table";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
-import { completeHabbitList, selectHabbitList, Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
+import { completeHabbitList, delHabbitList, selectHabbitList, Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import dayjs from "dayjs";
@@ -104,17 +104,26 @@ export const HabbitItem = ({ item }: {item : Thabbit }) =>  {
               </div>
           </div>
 
-          <div className="flex flex-col w-fit gap-2 justify-end items-end">
-            <BasicSwitch checked={dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
-                         ==  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")} handleToggle={(e) =>  {
-                    e && e.preventDefault();
-                    dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
-                         !=  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") && item.id && dispatch(completeHabbitList(item.id));
+          <div className="flex flex-col w-fit gap-2 justify-end items-end">              
+            <div className="flex flex-row gap-x-2">
+              <div onClick={(e) =>  {
+                      e && e.preventDefault();
+                      item.id && dispatch(delHabbitList(item.id));
               }}
-            
-              label=""
-              key={"isComplete"}
-            />
+              >
+                <More />
+              </div>
+              <BasicSwitch checked={dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
+                          ==  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")} handleToggle={(e) =>  {
+                      e && e.preventDefault();
+                      dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD")
+                          !=  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") && item.id && dispatch(completeHabbitList(item.id));
+                }}
+              
+                label=""
+                key={"isComplete"}
+                />
+              </div>
       
             <label
               className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>

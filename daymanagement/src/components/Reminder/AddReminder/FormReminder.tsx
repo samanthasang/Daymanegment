@@ -14,10 +14,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, TToDo, updateToDoList } from "../../../modules/toDoList/todo.slice";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Edit } from "@/components/table";
+import TagSelectComponent from "@/components/Tags/TagSelect.component";
+import { cn } from "@/lib/utils";
+import { selectReminderList, setReminderList, TReminder, updateReminderList } from "@/modules/reminderList/reminder.slice";
 
 interface IFormInputs {
   todo: string
+  timeDiff: string
+  priodDiff: string
   priority: string
   date: string
   category: string
@@ -27,33 +37,21 @@ interface IFormInputs {
 export default function FormReminder({ onSubmitForm }:{onSubmitForm: () => void}) {
 
   const [date, setDate] = useState<Date>()
-  const [priority, setPriority] = useState<string>()
-  useEffect(() => {
-    console.log(selectedToDo);
-   date && console.log(Math.floor(new Date(date).getTime()/1000.0));
-  }, [date,priority])
-  
-  
+
   const dispatch = useAppDispatch();
-  const todoList = useAppSelector((state) => state.todoList);
-  const selectedToDo = todoList?.selectedToDo as TToDo;
+  const reminder = useAppSelector((state) => state.reminder);
+  const selectedReminder = reminder?.selectedReminder as TReminder;
   
-    // useEffect(() => {
-    //     if (!date) {
-    //         setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
-    //     }
-    // }, [date])
-
-  // const [todoList ,setTodoList]= useState<string[]>([])
-
-// creating a schema for strings 
    const formSchema = z.object({
     todo: z.string().min(4, { message: 'Name is required' }),
     priority: z.string().min(1, { message: 'priority is required' }),
+    timeDiff: z.string().min(1, { message: 'Number Diffrence is required' }),
+    priodDiff: z.string().min(1, { message: 'Priod Diffrence is required' }),
     date: z.string().min(1, { message: 'date is required' }),
     category: z.string().min(1, { message: 'category is required' }),
     tag: z.string().min(1, { message: 'tag is required' }),
-  });
+   });
+  
   type FormData = z.infer<typeof formSchema>
   const {
     control,
@@ -67,82 +65,203 @@ export default function FormReminder({ onSubmitForm }:{onSubmitForm: () => void}
   });
   
   useEffect(() => {
-    if (selectedToDo && selectedToDo.id) {
-      console.log(selectedToDo)
-      setValue("todo", selectedToDo?.title)
-      setValue("priority", selectedToDo.priority)
-      setValue("date", selectedToDo.date)
-      setDate( new Date(Number(selectedToDo.date) * 1000))
+    if (selectedReminder && selectedReminder.id) {
+      console.log(selectedReminder)
+      setValue("todo", selectedReminder?.title)
+      setValue("priority", selectedReminder.priority)
+      setValue("timeDiff", selectedReminder?.timeDiff)
+      setValue("priodDiff", selectedReminder.priodDiff)
+      setValue("category", selectedReminder.category)
+      setValue("tag", selectedReminder.tag)
+      setValue("date", selectedReminder.date)
+      setDate( new Date(Number(selectedReminder.date) * 1000))
     }
-  }, [selectedToDo])
+  }, [selectedReminder])
 
   useEffect(() => {
-    getValues()
-  }, [getValues()])
+     date && setValue("date", Math.floor(new Date(date).getTime()/1000.0).toString())
+  }, [date])
   
+  const handlePriority = (data: string) => {
+    setValue("priority", data)
+  }
+  const handlePriod = (data: string) => {
+    setValue("priodDiff", data)
+  }
+  const handleCategory = (data: string) => {
+    setValue("category", data)
+  }
+  const handleTag = (data: string) => {
+    setValue("tag", data)
+  }
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
     console.log(date);
     
-    selectedToDo?.title ? dispatch(updateToDoList(
+    selectedReminder?.title ? dispatch(updateReminderList(
       {
-        id: selectedToDo.id,
+        id: selectedReminder.id,
         title: data.todo,
-        date: data.date,
+        date:  date ? Math.floor(new Date(date).getTime()/1000.0).toString() : data.date,
         priority: data.priority,
         category: data.category,
+        timeDiff: data.timeDiff,
+        priodDiff: data.priodDiff,
         tag: data.tag,
       })) :
-      dispatch(setToDoList({
+      dispatch(setReminderList({
         id: "",
         title: data.todo,
         date: data.date,
         priority: data.priority,
         category: data.category,
+        timeDiff: data.timeDiff,
+        priodDiff: data.priodDiff,
         tag: data.tag,
       }))
-    dispatch(selectToDoList(""))
+    dispatch(selectReminderList(""))
     reset()
     onSubmitForm()
   };
   const onReset = () => {
     console.log("reset");
     
-    dispatch(selectToDoList(""))
+    dispatch(selectReminderList(""))
+    setValue("date", "")
     reset()
   };
-  const dateMatcher: Date | null = selectedToDo ?
-    new Date(Number(getValues('date')) * 1000) : null;
-  console.log(dateMatcher)
   console.log(date)
 
   return (
-    <div className="col-span-1">
-      <div className="flex flex-row gap-2 ">
+    <div className="col-span-1 w-auto">
+      <div className="flex flex-row gap-2 w-auto">
 
       <form 
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col w-full gap-4">
           
+          <div className="flex flex-col sm:flex-row w-full gap-x-4">
+            <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
+
+        <Controller
+          defaultValue = {''}
+          name="todo"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) =>
+            <Input
+              className="!text-white w-full px-3 border-white rounded py-1"
+              placeholder="Name"
+              {...field}
+            />
+          }
+        />
+              {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+              
+              <Controller
+                defaultValue = {''}
+                name="timeDiff"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) =>
+                  <Input
+                    type="number"
+                    className="!text-white w-full px-3 border-white rounded py-1"
+                    placeholder="Number for Repeat"
+                    {...field}
+                  />
+                }
+              />
+              {errors.timeDiff?.message && <p className="text-xs text-red-500">{errors.timeDiff?.message}</p>}
+
       <Controller
         defaultValue = {''}
-        name="todo"
+        name="priodDiff"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
-          <Input
-            className="!text-white w-full px-3 border-white rounded py-1"
-            placeholder="Name"
-            {...field}
-        />
-      }
-      />
-                {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
+          <Select onValueChange={(data) => data && handlePriod(data)} value={field.value}>
+            <SelectTrigger className="w-full border-white rounded py-1">
+              <SelectValue placeholder="Priod for repeat" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={"hour"}>Hour</SelectItem>
+              <SelectItem value={"day"}>Day</SelectItem>
+              <SelectItem value={"month"}>Mounth</SelectItem>
+              <SelectItem value={"year"}>Year</SelectItem>
+            </SelectContent>
+          </Select>
+          }
+          />
+          {errors.priodDiff?.message && <p className="text-xs text-red-500">{errors.priodDiff?.message}</p>}
+      <Controller
+        defaultValue = {''}
+        name="priority"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) =>
+          <Select onValueChange={(data) => data && handlePriority(data)} value={field.value}>
+            <SelectTrigger className="w-full border-white rounded py-1">
+              <SelectValue placeholder="Priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={"High"}>High</SelectItem>
+              <SelectItem value={"Medium"}>Medium</SelectItem>
+              <SelectItem value={"Low"}>Low</SelectItem>
+            </SelectContent>
+          </Select>
+          }
+          />
+          {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
+          <div className="flex flex-row">
+            <div className="flex-1">
+              <Controller
+                defaultValue = {''}
+                name="category"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) =>
+                  <CategotySelectComponent onClickChange={handleCategory} value={field.value} />
+                  }
+              />
+              {errors.category?.message && <p className="text-xs text-red-500">{errors.category?.message}</p>}
+            </div>
+            <DrawerDialogDemo drawerType={'TagList'} formType="Add Tag">
+              <DialogTrigger asChild>
+                <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                  <Edit />
+                </div> 
+              </DialogTrigger>
+            </DrawerDialogDemo>
+          </div>
+          
+          <div className="flex flex-row">
+            <div className="flex-1">
+                <Controller
+                  defaultValue = {''}
+                  name="tag"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) =>
+                    <TagSelectComponent onClickChange={handleTag} value={field.value} />
+                    }
+                />
+                {errors.tag?.message && <p className="text-xs text-red-500">{errors.tag?.message}</p>}
+              </div>
+              <DrawerDialogDemo drawerType={'TagList'} formType="Add Tag">
+                <DialogTrigger asChild>
+                  <div className="text-red-400 w-10 h-10 flex justify-center items-center" >
+                    <Edit />
+                  </div> 
+                </DialogTrigger>
+              </DrawerDialogDemo>
+          </div>
 
-              {/* <Popover> */}
-      {/* <PopoverTrigger asChild>
-        <Button
+            </div>
+            <div>
+          <Button
+            disabled
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
@@ -152,93 +271,34 @@ export default function FormReminder({ onSubmitForm }:{onSubmitForm: () => void}
           <CalendarIcon />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="start"
-        className="flex w-auto flex-col space-y-2 p-2"
-      >
       <Controller
         name="date"
         control={control}
         rules={{ required: true }}
         render={({ field }) =>
-        <Select 
-          onValueChange={(value) =>
-            setDate(addDays(new Date(), parseInt(value)))
-          }
-        >
-          <SelectTrigger>
-            <SelectValue  placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="0">Today</SelectItem>
-            <SelectItem value="1">Tomorrow</SelectItem>
-            <SelectItem value="3">In 3 days</SelectItem>
-            <SelectItem value="7">In a week</SelectItem>
-          </SelectContent>
-        </Select>
-      }
-      /> */}
-        <div className=" border-white rounded py-1">
-          <Calendar
-            mode="single" 
-            selected={date}
-            onSelect={setDate} className=" border-white rounded py-1" />
-        </div>
-      {/* </PopoverContent>
-    </Popover> */}
-                {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
-      <Controller
-        defaultValue = {''}
-        name="priority"
-        control={control}
-        rules={{ required: true }}
-        render={({ field: { onChange } }) =>
-      <Select value={getValues('priority')} onValueChange={onChange}>
-        <SelectTrigger className="w-full border-white rounded py-1">
-          <SelectValue placeholder="Priority" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="High">High</SelectItem>
-          <SelectItem value="Medium">Medium</SelectItem>
-          <SelectItem value="Low">Low</SelectItem>
-        </SelectContent>
-      </Select>
+          <div className=" border-white rounded py-1 flex justify-center">
+            <Calendar
+              mode="single"
+              selected={date}
+              month={date}
+              onSelect={setDate}
+              className=" border-white rounded py-1"
+              captionLayout="dropdown" />
+          </div>
       }
       />
-                {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          { !selectedToDo?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
-          
-          { selectedToDo?.title && <div className="flex gap-4">
-            <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
-            <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
-          </div>}
+        {errors.date?.message && <p className="text-xs text-red-500">{errors.date?.message}</p>}
+      </div>
+          </div>
+      
+        { !selectedReminder?.title && <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>}
+        
+        { selectedReminder?.title && <div className="flex gap-4">
+          <Button onClick={() => onReset()}  type="button" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">reset</Button>
+          <Button type="submit" className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">submit</Button>
+        </div>}
       </form>
       </div>
-      {/* <div className="flex flex-col gap-4 w-full bg-white red col-span-2">
-            {todoList?.map((li) => (
-              <div
-                key={li}
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(updateToDoList(li.id));
-                }}
-                className="flex items-center justify-between text-black"
-              >
-                <span className={`${li ? "line-through" : ""}`}>
-                  {li}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // dispatch(delToDoList(li.id));
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
-          </div> */}
     </div>
   );
 }

@@ -1,12 +1,12 @@
 "use client"
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp } from "@/components/table";
+import { ChevronSmallDoubleUp, ChevronSmallTripleUp, ChevronSmallUp, More, Remove } from "@/components/table";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
-import { completeToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
+import { completeToDoList, delToDoList, selectToDoList, TToDo } from "@/modules/toDoList/todo.slice";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -88,41 +88,28 @@ export const TodoItem = ({ item }: {item : TToDo }) =>  {
               </label>}
               </div>
           </div>
-          <div className="flex flex-col w-fit gap-2 justify-end items-end">
-            <BasicSwitch checked={item.isComplete} handleToggle={(e) =>  {
-                    e && e.preventDefault();
-                    item.id && dispatch(completeToDoList(item.id));
-            }}
-              label=""
-              key={"isComplete"}
-            />
+          <div className="flex flex-col w-fit gap-2 justify-end items-end">              
+            <div className="flex flex-row gap-x-2">
+              <div onClick={(e) =>  {
+                      e && e.preventDefault();
+                      item.id && dispatch(delToDoList(item.id));
+              }}
+              >
+                <More />
+              </div>
+              <BasicSwitch checked={item.isComplete} handleToggle={(e) =>  {
+                      e && e.preventDefault();
+                      item.id && dispatch(completeToDoList(item.id));
+              }}
+                label=""
+                key={"isComplete"}
+              />
+              </div>
       
             <label
               className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
                 {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")}
             </label>
-            {/* <DrawerDialogDemo drawerType={'TodoList'} formType="Edit Todo">
-              <DialogTrigger asChild>
-                <div
-                  onClick={(e) => {
-                    item.id && dispatch(selectToDoList(item.id));
-                  }}
-                  className="text-red-400"
-                      >
-                  <Edit />
-                </div> 
-              </DialogTrigger>
-            </DrawerDialogDemo> */}
-            {/* <button
-              onClick={(e) => {
-                e.preventDefault();
-                item.id && dispatch(delToDoList(item.id));
-              }}
-              className="text-red-400"
-              >
-              <Remove className='fill-red-500' />
-            </button> */}
-          {/* </div> */}
         </div>
       </div> 
     </DialogTrigger>

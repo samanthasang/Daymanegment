@@ -1,5 +1,5 @@
 "use client"
-import UseMyHabbitList from "@/lib/Hooks/Lists/UseHabbitList.component copy";
+import UseMyHabbitList from "@/lib/Hooks/Lists/UseMyHabbitList.component";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';

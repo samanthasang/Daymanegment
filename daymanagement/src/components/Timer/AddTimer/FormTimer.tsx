@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
-import { selectTimerList, setTimerList, TTimer } from "@/modules/timerList/timer.slice";
+import { selectTimerList, setTimerList, TTimer, updateTimerList } from "@/modules/timerList/timer.slice";
 
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
@@ -39,9 +39,8 @@ dayjs.extend(timezone);
 const currentUnixTimestamp = dayjs().unix();
 interface IFormInputs {
   todo: string
-  priority: string
-  startDate: string
-  endDate: string
+  startDate?: string
+  endDate?: string
   category: string
   tag: string
 }
@@ -54,11 +53,10 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
 // creating a schema for strings 
    const formSchema = z.object({
     todo: z.string().min(4, { message: 'Name is required' }),
-    priority: z.string().min(1, { message: 'priority is required' }),
     category: z.string().min(1, { message: 'Category is required' }),
     tag: z.string().min(1, { message: 'Tag is required' }),
-    startDate: z.string().min(1, { message: 'date is required' }),
-    endDate: z.string().min(1, { message: 'date is required' }),
+    startDate: z.string().min(1, { message: 'date is required' }).optional(),
+    endDate: z.string().min(1, { message: 'date is required' }).optional(),
   });
   type FormData = z.infer<typeof formSchema>
 
@@ -90,10 +88,6 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
     console.log(ListTimer);
     }, [ListTimer]);
   
-
-  const handlePriority = (data: string) => {
-    setValue("priority", data)
-  }
   const handleCategory = (data: string) => {
     setValue("category", data)
   }
@@ -104,7 +98,6 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
   useEffect(() => {
     if (selectedTimer) {
       setValue("todo", selectedTimer?.title)
-      // setValue("priority", selectedTimer.priority)
       setValue("category", selectedTimer.category)
       setValue("tag", selectedTimer.tag)
       setValue("startDate", selectedTimer.startDate)
@@ -115,12 +108,22 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
   }, [selectedTimer, setValue])
   
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    
+     selectedTimer?.title ? dispatch(updateTimerList(
+      {
+        id: selectedTimer.id,
+        title: data.todo,
+        startDate:  startDate ? Math.floor(new Date(startDate).getTime()/1000.0).toString() : data.startDate as string,
+        endDate: endDate ? Math.floor(new Date(endDate).getTime() / 1000.0).toString() : data.startDate as string,
+        isComplete: selectedTimer.isComplete,
+        category: data.category,
+        tag: data.tag
+       }
+     )) :
       dispatch(setTimerList({
         id: "",
         title: `timer${ListTimer.length}`,
-        startDate:  startDate ? Math.floor(new Date(startDate).getTime()/1000.0).toString() : data.startDate,
-        endDate:  endDate ? Math.floor(new Date(endDate).getTime()/1000.0).toString() : "",
+        startDate:  startDate ? Math.floor(new Date(startDate).getTime()/1000.0).toString() : data.startDate as string,
+        endDate:  endDate ? Math.floor(new Date(endDate).getTime()/1000.0).toString() : data.startDate as string,
         isComplete: false,
         category: data.category,
         tag: data.tag
@@ -175,7 +178,7 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
       <Controller
         name="startDate"
         control={control}
-        rules={{ required: true }}
+        rules={{ required: false }}
         render={({ field }) =>
           <div className=" border-white rounded py-1 flex justify-center">
             <Calendar
@@ -189,27 +192,7 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
       }
       />
         {errors.startDate?.message && <p className="text-xs text-red-500">{errors.startDate?.message}</p>}
-      
-      <Controller
-        defaultValue = {''}
-        name="priority"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) =>
-          <Select onValueChange={(data) => data && handlePriority(data)} value={field.value}>
-            <SelectTrigger className="w-full border-white rounded py-1">
-              <SelectValue placeholder="Priority" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={"High"}>High</SelectItem>
-              <SelectItem value={"Medium"}>Medium</SelectItem>
-              <SelectItem value={"Low"}>Low</SelectItem>
-            </SelectContent>
-          </Select>
-          }
-          />
-          {errors.priority?.message && <p className="text-xs text-red-500">{errors.priority?.message}</p>}
-          <div className="flex flex-row">
+      <div className="flex flex-row">
             <div className="flex-1">
               <Controller
                 defaultValue = {''}

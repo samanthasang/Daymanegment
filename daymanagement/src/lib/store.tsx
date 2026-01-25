@@ -3,17 +3,19 @@ import apiService from "./api.service";
 import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
 import { habbitReducer } from "@/modules/habbitList/habbit.slice";
-import { MyHaBBITReducer } from "@/modules/myHabbitList/myHabbit.slice";
+import { MyHabbitReducer } from "@/modules/myHabbitList/myHabbit.slice";
 import { timerReducer } from "@/modules/timerList/timer.slice";
 import { installmentstReducer } from "@/modules/installmentstList/installmentst.slice";
 import { CategoryReducer } from "@/modules/category/categoryList.slice";
 import { TagReducer } from "@/modules/tag/TagList.slice";
+import { reminderReducer } from "@/modules/reminderList/reminder.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
   todoList: todoReducer,
+  reminder: reminderReducer,
   habbitList: habbitReducer,
-  MYhabbitList: MyHaBBITReducer,
+  MYhabbitList: MyHabbitReducer,
   TimerList: timerReducer,
   CategoryList: CategoryReducer,
   TagList: TagReducer,

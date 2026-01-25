@@ -2,7 +2,6 @@
 import TimerSideBar from "./TimerFilter/TimerSideBar.componen";
 import TimerList from "./TimerList/TimerList.component";
 
-
 function TimerListComponent() {
 
   return (

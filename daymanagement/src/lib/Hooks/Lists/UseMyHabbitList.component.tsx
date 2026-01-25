@@ -1,14 +1,20 @@
 "use client"
 import { useAppSelector } from "@/lib/hook";
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
+import { TMyHabbit } from "@/modules/myHabbitList/myHabbit.slice";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function UseMyHabbitList() {
 
-  const { ListMyHaBBIT }: {
-    ListMyHaBBIT: Thabbit[];
+  const { ListMyHabbit }: {
+    ListMyHabbit: TMyHabbit[];
+    selectedMyHabbit: {}
   } = useAppSelector((state) => state.MYhabbitList) || [];
+
+  // const { ListMyHabbit }: {
+  //   ListMyHabbit: TMyHabbit[];
+  // } = useAppSelector((state) => state.MYhabbitList) || [];
 
   const searchParams = useSearchParams()
 
@@ -18,20 +24,20 @@ function UseMyHabbitList() {
   const hasTagSearch = searchParams.has("tag")
  
 
-  const [listAfterFilter, setListAfterFilter] = useState< Thabbit[] | undefined>(ListMyHaBBIT)
+  const [listAfterFilter, setListAfterFilter] = useState< Thabbit[] | undefined>(ListMyHabbit)
 
   useEffect(() => {
   const filterdList = () => {
-    let filterArrayCat= ListMyHaBBIT
+    let filterArrayCat= ListMyHabbit
     if (hasCategorySearch ) {
-      filterArrayCat =  ListMyHaBBIT.length > 0 ? ListMyHaBBIT.filter((list) => list.category == categorySearch ) : []
+      filterArrayCat =  ListMyHabbit.length > 0 ? ListMyHabbit.filter((list) => list.category == categorySearch ) : []
     }
 
     let filterArrayTag= filterArrayCat
     if (hasTagSearch ) {
       filterArrayTag =  filterArrayCat.length > 0 ? filterArrayCat.filter((list) => list.tag == tagSearch ) : []
     }
-    console.log(ListMyHaBBIT);
+    console.log(ListMyHabbit);
     console.log(filterArrayCat);
     console.log(filterArrayTag);
   
@@ -41,7 +47,7 @@ function UseMyHabbitList() {
 
     list ? setListAfterFilter(list) : setListAfterFilter([])
     console.log(list)
-  }, [ListMyHaBBIT, tagSearch, categorySearch])
+  }, [ListMyHabbit, tagSearch, categorySearch])
   
    
   return listAfterFilter

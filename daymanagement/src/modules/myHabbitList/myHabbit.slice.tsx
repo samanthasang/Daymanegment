@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 
 const currentUnixTimestamp = dayjs().unix(); 
-export type TMyHaBBIT = {
+export type TMyHabbit = {
   id: string
   title: string
   score: number
@@ -16,19 +16,19 @@ export type TMyHaBBIT = {
 }
 
 export interface InitialState {
-  ListMyHaBBIT: TMyHaBBIT[];
-  selectedMyHaBBIT: TMyHaBBIT | {}
+  ListMyHabbit: TMyHabbit[];
+  selectedMyHabbit: TMyHabbit | {}
 }
 
-export const MyHaBBITListSlice = createSlice({
-  reducerPath: "MyHaBBITList",
-  name: "@MyHaBBITList",
+export const MyHabbitListSlice = createSlice({
+  reducerPath: "MyHabbitList",
+  name: "@MyHabbitList",
   initialState: {
-    ListMyHaBBIT: [],
-    selectedMyHaBBIT: {}
+    ListMyHabbit: [],
+    selectedMyHabbit: {}
   },
   reducers: {
-    setMyHaBBITList: (state: InitialState, action: PayloadAction<{
+    setMyHabbitList: (state: InitialState, action: PayloadAction<{
       id: string,
       title:string,
       description: string,
@@ -39,8 +39,8 @@ export const MyHaBBITListSlice = createSlice({
       category: string,
       tag: string
     }>) => {
-      state.ListMyHaBBIT = state.ListMyHaBBIT ? [
-        ...state.ListMyHaBBIT,
+      state.ListMyHabbit = state.ListMyHabbit ? [
+        ...state.ListMyHabbit,
         {
           id: nanoid(),
           title: action.payload.title,
@@ -66,27 +66,27 @@ export const MyHaBBITListSlice = createSlice({
           },
       ];
     },
-    delMyHaBBITList: (state: InitialState, action: PayloadAction<string>) => {
-      state.ListMyHaBBIT = state.ListMyHaBBIT.filter(
-        (MyHaBBIT) => MyHaBBIT.id != action.payload
+    delMyHabbitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListMyHabbit = state.ListMyHabbit.filter(
+        (MyHabbit) => MyHabbit.id != action.payload
       );
     },
-    completeMyHaBBITList: (state: InitialState, action: PayloadAction<string>) => {
-      state.ListMyHaBBIT = state.ListMyHaBBIT.map((MyHaBBIT) =>
-        MyHaBBIT.id == action.payload
+    completeMyHabbitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListMyHabbit = state.ListMyHabbit.map((MyHabbit) =>
+        MyHabbit.id == action.payload
           ? {
-            ...MyHaBBIT,
+            ...MyHabbit,
             score:
               dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
-              != dayjs(dayjs.unix(Number(MyHaBBIT.lastUpdate))).format("DD") || MyHaBBIT.score == 0 ?
-              MyHaBBIT.score + 1 : MyHaBBIT.score,
+              != dayjs(dayjs.unix(Number(MyHabbit.lastUpdate))).format("DD") || MyHabbit.score == 0 ?
+              MyHabbit.score + 1 : MyHabbit.score,
             lastUpdate: currentUnixTimestamp,
             completeUpdate: currentUnixTimestamp
           }
-          : MyHaBBIT
+          : MyHabbit
       );
     },
-    updateMyHaBBITList: (state: InitialState, action: PayloadAction<{
+    updateMyHabbitList: (state: InitialState, action: PayloadAction<{
       id: any
       title: string
       description: string
@@ -97,38 +97,38 @@ export const MyHaBBITListSlice = createSlice({
       category: string
       tag: string
     }>) => {
-      state.ListMyHaBBIT = state.ListMyHaBBIT.map((MyHaBBIT) =>
-        MyHaBBIT.id == action.payload.id
+      state.ListMyHabbit = state.ListMyHabbit.map((MyHabbit) =>
+        MyHabbit.id == action.payload.id
           ? {
-            ...MyHaBBIT,
+            ...MyHabbit,
             title: action.payload.title,
             description: action.payload.description,
-            score: action.payload.score || MyHaBBIT.score,
+            score: action.payload.score || MyHabbit.score,
             priority: action.payload.priority,
-            lastUpdate: action.payload.lastUpdate || MyHaBBIT.lastUpdate,
-            completeUpdate: action.payload.completeUpdate || MyHaBBIT.completeUpdate,
+            lastUpdate: action.payload.lastUpdate || MyHabbit.lastUpdate,
+            completeUpdate: action.payload.completeUpdate || MyHabbit.completeUpdate,
             category: action.payload.category,
             tag: action.payload.tag,
           }
-          : MyHaBBIT
+          : MyHabbit
       );
     },
-    selectMyHaBBITList: (state: InitialState, action: PayloadAction<string>) => {
-      state.selectedMyHaBBIT = state.ListMyHaBBIT.filter(
-        (MyHaBBIT) => MyHaBBIT.id == action.payload
+    selectMyHabbitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.selectedMyHabbit = state.ListMyHabbit.filter(
+        (MyHabbit) => MyHabbit.id == action.payload
       )[0];
     },
   },
 });
 
-export const MyHaBBITReducer = MyHaBBITListSlice.reducer;
-export const MyHaBBITReducerPath = MyHaBBITListSlice.reducerPath;
+export const MyHabbitReducer = MyHabbitListSlice.reducer;
+export const MyHabbitReducerPath = MyHabbitListSlice.reducerPath;
 
 export const {
-  completeMyHaBBITList,
-  setMyHaBBITList,
-  delMyHaBBITList,
-  updateMyHaBBITList,
-  selectMyHaBBITList
+  completeMyHabbitList,
+  setMyHabbitList,
+  delMyHabbitList,
+  updateMyHabbitList,
+  selectMyHabbitList
 } =
-MyHaBBITListSlice .actions;
+MyHabbitListSlice .actions;
