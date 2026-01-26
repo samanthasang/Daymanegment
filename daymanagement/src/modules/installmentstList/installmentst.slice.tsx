@@ -1,17 +1,23 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
-import dayjs from 'dayjs';
 
-const currentUnixTimestamp = dayjs().unix(); 
 export type TInstallmentst = {
   id: string
   title: string
-  startDate: number
+  startDate: string
   description: string,
   priority: string,
-  lastUpdate: number
-  completeUpdate: number
+  lastUpdate: string
+  completeUpdate: string
   paymentNumber:string
+  numberOfPayment?: string
   paymentCompleteValue:string
+  category:string
+  tag: string
+  installmentstList: {
+    date: string
+    payment: string
+    isComplete: boolean
+  }[]
 }
 
 export interface InitialState {
@@ -28,15 +34,23 @@ export const installmentstListSlice = createSlice({
   },
   reducers: {
     setInstallmentstList: (state: InitialState, action: PayloadAction<{
-      id: string,
-      title:string,
+      id: string
+      title: string
+      startDate: string
       description: string,
       priority: string,
-      startDate: number,
-      lastUpdate: number,
-      completeUpdate: number,
-      paymentNumber:string,
+      lastUpdate: string
+      completeUpdate: string
+      paymentNumber:string
+      numberOfPayment?: string
       paymentCompleteValue:string
+      category:string
+      tag:string
+      installmentstList: {
+        date: string
+        payment: string
+        isComplete: boolean
+      }[]
     }>) => {
       state.ListInstallmentst = state.ListInstallmentst ? [
         ...state.ListInstallmentst,
@@ -44,24 +58,32 @@ export const installmentstListSlice = createSlice({
           id: nanoid(),
           title: action.payload.title,
           priority: action.payload.priority,
-          description: action.payload.description,
           startDate: action.payload.startDate,
-          lastUpdate: currentUnixTimestamp,
+          description: action.payload.description,
+          lastUpdate: action.payload.lastUpdate,
           completeUpdate: action.payload.completeUpdate,
           paymentNumber: action.payload.paymentNumber,
-          paymentCompleteValue: action.payload.paymentCompleteValue
+          numberOfPayment: action.payload.numberOfPayment,
+          paymentCompleteValue: action.payload.paymentCompleteValue,
+          category: action.payload.category,
+          tag: action.payload.tag,
+          installmentstList: action.payload.installmentstList,
         },
       ] : [
           {
             id: nanoid(),
-            priority: action.payload.priority,
-            description: action.payload.description,
             title: action.payload.title,
-            startDate:action.payload.startDate,
-            lastUpdate: currentUnixTimestamp,
+            priority: action.payload.priority,
+            startDate: action.payload.startDate,
+            description: action.payload.description,
+            lastUpdate: action.payload.lastUpdate,
             completeUpdate: action.payload.completeUpdate,
             paymentNumber: action.payload.paymentNumber,
-            paymentCompleteValue: action.payload.paymentCompleteValue
+            numberOfPayment: action.payload.numberOfPayment,
+            paymentCompleteValue: action.payload.paymentCompleteValue,
+            category: action.payload.category,
+            tag: action.payload.tag,
+            installmentstList: action.payload.installmentstList,
           },
       ];
     },
@@ -70,42 +92,63 @@ export const installmentstListSlice = createSlice({
         (installmentst) => installmentst.id != action.payload
       );
     },
-    completeInstallmentstList: (state: InitialState, action: PayloadAction<string>) => {
+    completeInstallmentstList: (state: InitialState, action: PayloadAction<{
+      id: string
+      lastUpdate: string
+      }>) => {
       state.ListInstallmentst = state.ListInstallmentst.map((installmentst) =>
-        installmentst.id == action.payload
+        installmentst.id == action.payload.id
           ? {
             ...installmentst,
-            startDate:
-              dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
-              != dayjs(dayjs.unix(Number(installmentst.lastUpdate))).format("DD") || installmentst.startDate == 0 ?
-              installmentst.startDate + 1 : installmentst.startDate,
-            lastUpdate: currentUnixTimestamp,
-            completeUpdate: currentUnixTimestamp
+            lastUpdate: action.payload.lastUpdate,
+            installmentstList: installmentst.installmentstList &&
+              installmentst.installmentstList.map((ins) =>
+                ins.date == action.payload.lastUpdate
+                ? {
+                  ...ins,
+                  isComplete: !ins.isComplete,
+                }
+                : ins
+            ),
           }
           : installmentst
       );
     },
     updateInstallmentstList: (state: InitialState, action: PayloadAction<{
       id: any
-      title:string,
+      title: string
+      startDate: string
       description: string,
       priority: string,
-      startDate: number,
-      lastUpdate: number,
-      completeUpdate: number,
-      paymentNumber:string,
+      lastUpdate: string
+      completeUpdate: string
+      paymentNumber:string
+      numberOfPayment?: string
       paymentCompleteValue:string
+      category:string
+      tag:string
+      installmentstList: {
+        date: string
+        payment: string
+        isComplete: boolean
+      }[]
     }>) => {
       state.ListInstallmentst = state.ListInstallmentst.map((installmentst) =>
         installmentst.id == action.payload.id
           ? {
             ...installmentst,
             title: action.payload.title,
-            description: action.payload.description,
-            startDate: action.payload.startDate || installmentst.startDate,
             priority: action.payload.priority,
-            lastUpdate: action.payload.lastUpdate || installmentst.lastUpdate,
-            completeUpdate: action.payload.completeUpdate || installmentst.completeUpdate,
+            startDate: action.payload.startDate,
+            description: action.payload.description,
+            lastUpdate: action.payload.lastUpdate,
+            completeUpdate: action.payload.completeUpdate,
+            paymentNumber: action.payload.paymentNumber,
+            numberOfPayment: action.payload.numberOfPayment,
+            paymentCompleteValue: action.payload.paymentCompleteValue,
+            category: action.payload.category,
+            tag: action.payload.tag,
+            installmentstList: action.payload.installmentstList
           }
           : installmentst
       );

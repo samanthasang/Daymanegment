@@ -34,6 +34,7 @@ import { selectHabbitList } from "@/modules/habbitList/habbit.slice"
 import { selectTimerList } from "@/modules/timerList/timer.slice"
 import { selectSpendsList } from "@/modules/spends/spends.slice"
 import { selectReminderList } from "@/modules/reminderList/reminder.slice"
+import FormInstallments from "../Installments/AddInstallments/FormInstallments"
 
 
 export function DrawerDialogDemo({
@@ -117,6 +118,8 @@ function ProfileForm({ drawerType, className, onSubmit }: { drawerType : string,
       return <FormTimer onSubmitForm={onSubmit}/>
     case "SpendsList":
       return <FormSpends onSubmitForm={onSubmit}/>
+    case "InstallmentsList":
+      return <FormInstallments onSubmitForm={onSubmit}/>
   
     default:
     return (
