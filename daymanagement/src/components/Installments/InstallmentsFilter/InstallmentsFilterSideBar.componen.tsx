@@ -31,7 +31,7 @@ function InstallmentsSideBar() {
         
         <div className="flex justify-between w-full mx-auto h-9">
           <span>
-            {/* {"Installmentss : " + `${ListInstallments?.filter((spends) => spends. == true).length} / ${ListInstallments?.filter((spends) => spends.income != true).length}`} */}
+            {"Installmentss : " + `${ListInstallments?.length}`}
           </span>
         </div>
       </div>

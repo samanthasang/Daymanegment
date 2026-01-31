@@ -24,11 +24,6 @@ export const ReminderItem = ({ item }: {item : TReminder }) =>  {
       selectedCategory: {};
     } = useAppSelector((state) => state.CategoryList) || [];
      
-  
-  console.log(dayjs.unix(+item.date).add(+item.timeDiff, item.priodDiff as ManipulateType));
-  console.log(dayjs(dayjs.unix(+item.date).add(+item.timeDiff, item.priodDiff as ManipulateType)).unix());
-  
-  
     const categorySelected = ListCategory ?
         ListCategory.filter((category) => category.id == item.category)[0] :
         {

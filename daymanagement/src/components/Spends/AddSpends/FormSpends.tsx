@@ -40,7 +40,7 @@ export default function FormSpends({ onSubmitForm }:{onSubmitForm: () => void}) 
     income: z.boolean().optional(),
     numberOfProduct: z.string().optional(),
     priceOfProduct: z.string().optional(),
-    incomeAmount: z.string().min(1, { message: 'incomeAmount is required' }).optional(),
+    incomeAmount: z.string().optional(),
     category: z.string().min(1, { message: 'Category is required' }),
     tag: z.string().min(1, { message: 'Tag is required' }),
     date: z.string().min(1, { message: 'date is required' }),
@@ -164,7 +164,6 @@ export default function FormSpends({ onSubmitForm }:{onSubmitForm: () => void}) 
             />
             {errors.title?.message && <p className="text-xs text-red-500">{errors.title?.message}</p>}
               
-              <span>{ `${watch("income")}`}</span>
               <Controller
                 name="income"
                 control={control}

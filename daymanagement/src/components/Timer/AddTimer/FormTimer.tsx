@@ -4,27 +4,16 @@ import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import { Edit } from "@/components/table";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
+import { selectTimerList, setTimerList, TTimer, updateTimerList } from "@/modules/timerList/timer.slice";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { selectToDoList, setToDoList, updateToDoList } from "../../../modules/toDoList/todo.slice";
-import { selectTimerList, setTimerList, TTimer, updateTimerList } from "@/modules/timerList/timer.slice";
 
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -164,33 +153,7 @@ export default function FormTimer({ onSubmitForm }:{onSubmitForm: () => void}) {
       />
         {errors.todo?.message && <p className="text-xs text-red-500">{errors.todo?.message}</p>}
 
-          <Button
-            disabled
-          variant={"outline"}
-          className={cn(
-            "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-            !startDate && "text-muted-foreground"
-          )}
-        >
-          <CalendarIcon />
-          {startDate ? format(startDate, "PPP") : <span>Pick a startDate</span>}
-        </Button>
-      <Controller
-        name="startDate"
-        control={control}
-        rules={{ required: false }}
-        render={({ field }) =>
-          <div className=" border-white rounded py-1 flex justify-center">
-            <Calendar
-              mode="single"
-              selected={startDate}
-              month={startDate}
-              onSelect={setStartDate}
-              className=" border-white rounded py-1"
-              captionLayout="dropdown" />
-          </div>
-      }
-      />
+          <CalendarWithTime />
         {errors.startDate?.message && <p className="text-xs text-red-500">{errors.startDate?.message}</p>}
       <div className="flex flex-row">
             <div className="flex-1">

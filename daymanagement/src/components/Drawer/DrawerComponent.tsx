@@ -35,6 +35,7 @@ import { selectTimerList } from "@/modules/timerList/timer.slice"
 import { selectSpendsList } from "@/modules/spends/spends.slice"
 import { selectReminderList } from "@/modules/reminderList/reminder.slice"
 import FormInstallments from "../Installments/AddInstallments/FormInstallments"
+import { selectInstallmentstList } from "@/modules/installmentstList/installmentst.slice"
 
 
 export function DrawerDialogDemo({
@@ -58,6 +59,7 @@ export function DrawerDialogDemo({
       dispatch(selectTimerList(""))
       dispatch(selectSpendsList(""))
       dispatch(selectReminderList(""))
+      dispatch(selectInstallmentstList(""))
     }
     console.log(drawerType)
     setOpen(e)
@@ -105,36 +107,36 @@ export function DrawerDialogDemo({
 function ProfileForm({ drawerType, className, onSubmit }: { drawerType : string, className?: React.ComponentProps<"form">, onSubmit: () => void}) {
   switch (drawerType) {
     case "ReminderList":
-      return <FormReminder onSubmitForm={onSubmit} />
+      return <FormReminder onSubmitForm={onSubmit} />;
     case "TodoList":
-      return <FormTodo onSubmitForm={onSubmit} />
+      return <FormTodo onSubmitForm={onSubmit} />;
     case "HabbitList":
-      return <FormHabbit />
+      return <FormHabbit onSubmitForm={onSubmit} />;
     case "CategoryList":
-      return <CategoryForm onSubmitForm={onSubmit}/>
+      return <CategoryForm onSubmitForm={onSubmit} />;
     case "TagList":
-      return <TagForm onSubmitForm={onSubmit}/>
+      return <TagForm onSubmitForm={onSubmit} />;
     case "TimerList":
-      return <FormTimer onSubmitForm={onSubmit}/>
+      return <FormTimer onSubmitForm={onSubmit} />;
     case "SpendsList":
-      return <FormSpends onSubmitForm={onSubmit}/>
+      return <FormSpends onSubmitForm={onSubmit} />;
     case "InstallmentsList":
-      return <FormInstallments onSubmitForm={onSubmit}/>
-  
+      return <FormInstallments onSubmitForm={onSubmit} />;
+
     default:
-    return (
-      <form className={cn("grid items-start gap-6", className)}>
-        <div className="grid gap-3">
-          <Label htmlFor="email">Email</Label>
-          <Input type="email" id="email" defaultValue="shadcn@example.com" />
-        </div>
-        <div className="grid gap-3">
-          <Label htmlFor="username">Username</Label>
-          <Input id="username" defaultValue="@shadcn" />
-        </div>
-        <Button type="submit">Save changes</Button>
-      </form>
-    )
+      return (
+        <form className={cn("grid items-start gap-6", className)}>
+          <div className="grid gap-3">
+            <Label htmlFor="email">Email</Label>
+            <Input type="email" id="email" defaultValue="shadcn@example.com" />
+          </div>
+          <div className="grid gap-3">
+            <Label htmlFor="username">Username</Label>
+            <Input id="username" defaultValue="@shadcn" />
+          </div>
+          <Button type="submit">Save changes</Button>
+        </form>
+      );
       break;
   }
 }
