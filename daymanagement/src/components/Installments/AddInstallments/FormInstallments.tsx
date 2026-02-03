@@ -19,7 +19,7 @@ import {
   selectInstallmentstList,
   setInstallmentstList,
   TInstallmentst,
-  updateInstallmentstList
+  updateInstallmentstList,
 } from "@/modules/installmentstList/installmentst.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
@@ -34,8 +34,8 @@ import FormInstallmentsDetails from "./FormInstallmentsDetails";
 interface IFormInputs {
   title: string;
   startDate: string;
-  description: string;
-  priority: string;
+  description?: string;
+  priority?: string;
   lastUpdate?: string;
   completeUpdate?: string;
   paymentNumber: string;
@@ -43,7 +43,7 @@ interface IFormInputs {
   paymentCompleteValue: string;
   category: string;
   tag: string;
-  installmentstList: TInstallmentst[];
+  installmentstList?: TInstallmentst[];
 }
 
 export default function FormInstallments({
@@ -52,21 +52,24 @@ export default function FormInstallments({
   onSubmitForm: () => void;
 }) {
   const [date, setDate] = useState<Date>();
-  const [instalmentDetails, setInstalmentDetails] = useState<TInstallmentst[]>();
+  const [instalmentDetails, setInstalmentDetails] =
+    useState<TInstallmentst[]>();
   console.log(date);
 
   // creating a schema for strings
   const formSchema = z.object({
     title: z.string().min(4, { message: "Name is required" }),
-    description: z.string().min(4, { message: "Name is required" }),
-    installmentstList: z.array(
-      z.object({
-        date: z.string(),
-        payment: z.string(),
-        isComplete: z.boolean(),
-      })
-    ),
-    priority: z.string().min(1, { message: "priority is required" }),
+    description: z.string().optional(),
+    installmentstList: z
+      .array(
+        z.object({
+          date: z.string(),
+          payment: z.string(),
+          isComplete: z.boolean(),
+        })
+      )
+      .optional(),
+    priority: z.string().optional(),
     paymentNumber: z.string().min(1, { message: "Payment Number is required" }),
     numberOfPayment: z
       .string()
@@ -112,18 +115,8 @@ export default function FormInstallments({
       watch("numberOfPayment") &&
       watch("paymentNumber")
     ) {
-      for (let i = 0; i < +watch("numberOfPayment"); i++) {
+      for (let i = 1; i < +watch("numberOfPayment") + 1; i++) {
         installmentArray.push({
-          // date: dayjs(
-          //   dayjs
-          //     .unix(+watch("startDate"))
-          //     .add(
-          //       +watch("numberOfPayment") * i,
-          //       watch("paymentNumber") as ManipulateType
-          //     )
-          //     .unix()
-          //     .toString()
-          // ),
           date: dayjs(
             dayjs
               .unix(+watch("startDate"))
@@ -134,7 +127,9 @@ export default function FormInstallments({
           )
             .unix()
             .toString(),
-          payment: (+watch("paymentCompleteValue") / +watch("numberOfPayment")).toString(),
+          payment: (
+            +watch("paymentCompleteValue") / +watch("numberOfPayment")
+          ).toString(),
           isComplete: false,
         });
       }
@@ -185,6 +180,10 @@ export default function FormInstallments({
     console.log(getValues());
   }, [getValues(), errors]);
 
+  const onSubmitHandler = () => {
+    onSubmit(getValues())
+  }
+
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
 
@@ -215,8 +214,16 @@ export default function FormInstallments({
             startDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.startDate,
-            lastUpdate: "string",
-            completeUpdate: "string",
+            lastUpdate: instalmentDetails
+              ? instalmentDetails[0].date
+              : date
+                ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+                : data.startDate,
+            completeUpdate: instalmentDetails
+              ? instalmentDetails[0].date
+              : date
+                ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+                : data.startDate,
             description: data.description || "",
             priority: data.priority || "",
             paymentNumber: data.paymentNumber || "",
@@ -246,7 +253,7 @@ export default function FormInstallments({
           ? {
               ...installment,
               payment: install.payment,
-              isComplete: install.isComplete
+              isComplete: install.isComplete,
             }
           : installment
       );
@@ -313,8 +320,8 @@ export default function FormInstallments({
                       <SelectValue placeholder="Priod for repeat" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={"hour"}>Hour</SelectItem>
                       <SelectItem value={"day"}>Day</SelectItem>
+                      <SelectItem value={"week"}>Week</SelectItem>
                       <SelectItem value={"month"}>Mounth</SelectItem>
                       <SelectItem value={"year"}>Year</SelectItem>
                     </SelectContent>
@@ -404,63 +411,54 @@ export default function FormInstallments({
                 </DrawerDialogDemo>
               </div>
             </div>
-            {instalmentDetails && (
-              <div className="flex flex-col gap-2 w-auto">
-                {instalmentDetails.map((i) => (
-                  <FormInstallmentsDetails
-                    key={i.date}
-                    errors={errors}
-                    installment={i}
-                    onSubmitForm={onSubmit}
-                  />
-                ))}
-              </div>
-            )}
-            {!instalmentDetails && (
-              <div>
-                <Button
-                  disabled
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
-                </Button>
-                <Controller
-                  name="startDate"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <div className=" border-white rounded py-1 flex justify-center">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        month={date}
-                        onSelect={setDate}
-                        className=" border-white rounded py-1"
-                        captionLayout="dropdown"
-                      />
-                    </div>
-                  )}
-                />
-                {errors.startDate?.message && (
-                  <p className="text-xs text-red-500">
-                    {errors.startDate?.message}
-                  </p>
+            <div>
+              <Button
+                disabled
+                variant={"outline"}
+                className={cn(
+                  "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
+                  !date && "text-muted-foreground"
                 )}
-              </div>
-            )}
+              >
+                <CalendarIcon />
+                {date ? format(date, "PPP") : <span>Pick a date</span>}
+              </Button>
+              <Controller
+                name="startDate"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <div className=" border-white rounded py-1 flex justify-center">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      month={date}
+                      onSelect={setDate}
+                      className=" border-white rounded py-1"
+                      captionLayout="dropdown"
+                    />
+                  </div>
+                )}
+              />
+              {errors.startDate?.message && (
+                <p className="text-xs text-red-500">
+                  {errors.startDate?.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {!selectedInstallmentst?.title && (
-            <DrawerDialogDemo drawerType={"SpendsList"} formType="Add Spends">
+            <DrawerDialogDemo
+              drawerType={"InstallmentsListDetails"}
+              formType="Installments List Details"
+              errors={errors}
+              installment={instalmentDetails || []}
+              onSubmitForm={onSubmitHandler}
+              onChangeinstallment={onChangeinstallment}
+            >
               <DialogTrigger asChild>
-                <Button
-                  className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-                >
+                <Button className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">
                   submit
                 </Button>
               </DialogTrigger>
@@ -477,11 +475,16 @@ export default function FormInstallments({
                 reset
               </Button>
 
-              <DrawerDialogDemo drawerType={"SpendsList"} formType="Add Spends">
+              <DrawerDialogDemo
+                drawerType={"InstallmentsListDetails"}
+                formType="Installments List Details"
+                errors={errors}
+                installment={instalmentDetails || []}
+                onSubmitForm={onSubmitHandler}
+                onChangeinstallment={onChangeinstallment}
+              >
                 <DialogTrigger asChild>
-                  <Button
-                    className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-                  >
+                  <Button className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">
                     submit
                   </Button>
                 </DialogTrigger>
