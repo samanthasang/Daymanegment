@@ -47,6 +47,10 @@ export default function FormInstallmentsDetails({
     onChangeinstallment(instalmentDetail);
   }, [instalmentDetail]);
 
+  useEffect(() => {
+    console.log(installment.isComplete);
+  }, [instalmentDetail]);
+
   return (
     <div className=" flex flex-row justify-center items-centerw-full min-w-60 gap-y-4 border px-3 py-2 rounded-2xl border-white">
       <label className="px-2 py-1 flex-none">

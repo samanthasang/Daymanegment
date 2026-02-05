@@ -113,7 +113,8 @@ export default function FormInstallments({
     if (
       watch("startDate") &&
       watch("numberOfPayment") &&
-      watch("paymentNumber")
+      watch("paymentNumber") &&
+      !instalmentDetails
     ) {
       for (let i = 1; i < +watch("numberOfPayment") + 1; i++) {
         installmentArray.push({
@@ -148,6 +149,8 @@ export default function FormInstallments({
 
   useEffect(() => {
     if (selectedInstallmentst) {
+      console.log(selectedInstallmentst);
+
       setValue("title", selectedInstallmentst?.title);
       setValue("description", selectedInstallmentst?.description);
       setValue("paymentNumber", selectedInstallmentst.paymentNumber);
@@ -160,8 +163,10 @@ export default function FormInstallments({
       setValue("tag", selectedInstallmentst.tag);
       setValue("startDate", selectedInstallmentst.startDate);
       setValue("lastUpdate", selectedInstallmentst.lastUpdate);
+      setValue("installmentstList", selectedInstallmentst.installmentstList);
       setValue("completeUpdate", selectedInstallmentst.completeUpdate);
       setDate(new Date(Number(selectedInstallmentst.startDate) * 1000));
+      setInstalmentDetails(selectedInstallmentst.installmentstList);
     }
   }, [selectedInstallmentst, setValue]);
 
@@ -181,12 +186,15 @@ export default function FormInstallments({
   }, [getValues(), errors]);
 
   const onSubmitHandler = () => {
-    onSubmit(getValues())
-  }
+    onSubmit(getValues());
+  };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
 
+    const nextDate = selectedInstallmentst.installmentstList.find(
+      (element: TInstallmentst) => element.isComplete != false
+    );
     selectedInstallmentst?.title
       ? dispatch(
           updateInstallmentstList({
@@ -195,8 +203,8 @@ export default function FormInstallments({
             startDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.startDate,
-            lastUpdate: "string",
-            completeUpdate: "string",
+            lastUpdate: nextDate || selectedInstallmentst.startDate,
+            completeUpdate: nextDate || selectedInstallmentst.startDate,
             description: data.description || "",
             priority: data.priority || "",
             paymentNumber: data.paymentNumber || "",
@@ -245,6 +253,7 @@ export default function FormInstallments({
     setValue("startDate", "");
     reset();
   };
+  
   const onChangeinstallment = (install: TInstallmentst) => {
     const installmentArray =
       instalmentDetails &&
@@ -257,6 +266,10 @@ export default function FormInstallments({
             }
           : installment
       );
+    console.log(install);
+    console.log(installmentArray);
+
+    setValue("installmentstList", installmentArray);
     setInstalmentDetails(installmentArray);
   };
 
