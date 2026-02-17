@@ -24,13 +24,13 @@ function TimerSideBar() {
   const ListTimer = useTimerList()
    
   const onSubmit = () => {
-    console.log("onSubmit", dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("YYYY-MM-DD HH:MM"));
+    console.log("onSubmit", dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("YYYY-MM-DD HH:mm"));
     
       dispatch(setTimerList({
         id: "",
         title: `timer${ListTimer ? ListTimer.length : 0}`,
-        startDate: (new Date().getTime() / 1000.0).toString(),
-        endDate: (new Date().getTime() / 1000.0).toString(),
+        startDate: Math.floor((new Date().getTime() / 1000.0)).toString(),
+        endDate: Math.floor((new Date().getTime() / 1000.0)).toString(),
         isComplete: false,
         category: "",
         tag: ""
@@ -46,7 +46,7 @@ function TimerSideBar() {
 
             
             <div className="col-span-1 w-full">
-                <Button onClick={() => onSubmit()} type="submit" className="rounded-full h-64 cursor-pointer w-64 mt-10 mx-auto text-white bg-background border border-white">submit</Button>
+                <Button onClick={() => onSubmit()} type="submit" className="rounded cursor-pointer w-64 mt-10 mx-auto text-white bg-background border border-white">submit</Button>
             </div>
           
           </div>

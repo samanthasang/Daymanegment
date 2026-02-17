@@ -42,7 +42,7 @@ export const MyHabbitListSlice = createSlice({
       state.ListMyHabbit = state.ListMyHabbit ? [
         ...state.ListMyHabbit,
         {
-          id: nanoid(),
+          id: action.payload.id,
           title: action.payload.title,
           priority: action.payload.priority,
           description: action.payload.description,
@@ -54,7 +54,7 @@ export const MyHabbitListSlice = createSlice({
         },
       ] : [
           {
-            id: nanoid(),
+            id: action.payload.id,
             priority: action.payload.priority,
             description: action.payload.description,
             title: action.payload.title,

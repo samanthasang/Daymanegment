@@ -1,15 +1,17 @@
-import { combineReducers, configureStore, Middleware } from "@reduxjs/toolkit";
-import apiService from "./api.service";
-import { ticketReducer } from "../modules/ticket/ticket.slice";
-import { todoReducer } from "../modules/toDoList/todo.slice";
-import { habbitReducer } from "@/modules/habbitList/habbit.slice";
-import { MyHabbitReducer } from "@/modules/myHabbitList/myHabbit.slice";
-import { timerReducer } from "@/modules/timerList/timer.slice";
-import { installmentstReducer } from "@/modules/installmentstList/installmentst.slice";
 import { CategoryReducer } from "@/modules/category/categoryList.slice";
-import { TagReducer } from "@/modules/tag/TagList.slice";
+import { habbitReducer } from "@/modules/habbitList/habbit.slice";
+import { installmentstReducer } from "@/modules/installmentstList/installmentst.slice";
+import { MyHabbitReducer } from "@/modules/myHabbitList/myHabbit.slice";
 import { reminderReducer } from "@/modules/reminderList/reminder.slice";
 import { spendsReducer } from "@/modules/spends/spends.slice";
+import { TagReducer } from "@/modules/tag/TagList.slice";
+import { timerReducer } from "@/modules/timerList/timer.slice";
+import { VisitReducer } from "@/modules/visitsList/visit.slice";
+import { combineReducers, configureStore, Middleware } from "@reduxjs/toolkit";
+import { ticketReducer } from "../modules/ticket/ticket.slice";
+import { todoReducer } from "../modules/toDoList/todo.slice";
+import apiService from "./api.service";
+import { goalReducer } from "@/modules/goalsList/goals.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
@@ -22,6 +24,8 @@ export const reducers = combineReducers({
   CategoryList: CategoryReducer,
   TagList: TagReducer,
   InstallmentstList: installmentstReducer,
+  visit: VisitReducer,
+  Goals: goalReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
 

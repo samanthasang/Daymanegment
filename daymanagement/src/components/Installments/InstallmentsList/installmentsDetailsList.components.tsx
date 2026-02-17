@@ -34,18 +34,19 @@ export default function FormInstallmentsDetailsList({
 }) {
   return (
     <div className="flex flex-col gap-2 w-full">
-      {installment &&
-        errors &&
-        installment.map((i) => (
-          <FormInstallmentsDetails
-            key={i.date}
-            errors={errors}
-            installment={i}
-            onChangeinstallment={onChangeinstallment}
-          />
-        ))}
+      <div className="flex flex-col gap-2 w-full h-96 overflow-y-scroll">
+        {installment &&
+          errors &&
+          installment.map((i) => (
+            <FormInstallmentsDetails
+              key={i.date}
+              errors={errors}
+              installment={i}
+              onChangeinstallment={onChangeinstallment}
+            />
+          ))}
+      </div>
       <Button
-        // type="submit"
         onClick={() => onSubmitForm()}
         className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
       >

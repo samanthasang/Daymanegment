@@ -8,16 +8,18 @@ import { ChevronSmallUp } from "./ChevronSmallUp";
 import { ChevronSmallDoubleUp } from "./ChevronSmallDoubleUp";
 import { ChevronSmallTripleUp } from "./ChevronSmallTripleUp";
 import More from "./More";
+import Trash from "./Trash";
 
 export {
-    Edit,
-    Eye,
-    Remove,
-    CheckCircle,
-    CheckCircleBlue,
-    CheckMark,
-    ChevronSmallUp,
-    ChevronSmallDoubleUp,
-    ChevronSmallTripleUp,
-    More
-}
+  Edit,
+  Eye,
+  Remove,
+  CheckCircle,
+  CheckCircleBlue,
+  CheckMark,
+  ChevronSmallUp,
+  ChevronSmallDoubleUp,
+  ChevronSmallTripleUp,
+  More,
+  Trash,
+};

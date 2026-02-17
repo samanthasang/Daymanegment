@@ -5,8 +5,8 @@ import {
   ChevronSmallTripleUp,
   ChevronSmallUp,
   More,
-  Remove,
-} from "@/components/table";
+  Trash
+} from "@/components/icons";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
@@ -116,8 +116,9 @@ export const TodoItem = ({ item }: { item: TToDo }) => {
                   e && e.preventDefault();
                   item.id && dispatch(delToDoList(item.id));
                 }}
+                className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
               >
-                <More />
+                <Trash />
               </div>
               <BasicSwitch
                 checked={item.isComplete}

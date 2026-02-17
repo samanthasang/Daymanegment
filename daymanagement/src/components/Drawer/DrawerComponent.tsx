@@ -31,8 +31,10 @@ import { selectReminderList } from "@/modules/reminderList/reminder.slice";
 import { selectSpendsList } from "@/modules/spends/spends.slice";
 import { selectTimerList } from "@/modules/timerList/timer.slice";
 import { selectToDoList } from "@/modules/toDoList/todo.slice";
-import { FieldErrors, SubmitHandler } from "react-hook-form";
+import { selectVisitList } from "@/modules/visitsList/visit.slice";
+import { FieldErrors } from "react-hook-form";
 import CategoryForm from "../Category/CategoryForm";
+import FormGoals from "../Goals/AddGoals/FormGoal";
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit";
 import FormInstallments from "../Installments/AddInstallments/FormInstallments";
 import FormInstallmentsDetailsList from "../Installments/InstallmentsList/installmentsDetailsList.components";
@@ -41,6 +43,8 @@ import FormSpends from "../Spends/AddSpends/FormSpends";
 import TagForm from "../Tags/TagForm";
 import FormTimer from "../Timer/AddTimer/FormTimer";
 import FormTodo from "../Todo/AddTodo/FormTodo";
+import FormVisits from "../Visits/AddVisit/FormVisit";
+import { selectGoalList } from "@/modules/goalsList/goals.slice";
 
 export function DrawerDialogDemo({
   drawerType,
@@ -89,6 +93,8 @@ export function DrawerDialogDemo({
       dispatch(selectSpendsList(""));
       dispatch(selectReminderList(""));
       dispatch(selectInstallmentstList(""));
+      dispatch(selectVisitList(""));
+      dispatch(selectGoalList(""));
     }
     console.log(drawerType);
     setOpen(e);
@@ -201,6 +207,10 @@ function ProfileForm({
       return <FormSpends onSubmitForm={onSubmit} />;
     case "InstallmentsList":
       return <FormInstallments onSubmitForm={onSubmit} />;
+    case "VisitsList":
+      return <FormVisits onSubmitForm={onSubmit} />;
+    case "GoalsList":
+      return <FormGoals onSubmitForm={onSubmit} />;
     case "InstallmentsListDetails":
       return (
         onSubmitForm &&

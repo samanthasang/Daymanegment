@@ -14,12 +14,21 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useRouter } from "next/navigation";
 
-const pages = ["Todo", "Habbit","MyHabbit", "Timer", "Reminder", "Installments", "Spends"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = [
+  "Todo",
+  "Habbit",
+  "MyHabbit",
+  "Timer",
+  "Reminder",
+  "Installments",
+  "Spends",
+  "Visits",
+  "Goals",
+];
+const settings = ["Profile", "Account", "Dashboard", "Logout", "Goals"];
 
 function Header() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -44,7 +53,7 @@ function Header() {
   };
 
   const handleChangeRout = (rout: string) => {
-    router.push(rout.toLowerCase())
+    router.push(rout.toLowerCase());
     console.log(rout);
   };
   return (

@@ -1,7 +1,7 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/table";
+import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";

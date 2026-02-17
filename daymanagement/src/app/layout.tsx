@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header/Header";
@@ -17,7 +17,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,15 +27,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
         <Provider store={store}>
-          
-      <Header />
-      <div className="min-h-[calc(100vh-8rem)] h-20 p-3 bg-primary">
-        {children}
-      </div>
-        <Footer />
-    </Provider>
+          <Header />
+          <div className="min-h-[calc(100vh-8rem)] h-20 p-3 bg-primary">
+            {children}
+          </div>
+          <Footer />
+        </Provider>
       </body>
     </html>
   );

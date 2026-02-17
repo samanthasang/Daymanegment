@@ -1,7 +1,7 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/table";
+import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -117,14 +117,15 @@ export default function FormInstallments({
       !instalmentDetails
     ) {
       for (let i = 1; i < +watch("numberOfPayment") + 1; i++) {
+        console.log(
+          +watch("numberOfPayment") * i,
+          watch("paymentNumber") as ManipulateType
+        );
         installmentArray.push({
           date: dayjs(
             dayjs
               .unix(+watch("startDate"))
-              .add(
-                +watch("numberOfPayment") * i,
-                watch("paymentNumber") as ManipulateType
-              )
+              .add(i, watch("paymentNumber") as ManipulateType)
           )
             .unix()
             .toString(),
@@ -136,12 +137,15 @@ export default function FormInstallments({
       }
       setInstalmentDetails(installmentArray);
     }
-    console.log(installmentArray);
-    console.log(watch("startDate"));
-    console.log(watch("numberOfPayment"));
-    console.log(watch("paymentNumber"));
-    console.log(watch("paymentCompleteValue"));
-  }, [watch("startDate")]);
+    // console.log(installmentArray);
+    // console.log(+watch("numberOfPayment"));
+    // console.log(watch("paymentNumber") as ManipulateType);
+  }, [
+    getValues,
+    watch("startDate"),
+    watch("paymentNumber"),
+    watch("numberOfPayment"),
+  ]);
 
   const dispatch = useAppDispatch();
   const { selectedInstallmentst }: any =
@@ -192,9 +196,11 @@ export default function FormInstallments({
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
 
-    const nextDate = selectedInstallmentst.installmentstList.find(
-      (element: TInstallmentst) => element.isComplete != false
-    );
+    const nextDate =
+      instalmentDetails &&
+      instalmentDetails.find(
+        (element: TInstallmentst) => element.isComplete != false
+      );
     selectedInstallmentst?.title
       ? dispatch(
           updateInstallmentstList({
@@ -253,7 +259,7 @@ export default function FormInstallments({
     setValue("startDate", "");
     reset();
   };
-  
+
   const onChangeinstallment = (install: TInstallmentst) => {
     const installmentArray =
       instalmentDetails &&

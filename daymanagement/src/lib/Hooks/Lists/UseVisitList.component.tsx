@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector } from "@/lib/hook";
-import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
+import { TVisit } from "@/modules/visitsList/visit.slice";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -14,13 +14,13 @@ dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-function useInstallmentsList() {
+function useVisitList() {
   const {
-    ListInstallmentst,
+    ListVisit,
   }: {
-    ListInstallmentst: TInstallmentsts[];
-    selectedInstallmentst: {};
-  } = useAppSelector((state) => state.InstallmentstList) || [];
+    ListVisit: TVisit[];
+    selectedVisit: TVisit | {};
+  } = useAppSelector((state) => state.visit) || [];
 
   const searchParams = useSearchParams();
 
@@ -34,9 +34,9 @@ function useInstallmentsList() {
   const hasTagSearch = searchParams.has("tag");
   const fromTodayNow = new Date().setHours(0, 0, 0, 0);
 
-  const [listAfterFilter, setListAfterFilter] = useState<
-    TInstallmentsts[] | undefined
-  >(ListInstallmentst);
+  const [listAfterFilter, setListAfterFilter] = useState<TVisit[] | undefined>(
+    ListVisit
+  );
 
   useEffect(() => {
     const filterdList = () => {
@@ -46,24 +46,22 @@ function useInstallmentsList() {
       const toDay = hasdateTo
         ? dateTo
         : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString();
-      let filterArrayDay = ListInstallmentst || [];
+      let filterArrayDay = ListVisit || [];
       if (hasdateTo && hasdateFrom && fromDay) {
         if (toDay) {
-          filterArrayDay = ListInstallmentst.filter(
-            (list) => list.lastUpdate >= fromDay && list.lastUpdate <= toDay
+          filterArrayDay = ListVisit.filter(
+            (list) => list.date >= fromDay && list.date <= toDay
           );
         }
       }
       if (fromDay && toDay && fromDay == toDay) {
-        filterArrayDay = ListInstallmentst.filter(
-          (list) => list.lastUpdate >= fromDay && list.lastUpdate <= toDay
-        );
+        filterArrayDay = ListVisit.filter((list) => list.date >= fromDay);
       }
       if (fromDay && toDay && fromDay != toDay) {
-        filterArrayDay = ListInstallmentst.filter(
+        filterArrayDay = ListVisit.filter(
           (list) =>
-            Math.floor(+list.lastUpdate).toString() >= fromDay &&
-            Math.floor(+list.lastUpdate).toString() <= toDay
+            Math.floor(+list.date).toString() >= fromDay &&
+            Math.floor(+list.date).toString() <= toDay
         );
       }
 
@@ -82,7 +80,7 @@ function useInstallmentsList() {
             ? filterArrayCat.filter((list) => list.tag == tagSearch)
             : [];
       }
-      console.log(ListInstallmentst);
+      console.log(ListVisit);
       console.log(filterArrayDay);
       console.log(filterArrayCat);
       console.log(filterArrayTag);
@@ -93,9 +91,9 @@ function useInstallmentsList() {
 
     list ? setListAfterFilter(list) : setListAfterFilter([]);
     console.log(list);
-  }, [ListInstallmentst, dateFrom, dateTo, tagSearch, categorySearch]);
+  }, [ListVisit, dateFrom, dateTo, tagSearch, categorySearch]);
 
   return listAfterFilter;
 }
 
-export default useInstallmentsList;
+export default useVisitList;

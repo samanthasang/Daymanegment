@@ -1,17 +1,16 @@
 "use client";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Trash } from "@/components/icons";
-import More from "@/components/icons/More";
+import { More, Trash } from "@/components/icons";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
-import {
-  delInstallmentstList,
-  selectInstallmentstList,
-  TInstallmentsts,
-} from "@/modules/installmentstList/installmentst.slice";
+import { delSpendsList, selectSpendsList } from "@/modules/spends/spends.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
-import { delToDoList, selectToDoList } from "@/modules/toDoList/todo.slice";
+import {
+  delVisitList,
+  selectVisitList,
+  TVisit,
+} from "@/modules/visitsList/visit.slice";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -22,7 +21,7 @@ dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
+export const VisitsItem = ({ item }: { item: TVisit }) => {
   const dispatch = useAppDispatch();
 
   const {
@@ -54,14 +53,11 @@ export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
       };
 
   return (
-    <DrawerDialogDemo
-      drawerType={"InstallmentsList"}
-      formType="Edit Installments"
-    >
+    <DrawerDialogDemo drawerType={"VisitsList"} formType="Edit Visit">
       <DialogTrigger asChild>
         <div
           onClick={(e) => {
-            item.id && dispatch(selectInstallmentstList(item.id));
+            item.id && dispatch(selectVisitList(item.id));
           }}
           className="w-full h-fit cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white"
         >
@@ -71,7 +67,6 @@ export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
                 htmlFor="terms"
                 className={`cursor-pointer flex justify-center items-center gap-2`}
               >
-                {/* {priorityIcon()} */}
                 {item.title}
               </label>
             </div>
@@ -97,7 +92,7 @@ export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
               <div
                 onClick={(e) => {
                   e && e.preventDefault();
-                  item.id && dispatch(delInstallmentstList(item.id));
+                  item.id && dispatch(delVisitList(item.id));
                 }}
                 className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
               >
@@ -106,9 +101,25 @@ export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
             </div>
 
             <label
-              className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
+              className={`cursor-pointer px-2 py-1 rounded-2xl 
+                ${
+                  !item.income
+                    ? `bg-white/15`
+                    : item.advancePayment &&
+                        +item.paymentCompleteValue - +item.advancePayment == 0
+                      ? "bg-green-500/15"
+                      : "bg-red-600/15"
+                }`}
             >
-              {dayjs(dayjs.unix(Number(item.lastUpdate))).format("YYYY-MM-DD")}
+              {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD HH:mm")}
+              {item.income && ` | `}
+              {item.income &&
+                (item.paymentCompleteValue &&
+                item.advancePayment &&
+                item.otherPayment &&
+                +item.paymentCompleteValue - +item.advancePayment > 0
+                  ? `${+item.paymentCompleteValue - +item.advancePayment}`
+                  : `${+item.paymentCompleteValue - +item.otherPayment}`)}
             </label>
           </div>
         </div>
@@ -117,4 +128,4 @@ export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
   );
 };
 
-export default InstallmentsItem;
+export default VisitsItem;

@@ -5,15 +5,16 @@ import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textareainput";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";
 import {
-  selectSpendsList,
-  setSpendsList,
-  updateSpendsList,
-} from "@/modules/spends/spends.slice";
+  selectVisitList,
+  setVisitList,
+  updateVisitList,
+} from "@/modules/visitsList/visit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { format } from "date-fns";
@@ -26,14 +27,15 @@ interface IFormInputs {
   title: string;
   income?: boolean;
   date: string;
-  incomeAmount?: string;
-  numberOfProduct?: string;
-  priceOfProduct?: string;
+  description?: string;
+  otherPayment?: string;
+  advancePayment?: string;
+  paymentCompleteValue?: string;
   category: string;
   tag: string;
 }
 
-export default function FormSpends({
+export default function FormVisits({
   onSubmitForm,
 }: {
   onSubmitForm: () => void;
@@ -43,10 +45,11 @@ export default function FormSpends({
   // creating a schema for strings
   const formSchema = z.object({
     title: z.string().min(4, { message: "Name is required" }),
+    description: z.string().min(4, { message: "Description is required" }),
     income: z.boolean().optional(),
-    numberOfProduct: z.string().optional(),
-    priceOfProduct: z.string().optional(),
-    incomeAmount: z.string().optional(),
+    otherPayment: z.string().optional(),
+    advancePayment: z.string().optional(),
+    paymentCompleteValue: z.string().optional(),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
     date: z.string().min(1, { message: "date is required" }),
@@ -76,22 +79,22 @@ export default function FormSpends({
   }, [date]);
 
   const dispatch = useAppDispatch();
-  const { selectedSpends }: any =
-    useAppSelector((state) => state.SpendsList) || {};
+  const { selectedVisit }: any = useAppSelector((state) => state.visit) || {};
 
   useEffect(() => {
-    if (selectedSpends) {
-      setValue("title", selectedSpends?.title);
-      setValue("income", selectedSpends.income);
-      setValue("numberOfProduct", selectedSpends.numberOfProduct);
-      setValue("priceOfProduct", selectedSpends.priceOfProduct);
-      setValue("incomeAmount", selectedSpends.incomeAmount);
-      setValue("category", selectedSpends.category);
-      setValue("tag", selectedSpends.tag);
-      setValue("date", selectedSpends.date);
-      setDate(new Date(Number(selectedSpends.date) * 1000));
+    if (selectedVisit) {
+      setValue("title", selectedVisit?.title);
+      setValue("description", selectedVisit.description);
+      setValue("income", selectedVisit.income);
+      setValue("otherPayment", selectedVisit.otherPayment);
+      setValue("advancePayment", selectedVisit.advancePayment);
+      setValue("paymentCompleteValue", selectedVisit.paymentCompleteValue);
+      setValue("category", selectedVisit.category);
+      setValue("tag", selectedVisit.tag);
+      setValue("date", selectedVisit.date);
+      setDate(new Date(Number(selectedVisit.date) * 1000));
     }
-  }, [selectedSpends, setValue]);
+  }, [selectedVisit, setValue]);
 
   const handleCategory = (data: string) => {
     setValue("category", data);
@@ -108,45 +111,47 @@ export default function FormSpends({
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
 
-    selectedSpends?.title
+    selectedVisit?.title
       ? dispatch(
-          updateSpendsList({
-            id: selectedSpends.id,
+          updateVisitList({
+            id: selectedVisit.id,
             title: data.title,
             income: data.income || false,
+            description: data.description || "",
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
-            numberOfProduct: data.numberOfProduct || "",
-            priceOfProduct: data.priceOfProduct || "",
-            incomeAmount: data.incomeAmount || "",
+            otherPayment: data.otherPayment || "",
+            advancePayment: data.advancePayment || "",
+            paymentCompleteValue: data.paymentCompleteValue || "",
             category: data.category,
             tag: data.tag,
           })
         )
       : dispatch(
-          setSpendsList({
+          setVisitList({
             id: "",
             title: data.title,
             income: data.income || false,
+            description: data.description || "",
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
-            numberOfProduct: data.numberOfProduct || "",
-            priceOfProduct: data.priceOfProduct || "",
-            incomeAmount: data.incomeAmount || "",
+            otherPayment: data.otherPayment || "",
+            advancePayment: data.advancePayment || "",
+            paymentCompleteValue: data.paymentCompleteValue || "",
             category: data.category,
             tag: data.tag,
           })
         );
-    dispatch(selectSpendsList(""));
+    dispatch(selectVisitList(""));
     setValue("date", "");
     reset();
     onSubmitForm();
   };
 
   const onReset = () => {
-    dispatch(selectSpendsList(""));
+    dispatch(selectVisitList(""));
     setValue("date", "");
     reset();
   };
@@ -194,70 +199,67 @@ export default function FormSpends({
                   />
                 )}
               />
-              {!watch("income") && (
+              {watch("income") && (
                 <div>
                   <Controller
                     defaultValue={""}
-                    name="numberOfProduct"
+                    name="otherPayment"
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <Input
                         className="!text-white w-full px-3 border-white rounded py-1"
-                        placeholder="Number Of Product"
+                        placeholder="Share of others"
                         type="tel"
                         {...field}
                       />
                     )}
                   />
-                  {errors.numberOfProduct?.message && (
+                  {errors.otherPayment?.message && (
                     <p className="text-xs text-red-500">
-                      {errors.numberOfProduct?.message}
+                      {errors.otherPayment?.message}
                     </p>
                   )}
 
                   <Controller
                     defaultValue={""}
-                    name="priceOfProduct"
+                    name="advancePayment"
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <Input
                         className="!text-white w-full px-3 border-white rounded py-1"
-                        placeholder="Price Of Product"
+                        placeholder="Advance Payment"
                         type="tel"
                         {...field}
                       />
                     )}
                   />
-                  {errors.priceOfProduct?.message && (
+                  {errors.advancePayment?.message && (
                     <p className="text-xs text-red-500">
-                      {errors.priceOfProduct?.message}
+                      {errors.advancePayment?.message}
+                    </p>
+                  )}
+                  <Controller
+                    defaultValue={""}
+                    name="paymentCompleteValue"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Input
+                        className="!text-white w-full px-3 border-white rounded py-1"
+                        placeholder="Income Amount"
+                        type="tel"
+                        {...field}
+                      />
+                    )}
+                  />
+                  {watch("income") && errors.paymentCompleteValue?.message && (
+                    <p className="text-xs text-red-500">
+                      {errors.paymentCompleteValue?.message}
                     </p>
                   )}
                 </div>
-              )}
-
-              {watch("income") && (
-                <Controller
-                  defaultValue={""}
-                  name="incomeAmount"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Input
-                      className="!text-white w-full px-3 border-white rounded py-1"
-                      placeholder="Income Amount"
-                      type="tel"
-                      {...field}
-                    />
-                  )}
-                />
-              )}
-              {watch("income") && errors.incomeAmount?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.incomeAmount?.message}
-                </p>
               )}
 
               <div className="flex flex-row">
@@ -319,7 +321,7 @@ export default function FormSpends({
               </div>
             </div>
             <div>
-              <Button
+              {/* <Button
                 disabled
                 variant={"outline"}
                 className={cn(
@@ -329,20 +331,17 @@ export default function FormSpends({
               >
                 <CalendarIcon />
                 {date ? format(date, "PPP") : <span>Pick a date</span>}
-              </Button>
+              </Button> */}
               <Controller
                 name="date"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
                   <div className=" border-white rounded py-1 flex justify-center">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
+                    <CalendarWithTime
+                      dateValue={date}
+                      setDate={setDate}
+                      title="visit time"
                     />
                   </div>
                 )}
@@ -353,7 +352,25 @@ export default function FormSpends({
             </div>
           </div>
 
-          {!selectedSpends?.title && (
+          <Controller
+            defaultValue={""}
+            name="description"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Textarea
+                className="!text-white w-full px-3 border-white rounded py-1"
+                placeholder="Description"
+                {...field}
+              />
+            )}
+          />
+          {errors.description?.message && (
+            <p className="text-xs text-red-500">
+              {errors.description?.message}
+            </p>
+          )}
+          {!selectedVisit?.title && (
             <Button
               type="submit"
               className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
@@ -362,7 +379,7 @@ export default function FormSpends({
             </Button>
           )}
 
-          {selectedSpends?.title && (
+          {selectedVisit?.title && (
             <div className="flex gap-4">
               <Button
                 onClick={() => onReset()}

@@ -1,4 +1,8 @@
 "use client";
+import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { Edit } from "@/components/icons";
+import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -10,81 +14,56 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { Edit } from "@/components/icons";
-import TagSelectComponent from "@/components/Tags/TagSelect.component";
-import { cn } from "@/lib/utils";
 import {
-  selectReminderList,
-  setReminderList,
-  TReminder,
-  updateReminderList,
-} from "@/modules/reminderList/reminder.slice";
+  selectGoalList,
+  setGoalList,
+  updateGoalList,
+} from "../../../modules/goalsList/goals.slice";
 
 interface IFormInputs {
   todo: string;
-  timeDiff: string;
-  priodDiff: string;
   priority: string;
   date: string;
   category: string;
   tag: string;
 }
 
-export default function FormReminder({
+export default function FormGoals({
   onSubmitForm,
 }: {
   onSubmitForm: () => void;
 }) {
   const [date, setDate] = useState<Date>();
 
-  const dispatch = useAppDispatch();
-  const reminder = useAppSelector((state) => state.reminder);
-  const selectedReminder = reminder?.selectedReminder as TReminder;
-
+  // creating a schema for strings
   const formSchema = z.object({
     todo: z.string().min(4, { message: "Name is required" }),
     priority: z.string().min(1, { message: "priority is required" }),
-    timeDiff: z.string().min(1, { message: "Number Diffrence is required" }),
-    priodDiff: z.string().min(1, { message: "Priod Diffrence is required" }),
+    category: z.string().min(1, { message: "Category is required" }),
+    tag: z.string().min(1, { message: "Tag is required" }),
     date: z.string().min(1, { message: "date is required" }),
-    category: z.string().min(1, { message: "category is required" }),
-    tag: z.string().min(1, { message: "tag is required" }),
   });
-
   type FormData = z.infer<typeof formSchema>;
-  const {
-    control,
-    setValue,
-    getValues,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>({
+
+  const methods = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
-  useEffect(() => {
-    if (selectedReminder && selectedReminder.id) {
-      console.log(selectedReminder);
-      setValue("todo", selectedReminder?.title);
-      setValue("priority", selectedReminder.priority);
-      setValue("timeDiff", selectedReminder?.timeDiff);
-      setValue("priodDiff", selectedReminder.priodDiff);
-      setValue("category", selectedReminder.category);
-      setValue("tag", selectedReminder.tag);
-      setValue("date", selectedReminder.date);
-      setDate(new Date(Number(selectedReminder.date) * 1000));
-    }
-  }, [selectedReminder]);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    setValue,
+    reset,
+  } = methods;
 
   useEffect(() => {
     date &&
@@ -94,11 +73,22 @@ export default function FormReminder({
       );
   }, [date]);
 
+  const dispatch = useAppDispatch();
+  const { selectedGoal }: any = useAppSelector((state) => state.Goals) || {};
+
+  useEffect(() => {
+    if (selectedGoal) {
+      setValue("todo", selectedGoal?.title);
+      setValue("priority", selectedGoal.priority);
+      setValue("category", selectedGoal.category);
+      setValue("tag", selectedGoal.tag);
+      setValue("date", selectedGoal.date);
+      setDate(new Date(Number(selectedGoal.date) * 1000));
+    }
+  }, [selectedGoal, setValue]);
+
   const handlePriority = (data: string) => {
     setValue("priority", data);
-  };
-  const handlePriod = (data: string) => {
-    setValue("priodDiff", data);
   };
   const handleCategory = (data: string) => {
     setValue("category", data);
@@ -108,48 +98,42 @@ export default function FormReminder({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-    console.log(date);
-
-    selectedReminder?.title
+    selectedGoal?.title
       ? dispatch(
-          updateReminderList({
-            id: selectedReminder.id,
+          updateGoalList({
+            id: selectedGoal.id,
             title: data.todo,
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
             priority: data.priority,
             category: data.category,
-            timeDiff: data.timeDiff,
-            priodDiff: data.priodDiff,
             tag: data.tag,
+            score: 0,
           })
         )
       : dispatch(
-          setReminderList({
+          setGoalList({
             id: "",
             title: data.todo,
-            date: data.date,
+            date: date
+              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+              : data.date,
             priority: data.priority,
             category: data.category,
-            timeDiff: data.timeDiff,
-            priodDiff: data.priodDiff,
             tag: data.tag,
           })
         );
-    dispatch(selectReminderList(""));
+    dispatch(selectGoalList(""));
+    setValue("date", "");
     reset();
     onSubmitForm();
   };
   const onReset = () => {
-    console.log("reset");
-
-    dispatch(selectReminderList(""));
+    dispatch(selectGoalList(""));
     setValue("date", "");
     reset();
   };
-  console.log(date);
 
   return (
     <div className="col-span-1 w-auto">
@@ -177,53 +161,6 @@ export default function FormReminder({
                 <p className="text-xs text-red-500">{errors.todo?.message}</p>
               )}
 
-              <Controller
-                defaultValue={""}
-                name="timeDiff"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <Input
-                    type="number"
-                    className="!text-white w-full px-3 border-white rounded py-1"
-                    placeholder="Number for Repeat"
-                    {...field}
-                  />
-                )}
-              />
-              {errors.timeDiff?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.timeDiff?.message}
-                </p>
-              )}
-
-              <Controller
-                defaultValue={""}
-                name="priodDiff"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <Select
-                    onValueChange={(data) => data && handlePriod(data)}
-                    value={field.value}
-                  >
-                    <SelectTrigger className="w-full border-white rounded py-1">
-                      <SelectValue placeholder="Priod for repeat" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={"hour"}>Hour</SelectItem>
-                      <SelectItem value={"day"}>Day</SelectItem>
-                      <SelectItem value={"month"}>Mounth</SelectItem>
-                      <SelectItem value={"year"}>Year</SelectItem>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              {errors.priodDiff?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.priodDiff?.message}
-                </p>
-              )}
               <Controller
                 defaultValue={""}
                 name="priority"
@@ -343,7 +280,7 @@ export default function FormReminder({
             </div>
           </div>
 
-          {!selectedReminder?.title && (
+          {!selectedGoal?.title && (
             <Button
               type="submit"
               className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
@@ -352,7 +289,7 @@ export default function FormReminder({
             </Button>
           )}
 
-          {selectedReminder?.title && (
+          {selectedGoal?.title && (
             <div className="flex gap-4">
               <Button
                 onClick={() => onReset()}

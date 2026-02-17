@@ -92,7 +92,7 @@ export const timerListSlice = createSlice({
           ? {
             ...timer,
             title: action.payload.title,
-            isComplete: timer.isComplete,
+            isComplete: action.payload.isComplete,
             startDate: action.payload.startDate,
             endDate: action.payload.endDate,
             category: action.payload.category,
