@@ -1,13 +1,13 @@
-"use client"
+"use client";
 import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
 import { Button } from "../../ui/button";
 import FilterComponent from "@/components/Filter/Todo.component";
-import useSpendsList from "@/lib/Hooks/Lists/UseSpendsList.component copy";
+import useVisitList from "@/lib/Hooks/Lists/UseSpendsList.component";
 
 function VisitsSideBar() {
-  const ListSpends = useSpendsList();
+  const ListVisit = useVisitList();
 
   return (
     <div className="col-span-1 flex justify-center w-full px-3 border-l h-full">
@@ -30,8 +30,8 @@ function VisitsSideBar() {
 
         <div className="flex justify-between w-full mx-auto h-9">
           <span>
-            {"Spendss : " +
-              `${ListSpends?.filter((spends) => spends.income == true).length} / ${ListSpends?.filter((spends) => spends.income != true).length}`}
+            {"Visits : " +
+              `${ListVisit?.filter((visit) => visit.income == true).length} / ${ListVisit?.filter((visit) => visit.income != true).length}`}
           </span>
         </div>
       </div>

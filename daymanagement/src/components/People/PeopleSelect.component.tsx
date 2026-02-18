@@ -1,5 +1,5 @@
 "use client";
-import { TTag } from "@/modules/tag/TagList.slice";
+import { TPeople } from "@/modules/people/PeopleList.slice";
 import { useAppSelector } from "../../lib/hook";
 import {
   Select,
@@ -14,23 +14,23 @@ interface ICategotySelect {
   value?: string;
 }
 
-function TagSelectComponent({ onClickChange, value }: ICategotySelect) {
+function PeopleSelectComponent({ onClickChange, value }: ICategotySelect) {
   const {
-    ListTag,
+    ListPeople,
   }: {
-    ListTag: TTag[];
-    selectedTag: {};
-  } = useAppSelector((state) => state.TagList) || [];
+    ListPeople: TPeople[];
+    selectedPeople: {};
+  } = useAppSelector((state) => state.PeopleList) || {};
 
   return (
     <Select onValueChange={(e) => e && onClickChange(e)} value={value || ""}>
       <SelectTrigger className="w-full border-white rounded py-1">
-        <SelectValue placeholder="Tag" />
+        <SelectValue placeholder="People" />
       </SelectTrigger>
       <SelectContent>
-        {ListTag.map((tag, index) => (
-          <SelectItem key={index} value={tag.id}>
-            {tag.title}
+        {ListPeople.map((people, index) => (
+          <SelectItem key={index} value={people.id}>
+            {people.title}
           </SelectItem>
         ))}
       </SelectContent>
@@ -38,4 +38,4 @@ function TagSelectComponent({ onClickChange, value }: ICategotySelect) {
   );
 }
 
-export default TagSelectComponent;
+export default PeopleSelectComponent;

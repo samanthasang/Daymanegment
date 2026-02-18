@@ -24,8 +24,16 @@ const pages = [
   "Spends",
   "Visits",
   "Goals",
+  "Share",
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout", "Goals"];
+const settings = [
+  "Profile",
+  "Account",
+  "Dashboard",
+  "Logout",
+  "Goals",
+  "Share",
+];
 
 function Header() {
   const router = useRouter();
@@ -65,7 +73,7 @@ function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            onClick={() => handleChangeRout("/")}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -74,6 +82,7 @@ function Header() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              cursor: "pointer",
             }}
           >
             LOGO

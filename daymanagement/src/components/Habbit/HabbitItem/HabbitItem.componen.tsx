@@ -4,7 +4,7 @@ import {
   ChevronSmallDoubleUp,
   ChevronSmallTripleUp,
   ChevronSmallUp,
-  Trash
+  Trash,
 } from "@/components/icons";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";

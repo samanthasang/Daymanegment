@@ -1,14 +1,13 @@
 "use client"
-import useTodoList from "@/lib/Hooks/Lists/UseTodoList.component";
+import useReminderList from "@/lib/Hooks/Lists/UseReminderList.component";
 import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
-import { Button } from "../../ui/button";
 import FilterComponent from "../../Filter/Todo.component";
+import { Button } from "../../ui/button";
 
 function ReminderSideBar() {
-
-  const ListToDo = useTodoList()
+  const ListReminder = useReminderList();
    
   return (
     <div className="col-span-1 flex justify-center w-full px-3 border-l h-full">
@@ -31,7 +30,7 @@ function ReminderSideBar() {
         
         <div className="flex justify-between w-full mx-auto h-9">
           <span>
-            {"Todos : " + `${ListToDo?.filter((todo) => todo.isComplete == true).length} / ${ListToDo?.length}`}
+            {"Todos : " + `${ListReminder?.filter((reminder ) => reminder  .isComplete == true).length} / ${ListReminder?.length}`}
           </span>
         </div>
       </div>

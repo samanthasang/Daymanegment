@@ -1,11 +1,11 @@
 "use client";
-import useSpendsList from "@/lib/Hooks/Lists/UseSpendsList.component";
+import useShareList from "@/lib/Hooks/Lists/UseShareList.component";
 import { cn } from "@/lib/utils";
-import { TSpends } from "@/modules/spends/spends.slice";
-import SpendsItem from "../SpendsItem/SpendsItem.component";
+import { TShare } from "@/modules/share/share.slice";
+import { ShareItem } from "../ShareItem/ShareItem.component";
 
-function SpendsList() {
-  const ListToDo = useSpendsList();
+function ShareList() {
+  const ListToDo = useShareList();
 
   return (
     <div
@@ -20,11 +20,11 @@ function SpendsList() {
             <span>There is nothing to show</span>
           </div>
         ) : (
-          ListToDo?.map((li: TSpends) => <SpendsItem key={li.id} item={li} />)
+          ListToDo?.map((li: TShare) => <ShareItem key={li.id} item={li} />)
         )}
       </div>
     </div>
   );
 }
 
-export default SpendsList;
+export default ShareList;

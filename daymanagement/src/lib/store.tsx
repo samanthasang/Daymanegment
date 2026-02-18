@@ -12,6 +12,8 @@ import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
 import apiService from "./api.service";
 import { goalReducer } from "@/modules/goalsList/goals.slice";
+import { shareReducer } from "@/modules/share/share.slice";
+import { PeopleReducer } from "@/modules/people/PeopleList.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
@@ -23,26 +25,28 @@ export const reducers = combineReducers({
   SpendsList: spendsReducer,
   CategoryList: CategoryReducer,
   TagList: TagReducer,
+  PeopleList: PeopleReducer,
   InstallmentstList: installmentstReducer,
   visit: VisitReducer,
   Goals: goalReducer,
+  ShareList: shareReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
 
 const localStorageMiddleware: Middleware = (store) => (next) => (action) => {
-    // Run the action first to update the state
-    const result = next(action);
-    
-    // Get the current state after the action
-    const state = store.getState();
-    
-    try {
-        localStorage.setItem("applicationState", JSON.stringify(state));
-    } catch (error) {
-        console.warn("Failed to persist state to localStorage:", error);
-    }
-    
-    return result;
+  // Run the action first to update the state
+  const result = next(action);
+
+  // Get the current state after the action
+  const state = store.getState();
+
+  try {
+    localStorage.setItem("applicationState", JSON.stringify(state));
+  } catch (error) {
+    console.warn("Failed to persist state to localStorage:", error);
+  }
+
+  return result;
 };
 
 const reHydrateStore = () => {

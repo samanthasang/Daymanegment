@@ -1,41 +1,41 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import {
+  selectPeopleList,
+  setPeopleList,
+  TPeople,
+  updatePeopleList,
+} from "@/modules/people/PeopleList.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
-import {
-  selectTagList,
-  setTagList,
-  TTag,
-  updateTagList,
-} from "@/modules/tag/TagList.slice";
-import TagList from "./Tag.component";
+import { PeopleItem } from "./People.component";
 
 interface IFormInputs {
-  tag: string;
+  title: string;
 }
 
-export default function TagForm({
+export default function PeopleForm({
   onSubmitForm,
 }: {
   onSubmitForm: () => void;
 }) {
   const dispatch = useAppDispatch();
-  const { ListTag, selectedTag }: any =
-    useAppSelector((state) => state.TagList) || {};
+  const { ListPeople, selectedPeople }: any =
+    useAppSelector((state) => state.PeopleList) || {};
 
   useEffect(() => {
-    if (selectedTag && selectedTag.id) {
-      console.log(selectedTag);
-      setValue("tag", selectedTag?.title);
+    if (selectedPeople && selectedPeople.id) {
+      console.log(selectedPeople);
+      setValue("title", selectedPeople?.title);
     }
-  }, [selectedTag]);
+  }, [selectedPeople]);
 
   const formSchema = z.object({
-    tag: z.string().min(3, { message: "Name is required" }),
+    title: z.string().min(3, { message: "Name is required" }),
   });
   type FormData = z.infer<typeof formSchema>;
   const {
@@ -52,20 +52,20 @@ export default function TagForm({
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
 
-    selectedTag?.title
+    selectedPeople?.title
       ? dispatch(
-          updateTagList({
-            id: selectedTag.id,
-            title: data.tag,
+          updatePeopleList({
+            id: selectedPeople.id,
+            title: data.title,
           })
         )
       : dispatch(
-          setTagList({
+          setPeopleList({
             id: "",
-            title: data.tag,
+            title: data.title,
           })
         );
-    dispatch(selectTagList(""));
+    dispatch(selectPeopleList(""));
     reset();
     onSubmitForm();
   };
@@ -73,7 +73,7 @@ export default function TagForm({
   const onReset = () => {
     console.log("reset");
 
-    dispatch(selectTagList(""));
+    dispatch(selectPeopleList(""));
     reset();
   };
   return (
@@ -85,7 +85,7 @@ export default function TagForm({
         >
           <Controller
             defaultValue={""}
-            name="tag"
+            name="title"
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
@@ -96,10 +96,10 @@ export default function TagForm({
               />
             )}
           />
-          {errors.tag?.message && (
-            <p className="text-xs text-red-500">{errors.tag?.message}</p>
+          {errors.title?.message && (
+            <p className="text-xs text-red-500">{errors.title?.message}</p>
           )}
-          {!selectedTag?.title && (
+          {!selectedPeople?.title && (
             <Button
               type="submit"
               className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
@@ -108,7 +108,7 @@ export default function TagForm({
             </Button>
           )}
 
-          {selectedTag?.title && (
+          {selectedPeople?.title && (
             <div className="flex gap-4">
               <Button
                 onClick={() => onReset()}
@@ -127,8 +127,10 @@ export default function TagForm({
           )}
         </form>
 
-        {ListTag &&
-          ListTag?.map((li: TTag) => <TagList key={li.id} item={li} />)}
+        {ListPeople &&
+          ListPeople?.map((li: TPeople) => (
+            <PeopleItem key={li.id} item={li} />
+          ))}
       </div>
     </div>
   );

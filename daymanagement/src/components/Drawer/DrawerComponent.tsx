@@ -45,6 +45,9 @@ import FormTimer from "../Timer/AddTimer/FormTimer";
 import FormTodo from "../Todo/AddTodo/FormTodo";
 import FormVisits from "../Visits/AddVisit/FormVisit";
 import { selectGoalList } from "@/modules/goalsList/goals.slice";
+import FormShare from "../Share/AddShare/FormShare";
+import PeopleForm from "../People/PeopleForm";
+import { selectPeopleList } from "@/modules/people/PeopleList.slice";
 
 export function DrawerDialogDemo({
   drawerType,
@@ -95,6 +98,7 @@ export function DrawerDialogDemo({
       dispatch(selectInstallmentstList(""));
       dispatch(selectVisitList(""));
       dispatch(selectGoalList(""));
+      dispatch(selectPeopleList(""));
     }
     console.log(drawerType);
     setOpen(e);
@@ -201,6 +205,8 @@ function ProfileForm({
       return <CategoryForm onSubmitForm={onSubmit} />;
     case "TagList":
       return <TagForm onSubmitForm={onSubmit} />;
+    case "PeopleList":
+      return <PeopleForm onSubmitForm={onSubmit} />;
     case "TimerList":
       return <FormTimer onSubmitForm={onSubmit} />;
     case "SpendsList":
@@ -211,6 +217,8 @@ function ProfileForm({
       return <FormVisits onSubmitForm={onSubmit} />;
     case "GoalsList":
       return <FormGoals onSubmitForm={onSubmit} />;
+    case "ShareList":
+      return <FormShare onSubmitForm={onSubmit} />;
     case "InstallmentsListDetails":
       return (
         onSubmitForm &&
