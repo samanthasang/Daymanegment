@@ -37,7 +37,11 @@ function UseCategoryFilterComponent() {
   useEffect(() => {
     hasCategorySearch && console.log(categorySearch);
 
-    categorySearch && category != categorySearch && setCategory(categorySearch);
+    hasCategorySearch
+      ? categorySearch &&
+        category != categorySearch &&
+        setCategory(categorySearch)
+      : setCategory("");
   }, [hasCategorySearch]);
 
   const handleCategorySelect = (category: string) => {

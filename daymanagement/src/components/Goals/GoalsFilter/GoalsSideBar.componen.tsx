@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
 import { Button } from "../../ui/button";
-import FilterComponent from "../../Filter/Todo.component";
+import FilterComponent from "../../Filter/FilterComponent";
 import useGoalsList from "@/lib/Hooks/Lists/UseGoalsList.component";
 
 function GoalsSideBar() {

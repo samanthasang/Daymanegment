@@ -1,5 +1,5 @@
 "use client";
-import Homeist from "./HomeList/HomeList.component";
+import HomeList from "./HomeList/HomeList.component";
 import TodoSideBar from "./TodoFilter/TodoSideBar.componen";
 
 function HomeComponent() {
@@ -10,7 +10,7 @@ function HomeComponent() {
       <div className=" w-full grid grid-cols-3 h-5 flex-1">
         <TodoSideBar />
 
-        <Homeist />
+        <HomeList />
       </div>
     </div>
   );

@@ -1,20 +1,22 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { TShare } from "../share/share.slice";
 
 export type TSpends = {
-  id?: string
-  title: string
-  income: boolean
-  date: string,
-  incomeAmount?: string
-  numberOfProduct?: string
-  priceOfProduct?: string
-  category: string
-  tag: string
-}
+  id?: string;
+  title: string;
+  income: boolean;
+  date: string;
+  incomeAmount?: string;
+  shareList: TShare[];
+  numberOfProduct?: string;
+  priceOfProduct?: string;
+  category: string;
+  tag: string;
+};
 
 export interface InitialState {
   ListSpends: TSpends[];
-  selectedSpends: TSpends | {}
+  selectedSpends: TSpends | {};
 }
 
 export const spendsListSlice = createSlice({
@@ -22,76 +24,146 @@ export const spendsListSlice = createSlice({
   name: "@spendsList",
   initialState: {
     ListSpends: [],
-    selectedSpends: {}
+    selectedSpends: {},
   },
   reducers: {
-    setSpendsList: (state: InitialState, action: PayloadAction<{
-      id: string,
-      title: string,
-      income: boolean,
-      date: string,
-      numberOfProduct: string,
-      priceOfProduct: string,
-      incomeAmount: string,
-      category: string,
-      tag: string
-    }>) => {
-      state.ListSpends = state.ListSpends ? [
-        ...state.ListSpends,
-        {
-          id: nanoid(),
-          title: action.payload.title,
-          numberOfProduct: action.payload.numberOfProduct,
-          priceOfProduct: action.payload.priceOfProduct,
-          incomeAmount: action.payload.incomeAmount,
-          category: action.payload.category,
-          tag: action.payload.tag,
-          date: action.payload.date,
-          income: action.payload.income
-        },
-      ] : [
-          {
-            id: nanoid(),
-            numberOfProduct: action.payload.numberOfProduct,
-            priceOfProduct: action.payload.priceOfProduct,
-            date: action.payload.date,
-            title: action.payload.title,
-            incomeAmount: action.payload.incomeAmount,
-            category: action.payload.category,
-            tag: action.payload.tag,
-            income: action.payload.income
-          },
-      ];
+    setSpendsList: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        title: string;
+        income: boolean;
+        date: string;
+        shareList: TShare[];
+        numberOfProduct: string;
+        priceOfProduct: string;
+        incomeAmount: string;
+        category: string;
+        tag: string;
+      }>
+    ) => {
+      state.ListSpends = state.ListSpends
+        ? [
+            ...state.ListSpends,
+            {
+              id: action.payload.id,
+              title: action.payload.title,
+              numberOfProduct: action.payload.numberOfProduct,
+              priceOfProduct: action.payload.priceOfProduct,
+              incomeAmount: action.payload.incomeAmount,
+              shareList: action.payload.shareList,
+              category: action.payload.category,
+              tag: action.payload.tag,
+              date: action.payload.date,
+              income: action.payload.income,
+            },
+          ]
+        : [
+            {
+              id: action.payload.id,
+              numberOfProduct: action.payload.numberOfProduct,
+              priceOfProduct: action.payload.priceOfProduct,
+              date: action.payload.date,
+              title: action.payload.title,
+              shareList: action.payload.shareList,
+              incomeAmount: action.payload.incomeAmount,
+              category: action.payload.category,
+              tag: action.payload.tag,
+              income: action.payload.income,
+            },
+          ];
     },
     delSpendsList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListSpends = state.ListSpends.filter(
         (spends) => spends.id != action.payload
       );
     },
-    updateSpendsList: (state: InitialState, action: PayloadAction<{
-      id: any
-      title: string
-      income: boolean
-      date: string
-      numberOfProduct: string
-      priceOfProduct: string
-      incomeAmount: string
-      category: string
-      tag: string
-    }>) => {
+    updateSpendsList: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: any;
+        title: string;
+        income: boolean;
+        date: string;
+        shareList: TShare[];
+        numberOfProduct: string;
+        priceOfProduct: string;
+        incomeAmount: string;
+        category: string;
+        tag: string;
+      }>
+    ) => {
       state.ListSpends = state.ListSpends.map((spends) =>
         spends.id == action.payload.id
           ? {
-            ...spends,
-            title: action.payload.title,
-            income: action.payload.income,
-            numberOfProduct: action.payload.numberOfProduct,
-            priceOfProduct: action.payload.priceOfProduct,
-            incomeAmount: action.payload.incomeAmount,
-            date: action.payload.date,
-            category: action.payload.category,
-            tag: action.payload.tag,
-          }
+              ...spends,
+              title: action.payload.title,
+              income: action.payload.income,
+              numberOfProduct: action.payload.numberOfProduct,
+              priceOfProduct: action.payload.priceOfProduct,
+              incomeAmount: action.payload.incomeAmount,
+              shareList: action.payload.shareList,
+              date: action.payload.date,
+              category: action.payload.category,
+              tag: action.payload.tag,
+            }
+          : spends
+      );
+    },
+    updateSpendsListShare: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        peopleId: string;
+        income: boolean;
+        date: string;
+        incomeAmount?: string;
+        outcomeAmount?: string;
+        shareId?: string;
+        spendsId?: string;
+        category: string;
+        tag: string;
+      }>
+    ) => {
+      state.ListSpends = state.ListSpends.map((spends) =>
+        spends.id == action.payload.spendsId
+          ? {
+              ...spends,
+              shareList: spends.shareList.map((share) =>
+                share.id == action.payload.id
+                  ? {
+                      ...share,
+                      peopleId: action.payload.peopleId,
+                      outcomeAmount: action.payload.outcomeAmount,
+                      shareId: action.payload.shareId,
+                      incomeAmount: action.payload.incomeAmount,
+                      spendsId: action.payload.spendsId,
+                      category: action.payload.category,
+                      tag: action.payload.tag,
+                      date: action.payload.date,
+                      income: action.payload.income,
+                    }
+                  : share
+              ),
+            }
+          : spends
+      );
+    },
+    delSpendsListShare: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        spendsId?: string;
+      }>
+    ) => {
+      state.ListSpends = state.ListSpends.map((spends) =>
+        spends.id == action.payload.spendsId
+          ? {
+              ...spends,
+              shareList: spends.shareList.filter(
+                (share) => share.id == action.payload.id
+              ),
+            }
           : spends
       );
     },
@@ -109,7 +181,8 @@ export const spendsReducerPath = spendsListSlice.reducerPath;
 export const {
   setSpendsList,
   delSpendsList,
+  updateSpendsListShare,
   updateSpendsList,
-  selectSpendsList
-} =
-  spendsListSlice.actions;
+  delSpendsListShare,
+  selectSpendsList,
+} = spendsListSlice.actions;

@@ -15,6 +15,7 @@ import {
   setShareList,
   updateShareList,
 } from "@/modules/share/share.slice";
+import { updateVisitListShare } from "@/modules/visitsList/visit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { format } from "date-fns";
@@ -140,6 +141,22 @@ export default function FormShare({
             tag: data.tag,
           })
         );
+    selectedShare.visitId &&
+      dispatch(
+        updateVisitListShare({
+          id: selectedShare.id,
+          peopleId: data.peopleId,
+          income: data.income || false,
+          date: date
+            ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+            : data.date,
+          visitId: selectedShare.visitId,
+          incomeAmount: data.incomeAmount || "",
+          outcomeAmount: data.outcomeAmount || "",
+          category: data.category,
+          tag: data.tag,
+        })
+      );
     dispatch(selectShareList(""));
     setValue("date", "");
     reset();

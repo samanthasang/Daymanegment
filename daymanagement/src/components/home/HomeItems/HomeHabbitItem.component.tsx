@@ -5,6 +5,7 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -17,7 +18,10 @@ function HomeHabbitItem() {
   const ListHabbit = UseHabbitList();
 
   return (
-    <div className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white">
+    <Link
+      href={"/habbit"}
+      className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white"
+    >
       <span>Habbit</span>
       <span>{`${
         ListHabbit?.filter(
@@ -26,7 +30,7 @@ function HomeHabbitItem() {
             dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
         ).length
       } / ${ListHabbit?.length}`}</span>
-    </div>
+    </Link>
   );
 }
 

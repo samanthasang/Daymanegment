@@ -9,7 +9,11 @@ import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textareainput";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
+import {
+  setShareList,
+  TShare,
+  updateShareList,
+} from "@/modules/share/share.slice";
 import {
   selectVisitList,
   setVisitList,
@@ -17,18 +21,17 @@ import {
 } from "@/modules/visitsList/visit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { nanoid } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface IFormInputs {
   title: string;
-  income?: boolean;
+  income: boolean;
   date: string;
   description?: string;
-  otherPayment?: string;
+  shareList?: TShare[];
   advancePayment?: string;
   paymentCompleteValue?: string;
   category: string;
@@ -41,13 +44,29 @@ export default function FormVisits({
   onSubmitForm: () => void;
 }) {
   const [date, setDate] = useState<Date>();
+  const [visitIdSelected, setVisitIdSelected] = useState<string>();
 
   // creating a schema for strings
   const formSchema = z.object({
     title: z.string().min(4, { message: "Name is required" }),
     description: z.string().min(4, { message: "Description is required" }),
-    income: z.boolean().optional(),
-    otherPayment: z.string().optional(),
+    income: z.boolean(),
+    shareList: z
+      .array(
+        z.object({
+          id: z.string().optional(),
+          peopleId: z.string().min(4, { message: "Name is required" }),
+          income: z.boolean(),
+          incomeAmount: z.string().optional(),
+          outcomeAmount: z.string().optional(),
+          category: z.string().min(1, { message: "Category is required" }),
+          visitId: z.string().optional(),
+          shareId: z.string().optional(),
+          tag: z.string().min(1, { message: "Tag is required" }),
+          date: z.string().min(1, { message: "date is required" }),
+        })
+      )
+      .optional(),
     advancePayment: z.string().optional(),
     paymentCompleteValue: z.string().optional(),
     category: z.string().min(1, { message: "Category is required" }),
@@ -81,18 +100,43 @@ export default function FormVisits({
   const dispatch = useAppDispatch();
   const { selectedVisit }: any = useAppSelector((state) => state.visit) || {};
 
+  const {
+    ListShare: ListShareAll,
+  }: {
+    ListShare: TShare[];
+  } = useAppSelector((state) => state.ShareList) || [];
+
+  const [shareList, setSharelist] = useState<TShare[]>([
+    {
+      id: nanoid(),
+      peopleId: "",
+      date: date
+        ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+        : Math.floor(new Date().getTime() / 1000.0).toString(),
+      category: "",
+      tag: "",
+      income: false,
+      incomeAmount: "",
+      outcomeAmount: "",
+      spendsId: "",
+      visitId: "",
+    },
+  ]);
+
   useEffect(() => {
     if (selectedVisit) {
       setValue("title", selectedVisit?.title);
       setValue("description", selectedVisit.description);
       setValue("income", selectedVisit.income);
-      setValue("otherPayment", selectedVisit.otherPayment);
+      setValue("shareList", selectedVisit.shareList);
       setValue("advancePayment", selectedVisit.advancePayment);
       setValue("paymentCompleteValue", selectedVisit.paymentCompleteValue);
       setValue("category", selectedVisit.category);
       setValue("tag", selectedVisit.tag);
       setValue("date", selectedVisit.date);
       setDate(new Date(Number(selectedVisit.date) * 1000));
+      setSharelist(selectedVisit.shareList);
+      setVisitIdSelected(selectedVisit.id);
     }
   }, [selectedVisit, setValue]);
 
@@ -106,22 +150,26 @@ export default function FormVisits({
   useEffect(() => {
     console.log(errors);
     console.log(getValues());
+    console.log(selectedVisit);
   }, [getValues(), errors]);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
+    console.log(selectedVisit);
+    const visitId = visitIdSelected ? visitIdSelected : nanoid();
+    console.log(visitId);
 
-    selectedVisit?.title
+    visitIdSelected
       ? dispatch(
           updateVisitList({
-            id: selectedVisit.id,
+            id: visitId,
             title: data.title,
             income: data.income || false,
             description: data.description || "",
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
-            otherPayment: data.otherPayment || "",
+            shareList: shareList || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
             category: data.category,
@@ -130,20 +178,60 @@ export default function FormVisits({
         )
       : dispatch(
           setVisitList({
-            id: "",
+            id: visitId,
             title: data.title,
             income: data.income || false,
             description: data.description || "",
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
-            otherPayment: data.otherPayment || "",
+            shareList: shareList || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
             category: data.category,
             tag: data.tag,
           })
         );
+    if (shareList.length > 0) {
+      shareList.map((share) => {
+        const result = ListShareAll.find((obj) => obj.id === share.id);
+        console.log("ListShareAll ", ListShareAll);
+        console.log("share.id ", share.id);
+        console.log("result ", result);
+
+        result
+          ? dispatch(
+              updateShareList({
+                id: share.id || "",
+                peopleId: share.peopleId,
+                income: share.income || false,
+                date: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+                  : share.date,
+                incomeAmount: share.incomeAmount || "",
+                outcomeAmount: share.outcomeAmount || "",
+                visitId: visitId,
+                category: share.category,
+                tag: share.tag,
+              })
+            )
+          : dispatch(
+              setShareList({
+                id: share.id || "",
+                peopleId: share.peopleId,
+                income: share.income || false,
+                date: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+                  : share.date,
+                incomeAmount: share.incomeAmount || "",
+                outcomeAmount: share.outcomeAmount || "",
+                visitId: visitId,
+                category: share.category,
+                tag: share.tag,
+              })
+            );
+      });
+    }
     dispatch(selectVisitList(""));
     setValue("date", "");
     reset();
@@ -154,6 +242,79 @@ export default function FormVisits({
     dispatch(selectVisitList(""));
     setValue("date", "");
     reset();
+  };
+
+  console.log("shareList ", shareList);
+
+  const onChangeShare = (share: TShare) => {
+    const result = shareList.find((obj) => obj.id === share.id);
+    console.log(result);
+
+    if (result) {
+      const shareArray =
+        share &&
+        shareList.map((shareItem) =>
+          shareItem.id == share.id
+            ? {
+                ...shareItem,
+                id: shareItem.id,
+                peopleId: share.peopleId,
+                income: share.income,
+                date: getValues("date"),
+                incomeAmount: share.incomeAmount,
+                outcomeAmount: share.outcomeAmount,
+                shareId: getValues("date"),
+                visitId: "",
+                category: getValues("category"),
+                tag: getValues("tag"),
+              }
+            : shareItem
+        );
+      console.log(shareArray);
+      console.log(shareArray);
+
+      setValue("shareList", shareArray);
+      setSharelist(shareArray);
+    } else {
+      const newShareList = [
+        ...shareList,
+        {
+          id: share.id || nanoid(),
+          peopleId: share.peopleId,
+          income: share.income,
+          date: getValues("date"),
+          incomeAmount: share.incomeAmount,
+          outcomeAmount: share.outcomeAmount,
+          shareId: getValues("date"),
+          visitId: "",
+          category: getValues("category"),
+          tag: getValues("tag"),
+        },
+      ];
+      console.log(shareList);
+      console.log(newShareList);
+      setValue("shareList", newShareList);
+      setSharelist(newShareList);
+    }
+  };
+  const onChangeShareSubmit = () => {
+    const shareArray = shareList.map((shareItem) => ({
+      id: shareItem.id,
+      peopleId: shareItem.peopleId,
+      income: shareItem.income,
+      date: getValues("date"),
+      incomeAmount: shareItem.incomeAmount,
+      outcomeAmount: shareItem.outcomeAmount,
+      shareId: getValues("date"),
+      visitId: "",
+      category: getValues("category"),
+      tag: getValues("tag"),
+    }));
+    console.log(shareArray);
+    console.log(shareArray);
+
+    setValue("shareList", shareArray);
+    setSharelist(shareArray);
   };
 
   return (
@@ -201,9 +362,9 @@ export default function FormVisits({
               />
               {watch("income") && (
                 <div>
-                  <Controller
+                  {/* <Controller
                     defaultValue={""}
-                    name="otherPayment"
+                    name="shareList"
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
@@ -215,11 +376,33 @@ export default function FormVisits({
                       />
                     )}
                   />
-                  {errors.otherPayment?.message && (
+                  {errors.shareList?.message && (
                     <p className="text-xs text-red-500">
-                      {errors.otherPayment?.message}
+                      {errors.shareList?.message}
                     </p>
-                  )}
+                  )} */}
+
+                  <DrawerDialogDemo
+                    drawerType={"ShareListDetails"}
+                    formType="Share List Details"
+                    errors={errors}
+                    shareList={shareList || []}
+                    onSubmitForm={onChangeShareSubmit}
+                    onChangeShare={onChangeShare}
+                  >
+                    <DialogTrigger asChild>
+                      <Button className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">
+                        <div className="w-full flex flex-row justify-between">
+                          <span>add people</span>
+                          <span>
+                            {shareList && shareList.length
+                              ? shareList.length
+                              : 0}
+                          </span>
+                        </div>
+                      </Button>
+                    </DialogTrigger>
+                  </DrawerDialogDemo>
 
                   <Controller
                     defaultValue={""}
@@ -282,7 +465,10 @@ export default function FormVisits({
                     </p>
                   )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
+                <DrawerDialogDemo
+                  drawerType={"CategoryList"}
+                  formType="Add Category"
+                >
                   <DialogTrigger asChild>
                     <div className="text-red-400 w-10 h-10 flex justify-center items-center">
                       <Edit />

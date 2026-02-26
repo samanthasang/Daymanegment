@@ -4,7 +4,6 @@ import {
   ChevronSmallDoubleUp,
   ChevronSmallTripleUp,
   ChevronSmallUp,
-  More,
   Trash
 } from "@/components/icons";
 import BasicSwitch from "@/components/ui/BasicSwitch";
@@ -80,7 +79,10 @@ export const TodoItem = ({ item }: { item: TToDo }) => {
           onClick={(e) => {
             item.id && dispatch(selectToDoList(item.id));
           }}
-          className="w-full h-fit cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white"
+          className="w-full h-fit cursor-pointer flex flex-row items-start justify-start p-3 
+          rounded-2xl backdrop-filter backdrop-blur-3xl 
+          backdrop-saturate-200 bg-slate-50/10 
+          border border-solid border-balck/10 hover:border-white/100"
         >
           <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
             <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">

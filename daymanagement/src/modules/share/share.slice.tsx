@@ -1,21 +1,21 @@
-import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TShare = {
-  id?: string
-  peopleId: string
-  income: boolean
-  date: string,
-  incomeAmount?: string
-  outcomeAmount?: string
-  shareId?: string
-  visitId?: string
-  category: string
-  tag: string
-}
+  id?: string;
+  peopleId: string;
+  income: boolean;
+  date: string;
+  incomeAmount?: string;
+  outcomeAmount?: string;
+  spendsId?: string;
+  visitId?: string;
+  category: string;
+  tag: string;
+};
 
 export interface InitialState {
   ListShare: TShare[];
-  selectedShare: TShare | {}
+  selectedShare: TShare | {};
 }
 
 export const shareListSlice = createSlice({
@@ -35,7 +35,7 @@ export const shareListSlice = createSlice({
         date: string;
         incomeAmount?: string;
         outcomeAmount?: string;
-        shareId?: string;
+        spendsId?: string;
         visitId?: string;
         category: string;
         tag: string;
@@ -45,10 +45,10 @@ export const shareListSlice = createSlice({
         ? [
             ...state.ListShare,
             {
-              id: nanoid(),
+              id: action.payload.id,
               peopleId: action.payload.peopleId,
               outcomeAmount: action.payload.outcomeAmount,
-              shareId: action.payload.shareId,
+              spendsId: action.payload.spendsId,
               incomeAmount: action.payload.incomeAmount,
               visitId: action.payload.visitId,
               category: action.payload.category,
@@ -59,10 +59,10 @@ export const shareListSlice = createSlice({
           ]
         : [
             {
-              id: nanoid(),
+              id: action.payload.id,
               peopleId: action.payload.peopleId,
               outcomeAmount: action.payload.outcomeAmount,
-              shareId: action.payload.shareId,
+              spendsId: action.payload.spendsId,
               incomeAmount: action.payload.incomeAmount,
               visitId: action.payload.visitId,
               category: action.payload.category,
@@ -80,13 +80,13 @@ export const shareListSlice = createSlice({
     updateShareList: (
       state: InitialState,
       action: PayloadAction<{
-        id: any;
+        id: string;
         peopleId: string;
         income: boolean;
         date: string;
         incomeAmount?: string;
         outcomeAmount?: string;
-        shareId?: string;
+        spendsId?: string;
         visitId?: string;
         category: string;
         tag: string;
@@ -98,7 +98,7 @@ export const shareListSlice = createSlice({
               ...share,
               peopleId: action.payload.peopleId,
               outcomeAmount: action.payload.outcomeAmount,
-              shareId: action.payload.shareId,
+              spendsId: action.payload.spendsId,
               incomeAmount: action.payload.incomeAmount,
               visitId: action.payload.visitId,
               category: action.payload.category,
@@ -120,10 +120,5 @@ export const shareListSlice = createSlice({
 export const shareReducer = shareListSlice.reducer;
 export const shareReducerPath = shareListSlice.reducerPath;
 
-export const {
-  setShareList,
-  delShareList,
-  updateShareList,
-  selectShareList
-} =
+export const { setShareList, delShareList, updateShareList, selectShareList } =
   shareListSlice.actions;

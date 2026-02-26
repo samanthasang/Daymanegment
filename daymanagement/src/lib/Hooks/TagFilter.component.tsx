@@ -35,7 +35,9 @@ function UseTagFilterComponent() {
   useEffect(() => {
     hasTagSearch && console.log(tagSearch);
 
-    tagSearch && tag != tagSearch && setTag(tagSearch);
+    hasTagSearch
+      ? tagSearch && tag != tagSearch && setTag(tagSearch)
+      : setTag("");
   }, [hasTagSearch]);
 
   const handleTagSelect = (tag: string) => {

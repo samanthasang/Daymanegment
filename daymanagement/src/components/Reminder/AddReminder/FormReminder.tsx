@@ -213,7 +213,7 @@ export default function FormReminder({
                     <SelectContent>
                       <SelectItem value={"hour"}>Hour</SelectItem>
                       <SelectItem value={"day"}>Day</SelectItem>
-                      <SelectItem value={"month"}>Mounth</SelectItem>
+                      <SelectItem value={"month"}>Month</SelectItem>
                       <SelectItem value={"year"}>Year</SelectItem>
                     </SelectContent>
                   </Select>

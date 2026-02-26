@@ -341,7 +341,7 @@ export default function FormInstallments({
                     <SelectContent>
                       <SelectItem value={"day"}>Day</SelectItem>
                       <SelectItem value={"week"}>Week</SelectItem>
-                      <SelectItem value={"month"}>Mounth</SelectItem>
+                      <SelectItem value={"month"}>Month</SelectItem>
                       <SelectItem value={"year"}>Year</SelectItem>
                     </SelectContent>
                   </Select>

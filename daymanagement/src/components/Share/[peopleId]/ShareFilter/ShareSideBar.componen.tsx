@@ -1,10 +1,10 @@
 "use client";
-import FilterComponent from "@/components/Filter/Todo.component";
+import FilterComponent from "@/components/Filter/FilterComponent";
 import useShareList from "@/lib/Hooks/Lists/UseShareList.component";
 import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
-import { Button } from "../../ui/button";
+import { DrawerDialogDemo } from "../../../Drawer/DrawerComponent";
+import { Button } from "../../../ui/button";
 
 function ShareSideBar() {
   const ListShare = useShareList();

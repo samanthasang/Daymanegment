@@ -56,7 +56,7 @@ function useInstallmentsList() {
       }
       if (fromDay && toDay && fromDay == toDay) {
         filterArrayDay = ListInstallmentst.filter(
-          (list) => list.lastUpdate >= fromDay && list.lastUpdate <= toDay
+          (list) => list.lastUpdate >= fromDay
         );
       }
       if (fromDay && toDay && fromDay != toDay) {

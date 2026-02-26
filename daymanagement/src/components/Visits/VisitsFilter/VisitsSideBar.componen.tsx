@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
 import { Button } from "../../ui/button";
-import FilterComponent from "@/components/Filter/Todo.component";
+import FilterComponent from "@/components/Filter/FilterComponent";
 import useVisitList from "@/lib/Hooks/Lists/UseSpendsList.component";
 
 function VisitsSideBar() {
@@ -29,10 +29,7 @@ function VisitsSideBar() {
         </div>
 
         <div className="flex justify-between w-full mx-auto h-9">
-          <span>
-            {"Visits : " +
-              `${ListVisit?.filter((visit) => visit.income == true).length} / ${ListVisit?.filter((visit) => visit.income != true).length}`}
-          </span>
+          <span>{"Visits : " + `${ListVisit && ListVisit.length}`}</span>
         </div>
       </div>
     </div>

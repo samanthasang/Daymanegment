@@ -55,9 +55,7 @@ function useGoalsList() {
         }
       }
       if (fromDay && toDay && fromDay == toDay) {
-        filterArrayDay = ListTGoals.filter(
-          (list) => list.date >= fromDay 
-        );
+        filterArrayDay = ListTGoals.filter((list) => list.date >= fromDay);
       }
       if (fromDay && toDay && fromDay != toDay) {
         filterArrayDay = ListTGoals.filter(

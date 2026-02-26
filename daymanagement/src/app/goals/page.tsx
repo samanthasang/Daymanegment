@@ -1,7 +1,7 @@
 import GoalsListComponent from "@/components/Goals/Goals.component";
 
-function page() {
+function peoplepage() {
   return <GoalsListComponent />;
 }
 
-export default page;
+export default peoplepage;

@@ -1,10 +1,9 @@
 "use client";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { More, Trash } from "@/components/icons";
+import { Trash } from "@/components/icons";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
-import { delSpendsList, selectSpendsList } from "@/modules/spends/spends.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
 import {
   delVisitList,
@@ -116,10 +115,9 @@ export const VisitsItem = ({ item }: { item: TVisit }) => {
               {item.income &&
                 (item.paymentCompleteValue &&
                 item.advancePayment &&
-                item.otherPayment &&
                 +item.paymentCompleteValue - +item.advancePayment > 0
                   ? `${+item.paymentCompleteValue - +item.advancePayment}`
-                  : `${+item.paymentCompleteValue - +item.otherPayment}`)}
+                  : item.paymentCompleteValue)}
             </label>
           </div>
         </div>

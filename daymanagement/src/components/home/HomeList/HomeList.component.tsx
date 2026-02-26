@@ -9,8 +9,9 @@ import HomeInstallmentsItem from "../HomeItems/HomeInstallmentsItem.component";
 import HomeMyHabbitItem from "../HomeItems/HomeMyHabbitItem.component";
 import HomeReminderItem from "../HomeItems/HomeReminderItem.component";
 import HomeSpendsItem from "../HomeItems/HomeSpendsItem.component";
+import HomeShareItem from "../HomeItems/HomeSharesItem.component copy";
 
-function Homeist() {
+function HomeList() {
   return (
     <div className={cn("flex flex-col gap-4 px-3 col-span-2 h-auto")}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -24,9 +25,10 @@ function Homeist() {
         <HomeReminderItem />
         <HomeSpendsItem />
         <HomeTimerItem />
+        <HomeShareItem />
       </div>
     </div>
   );
 }
 
-export default Homeist;
+export default HomeList;

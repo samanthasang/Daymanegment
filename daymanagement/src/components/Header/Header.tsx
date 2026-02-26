@@ -26,14 +26,7 @@ const pages = [
   "Goals",
   "Share",
 ];
-const settings = [
-  "Profile",
-  "Account",
-  "Dashboard",
-  "Logout",
-  "Goals",
-  "Share",
-];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
   const router = useRouter();
@@ -61,11 +54,11 @@ function Header() {
   };
 
   const handleChangeRout = (rout: string) => {
-    router.push(rout.toLowerCase());
+    router.push(`/${rout.toLowerCase()}`);
     console.log(rout);
   };
   return (
-    <AppBar position="static" className="!bg-background h-20">
+    <AppBar position="static" className="!bg-background h-14 sm:h-16">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />

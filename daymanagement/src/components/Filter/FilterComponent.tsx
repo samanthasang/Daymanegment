@@ -1,11 +1,10 @@
-"use client"
+"use client";
 import UseCategoryFilterComponent from "@/lib/Hooks/CategoryFilter.component";
 import UseDateRangeComponent from "@/lib/Hooks/DateFilter.component";
 import UseResetFilterComponent from "@/lib/Hooks/ResetFilter.component";
 import UseTagFilterComponent from "@/lib/Hooks/TagFilter.component";
 
-function FilterComponent({witDate} : {witDate: boolean}) {
-   
+function FilterComponent({ witDate }: { witDate: boolean }) {
   return (
     <>
       {witDate && <UseDateRangeComponent />}

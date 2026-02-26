@@ -22,12 +22,15 @@ import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useAppDispatch } from "@/lib/hook";
 import { cn } from "@/lib/utils";
+import { selectGoalList } from "@/modules/goalsList/goals.slice";
 import { selectHabbitList } from "@/modules/habbitList/habbit.slice";
 import {
   selectInstallmentstList,
   TInstallmentst,
 } from "@/modules/installmentstList/installmentst.slice";
+import { selectPeopleList } from "@/modules/people/PeopleList.slice";
 import { selectReminderList } from "@/modules/reminderList/reminder.slice";
+import { TShare } from "@/modules/share/share.slice";
 import { selectSpendsList } from "@/modules/spends/spends.slice";
 import { selectTimerList } from "@/modules/timerList/timer.slice";
 import { selectToDoList } from "@/modules/toDoList/todo.slice";
@@ -38,16 +41,16 @@ import FormGoals from "../Goals/AddGoals/FormGoal";
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit";
 import FormInstallments from "../Installments/AddInstallments/FormInstallments";
 import FormInstallmentsDetailsList from "../Installments/InstallmentsList/installmentsDetailsList.components";
+import PeopleForm from "../People/PeopleForm";
 import FormReminder from "../Reminder/AddReminder/FormReminder";
+import FormShare from "../Share/[peopleId]/AddShare/FormShare";
+import ShareDetailsList from "../Share/[peopleId]/AddShare/ShareDetailsList.components";
 import FormSpends from "../Spends/AddSpends/FormSpends";
 import TagForm from "../Tags/TagForm";
 import FormTimer from "../Timer/AddTimer/FormTimer";
 import FormTodo from "../Todo/AddTodo/FormTodo";
 import FormVisits from "../Visits/AddVisit/FormVisit";
-import { selectGoalList } from "@/modules/goalsList/goals.slice";
-import FormShare from "../Share/AddShare/FormShare";
-import PeopleForm from "../People/PeopleForm";
-import { selectPeopleList } from "@/modules/people/PeopleList.slice";
+import FilterComponent from "../Filter/FilterComponent";
 
 export function DrawerDialogDemo({
   drawerType,
@@ -57,13 +60,17 @@ export function DrawerDialogDemo({
   installment,
   errors,
   onChangeinstallment,
+  onChangeShare,
+  shareList,
 }: {
   drawerType: string;
   onChangeinstallment?: (install: TInstallmentst) => void;
+  onChangeShare?: (onChangeShare: TShare) => void;
   formType: string;
   children?: React.ReactNode;
   onSubmitForm?: () => void;
   installment?: TInstallmentst[];
+  shareList?: TShare[];
   errors?: FieldErrors<{
     title: string;
     description: string;
@@ -124,8 +131,10 @@ export function DrawerDialogDemo({
             onSubmit={() => openDrawer(false)}
             onSubmitForm={onSubmitFormHandler}
             installment={installment}
+            shareList={shareList}
             errors={errors}
             onChangeinstallment={onChangeinstallment}
+            onChangeShare={onChangeShare}
           />
         </DialogContent>
       </Dialog>
@@ -168,13 +177,17 @@ function ProfileForm({
   installment,
   errors,
   onChangeinstallment,
+  onChangeShare,
+  shareList,
 }: {
   drawerType: string;
   className?: React.ComponentProps<"form">;
   onSubmit: () => void;
   onSubmitForm: () => void;
   onChangeinstallment?: (install: TInstallmentst) => void;
+  onChangeShare?: (onChangeShare: TShare) => void;
   installment?: TInstallmentst[];
+  shareList?: TShare[];
   errors?: FieldErrors<{
     title: string;
     description: string;
@@ -195,6 +208,8 @@ function ProfileForm({
   }>;
 }) {
   switch (drawerType) {
+    case "FilterList":
+      return <FilterComponent witDate />;
     case "ReminderList":
       return <FormReminder onSubmitForm={onSubmit} />;
     case "TodoList":
@@ -230,6 +245,20 @@ function ProfileForm({
             installment={installment}
             errors={errors}
             onChangeinstallment={onChangeinstallment}
+          />
+        )
+      );
+    case "ShareListDetails":
+      return (
+        onSubmitForm &&
+        shareList &&
+        errors &&
+        onChangeShare && (
+          <ShareDetailsList
+            onSubmitForm={onSubmitForm}
+            shareList={shareList}
+            errors={errors}
+            onChangeShare={onChangeShare}
           />
         )
       );

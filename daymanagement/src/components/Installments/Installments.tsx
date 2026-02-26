@@ -3,7 +3,7 @@
 import InstallmentsSideBar from "./InstallmentsFilter/InstallmentsFilterSideBar.componen";
 import InstallmentsList from "./InstallmentsList/InstallmentsList.component";
 
-function TodoListComponent() {
+function InstallmentsListComponent() {
    
   return (
     <div className="w-full lg:w-2/3 m-auto bg-secondary flex flex-col h-full">
@@ -20,4 +20,4 @@ function TodoListComponent() {
   );
 }
 
-export default TodoListComponent;
+export default InstallmentsListComponent;

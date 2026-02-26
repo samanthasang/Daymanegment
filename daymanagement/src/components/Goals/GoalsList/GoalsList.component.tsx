@@ -22,7 +22,9 @@ function GoalsList() {
             <span>There is nothing to show</span>
           </div>
         ) : (
-          ListGoals?.map((li: TToDo) => <GoalsItem key={li.id} item={li} />)
+          ListGoals?.map(
+            (li: TToDo) => !li.isComplete && <GoalsItem key={li.id} item={li} />
+          )
         )}
       </div>
     </div>

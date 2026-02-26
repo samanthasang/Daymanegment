@@ -10,7 +10,9 @@ import {
   selectShareList,
   TShare,
 } from "@/modules/share/share.slice";
+import { delSpendsListShare } from "@/modules/spends/spends.slice";
 import { TTag } from "@/modules/tag/TagList.slice";
+import { delVisitListShare } from "@/modules/visitsList/visit.slice";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -112,6 +114,19 @@ export const ShareItem = ({ item }: { item: TShare }) => {
                 onClick={(e) => {
                   e && e.preventDefault();
                   item.id && dispatch(delShareList(item.id));
+                  item.id &&
+                    item.visitId &&
+                    (dispatch(
+                      delVisitListShare({ id: item.id, visitId: item.visitId })
+                    ),
+                    item.spendsId &&
+                      (dispatch(
+                        delSpendsListShare({
+                          id: item.id,
+                          spendsId: item.spendsId,
+                        })
+                      ),
+                      dispatch(delShareList(item.id))));
                 }}
                 className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
               >

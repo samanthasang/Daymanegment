@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
 import { Button } from "../../ui/button";
-import FilterComponent from "@/components/Filter/Todo.component";
+import FilterComponent from "@/components/Filter/FilterComponent";
 import useSpendsList from "@/lib/Hooks/Lists/UseSpendsList.component";
 
 function SpendsSideBar() {

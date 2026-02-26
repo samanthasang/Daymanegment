@@ -1,4 +1,5 @@
-import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TShare } from "../share/share.slice";
 
 export type TVisit = {
   id: string;
@@ -6,7 +7,7 @@ export type TVisit = {
   income: boolean;
   date: string;
   description: string;
-  otherPayment: string;
+  shareList: TShare[];
   advancePayment?: string;
   paymentCompleteValue: string;
   category: string;
@@ -19,8 +20,8 @@ export interface InitialState {
 }
 
 export const visitSlice = createSlice({
-  reducerPath: "installmentstList",
-  name: "@installmentstList",
+  reducerPath: "visitList",
+  name: "@visitList",
   initialState: {
     ListVisit: [],
     selectedVisit: {},
@@ -34,7 +35,7 @@ export const visitSlice = createSlice({
         income: boolean;
         date: string;
         description: string;
-        otherPayment: string;
+        shareList: TShare[];
         advancePayment?: string;
         paymentCompleteValue: string;
         category: string;
@@ -45,12 +46,12 @@ export const visitSlice = createSlice({
         ? [
             ...state.ListVisit,
             {
-              id: nanoid(),
+              id: action.payload.id,
               title: action.payload.title,
               income: action.payload.income,
               date: action.payload.date,
               description: action.payload.description,
-              otherPayment: action.payload.otherPayment,
+              shareList: action.payload.shareList,
               advancePayment: action.payload.advancePayment,
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
@@ -59,12 +60,12 @@ export const visitSlice = createSlice({
           ]
         : [
             {
-              id: nanoid(),
+              id: action.payload.id,
               title: action.payload.title,
               income: action.payload.income,
               date: action.payload.date,
               description: action.payload.description,
-              otherPayment: action.payload.otherPayment,
+              shareList: action.payload.shareList,
               advancePayment: action.payload.advancePayment,
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
@@ -74,7 +75,7 @@ export const visitSlice = createSlice({
     },
     delVisitList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListVisit = state.ListVisit.filter(
-        (installmentst) => installmentst.id != action.payload
+        (visit) => visit.id != action.payload
       );
     },
     completeVisitList: (
@@ -84,13 +85,13 @@ export const visitSlice = createSlice({
         lastUpdate: string;
       }>
     ) => {
-      state.ListVisit = state.ListVisit.map((installmentst) =>
-        installmentst.id == action.payload.id
+      state.ListVisit = state.ListVisit.map((visit) =>
+        visit.id == action.payload.id
           ? {
-              ...installmentst,
+              ...visit,
               lastUpdate: action.payload.lastUpdate,
             }
-          : installmentst
+          : visit
       );
     },
     updateVisitList: (
@@ -101,33 +102,90 @@ export const visitSlice = createSlice({
         income: boolean;
         date: string;
         description: string;
-        otherPayment: string;
+        shareList: TShare[];
         advancePayment?: string;
         paymentCompleteValue: string;
         category: string;
         tag: string;
       }>
     ) => {
-      state.ListVisit = state.ListVisit.map((installmentst) =>
-        installmentst.id == action.payload.id
+      state.ListVisit = state.ListVisit.map((visit) =>
+        visit.id == action.payload.id
           ? {
-              ...installmentst,
+              ...visit,
               title: action.payload.title,
               date: action.payload.date,
               income: action.payload.income,
               description: action.payload.description,
-              otherPayment: action.payload.otherPayment,
+              shareList: action.payload.shareList,
               advancePayment: action.payload.advancePayment,
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
               tag: action.payload.tag,
             }
-          : installmentst
+          : visit
+      );
+    },
+    updateVisitListShare: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        peopleId: string;
+        income: boolean;
+        date: string;
+        incomeAmount?: string;
+        outcomeAmount?: string;
+        shareId?: string;
+        visitId?: string;
+        category: string;
+        tag: string;
+      }>
+    ) => {
+      state.ListVisit = state.ListVisit.map((visit) =>
+        visit.id == action.payload.visitId
+          ? {
+              ...visit,
+              shareList: visit.shareList.map((share) =>
+                share.id == action.payload.id
+                  ? {
+                      ...share,
+                      peopleId: action.payload.peopleId,
+                      outcomeAmount: action.payload.outcomeAmount,
+                      shareId: action.payload.shareId,
+                      incomeAmount: action.payload.incomeAmount,
+                      visitId: action.payload.visitId,
+                      category: action.payload.category,
+                      tag: action.payload.tag,
+                      date: action.payload.date,
+                      income: action.payload.income,
+                    }
+                  : share
+              ),
+            }
+          : visit
+      );
+    },
+    delVisitListShare: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        visitId?: string;
+      }>
+    ) => {
+      state.ListVisit = state.ListVisit.map((visit) =>
+        visit.id == action.payload.visitId
+          ? {
+              ...visit,
+              shareList: visit.shareList.filter(
+                (share) => share.id == action.payload.id
+              ),
+            }
+          : visit
       );
     },
     selectVisitList: (state: InitialState, action: PayloadAction<string>) => {
       state.selectedVisit = state.ListVisit.filter(
-        (installmentst) => installmentst.id == action.payload
+        (visit) => visit.id == action.payload
       )[0];
     },
   },
@@ -140,6 +198,8 @@ export const {
   completeVisitList,
   setVisitList,
   delVisitList,
+  delVisitListShare,
   updateVisitList,
+  updateVisitListShare,
   selectVisitList,
 } = visitSlice.actions;

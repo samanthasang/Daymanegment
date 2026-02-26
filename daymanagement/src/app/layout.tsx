@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "@/lib/store";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "./fonts/GoogleSansFlex.ttf",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
@@ -29,10 +29,10 @@ export default function RootLayout({
       >
         <Provider store={store}>
           <Header />
-          <div className="min-h-[calc(100vh-8rem)] h-20 p-3 bg-primary">
+          <div className="min-h-[calc(100vh-8rem)] h-full p-3 bg-primary">
             {children}
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </Provider>
       </body>
     </html>
