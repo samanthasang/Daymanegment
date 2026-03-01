@@ -1,18 +1,19 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TToDo = {
-  id?: string
-  title: string
-  isComplete: boolean
-  date: string,
-  priority: string
-  category: string
-  tag: string
-}
+  id: string;
+  title: string;
+  isComplete: boolean;
+  date: string;
+  priority: string;
+  category: string;
+  tag: string;
+  description: string;
+};
 
 export interface InitialState {
   ListToDo: TToDo[];
-  selectedToDo: TToDo | {}
+  selectedToDo: TToDo | {};
 }
 
 export const todoListSlice = createSlice({
@@ -20,39 +21,47 @@ export const todoListSlice = createSlice({
   name: "@todoList",
   initialState: {
     ListToDo: [],
-    selectedToDo: {}
+    selectedToDo: {},
   },
   reducers: {
-    setToDoList: (state: InitialState, action: PayloadAction<{
-      id: string,
-      title:string,
-      date: string,
-      priority: string,
-      category: string,
-      tag: string
-    }>) => {
-      state.ListToDo = state.ListToDo ? [
-        ...state.ListToDo,
-        {
-          id: nanoid(),
-          title: action.payload.title,
-          priority: action.payload.priority,
-          category: action.payload.category,
-          tag: action.payload.tag,
-          date: action.payload.date,
-          isComplete: false
-        },
-      ] : [
-          {
-            id: nanoid(),
-            priority: action.payload.priority,
-            date: action.payload.date,
-            title: action.payload.title,
-            category: action.payload.category,
-            tag: action.payload.tag,
-            isComplete: false
-          },
-      ];
+    setToDoList: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        title: string;
+        date: string;
+        priority: string;
+        description: string;
+        category: string;
+        tag: string;
+      }>
+    ) => {
+      state.ListToDo = state.ListToDo
+        ? [
+            ...state.ListToDo,
+            {
+              id: nanoid(),
+              title: action.payload.title,
+              priority: action.payload.priority,
+              category: action.payload.category,
+              description: action.payload.description,
+              tag: action.payload.tag,
+              date: action.payload.date,
+              isComplete: false,
+            },
+          ]
+        : [
+            {
+              id: nanoid(),
+              priority: action.payload.priority,
+              date: action.payload.date,
+              title: action.payload.title,
+              category: action.payload.category,
+              description: action.payload.description,
+              tag: action.payload.tag,
+              isComplete: false,
+            },
+          ];
     },
     delToDoList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListToDo = state.ListToDo.filter(
@@ -66,25 +75,30 @@ export const todoListSlice = createSlice({
           : todo
       );
     },
-    updateToDoList: (state: InitialState, action: PayloadAction<{
-      id: any
-      title: string
-      date: string
-      priority: string
-      category: string
-      tag: string
-    }>) => {
+    updateToDoList: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: any;
+        title: string;
+        date: string;
+        priority: string;
+        description: string;
+        category: string;
+        tag: string;
+      }>
+    ) => {
       state.ListToDo = state.ListToDo.map((todo) =>
         todo.id == action.payload.id
           ? {
-            ...todo,
-            title: action.payload.title,
-            isComplete: todo.isComplete,
-            priority: action.payload.priority,
-            date: action.payload.date,
-            category: action.payload.category,
-            tag: action.payload.tag,
-          }
+              ...todo,
+              title: action.payload.title,
+              isComplete: todo.isComplete,
+              priority: action.payload.priority,
+              description: action.payload.description,
+              date: action.payload.date,
+              category: action.payload.category,
+              tag: action.payload.tag,
+            }
           : todo
       );
     },
@@ -104,6 +118,5 @@ export const {
   setToDoList,
   delToDoList,
   updateToDoList,
-  selectToDoList
-} =
-  todoListSlice.actions;
+  selectToDoList,
+} = todoListSlice.actions;

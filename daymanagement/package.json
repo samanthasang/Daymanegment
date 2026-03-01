@@ -43,6 +43,7 @@
     "react-hook-form": "^7.53.2",
     "react-pdf": "^10.0.1",
     "react-redux": "^9.2.0",
+    "react-toastify": "^11.0.5",
     "shadcn": "^3.5.1",
     "tailwind-merge": "^3.2.0",
     "tailwindcss-animate": "^1.0.7",

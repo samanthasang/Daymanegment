@@ -1,22 +1,14 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { InputField } from "@/components/ui/inputField";
+import { SelectField } from "@/components/ui/selectField";
+import { Textarea } from "@/components/ui/textArea";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -27,13 +19,15 @@ import {
   setToDoList,
   updateToDoList,
 } from "../../../modules/toDoList/todo.slice";
+import { toast } from "react-toastify";
 
 interface IFormInputs {
-  todo: string;
+  title: string;
   priority: string;
   date: string;
   category: string;
   tag: string;
+  description?: string;
 }
 
 export default function FormTodo({
@@ -45,11 +39,12 @@ export default function FormTodo({
 
   // creating a schema for strings
   const formSchema = z.object({
-    todo: z.string().min(4, { message: "Name is required" }),
-    priority: z.string().min(1, { message: "priority is required" }),
+    title: z.string().min(4, { message: "Title is required" }),
+    priority: z.string().min(1, { message: "Priority is required" }),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
     date: z.string().min(1, { message: "date is required" }),
+    description: z.string().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
 
@@ -78,10 +73,11 @@ export default function FormTodo({
 
   useEffect(() => {
     if (selectedToDo) {
-      setValue("todo", selectedToDo?.title);
+      setValue("title", selectedToDo?.title);
       setValue("priority", selectedToDo.priority);
       setValue("category", selectedToDo.category);
       setValue("tag", selectedToDo.tag);
+      setValue("description", selectedToDo?.description);
       setValue("date", selectedToDo.date);
       setDate(new Date(Number(selectedToDo.date) * 1000));
     }
@@ -102,11 +98,12 @@ export default function FormTodo({
       ? dispatch(
           updateToDoList({
             id: selectedToDo.id,
-            title: data.todo,
+            title: data.title,
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
             priority: data.priority,
+            description: data.description || "",
             category: data.category,
             tag: data.tag,
           })
@@ -114,16 +111,21 @@ export default function FormTodo({
       : dispatch(
           setToDoList({
             id: "",
-            title: data.todo,
+            title: data.title,
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
             priority: data.priority,
+            description: data.description || "",
             category: data.category,
             tag: data.tag,
           })
         );
     dispatch(selectToDoList(""));
+
+    selectedToDo?.title
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
     setValue("date", "");
     reset();
     onSubmitForm();
@@ -139,26 +141,28 @@ export default function FormTodo({
       <div className="flex flex-row gap-2 w-auto">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
+          className="flex flex-col w-full gap-4 p-4"
         >
           <div className="flex flex-col sm:flex-row w-full gap-x-4">
-            <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
+            <div className="w-full sm:w-1/2 min-w-60 flex flex-col gap-y-4">
               <Controller
                 defaultValue={""}
-                name="todo"
+                name="title"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Input
-                    className="!text-white w-full px-3 border-white rounded py-1"
-                    placeholder="Name"
+                  <InputField
+                    title="Title"
+                    type="string"
+                    // className="!text-white w-full px-3 border-white rounded py-1"
+                    placeholder="Enter Task Name"
+                    disabled={!!errors.title?.message}
+                    content={errors.title?.message}
+                    required
                     {...field}
                   />
                 )}
               />
-              {errors.todo?.message && (
-                <p className="text-xs text-red-500">{errors.todo?.message}</p>
-              )}
 
               <Controller
                 defaultValue={""}
@@ -166,26 +170,23 @@ export default function FormTodo({
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Select
+                  <SelectField
+                    title="Priority"
+                    name="priority"
+                    description={errors.priority?.message}
+                    placeholder="Choose Priority"
+                    required
+                    invalid={!!errors.priority?.message}
+                    itemArray={[
+                      { id: "High", title: "High" },
+                      { id: "Medium", title: "Medium" },
+                      { id: "Low", title: "Low" },
+                    ]}
                     onValueChange={(data) => data && handlePriority(data)}
                     value={field.value}
-                  >
-                    <SelectTrigger className="w-full border-white rounded py-1">
-                      <SelectValue placeholder="Priority" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={"High"}>High</SelectItem>
-                      <SelectItem value={"Medium"}>Medium</SelectItem>
-                      <SelectItem value={"Low"}>Low</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  />
                 )}
               />
-              {errors.priority?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.priority?.message}
-                </p>
-              )}
               <div className="flex flex-row">
                 <div className="flex-1">
                   <Controller
@@ -195,24 +196,14 @@ export default function FormTodo({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <CategotySelectComponent
-                        onClickChange={handleCategory}
+                        required
+                        errors={!!errors.category?.message}
+                        onValueChange={handleCategory}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.category?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.category?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
 
               <div className="flex flex-row">
@@ -224,25 +215,33 @@ export default function FormTodo({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <TagSelectComponent
-                        onClickChange={handleTag}
+                        required
+                        errors={!!errors.tag?.message}
+                        onValueChange={handleTag}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.tag?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.tag?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
+              <Controller
+                defaultValue={""}
+                name="description"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Textarea
+                    className="!text-white h-32 w-full px-3 border-white rounded py-1"
+                    placeholder="Description"
+                    {...field}
+                  />
+                )}
+              />
+              {errors.description?.message && (
+                <p className="text-xs text-red-500">
+                  {errors.description?.message}
+                </p>
+              )}
             </div>
             <div>
               <Button
@@ -262,13 +261,17 @@ export default function FormTodo({
                 rules={{ required: true }}
                 render={({ field }) => (
                   <div className=" border-white rounded py-1 flex justify-center">
-                    <Calendar
+                    <CalendarDialog
+                      required
                       mode="single"
                       selected={date}
                       month={date}
                       onSelect={setDate}
                       className=" border-white rounded py-1"
                       captionLayout="dropdown"
+                      title="a"
+                      dateValue={date}
+                      setDate={setDate}
                     />
                   </div>
                 )}

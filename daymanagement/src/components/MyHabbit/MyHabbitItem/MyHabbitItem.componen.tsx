@@ -1,104 +1,43 @@
 "use client";
-import {
-  ChevronSmallDoubleUp,
-  ChevronSmallTripleUp,
-  ChevronSmallUp,
-  More,
-  Remove,
-} from "@/components/icons";
-import BasicSwitch from "@/components/ui/BasicSwitch";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { TCategory } from "@/modules/category/categoryList.slice";
+import ListItem from "@/components/mainPage/listItem/ListItem.component";
+import { useAppDispatch } from "@/lib/hook";
 import { setHabbitList, Thabbit } from "@/modules/habbitList/habbit.slice";
 import {
   completeMyHabbitList,
   delMyHabbitList,
+  selectMyHabbitList,
   updateMyHabbitList,
 } from "@/modules/myHabbitList/myHabbit.slice";
-import { TTag } from "@/modules/tag/TagList.slice";
 import dayjs from "dayjs";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const currentUnixTimestamp = dayjs().unix();
 
 export const MyHabbitItem = ({ item }: { item: Thabbit }) => {
   const dispatch = useAppDispatch();
 
-  const {
-    ListCategory,
-  }: {
-    ListCategory: TCategory[];
-    selectedCategory: {};
-  } = useAppSelector((state) => state.CategoryList) || [];
-
-  const categorySelected = ListCategory
-    ? ListCategory.filter((category) => category.id == item.category)[0]
-    : {
-        id: "",
-        title: "",
-      };
-
-  const {
-    ListTag,
-  }: {
-    ListTag: TTag[];
-    selectedTag: {};
-  } = useAppSelector((state) => state.TagList) || [];
-
-  const tagSelected = ListTag
-    ? ListTag.filter((category) => category.id == item.tag)[0]
-    : {
-        id: "",
-        title: "",
-      };
-
-  const priorityIcon = () => {
-    switch (item.priority) {
-      case "High":
-        return <ChevronSmallTripleUp className="fill-red-500" />;
-      case "Medium":
-        return <ChevronSmallDoubleUp className="fill-red-500" />;
-      case "Low":
-        return <ChevronSmallUp className="fill-red-500" />;
-
-      default:
-        return <ChevronSmallTripleUp className="fill-red-500" />;
-    }
+  const SelectHabbitList = () => {
+    dispatch(selectMyHabbitList(item.id));
+  };
+  const DelHabbitList = () => {
+    dispatch(delMyHabbitList(item.id));
+    toast(`${item.title} is deleted`);
+  };
+  const CompleteHabbitList = () => {
+    dispatch(completeMyHabbitList(item.id));
+    dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD") ==
+    dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+      ? toast(`${item.title} is uncompleted`)
+      : toast(`${item.title} is completed`);
   };
 
   useEffect(() => {
-    console.log(
-      "lastUpdate ",
-      item.title,
-      dayjs
-        .unix(item.lastUpdate)
-        .diff(dayjs.unix(currentUnixTimestamp), "day") > 2
-    );
-    console.log(
-      "currentUnixTimestamp ",
-      item.title,
-      dayjs
-        .unix(currentUnixTimestamp)
-        .diff(dayjs.unix(item.lastUpdate), "day") > 2
-    );
-
     if (
       dayjs
         .unix(currentUnixTimestamp)
         .diff(dayjs.unix(item.lastUpdate), "day") > 2
     ) {
-      console.log(
-        item.lastUpdate,
-        dayjs
-          .unix(item.lastUpdate)
-          .diff(dayjs.unix(currentUnixTimestamp), "day") > 2
-      );
-      console.log(
-        currentUnixTimestamp,
-        dayjs
-          .unix(item.lastUpdate)
-          .diff(dayjs.unix(currentUnixTimestamp), "day") > 2
-      );
       dispatch(
         updateMyHabbitList({
           id: item.id || "",
@@ -123,7 +62,7 @@ export const MyHabbitItem = ({ item }: { item: Thabbit }) => {
           id: item.id || "",
           title: item.title,
           description: item.description,
-          score: item.score,
+          score: 9,
           priority: item.priority,
           lastUpdate: currentUnixTimestamp,
           completeUpdate: item.completeUpdate,
@@ -136,68 +75,24 @@ export const MyHabbitItem = ({ item }: { item: Thabbit }) => {
   }, []);
 
   return (
-    <div className="w-full h-fit flex flex-row items-start justify-start border p-3 rounded-2xl border-white">
-      <div className="select-none flex flex-col flex-1 gap-2 justify-start items-start">
-        <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
-          <label
-            htmlFor="terms"
-            className={`cursor-pointer flex justify-center items-center gap-2`}
-          >
-            {priorityIcon()}
-            {item.title}
-          </label>
-        </div>
-        <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
-          {categorySelected && (
-            <label
-              className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-            >
-              {categorySelected.title || ""}
-            </label>
-          )}
-          {tagSelected && (
-            <label
-              className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-            >
-              {tagSelected.title || ""}
-            </label>
-          )}
-        </div>
-      </div>
-
-      <div className="flex flex-col w-fit gap-2 justify-end items-end">
-        <div className="flex flex-row gap-x-2">
-          <div
-            onClick={(e) => {
-              e && e.preventDefault();
-              item.id && dispatch(delMyHabbitList(item.id));
-            }}
-          >
-            <More />
-          </div>
-          <BasicSwitch
-            checked={
-              dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD") ==
-              dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
-            }
-            handleToggle={(e) => {
-              e && e.preventDefault();
-
-              dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD") !=
-                dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") &&
-                item.id &&
-                dispatch(completeMyHabbitList(item.id));
-            }}
-            label=""
-            key={"isComplete"}
-          />
-        </div>
-
-        <label className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}>
-          {`(${item.score || 0})`}
-        </label>
-      </div>
-    </div>
+    <ListItem
+      id={item.id}
+      priority={item.priority}
+      title={item.title}
+      category={item.category}
+      tag={item.tag}
+      isComplete={
+        dayjs(dayjs.unix(Number(item.completeUpdate))).format("DD") ==
+        dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+      }
+      score={item.score}
+      drawerType="HabbitList"
+      formType="Edit Habbit"
+      SelectItem={SelectHabbitList}
+      DelItem={DelHabbitList}
+      CompleteItemt={CompleteHabbitList}
+      withDel={false}
+    />
   );
 };
 

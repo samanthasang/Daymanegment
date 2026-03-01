@@ -95,7 +95,7 @@ export function DrawerDialogDemo({
   const dispatch = useAppDispatch();
 
   const openDrawer = (e: boolean) => {
-    // console.log(e)
+    console.log(e);
     if (e == false) {
       dispatch(selectToDoList(""));
       dispatch(selectHabbitList(""));
@@ -118,13 +118,9 @@ export function DrawerDialogDemo({
     return (
       <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
         {children}
-        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit">
+        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit  bg-[rgba(255,_255,_255,_0.25)] backdrop-filter backdrop-blur-[10px] rounded-[16px] border-[1px] border-solid border-[rgba(255,255,255,0.35)] [box-shadow:0_8px_32px_0_rgba(31,_38,_135,_0.1)]">
           <DialogHeader>
             <DialogTitle>{formType}</DialogTitle>
-            {/* <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription> */}
           </DialogHeader>
           <ProfileForm
             drawerType={drawerType}
@@ -142,27 +138,35 @@ export function DrawerDialogDemo({
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer open={open} onOpenChange={(e) => openDrawer(e)}>
       {children}
-      <DrawerContent>
+      <DrawerContent className="p-3 bg-[rgba(255,_255,_255,_0.25)] backdrop-filter backdrop-blur-[10px] rounded-[16px] border-[1px] border-solid border-[rgba(255,255,255,0.35)] [box-shadow:0_8px_32px_0_rgba(31,_38,_135,_0.1)]">
         <DrawerHeader className="text-left">
-          <DrawerTitle>Edit profile</DrawerTitle>
-          {/* <DrawerDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DrawerDescription> */}
+          <DrawerTitle>{formType}</DrawerTitle>
         </DrawerHeader>
         <ProfileForm
           drawerType={drawerType}
           onSubmit={() => openDrawer(false)}
-          onSubmitForm={() => onSubmitFormHandler()}
+          onSubmitForm={onSubmitFormHandler}
           installment={installment}
+          shareList={shareList}
           errors={errors}
           onChangeinstallment={onChangeinstallment}
+          onChangeShare={onChangeShare}
         />
         <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
+          <div className="felx flex-row gap-y-2 justify-between items-center">
+            <DrawerClose asChild className="flex-1">
+              <Button className="w-1/2" variant="outline">
+                Cancel
+              </Button>
+            </DrawerClose>
+            <DrawerClose asChild className="flex-1">
+              <Button className="w-1/2" variant="outline">
+                Cancel
+              </Button>
+            </DrawerClose>
+          </div>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

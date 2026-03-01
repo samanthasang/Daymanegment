@@ -2,7 +2,7 @@ import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import dayjs, { ManipulateType } from "dayjs";
 
 export type TReminder = {
-  id?: string;
+  id: string;
   title: string;
   isComplete: boolean;
   date: string;

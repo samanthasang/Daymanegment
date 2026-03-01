@@ -1,33 +1,26 @@
-"use client"
+"use client";
 import useTimerList from "@/lib/Hooks/Lists/UseTimerList.component";
 import { cn } from "@/lib/utils";
 import { Timeritem } from "../TimerItem/TimerItem.component";
 import { TTimer } from "@/modules/timerList/timer.slice";
+import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
+import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
 
 function TimerList() {
+  const ListTimer = useTimerList();
 
-  const ListTimer = useTimerList()
-   
   return (
-    <div className={cn("flex flex-col gap-4 px-3 col-span-2 h-auto", 
-                ListTimer && ListTimer.length !== 0 ? "scroll-m-0 overflow-y-scroll" : "")}>
-      <div className={cn("flex flex-col gap-4 px-3 col-span-2 h-auto")}>
-          {ListTimer?.length == 0 ? 
-              <div className="flex items-center justify-center rounded-2xl h-full">
-                <span>
-                  There is nothing to show
-                </span>
-              </div>
-            : ListTimer?.map((li: TTimer) => (
-              <Timeritem
-                key={li.id}
-                item={li}
-              />
-            )
-          )
-        }
-      </div>
-    </div>
+    <ListContainer
+      listTitle="Timer"
+      ListInfo={`${ListTimer?.filter((todo) => todo.isComplete == true).length} / ${ListTimer?.length}`}
+      scrollOn={(ListTimer && ListTimer.length !== 0) || false}
+    >
+      {ListTimer?.length == 0 ? (
+        <EmptyList />
+      ) : (
+        ListTimer?.map((li: TTimer) => <Timeritem key={li.id} item={li} />)
+      )}
+    </ListContainer>
   );
 }
 

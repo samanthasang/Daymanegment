@@ -1,33 +1,42 @@
-"use client"
+"use client";
+import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
+import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
 import UseHabbitList from "@/lib/Hooks/Lists/UseHabbitList.component";
-import { cn } from "@/lib/utils";
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
 import HabbitItem from "../HabbitItem/HabbitItem.componen";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import relativeTime from "dayjs/plugin/relativeTime";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const currentUnixTimestamp = dayjs().unix();
 function HabbitList() {
+  const ListHabbit = UseHabbitList();
 
-  const ListHabbit = UseHabbitList()
-   
   return (
-    <div className={cn("flex flex-col gap-4 px-3 col-span-2 h-auto", 
-                ListHabbit && ListHabbit.length !== 0 ? "scroll-m-0 overflow-y-scroll" : "")}>
-      <div className={cn("flex flex-col gap-4 px-3 col-span-2 h-auto")}>
-          {ListHabbit?.length == 0 ? 
-              <div className="flex items-center justify-center rounded-2xl h-full">
-                <span>
-                  There is nothing to show
-                </span>
-              </div>
-            : ListHabbit?.map((li: Thabbit) => (
-              <HabbitItem
-                key={li.id}
-                item={li}
-              />
-            )
-          )
-        }
-      </div>
-    </div>
+    <ListContainer
+      listTitle="Habbits"
+      ListInfo={`${
+        ListHabbit?.filter(
+          (todo) =>
+            dayjs(dayjs.unix(Number(todo.completeUpdate))).format("DD") ==
+            dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+        ).length
+      } / ${ListHabbit?.length}`}
+      scrollOn={(ListHabbit && ListHabbit.length !== 0) || false}
+    >
+      {ListHabbit?.length == 0 ? (
+        <EmptyList />
+      ) : (
+        ListHabbit?.map((li: Thabbit) => <HabbitItem key={li.id} item={li} />)
+      )}
+    </ListContainer>
   );
 }
 

@@ -5,8 +5,8 @@ const Trash: FC<React.SVGProps<SVGSVGElement>> = (props) => {
     <svg
       {...props}
       className={`fill-red ${props.className}`}
-      width="13"
-      height="13"
+      width="13px"
+      height="13px"
       viewBox="0 0 13 13"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

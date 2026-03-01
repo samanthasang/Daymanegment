@@ -1,20 +1,25 @@
 "use client";
 import { TTag } from "@/modules/tag/TagList.slice";
 import { useAppSelector } from "../../lib/hook";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { SelectButtonGroup } from "../ui/SelectButtonGroup";
+import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
+import { Edit } from "../icons";
+import { DialogTrigger } from "../ui/dialog";
 
 interface ICategotySelect {
-  onClickChange: (category: string) => void;
+  className?: string;
+  required?: boolean;
+  errors?: boolean;
+  onValueChange: (category: string) => void;
   value?: string;
 }
 
-function TagSelectComponent({ onClickChange, value }: ICategotySelect) {
+function TagSelectComponent({
+  required = false,
+  errors = false,
+  onValueChange,
+  value,
+}: ICategotySelect) {
   const {
     ListTag,
   }: {
@@ -23,18 +28,24 @@ function TagSelectComponent({ onClickChange, value }: ICategotySelect) {
   } = useAppSelector((state) => state.TagList) || [];
 
   return (
-    <Select onValueChange={(e) => e && onClickChange(e)} value={value || ""}>
-      <SelectTrigger className="w-full border-white rounded py-1">
-        <SelectValue placeholder="Tag" />
-      </SelectTrigger>
-      <SelectContent>
-        {ListTag.map((tag, index) => (
-          <SelectItem key={index} value={tag.id}>
-            {tag.title}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <SelectButtonGroup
+      title="Tag"
+      name="tag"
+      errors={errors}
+      placeholder="Choose Tag"
+      required={required}
+      itemArray={ListTag}
+      onValueChange={(e) => e && onValueChange(e)}
+      value={value || ""}
+    >
+      <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
+        <DialogTrigger asChild>
+          <div className="text-red-400 w-8 h-8 flex justify-center items-center rounded-r-xl border border-input bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+            <Edit />
+          </div>
+        </DialogTrigger>
+      </DrawerDialogDemo>
+    </SelectButtonGroup>
   );
 }
 

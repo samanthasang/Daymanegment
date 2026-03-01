@@ -26,6 +26,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
@@ -235,6 +236,7 @@ export default function FormSpends({
       });
     }
     dispatch(selectSpendsList(""));
+    toast("Wow so easy!");
     setValue("date", "");
     reset();
     onSubmitForm();
@@ -457,7 +459,7 @@ export default function FormSpends({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <CategotySelectComponent
-                        onClickChange={handleCategory}
+                        onValueChange={handleCategory}
                         value={field.value}
                       />
                     )}
@@ -486,7 +488,7 @@ export default function FormSpends({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <TagSelectComponent
-                        onClickChange={handleTag}
+                        onValueChange={handleTag}
                         value={field.value}
                       />
                     )}

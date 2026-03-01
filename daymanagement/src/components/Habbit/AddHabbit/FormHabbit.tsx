@@ -1,17 +1,9 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { InputField } from "@/components/ui/inputField";
+import { SelectField } from "@/components/ui/selectField";
 import { Textarea } from "@/components/ui/textArea";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import {
@@ -20,15 +12,15 @@ import {
   updateHabbitList,
 } from "@/modules/habbitList/habbit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 const currentUnixTimestamp = dayjs().unix();
 interface IFormInputs {
-  habbit: string;
+  title: string;
   description: string;
   priority: string;
   category: string;
@@ -50,7 +42,7 @@ export default function FormHabbit({
 
   // creating a schema for strings
   const formSchema = z.object({
-    habbit: z.string().min(4, { message: "Name is required" }),
+    title: z.string().min(4, { message: "Title is required" }),
     description: z.string().min(4, { message: "Description is required" }),
     priority: z.string().min(1, { message: "priority is required" }),
     category: z.string().min(1, { message: "Category is required" }),
@@ -69,7 +61,7 @@ export default function FormHabbit({
   });
 
   useEffect(() => {
-    setValue("habbit", selectedhabbit?.title);
+    setValue("title", selectedhabbit?.title);
     setValue("description", selectedhabbit?.description);
     setValue("priority", selectedhabbit?.priority);
     setValue("category", selectedhabbit?.category);
@@ -93,7 +85,7 @@ export default function FormHabbit({
       ? dispatch(
           updateHabbitList({
             id: selectedhabbit.id,
-            title: data.habbit,
+            title: data.title,
             description: data.description,
             priority: data.priority,
             completeUpdate: selectedhabbit
@@ -110,7 +102,7 @@ export default function FormHabbit({
       : dispatch(
           setHabbitList({
             id: "",
-            title: data.habbit,
+            title: data.title,
             description: data.description,
             priority: data.priority,
             completeUpdate: selectedhabbit ? selectedhabbit.completeUpdate : "",
@@ -120,6 +112,9 @@ export default function FormHabbit({
             tag: data.tag,
           })
         );
+    selectedhabbit?.title
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
     dispatch(selectHabbitList(""));
     reset();
     onSubmitForm();
@@ -140,20 +135,22 @@ export default function FormHabbit({
         >
           <Controller
             defaultValue={""}
-            name="habbit"
+            name="title"
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <Input
-                className="!text-white w-full px-3 border-white rounded py-1"
-                placeholder="Name"
+              <InputField
+                title="Title"
+                type="string"
+                // className="!text-white w-full px-3 border-white rounded py-1"
+                placeholder="Enter Task Name"
+                disabled={!!errors.title?.message}
+                content={errors.title?.message}
+                required
                 {...field}
               />
             )}
           />
-          {errors.habbit?.message && (
-            <p className="text-xs text-red-500">{errors.habbit?.message}</p>
-          )}
           <Controller
             defaultValue={""}
             name="description"
@@ -161,17 +158,12 @@ export default function FormHabbit({
             rules={{ required: true }}
             render={({ field }) => (
               <Textarea
-                className="!text-white w-full px-3 border-white rounded py-1"
+                className="!text-white h-32 w-full px-3 border-white rounded py-1"
                 placeholder="Description"
                 {...field}
               />
             )}
           />
-          {errors.description?.message && (
-            <p className="text-xs text-red-500">
-              {errors.description?.message}
-            </p>
-          )}
 
           <Controller
             defaultValue={""}
@@ -179,24 +171,23 @@ export default function FormHabbit({
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <Select
+              <SelectField
+                title="Priority"
+                name="priority"
+                description={errors.priority?.message}
+                placeholder="Choose Priority"
+                required
+                invalid={!!errors.priority?.message}
+                itemArray={[
+                  { id: "High", title: "High" },
+                  { id: "Medium", title: "Medium" },
+                  { id: "Low", title: "Low" },
+                ]}
                 onValueChange={(data) => data && handlePriority(data)}
                 value={field.value}
-              >
-                <SelectTrigger className="w-full border-white rounded py-1">
-                  <SelectValue placeholder="Priority" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={"High"}>High</SelectItem>
-                  <SelectItem value={"Medium"}>Medium</SelectItem>
-                  <SelectItem value={"Low"}>Low</SelectItem>
-                </SelectContent>
-              </Select>
+              />
             )}
           />
-          {errors.priority?.message && (
-            <p className="text-xs text-red-500">{errors.priority?.message}</p>
-          )}
           <div className="flex flex-row">
             <div className="flex-1">
               <Controller
@@ -206,24 +197,14 @@ export default function FormHabbit({
                 rules={{ required: true }}
                 render={({ field }) => (
                   <CategotySelectComponent
-                    onClickChange={handleCategory}
+                    required
+                    errors={!!errors.category?.message}
+                    onValueChange={handleCategory}
                     value={field.value}
                   />
                 )}
               />
-              {errors.category?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.category?.message}
-                </p>
-              )}
             </div>
-            <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-              <DialogTrigger asChild>
-                <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                  <Edit />
-                </div>
-              </DialogTrigger>
-            </DrawerDialogDemo>
           </div>
 
           <div className="flex flex-row">
@@ -235,22 +216,14 @@ export default function FormHabbit({
                 rules={{ required: true }}
                 render={({ field }) => (
                   <TagSelectComponent
-                    onClickChange={handleTag}
+                    required
+                    errors={!!errors.tag?.message}
+                    onValueChange={handleTag}
                     value={field.value}
                   />
                 )}
               />
-              {errors.tag?.message && (
-                <p className="text-xs text-red-500">{errors.tag?.message}</p>
-              )}
             </div>
-            <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-              <DialogTrigger asChild>
-                <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                  <Edit />
-                </div>
-              </DialogTrigger>
-            </DrawerDialogDemo>
           </div>
 
           {!selectedhabbit?.title && (

@@ -282,7 +282,7 @@ export default function FormShare({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <CategotySelectComponent
-                        onClickChange={handleCategory}
+                        onValueChange={handleCategory}
                         value={field.value}
                       />
                     )}
@@ -311,7 +311,7 @@ export default function FormShare({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <TagSelectComponent
-                        onClickChange={handleTag}
+                        onValueChange={handleTag}
                         value={field.value}
                       />
                     )}

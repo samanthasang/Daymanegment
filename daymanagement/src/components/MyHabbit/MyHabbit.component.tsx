@@ -1,22 +1,18 @@
-"use client"
-import MyHabbitSideBar from "./MyHabbitFilter/HabbitSideBar.componen";
-import MyHabbitList from "./MyHabbitList/HabbitList.component";
-
+"use client";
+import PageContainer from "../mainPage/PageContainer/PageContainer.component";
+import SidebarContainer from "../mainPage/sidebarContainer/sidebarContainer.componen";
+import MyHabbitList from "./MyHabbitList/MyHabbitList.component";
 
 function MyHabbitListComponent() {
-
   return (
-    <div className="w-full lg:w-2/3 m-auto bg-secondary">
-      <div className="w-full text-center border-b p-3">MyHabbitList</div>
-
-      <div className=" w-full grid grid-cols-3 h-[70vh]">
-        
-        <MyHabbitSideBar />
-        
-        <MyHabbitList />
-
-      </div>
-    </div>
+    <PageContainer title="MyHabbitList">
+      <SidebarContainer
+        drawerType="MyHabbitList"
+        formType="Add Habbit"
+        witAdd={false}
+      />
+      <MyHabbitList />
+    </PageContainer>
   );
 }
 

@@ -96,7 +96,7 @@ function UseDateRangeComponent() {
         onSelect={setDateRange}
         numberOfMonths={1}
         captionLayout="dropdown"
-        className="w-full rounded-lg border shadow-sm"
+        className="w-full rounded-[16px] border shadow-sm bg-transparent"
       />
     </>
   );

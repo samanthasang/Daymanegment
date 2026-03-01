@@ -1,8 +1,5 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -49,19 +46,10 @@ function UseCategoryFilterComponent() {
   };
 
   return (
-    <div className="flex flex-row">
-      <CategotySelectComponent
-        onClickChange={handleCategorySelect}
-        value={category}
-      />
-      <DrawerDialogDemo drawerType={"CategoryList"} formType="Add Category">
-        <DialogTrigger asChild>
-          <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-            <Edit />
-          </div>
-        </DialogTrigger>
-      </DrawerDialogDemo>
-    </div>
+    <CategotySelectComponent
+      onValueChange={handleCategorySelect}
+      value={category}
+    />
   );
 }
 export default UseCategoryFilterComponent;
