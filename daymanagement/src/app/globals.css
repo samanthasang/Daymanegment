@@ -2,12 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   :root {
-
-
     --primary: 222.2 47.4% 11.2%;
 
     --primary-foreground: 210 40% 98%;
@@ -54,11 +50,9 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
@@ -69,21 +63,25 @@
   }
 }
 ::-webkit-scrollbar {
-    width: 10px; /* Set scrollbar width */
-    background: transparent; /* Background color */
+  width: 10px; /* Set scrollbar width */
+  background: transparent; /* Background color */
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent; /* Track color */
-    width: 5px;
+  background: transparent; /* Track color */
+  width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #0f172a; /* Thumb color */
-    width: 5px;
-    border-radius: 3px; /* Rounded corners */
+  background: #0f172a; /* Thumb color */
+  width: 5px;
+  border-radius: 3px; /* Rounded corners */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #0f172a; /* Thumb color on hover */
+  background: #0f172a; /* Thumb color on hover */
 }

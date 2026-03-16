@@ -9,7 +9,13 @@ import {
 } from "@/modules/toDoList/todo.slice";
 import { toast } from "react-toastify";
 
-export const TodoItem = ({ item }: { item: TToDo }) => {
+export const TodoItem = ({
+  item,
+  selectedID,
+}: {
+  item: TToDo;
+  selectedID?: string;
+}) => {
   const dispatch = useAppDispatch();
 
   const SelectToDoList = () => {
@@ -36,6 +42,7 @@ export const TodoItem = ({ item }: { item: TToDo }) => {
       date={item.date}
       drawerType="TodoList"
       formType="Edit Todo"
+      selectedID={selectedID}
       SelectItem={SelectToDoList}
       DelItem={DelToDoList}
       CompleteItemt={CompleteToDoList}

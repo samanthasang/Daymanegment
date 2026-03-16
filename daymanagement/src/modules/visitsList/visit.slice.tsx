@@ -5,6 +5,7 @@ export type TVisit = {
   id: string;
   title: string;
   income: boolean;
+  isComplete: boolean;
   date: string;
   description: string;
   shareList: TShare[];
@@ -56,6 +57,7 @@ export const visitSlice = createSlice({
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
               tag: action.payload.tag,
+              isComplete: false,
             },
           ]
         : [
@@ -70,6 +72,7 @@ export const visitSlice = createSlice({
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
               tag: action.payload.tag,
+              isComplete: false,
             },
           ];
     },
@@ -78,18 +81,12 @@ export const visitSlice = createSlice({
         (visit) => visit.id != action.payload
       );
     },
-    completeVisitList: (
-      state: InitialState,
-      action: PayloadAction<{
-        id: string;
-        lastUpdate: string;
-      }>
-    ) => {
+    completeVisitList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListVisit = state.ListVisit.map((visit) =>
-        visit.id == action.payload.id
+        visit.id == action.payload
           ? {
               ...visit,
-              lastUpdate: action.payload.lastUpdate,
+              isComplete: !visit.isComplete,
             }
           : visit
       );
@@ -122,6 +119,7 @@ export const visitSlice = createSlice({
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
               tag: action.payload.tag,
+              isComplete: visit.isComplete,
             }
           : visit
       );

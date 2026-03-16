@@ -1,18 +1,27 @@
 "use client";
+import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
 import useTimerList from "@/lib/Hooks/Lists/UseTimerList.component";
-import Link from "next/link";
 
-function HomeTimerItem() {
+function HomeTimerItem({
+  pathname,
+  OpenMenu,
+}: {
+  pathname: string;
+  OpenMenu: boolean;
+}) {
   const ListTimer = useTimerList();
 
   return (
-    <Link
+    <MenuItems
       href={"/timer"}
-      className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white"
-    >
-      <span>Timer</span>
-      <span>{`${ListTimer?.filter((todo) => todo.isComplete == true).length} / ${ListTimer?.length}`}</span>
-    </Link>
+      tilte="Timer"
+      className={pathname && pathname.startsWith("/timer") ? "bg-primary" : ""}
+      infoNumber={
+        OpenMenu
+          ? `${ListTimer?.filter((todo) => todo.isComplete == true).length} / ${ListTimer?.length}`
+          : ""
+      }
+    />
   );
 }
 

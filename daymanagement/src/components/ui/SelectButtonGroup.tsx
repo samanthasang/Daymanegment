@@ -1,5 +1,5 @@
 import { ButtonGroup } from "@/components/ui/buttonGroup";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 import {
   Select,
@@ -21,12 +21,13 @@ export function SelectButtonGroup({
   itemArray,
   onValueChange,
   value,
+  description,
   children,
 }: {
   title: string;
-  description?: string;
   name: string;
   placeholder: string;
+  description?: string;
   className?: string;
   required?: boolean;
   errors: boolean;
@@ -37,7 +38,7 @@ export function SelectButtonGroup({
 }) {
   return (
     <Field data-invalid={errors}>
-      <FieldLabel htmlFor={name}>{title}</FieldLabel>
+      {/* <FieldLabel htmlFor={name}>{title}</FieldLabel> */}
       <ButtonGroup>
         <Select
           required={required}
@@ -47,13 +48,13 @@ export function SelectButtonGroup({
           <SelectTrigger
             aria-invalid={errors}
             className={cn(
-              "flex h-8 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+              "flex h-8 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
               className
             )}
           >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="rounded-2xl">
             <SelectGroup>
               {itemArray.map((item) => (
                 <SelectItem key={item.id} value={item.id}>
@@ -65,6 +66,7 @@ export function SelectButtonGroup({
         </Select>
         <div>{children}</div>
       </ButtonGroup>
+      {description && <FieldError>{description}</FieldError>}
     </Field>
   );
 }

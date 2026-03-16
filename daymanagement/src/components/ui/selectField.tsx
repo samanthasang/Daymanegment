@@ -35,7 +35,7 @@ export function SelectField({
 }) {
   return (
     <Field data-invalid={invalid}>
-      <FieldLabel htmlFor={name}>{title}</FieldLabel>
+      {/* <FieldLabel htmlFor={name}>{title}</FieldLabel> */}
       <Select
         required={required}
         onValueChange={(data) => data && onValueChange(data)}
@@ -60,7 +60,7 @@ export function SelectField({
           </SelectGroup>
         </SelectContent>
       </Select>
-      {/* {description && <FieldError>{description}</FieldError>} */}
+      {description && <FieldError>{description}</FieldError>}
     </Field>
   );
 }

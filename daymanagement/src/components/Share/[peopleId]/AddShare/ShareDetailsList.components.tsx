@@ -10,10 +10,12 @@ export default function ShareDetailsList({
   shareList,
   errors,
   onChangeShare,
+  removeShare,
 }: {
   onSubmitForm: () => void;
   shareList?: TShare[];
   onChangeShare: (install: TShare) => void;
+  removeShare: (id: string) => void;
   errors?: FieldErrors<{
     title: string;
     description: string;
@@ -41,38 +43,30 @@ export default function ShareDetailsList({
       date: "",
       incomeAmount: "",
       outcomeAmount: "",
-      shareId: "",
+      spendsId: "",
       visitId: "",
       category: "",
       tag: "",
     });
   };
+
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <div className="flex flex-col gap-2 w-full h-96 overflow-y-scroll">
-        {shareList &&
-          errors &&
-          shareList.map((i) => (
-            <FormShareDetails
-              key={i.id}
-              errors={errors}
-              share={i}
-              onChangeshare={onChangeShare}
-            />
-          ))}
-      </div>
-      <Button
-        onClick={() => onChageAddPeople()}
-        className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-      >
-        add people
-      </Button>
-      <Button
-        onClick={() => onSubmitForm()}
-        className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-      >
-        submit
-      </Button>
+    <div className="flex flex-col gap-2 w-full min-w-[225px] max-w-[425px]">
+      {shareList && shareList?.length > 0 && (
+        <div className="flex flex-col gap-2 w-full h-96 overflow-y-scroll">
+          {errors &&
+            shareList.map((i) => (
+              <FormShareDetails
+                key={i.id}
+                errors={errors}
+                share={i}
+                onChangeshare={onChangeShare}
+                removeShare={removeShare}
+              />
+            ))}
+        </div>
+      )}
+      <Button onClick={() => onChageAddPeople()}>add people</Button>
     </div>
   );
 }

@@ -1,15 +1,15 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
+import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
+import { InputField } from "@/components/ui/inputField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
 import {
+  delShareList,
   setShareList,
   TShare,
   updateShareList,
@@ -22,14 +22,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { nanoid } from "@reduxjs/toolkit";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
+  id?: string;
   title: string;
   income?: boolean;
   date: string;
@@ -62,7 +61,7 @@ export default function FormSpends({
     shareList: z
       .array(
         z.object({
-          id: z.string().optional(),
+          id: z.string(),
           peopleId: z.string().min(4, { message: "Name is required" }),
           income: z.boolean(),
           incomeAmount: z.string().optional(),
@@ -110,22 +109,7 @@ export default function FormSpends({
     ListShare: TShare[];
   } = useAppSelector((state) => state.ShareList) || [];
 
-  const [shareList, setSharelist] = useState<TShare[]>([
-    {
-      id: nanoid(),
-      peopleId: "",
-      date: date
-        ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-        : Math.floor(new Date().getTime() / 1000.0).toString(),
-      category: "",
-      tag: "",
-      income: false,
-      incomeAmount: "",
-      outcomeAmount: "",
-      spendsId: "",
-      visitId: "",
-    },
-  ]);
+  const [shareList, setSharelist] = useState<TShare[]>([]);
   useEffect(() => {
     if (selectedSpends) {
       setValue("title", selectedSpends?.title);
@@ -159,8 +143,6 @@ export default function FormSpends({
     console.log(selectedSpends);
     const spendsId = spendsIdSelected ? spendsIdSelected : nanoid();
     console.log(spendsId);
-
-    spendsIdSelected;
 
     selectedSpends?.title
       ? dispatch(
@@ -198,9 +180,6 @@ export default function FormSpends({
     if (shareList.length > 0) {
       shareList.map((share) => {
         const result = ListShareAll.find((obj) => obj.id === share.id);
-        console.log("ListShareAll ", ListShareAll);
-        console.log("share.id ", share.id);
-        console.log("result ", result);
 
         result
           ? dispatch(
@@ -248,11 +227,8 @@ export default function FormSpends({
     reset();
   };
 
-  console.log("shareList ", shareList);
-
   const onChangeShare = (share: TShare) => {
     const result = shareList.find((obj) => obj.id === share.id);
-    console.log(result);
 
     if (result) {
       const shareArray =
@@ -264,7 +240,9 @@ export default function FormSpends({
                 id: shareItem.id,
                 peopleId: share.peopleId,
                 income: share.income,
-                date: getValues("date"),
+                date: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+                  : share.date,
                 incomeAmount: share.incomeAmount,
                 outcomeAmount: share.outcomeAmount,
                 shareId: getValues("date"),
@@ -274,9 +252,6 @@ export default function FormSpends({
               }
             : shareItem
         );
-      console.log(shareArray);
-      console.log(shareArray);
-
       setValue("shareList", shareArray);
       setSharelist(shareArray);
     } else {
@@ -286,7 +261,9 @@ export default function FormSpends({
           id: share.id || nanoid(),
           peopleId: share.peopleId,
           income: share.income,
-          date: getValues("date"),
+          date: getValues("date")
+            ? Math.floor(new Date().getTime() / 1000.0).toString()
+            : getValues("date"),
           incomeAmount: share.incomeAmount,
           outcomeAmount: share.outcomeAmount,
           shareId: getValues("date"),
@@ -295,8 +272,7 @@ export default function FormSpends({
           tag: getValues("tag"),
         },
       ];
-      console.log(shareList);
-      console.log(newShareList);
+
       setValue("shareList", newShareList);
       setSharelist(newShareList);
     }
@@ -314,263 +290,223 @@ export default function FormSpends({
       category: getValues("category"),
       tag: getValues("tag"),
     }));
-    console.log(shareArray);
-    console.log(shareArray);
 
     setValue("shareList", shareArray);
     setSharelist(shareArray);
   };
+  const removeShare = (id: string) => {
+    const shareArray = shareList?.filter((share) => share.id != id);
+    setValue("shareList", shareArray);
+    setSharelist(shareArray);
+    dispatch(delShareList(id));
+  };
 
   return (
     <div className="col-span-1 w-auto">
-      <div className="flex flex-row gap-2 w-auto">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
-        >
-          <div className="flex flex-col sm:flex-row w-full gap-x-4">
-            <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
-              <Controller
-                defaultValue={""}
-                name="title"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <Input
-                    className="!text-white w-full px-3 border-white rounded py-1"
-                    placeholder="Name"
-                    {...field}
-                  />
-                )}
-              />
-              {errors.title?.message && (
-                <p className="text-xs text-red-500">{errors.title?.message}</p>
-              )}
-
-              <Controller
-                name="income"
-                control={control}
-                render={({ field }) => (
-                  <BasicSwitch
-                    checked={!!field.value}
-                    handleToggle={() => {
-                      console.log(!field.value);
-
-                      // field.onChange(!field.value as boolean)
-                      setValue("income", !field.value);
-                    }}
-                    label=""
-                    key={"income"}
-                  />
-                )}
-              />
-              {!watch("income") && (
-                <div>
-                  <Controller
-                    defaultValue={""}
-                    name="numberOfProduct"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Input
-                        className="!text-white w-full px-3 border-white rounded py-1"
-                        placeholder="Number Of Product"
-                        type="tel"
-                        {...field}
-                      />
-                    )}
-                  />
-                  {errors.numberOfProduct?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.numberOfProduct?.message}
-                    </p>
-                  )}
-
-                  <Controller
-                    defaultValue={""}
-                    name="priceOfProduct"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Input
-                        className="!text-white w-full px-3 border-white rounded py-1"
-                        placeholder="Price Of Product"
-                        type="tel"
-                        {...field}
-                      />
-                    )}
-                  />
-                  {errors.priceOfProduct?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.priceOfProduct?.message}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {watch("income") && (
-                <Controller
-                  defaultValue={""}
-                  name="incomeAmount"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Input
-                      className="!text-white w-full px-3 border-white rounded py-1"
-                      placeholder="Income Amount"
-                      type="tel"
-                      {...field}
-                    />
-                  )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-full gap-4"
+      >
+        <div className="flex flex-col sm:flex-row w-full gap-x-4">
+          <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
+            <Controller
+              defaultValue={""}
+              name="title"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <InputField
+                  title="Title"
+                  type="string"
+                  placeholder="Enter Task Name"
+                  disabled={!!errors.title?.message}
+                  required
+                  {...field}
                 />
               )}
-              {watch("income") && errors.incomeAmount?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.incomeAmount?.message}
-                </p>
-              )}
+            />
 
-              <DrawerDialogDemo
-                drawerType={"ShareListDetails"}
-                formType="Share List Details"
-                errors={errors}
-                shareList={shareList || []}
-                onSubmitForm={onChangeShareSubmit}
-                onChangeShare={onChangeShare}
-              >
-                <DialogTrigger asChild>
-                  <Button className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">
-                    <div className="w-full flex flex-row justify-between">
-                      <span>add people</span>
-                      <span>
-                        {shareList && shareList.length ? shareList.length : 0}
-                      </span>
-                    </div>
-                  </Button>
-                </DialogTrigger>
-              </DrawerDialogDemo>
-
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="category"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <CategotySelectComponent
-                        onValueChange={handleCategory}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                  {errors.category?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.category?.message}
-                    </p>
-                  )}
-                </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
-              </div>
-
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="tag"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <TagSelectComponent
-                        onValueChange={handleTag}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                  {errors.tag?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.tag?.message}
-                    </p>
-                  )}
-                </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
-              </div>
-            </div>
-            <div>
-              <Button
-                disabled
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
-              </Button>
+            <ClendarButtonGroup
+              dateValue={date}
+              errors={!date && !!errors.date?.message}
+            >
               <Controller
                 name="date"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <div className=" border-white rounded py-1 flex justify-center">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                    />
-                  </div>
+                  <CalendarDialog
+                    required
+                    mode="single"
+                    selected={date}
+                    month={date}
+                    onSelect={setDate}
+                    className=" border-white rounded py-1"
+                    captionLayout="dropdown"
+                    title="a"
+                    dateValue={date}
+                    setDate={setDate}
+                  />
                 )}
               />
-              {errors.date?.message && (
-                <p className="text-xs text-red-500">{errors.date?.message}</p>
-              )}
-            </div>
-          </div>
+            </ClendarButtonGroup>
 
-          {!selectedSpends?.title && (
-            <Button
-              type="submit"
-              className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
+            <Controller
+              name="income"
+              control={control}
+              render={({ field }) => (
+                <div className="w-full flex h-8 border border-input bg-transparent px-3 py-1 text-base shadow-sm  justify-between rounded-xl ">
+                  <label className="text-white/50">
+                    {!field.value ? "Buy" : "Recive"}
+                  </label>
+                  <BasicSwitch
+                    checked={!!field.value}
+                    handleToggle={() => setValue("income", !field.value)}
+                    label=""
+                    key={"income"}
+                  />
+                </div>
+              )}
+            />
+            {!watch("income") && (
+              <>
+                <Controller
+                  defaultValue={""}
+                  name="numberOfProduct"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <InputField
+                      title="NumberOfProduct"
+                      type="number"
+                      placeholder="Number Of Product"
+                      disabled={!!errors.numberOfProduct?.message}
+                      content={errors.numberOfProduct?.message}
+                      required
+                      {...field}
+                    />
+                  )}
+                />
+
+                <Controller
+                  defaultValue={""}
+                  name="priceOfProduct"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <InputField
+                      title="PriceOfProduct"
+                      type="number"
+                      placeholder="Price Of Product"
+                      disabled={!!errors.priceOfProduct?.message}
+                      content={errors.priceOfProduct?.message}
+                      required
+                      {...field}
+                    />
+                  )}
+                />
+              </>
+            )}
+
+            {watch("income") && (
+              <Controller
+                defaultValue={""}
+                name="incomeAmount"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <InputField
+                    title="IncomeAmount"
+                    type="number"
+                    placeholder="Income Amount"
+                    disabled={!!errors.incomeAmount?.message}
+                    content={errors.incomeAmount?.message}
+                    required
+                    {...field}
+                  />
+                )}
+              />
+            )}
+
+            <div className="flex flex-row">
+              <div className="flex-1">
+                <Controller
+                  defaultValue={""}
+                  name="category"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <CategotySelectComponent
+                      required
+                      errors={!field.value && !!errors.category?.message}
+                      description={errors.category?.message}
+                      onValueChange={handleCategory}
+                      value={field.value}
+                    />
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-row">
+              <div className="flex-1">
+                <Controller
+                  defaultValue={""}
+                  name="tag"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <TagSelectComponent
+                      required
+                      errors={!field.value && !!errors.tag?.message}
+                      description={errors.tag?.message}
+                      onValueChange={handleTag}
+                      value={field.value}
+                    />
+                  )}
+                />
+              </div>
+            </div>
+            <DrawerDialogDemo
+              drawerType={"ShareListDetails"}
+              formType="Share List Details"
+              errors={errors}
+              shareList={shareList || []}
+              onSubmitForm={onChangeShareSubmit}
+              onChangeShare={onChangeShare}
+              removeShare={removeShare}
             >
+              <DialogTrigger asChild>
+                <Button variant="default" disabled={!date}>
+                  <div className="w-full flex flex-row justify-between">
+                    <span>add people</span>
+                    <span>
+                      {shareList && shareList.length ? shareList.length : 0}
+                    </span>
+                  </div>
+                </Button>
+              </DialogTrigger>
+            </DrawerDialogDemo>
+          </div>
+        </div>
+
+        {!selectedSpends?.title && (
+          <Button type="submit" variant="default">
+            submit
+          </Button>
+        )}
+
+        {selectedSpends?.title && (
+          <div className="flex gap-4">
+            <Button onClick={() => onReset()} type="button" variant="default">
+              reset
+            </Button>
+            <Button type="submit" variant="default">
               submit
             </Button>
-          )}
-
-          {selectedSpends?.title && (
-            <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
-                reset
-              </Button>
-              <Button
-                type="submit"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
-      </div>
+          </div>
+        )}
+      </form>
     </div>
   );
 }

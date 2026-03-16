@@ -88,17 +88,15 @@ function UseDateRangeComponent() {
   }, [dateFrom, dateTo]);
 
   return (
-    <>
-      <Calendar
-        mode="range"
-        defaultMonth={dateRange?.from}
-        selected={dateRange}
-        onSelect={setDateRange}
-        numberOfMonths={1}
-        captionLayout="dropdown"
-        className="w-full rounded-[16px] border shadow-sm bg-transparent"
-      />
-    </>
+    <Calendar
+      mode="range"
+      defaultMonth={dateRange?.from}
+      selected={dateRange}
+      onSelect={setDateRange}
+      numberOfMonths={1}
+      captionLayout="dropdown"
+      className="w-full rounded-[8px] border shadow-sm bg-transparent"
+    />
   );
 }
 export default UseDateRangeComponent;

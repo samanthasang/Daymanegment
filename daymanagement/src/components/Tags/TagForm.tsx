@@ -1,17 +1,17 @@
 "use client";
-import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../ui/button";
 import {
   selectTagList,
   setTagList,
   TTag,
   updateTagList,
 } from "@/modules/tag/TagList.slice";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "../ui/button";
+import { InputField } from "../ui/inputField";
 import TagList from "./Tag.component";
 
 interface IFormInputs {
@@ -67,7 +67,7 @@ export default function TagForm({
         );
     dispatch(selectTagList(""));
     reset();
-    onSubmitForm();
+    // onSubmitForm();
   };
 
   const onReset = () => {
@@ -89,38 +89,28 @@ export default function TagForm({
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <Input
-                className="!text-white w-full px-3 border-white rounded py-1"
-                placeholder="Name"
+              <InputField
+                title="Title"
+                type="string"
+                placeholder="Enter Name"
+                disabled={!!errors.tag?.message}
+                required
                 {...field}
               />
             )}
           />
-          {errors.tag?.message && (
-            <p className="text-xs text-red-500">{errors.tag?.message}</p>
-          )}
           {!selectedTag?.title && (
-            <Button
-              type="submit"
-              className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-            >
+            <Button type="submit" variant="default">
               submit
             </Button>
           )}
 
           {selectedTag?.title && (
             <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button onClick={() => onReset()} type="button" variant="default">
                 reset
               </Button>
-              <Button
-                type="submit"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button type="submit" variant="default">
                 submit
               </Button>
             </div>

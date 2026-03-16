@@ -1,6 +1,6 @@
 "use client";
 import FilterComponent from "@/components/Filter/FilterComponent";
-import useShareList from "@/lib/Hooks/Lists/UseShareList.component";
+import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import { cn } from "@/lib/utils";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { DrawerDialogDemo } from "../../../Drawer/DrawerComponent";

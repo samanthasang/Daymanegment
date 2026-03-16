@@ -1,7 +1,7 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TGoals = {
-  id?: string;
+  id: string;
   title: string;
   isComplete: boolean;
   date: string;
@@ -30,6 +30,7 @@ export const goalsListSlice = createSlice({
         id: string;
         title: string;
         date: string;
+        score: number;
         priority: string;
         category: string;
         tag: string;
@@ -42,7 +43,7 @@ export const goalsListSlice = createSlice({
               id: nanoid(),
               title: action.payload.title,
               priority: action.payload.priority,
-              score: 0,
+              score: action.payload.score,
               category: action.payload.category,
               tag: action.payload.tag,
               date: action.payload.date,
@@ -55,7 +56,7 @@ export const goalsListSlice = createSlice({
               priority: action.payload.priority,
               date: action.payload.date,
               title: action.payload.title,
-              score: 0,
+              score: action.payload.score,
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: false,
@@ -76,7 +77,7 @@ export const goalsListSlice = createSlice({
           ? {
               ...goal,
               isComplete: !goal.isComplete,
-              score: action.payload.score,
+              score: action.payload.score + 1,
             }
           : goal
       );

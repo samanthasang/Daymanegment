@@ -1,18 +1,27 @@
 "use client";
-import useTodoList from "@/lib/Hooks/Lists/UseTodoList.component";
-import Link from "next/link";
+import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
+import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
 
-function HomeTodoList() {
+function HomeTodoList({
+  pathname,
+  OpenMenu,
+}: {
+  pathname: string;
+  OpenMenu: boolean;
+}) {
   const ListToDo = useTodoList();
 
   return (
-    <Link
+    <MenuItems
       href={"/todo"}
-      className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white"
-    >
-      <span>Todo</span>
-      <span>{`${ListToDo?.filter((todo) => todo.isComplete == true).length} / ${ListToDo?.length}`}</span>
-    </Link>
+      tilte="Todo"
+      className={pathname && pathname.startsWith("/todo") ? "bg-primary" : ""}
+      infoNumber={
+        OpenMenu
+          ? `${ListToDo?.filter((todo) => todo.isComplete == true).length} / ${ListToDo?.length}`
+          : ""
+      }
+    />
   );
 }
 

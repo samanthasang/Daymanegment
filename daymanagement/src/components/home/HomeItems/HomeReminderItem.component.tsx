@@ -1,18 +1,29 @@
 "use client";
-import useReminderList from "@/lib/Hooks/Lists/UseReminderList.component";
-import Link from "next/link";
+import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
+import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 
-function HomeReminderItem() {
+function HomeReminderItem({
+  pathname,
+  OpenMenu,
+}: {
+  pathname: string;
+  OpenMenu: boolean;
+}) {
   const ListReminder = useReminderList();
 
   return (
-    <Link
+    <MenuItems
       href={"/reminder"}
-      className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white"
-    >
-      <span>Reminder</span>
-      <span>{`${ListReminder?.filter((reminder) => reminder.isComplete == true).length} / ${ListReminder?.length}`}</span>
-    </Link>
+      tilte="Reminder"
+      className={
+        pathname && pathname.startsWith("/reminder") ? "bg-primary" : ""
+      }
+      infoNumber={
+        OpenMenu
+          ? `${ListReminder?.filter((reminder) => reminder.isComplete == true).length} / ${ListReminder?.length}`
+          : ""
+      }
+    />
   );
 }
 

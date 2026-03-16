@@ -12,6 +12,7 @@ interface ICategotySelect {
   errors?: boolean;
   onValueChange: (category: string) => void;
   value?: string;
+  description?: string;
 }
 
 function TagSelectComponent({
@@ -19,6 +20,7 @@ function TagSelectComponent({
   errors = false,
   onValueChange,
   value,
+  description,
 }: ICategotySelect) {
   const {
     ListTag,
@@ -37,6 +39,7 @@ function TagSelectComponent({
       itemArray={ListTag}
       onValueChange={(e) => e && onValueChange(e)}
       value={value || ""}
+      className={`${errors ? "border-[1px] border-red-600" : ""}`}
     >
       <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
         <DialogTrigger asChild>

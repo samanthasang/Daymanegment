@@ -1,15 +1,13 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
 import PeopleSelectComponent from "@/components/People/PeopleSelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
+import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
+import { InputField } from "@/components/ui/inputField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
 import {
   selectShareList,
   setShareList,
@@ -17,9 +15,6 @@ import {
 } from "@/modules/share/share.slice";
 import { updateVisitListShare } from "@/modules/visitsList/visit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -178,53 +173,67 @@ export default function FormShare({
         >
           <div className="flex flex-col sm:flex-row w-full gap-x-4">
             <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="peopleId"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <PeopleSelectComponent
-                        onClickChange={handlePeople}
-                        value={field.value}
-                      />
-                    )}
+              <Controller
+                defaultValue={""}
+                name="peopleId"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <PeopleSelectComponent
+                    errors={!!errors.peopleId?.message}
+                    description={errors.peopleId?.message}
+                    onValueChange={handlePeople}
+                    value={field.value}
                   />
-                  {errors.peopleId?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.peopleId?.message}
-                    </p>
+                )}
+              />
+
+              <ClendarButtonGroup
+                dateValue={date}
+                errors={!!errors.category?.message}
+                description={errors.category?.message}
+              >
+                <Controller
+                  name="date"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <CalendarDialog
+                      required
+                      mode="single"
+                      selected={date}
+                      month={date}
+                      onSelect={setDate}
+                      className=" border-white rounded py-1"
+                      captionLayout="dropdown"
+                      title="a"
+                      dateValue={date}
+                      setDate={setDate}
+                    />
                   )}
-                </div>
-                <DrawerDialogDemo
-                  drawerType={"PeopleList"}
-                  formType="Add People"
-                >
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
-              </div>
+                />
+              </ClendarButtonGroup>
 
               <Controller
                 name="income"
                 control={control}
                 render={({ field }) => (
-                  <BasicSwitch
-                    checked={!!field.value}
-                    handleToggle={() => {
-                      console.log(!field.value);
+                  <div className="w-full flex h-8 border border-input bg-transparent px-3 py-1 text-base shadow-sm  justify-between rounded-xl ">
+                    <label className="text-white/50">
+                      {!field.value ? "Send" : "Recive"}
+                    </label>
+                    <BasicSwitch
+                      checked={!!field.value}
+                      handleToggle={() => {
+                        console.log(!field.value);
 
-                      // field.onChange(!field.value as boolean)
-                      setValue("income", !field.value);
-                    }}
-                    label=""
-                    key={"income"}
-                  />
+                        // field.onChange(!field.value as boolean)
+                        setValue("income", !field.value);
+                      }}
+                      label=""
+                      key={"income"}
+                    />
+                  </div>
                 )}
               />
               {!watch("income") && (
@@ -235,19 +244,18 @@ export default function FormShare({
                     control={control}
                     rules={{ required: true }}
                     render={({ field }) => (
-                      <Input
-                        className="!text-white w-full px-3 border-white rounded py-1"
+                      <InputField
+                        title="Title"
+                        type="number"
+                        // className="!text-white w-full px-3 border-white rounded py-1"
                         placeholder="Outcome Amount"
-                        type="tel"
+                        disabled={!!errors.outcomeAmount?.message}
+                        content={errors.outcomeAmount?.message}
+                        required
                         {...field}
                       />
                     )}
                   />
-                  {errors.outcomeAmount?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.outcomeAmount?.message}
-                    </p>
-                  )}
                 </div>
               )}
 
@@ -258,19 +266,18 @@ export default function FormShare({
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <Input
-                      className="!text-white w-full px-3 border-white rounded py-1"
+                    <InputField
+                      title="Title"
+                      type="string"
+                      // className="!text-white w-full px-3 border-white rounded py-1"
                       placeholder="Income Amount"
-                      type="tel"
+                      disabled={!!errors.incomeAmount?.message}
+                      content={errors.incomeAmount?.message}
+                      required
                       {...field}
                     />
                   )}
                 />
-              )}
-              {watch("income") && errors.incomeAmount?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.incomeAmount?.message}
-                </p>
               )}
 
               <div className="flex flex-row">
@@ -282,24 +289,15 @@ export default function FormShare({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <CategotySelectComponent
+                        required
+                        errors={!!errors.category?.message}
+                        description={errors.category?.message}
                         onValueChange={handleCategory}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.category?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.category?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
 
               <div className="flex flex-row">
@@ -311,64 +309,23 @@ export default function FormShare({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <TagSelectComponent
+                        required
+                        errors={!!errors.tag?.message}
+                        description={errors.tag?.message}
                         onValueChange={handleTag}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.tag?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.tag?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
-            </div>
-            <div>
-              <Button
-                disabled
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
-              </Button>
-              <Controller
-                name="date"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <div className=" border-white rounded py-1 flex justify-center">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                    />
-                  </div>
-                )}
-              />
-              {errors.date?.message && (
-                <p className="text-xs text-red-500">{errors.date?.message}</p>
-              )}
             </div>
           </div>
 
           {!selectedShare?.peopleId && (
             <Button
               type="submit"
+              variant="default"
               className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
             >
               submit
@@ -377,17 +334,10 @@ export default function FormShare({
 
           {selectedShare?.peopleId && (
             <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button onClick={() => onReset()} type="button" variant="default">
                 reset
               </Button>
-              <Button
-                type="submit"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button type="submit" variant="default">
                 submit
               </Button>
             </div>

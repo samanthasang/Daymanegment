@@ -7,7 +7,7 @@ import SidebarTablet from "./sidebarTablet.componen";
 function SidebarContainer({
   drawerType,
   formType,
-  witDate = false,
+  witDate = true,
   witAdd = true,
 }: {
   drawerType: string;

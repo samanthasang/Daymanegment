@@ -29,11 +29,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-          <Header />
+          {/* <Header /> */}
           <ToastContainer />
-          <div className="min-h-[calc(100vh-8rem)] h-full p-3 bg-primary">
-            {children}
-          </div>
+          <div className="h-[100vh] bg-primary">{children}</div>
           {/* <Footer /> */}
         </Provider>
       </body>

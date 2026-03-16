@@ -1,11 +1,8 @@
 "use client";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Trash } from "@/components/icons";
-import { DialogTrigger } from "@/components/ui/dialog";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { TCategory } from "@/modules/category/categoryList.slice";
-import { TTag } from "@/modules/tag/TagList.slice";
+import ListItem from "@/components/mainPage/listItem/ListItem.component";
+import { useAppDispatch } from "@/lib/hook";
 import {
+  completeVisitList,
   delVisitList,
   selectVisitList,
   TVisit,
@@ -15,114 +12,49 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { toast } from "react-toastify";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const VisitsItem = ({ item }: { item: TVisit }) => {
+export const VisitsItem = ({
+  item,
+  selectedID,
+}: {
+  item: TVisit;
+  selectedID?: string;
+}) => {
   const dispatch = useAppDispatch();
 
-  const {
-    ListCategory,
-  }: {
-    ListCategory: TCategory[];
-    selectedCategory: {};
-  } = useAppSelector((state) => state.CategoryList) || [];
-
-  const categorySelected = ListCategory
-    ? ListCategory.filter((category) => category.id == item.category)[0]
-    : {
-        id: "",
-        title: "",
-      };
-
-  const {
-    ListTag,
-  }: {
-    ListTag: TTag[];
-    selectedTag: {};
-  } = useAppSelector((state) => state.TagList) || [];
-
-  const tagSelected = ListTag
-    ? ListTag.filter((category) => category.id == item.tag)[0]
-    : {
-        id: "",
-        title: "",
-      };
-
+  const SelectToDoList = () => {
+    dispatch(selectVisitList(item.id));
+  };
+  const DelToDoList = () => {
+    dispatch(delVisitList(item.id));
+    toast(`${item.title} is deleted`);
+  };
+  const CompleteToDoList = () => {
+    dispatch(completeVisitList(item.id));
+    item.isComplete
+      ? toast(`${item.title} is uncompleted`)
+      : toast(`${item.title} is completed`);
+  };
   return (
-    <DrawerDialogDemo drawerType={"VisitsList"} formType="Edit Visit">
-      <DialogTrigger asChild>
-        <div
-          onClick={(e) => {
-            item.id && dispatch(selectVisitList(item.id));
-          }}
-          className="w-full h-fit cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white"
-        >
-          <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
-            <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
-              <label
-                htmlFor="terms"
-                className={`cursor-pointer flex justify-center items-center gap-2`}
-              >
-                {item.title}
-              </label>
-            </div>
-            <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
-              {categorySelected && (
-                <label
-                  className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-                >
-                  {categorySelected.title || ""}
-                </label>
-              )}
-              {tagSelected && (
-                <label
-                  className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-                >
-                  {tagSelected.title || ""}
-                </label>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col w-fit gap-2 justify-end items-end">
-            <div className="flex flex-row gap-x-2">
-              <div
-                onClick={(e) => {
-                  e && e.preventDefault();
-                  item.id && dispatch(delVisitList(item.id));
-                }}
-                className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
-              >
-                <Trash />
-              </div>
-            </div>
-
-            <label
-              className={`cursor-pointer px-2 py-1 rounded-2xl 
-                ${
-                  !item.income
-                    ? `bg-white/15`
-                    : item.advancePayment &&
-                        +item.paymentCompleteValue - +item.advancePayment == 0
-                      ? "bg-green-500/15"
-                      : "bg-red-600/15"
-                }`}
-            >
-              {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD HH:mm")}
-              {item.income && ` | `}
-              {item.income &&
-                (item.paymentCompleteValue &&
-                item.advancePayment &&
-                +item.paymentCompleteValue - +item.advancePayment > 0
-                  ? `${+item.paymentCompleteValue - +item.advancePayment}`
-                  : item.paymentCompleteValue)}
-            </label>
-          </div>
-        </div>
-      </DialogTrigger>
-    </DrawerDialogDemo>
+    <ListItem
+      id={item.id}
+      title={item.title}
+      category={item.category}
+      tag={item.tag}
+      isComplete={item.isComplete}
+      date={item.date}
+      drawerType="VisitsList"
+      formType="Edit Visit"
+      selectedID={selectedID}
+      SelectItem={SelectToDoList}
+      DelItem={DelToDoList}
+      CompleteItemt={CompleteToDoList}
+    />
   );
 };
 

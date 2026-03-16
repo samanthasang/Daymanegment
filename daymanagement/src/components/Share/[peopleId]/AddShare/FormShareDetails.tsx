@@ -1,7 +1,8 @@
 "use client";
+import { Trash } from "@/components/icons";
 import PeopleSelectComponent from "@/components/People/PeopleSelect.component";
 import BasicSwitch from "@/components/ui/BasicSwitch";
-import { Input } from "@/components/ui/input";
+import { InputField } from "@/components/ui/inputField";
 import { TShare } from "@/modules/share/share.slice";
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -11,9 +12,11 @@ export default function FormShareDetails({
   share,
   errors,
   onChangeshare,
+  removeShare,
 }: {
   share: TShare;
   onChangeshare: (install: TShare) => void;
+  removeShare: (id: string) => void;
   errors: FieldErrors<{
     date: string;
     category: string;
@@ -67,13 +70,22 @@ export default function FormShareDetails({
   }, [shareDetail]);
 
   return (
-    <div className=" flex flex-row justify-center items-centerw-full min-w-60 gap-y-4 border px-3 py-2 rounded-2xl border-white">
-      <div className="w-full flex flex-col">
-        <div className="w-full flex flex-row justify-between">
-          <label className="px-2 py-1 flex-none">
+    <div className=" flex flex-row justify-center items-centerw-full min-w-60 gap-y-4 p-3 rounded-2xl bg-primary">
+      <div className="w-full flex flex-col gap-y-4">
+        <div className="w-full flex h-8 bg-transparent  py-1 text-base shadow-sm justify-between rounded-xl ">
+          <label className="text-white/50">
             {dayjs(dayjs.unix(Number(share.date))).format("YYYY-MM-DD")}
           </label>
-          <div className="flex-none w-14 flex flex-row justify-center items-center">
+          <div className="flex justify-end w-fit gap-x-1">
+            <div
+              onClick={(e) => {
+                e && e.preventDefault();
+                removeShare(share.id);
+              }}
+              className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
+            >
+              <Trash />
+            </div>
             <BasicSwitch
               checked={share.income}
               handleToggle={(e) => {
@@ -89,37 +101,43 @@ export default function FormShareDetails({
             />
           </div>
         </div>
-        <div className="w-full flex flex-row">
-          <div className="flex-1">
-            <PeopleSelectComponent
-              onClickChange={handlePeople}
-              value={shareDetail.peopleId}
+        <div className="flex-1">
+          <PeopleSelectComponent
+            onValueChange={handlePeople}
+            value={shareDetail.peopleId}
+          />
+        </div>
+        <div className="flex-1">
+          {share.income && (
+            <InputField
+              title="Title"
+              type="string"
+              // className="!text-white w-full px-3 border-white rounded py-1"
+              placeholder="Income Amount"
+              disabled={!!errors.title?.message}
+              content={errors.title?.message}
+              required
+              value={shareDetail.incomeAmount}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                onChageInputIncome(e)
+              }
             />
-          </div>
-          <div className="flex-1">
-            {share.income && (
-              <Input
-                className="!text-white w-full px-3 border-white rounded py-1 flex-1"
-                placeholder="Income Amount"
-                value={shareDetail.incomeAmount}
-                onChange={(e) => onChageInputIncome(e)}
-              />
-            )}
-            {errors.title?.message && (
-              <p className="text-xs text-red-500">{errors.title?.message}</p>
-            )}
-            {!share.income && (
-              <Input
-                className="!text-white w-full px-3 border-white rounded py-1 flex-1"
-                placeholder="Outcome Amount"
-                value={shareDetail.outcomeAmount}
-                onChange={(e) => onChageInputOutcome(e)}
-              />
-            )}
-            {errors.title?.message && (
-              <p className="text-xs text-red-500">{errors.title?.message}</p>
-            )}
-          </div>
+          )}
+          {!share.income && (
+            <InputField
+              title="Title"
+              type="string"
+              disabled={!!errors.title?.message}
+              content={errors.title?.message}
+              required
+              className={`${share.income ? "text-green-500" : "text-red-500"}`}
+              placeholder="Outcome Amount"
+              value={shareDetail.outcomeAmount}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                onChageInputOutcome(e)
+              }
+            />
+          )}
         </div>
       </div>
     </div>

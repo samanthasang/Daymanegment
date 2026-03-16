@@ -1,10 +1,10 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TInstallmentst = {
-    date: string
-    payment: string
-    isComplete: boolean
-}
+  date: string;
+  payment: string;
+  isComplete: boolean;
+};
 export type TInstallmentsts = {
   id: string;
   title: string;
@@ -12,7 +12,7 @@ export type TInstallmentsts = {
   description: string;
   priority: string;
   lastUpdate: string;
-  completeUpdate: string;
+  isComplete: boolean;
   paymentNumber: string;
   numberOfPayment?: string;
   paymentCompleteValue: string;
@@ -66,13 +66,13 @@ export const installmentstListSlice = createSlice({
               startDate: action.payload.startDate,
               description: action.payload.description,
               lastUpdate: action.payload.lastUpdate,
-              completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
               tag: action.payload.tag,
               installmentstList: action.payload.installmentstList,
+              isComplete: false,
             },
           ]
         : [
@@ -83,13 +83,13 @@ export const installmentstListSlice = createSlice({
               startDate: action.payload.startDate,
               description: action.payload.description,
               lastUpdate: action.payload.lastUpdate,
-              completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
               tag: action.payload.tag,
               installmentstList: action.payload.installmentstList,
+              isComplete: false,
             },
           ];
     },
@@ -99,6 +99,19 @@ export const installmentstListSlice = createSlice({
     ) => {
       state.ListInstallmentst = state.ListInstallmentst.filter(
         (installmentst) => installmentst.id != action.payload
+      );
+    },
+    completeInstallmentst: (
+      state: InitialState,
+      action: PayloadAction<string>
+    ) => {
+      state.ListInstallmentst = state.ListInstallmentst.map((installment) =>
+        installment.id == action.payload
+          ? {
+              ...installment,
+              isComplete: !installment.isComplete,
+            }
+          : installment
       );
     },
     completeInstallmentstList: (
@@ -181,6 +194,7 @@ export const installmentstReducerPath = installmentstListSlice.reducerPath;
 
 export const {
   completeInstallmentstList,
+  completeInstallmentst,
   setInstallmentstList,
   delInstallmentstList,
   updateInstallmentstList,

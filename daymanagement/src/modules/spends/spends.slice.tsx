@@ -1,8 +1,8 @@
-import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TShare } from "../share/share.slice";
 
 export type TSpends = {
-  id?: string;
+  id: string;
   title: string;
   income: boolean;
   date: string;

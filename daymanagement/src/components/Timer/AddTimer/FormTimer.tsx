@@ -305,6 +305,7 @@ export default function FormTimer({
           {!selectedTimer?.title && (
             <Button
               type="submit"
+              variant="default"
               className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
             >
               submit
@@ -316,12 +317,14 @@ export default function FormTimer({
               <Button
                 onClick={() => onReset()}
                 type="button"
+                variant="default"
                 className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
               >
                 reset
               </Button>
               <Button
                 type="submit"
+                variant="default"
                 className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
               >
                 submit

@@ -1,20 +1,13 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
+import { InputField } from "@/components/ui/inputField";
+import { SelectField } from "@/components/ui/selectField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
 import {
   selectInstallmentstList,
   setInstallmentstList,
@@ -23,13 +16,10 @@ import {
 } from "@/modules/installmentstList/installmentst.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { format } from "date-fns";
 import dayjs, { ManipulateType } from "dayjs";
-import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import FormInstallmentsDetails from "./FormInstallmentsDetails";
 
 interface IFormInputs {
   title: string;
@@ -97,6 +87,7 @@ export default function FormInstallments({
     reset,
     getValues,
     watch,
+    register,
   } = methods;
 
   useEffect(() => {
@@ -107,9 +98,17 @@ export default function FormInstallments({
       );
   }, [date]);
 
-  useEffect(() => {
+  const fillINstallmentsArray = () => {
     const installmentArray: TInstallmentst[] = [];
 
+    const insstallmentValue =
+      +getValues("paymentCompleteValue") / +getValues("numberOfPayment");
+    console.log(watch("paymentNumber") as ManipulateType);
+    console.log(getValues("paymentCompleteValue"));
+    console.log(getValues("numberOfPayment"));
+    console.log(
+      +getValues("paymentCompleteValue") / +getValues("numberOfPayment")
+    );
     if (
       watch("startDate") &&
       watch("numberOfPayment") &&
@@ -117,10 +116,6 @@ export default function FormInstallments({
       !instalmentDetails
     ) {
       for (let i = 1; i < +watch("numberOfPayment") + 1; i++) {
-        console.log(
-          +watch("numberOfPayment") * i,
-          watch("paymentNumber") as ManipulateType
-        );
         installmentArray.push({
           date: dayjs(
             dayjs
@@ -129,23 +124,13 @@ export default function FormInstallments({
           )
             .unix()
             .toString(),
-          payment: (
-            +watch("paymentCompleteValue") / +watch("numberOfPayment")
-          ).toString(),
+          payment: insstallmentValue.toString(),
           isComplete: false,
         });
       }
       setInstalmentDetails(installmentArray);
     }
-    // console.log(installmentArray);
-    // console.log(+watch("numberOfPayment"));
-    // console.log(watch("paymentNumber") as ManipulateType);
-  }, [
-    getValues,
-    watch("startDate"),
-    watch("paymentNumber"),
-    watch("numberOfPayment"),
-  ]);
+  };
 
   const dispatch = useAppDispatch();
   const { selectedInstallmentst }: any =
@@ -208,7 +193,7 @@ export default function FormInstallments({
             title: data.title,
             startDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.startDate,
+              : data.title,
             lastUpdate: nextDate || selectedInstallmentst.startDate,
             completeUpdate: nextDate || selectedInstallmentst.startDate,
             description: data.description || "",
@@ -231,12 +216,12 @@ export default function FormInstallments({
             lastUpdate: instalmentDetails
               ? instalmentDetails[0].date
               : date
-                ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+                ? Math.floor(new Date(date).getTime()).toString()
                 : data.startDate,
             completeUpdate: instalmentDetails
               ? instalmentDetails[0].date
               : date
-                ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+                ? Math.floor(new Date(date).getTime()).toString()
                 : data.startDate,
             description: data.description || "",
             priority: data.priority || "",
@@ -294,36 +279,60 @@ export default function FormInstallments({
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Input
-                    className="!text-white w-full px-3 border-white rounded py-1"
-                    placeholder="Name"
+                  <InputField
+                    title="Title"
+                    type="string"
+                    // className="!text-white w-full px-3 border-white rounded py-1"
+                    placeholder="Enter Task Name"
+                    disabled={!!errors.title?.message}
+                    required
                     {...field}
                   />
                 )}
               />
-              {errors.title?.message && (
-                <p className="text-xs text-red-500">{errors.title?.message}</p>
-              )}
 
+              <ClendarButtonGroup
+                dateValue={date}
+                errors={!date && !!errors.startDate?.message}
+                // description={errors.category?.message}
+              >
+                <Controller
+                  name="startDate"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <CalendarDialog
+                      required
+                      mode="single"
+                      selected={date}
+                      month={date}
+                      onSelect={setDate}
+                      className=" border-white rounded py-1"
+                      captionLayout="dropdown"
+                      title="a"
+                      dateValue={date}
+                      setDate={setDate}
+                    />
+                  )}
+                />
+              </ClendarButtonGroup>
               <Controller
                 defaultValue={""}
                 name="numberOfPayment"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Input
-                    className="!text-white w-full px-3 border-white rounded py-1"
+                  <InputField
+                    title="Number Of Payment"
+                    type="number"
+                    // className="!text-white w-full px-3 border-white rounded py-1"
                     placeholder="Number Of Payment"
-                    type="tel"
+                    disabled={!!errors.numberOfPayment?.message}
+                    required
                     {...field}
                   />
                 )}
               />
-              {errors.numberOfPayment?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.numberOfPayment?.message}
-                </p>
-              )}
 
               <Controller
                 defaultValue={""}
@@ -331,46 +340,44 @@ export default function FormInstallments({
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Select
+                  <SelectField
+                    title="paymentNumber"
+                    description={errors.paymentNumber?.message}
+                    placeholder="Priod for repeat"
+                    required
+                    invalid={!!errors.paymentNumber?.message}
+                    itemArray={[
+                      { id: "day", title: "Day" },
+                      { id: "week", title: "Week" },
+                      { id: "month", title: "Month" },
+                      { id: "year", title: "Year" },
+                    ]}
                     onValueChange={(data) => data && handlePriod(data)}
+                    {...field}
                     value={field.value}
-                  >
-                    <SelectTrigger className="w-full border-white rounded py-1">
-                      <SelectValue placeholder="Priod for repeat" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={"day"}>Day</SelectItem>
-                      <SelectItem value={"week"}>Week</SelectItem>
-                      <SelectItem value={"month"}>Month</SelectItem>
-                      <SelectItem value={"year"}>Year</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    className={`${!field.value && errors.paymentNumber?.message ? "border-[1px] border-red-600" : ""}`}
+                    {...register("paymentNumber")}
+                  />
                 )}
               />
-              {errors.paymentNumber?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.paymentNumber?.message}
-                </p>
-              )}
+
               <Controller
                 defaultValue={""}
                 name="paymentCompleteValue"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Input
-                    className="!text-white w-full px-3 border-white rounded py-1"
+                  <InputField
+                    title="PaymentCompleteValue"
+                    type="number"
+                    // className="!text-white w-full px-3 border-white rounded py-1"
                     placeholder="Payment Complete Amount"
-                    type="tel"
+                    disabled={!!errors.paymentCompleteValue?.message}
+                    required
                     {...field}
                   />
                 )}
               />
-              {errors.paymentCompleteValue?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.paymentCompleteValue?.message}
-                </p>
-              )}
 
               <div className="flex flex-row">
                 <div className="flex-1">
@@ -381,24 +388,15 @@ export default function FormInstallments({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <CategotySelectComponent
+                        required
+                        errors={!field.value && !!errors.category?.message}
+                        description={errors.category?.message}
                         onValueChange={handleCategory}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.category?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.category?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
 
               <div className="flex flex-row">
@@ -410,87 +408,47 @@ export default function FormInstallments({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <TagSelectComponent
+                        required
+                        errors={!field.value && !!errors.tag?.message}
+                        description={errors.tag?.message}
                         onValueChange={handleTag}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.tag?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.tag?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
-            </div>
-            <div>
-              <Button
-                disabled
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
-              </Button>
-              <Controller
-                name="startDate"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <div className=" border-white rounded py-1 flex justify-center">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                    />
-                  </div>
-                )}
-              />
-              {errors.startDate?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.startDate?.message}
-                </p>
-              )}
             </div>
           </div>
 
+          <DrawerDialogDemo
+            drawerType={"InstallmentsListDetails"}
+            formType="Installments List Details"
+            errors={errors}
+            installment={instalmentDetails || []}
+            onSubmitForm={onSubmitHandler}
+            onChangeinstallment={onChangeinstallment}
+          >
+            <DialogTrigger asChild disabled={!date}>
+              <Button onClick={() => fillINstallmentsArray()} variant="default">
+                installments list
+              </Button>
+            </DialogTrigger>
+          </DrawerDialogDemo>
+
           {!selectedInstallmentst?.title && (
-            <DrawerDialogDemo
-              drawerType={"InstallmentsListDetails"}
-              formType="Installments List Details"
-              errors={errors}
-              installment={instalmentDetails || []}
-              onSubmitForm={onSubmitHandler}
-              onChangeinstallment={onChangeinstallment}
+            <Button
+              type="submit"
+              disabled={!instalmentDetails}
+              variant="default"
             >
-              <DialogTrigger asChild>
-                <Button className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">
-                  submit
-                </Button>
-              </DialogTrigger>
-            </DrawerDialogDemo>
+              submit
+            </Button>
           )}
 
           {selectedInstallmentst?.title && (
             <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button onClick={() => onReset()} type="button" variant="default">
                 reset
               </Button>
 
@@ -503,9 +461,7 @@ export default function FormInstallments({
                 onChangeinstallment={onChangeinstallment}
               >
                 <DialogTrigger asChild>
-                  <Button className="cursor-pointer w-full text-white bg-background border border-white rounded py-1">
-                    submit
-                  </Button>
+                  <Button variant="default">submit</Button>
                 </DialogTrigger>
               </DrawerDialogDemo>
             </div>

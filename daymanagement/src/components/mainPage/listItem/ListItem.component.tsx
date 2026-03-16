@@ -1,7 +1,19 @@
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Done, DoneAll, Trash } from "@/components/icons";
+import {
+  AccountBalance,
+  CheckCircle,
+  Done,
+  DoneAll,
+  Edit,
+  ShoppingCart,
+  Trash,
+} from "@/components/icons";
 import BasicSwitch from "@/components/ui/BasicSwitch";
+import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { cn } from "@/lib/utils";
+import { selectPeopleList } from "@/modules/people/PeopleList.slice";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -10,10 +22,13 @@ import utc from "dayjs/plugin/utc";
 import ListPriority from "../ListPriority/ListPriority.component";
 import ListCategorySelected from "../listCategorySelected/ListCategorySelected.component";
 import ListTagSelected from "../listTagSelected/ListTagSelected.component";
+import ListItemShare from "./ListItemShareItem.component";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+const currentUnixTimestamp = dayjs().unix();
 
 export const ListItem = ({
   id,
@@ -22,112 +37,248 @@ export const ListItem = ({
   category,
   tag,
   isComplete,
+  insstallmentIsComplete,
   date,
   score,
+  incomeAmount,
+  numberOfProduct,
+  total,
+  priceOfProduct,
   drawerType,
   formType,
   withDel = true,
+  selectedID,
   SelectItem,
   DelItem,
   CompleteItemt,
   UpdateItem,
 }: {
+  selectedID?: string;
   id?: string;
   priority?: string;
   title: string;
   category?: string;
+  incomeAmount?: string;
+  numberOfProduct?: string;
+  priceOfProduct?: string;
   tag?: string;
   isComplete?: boolean;
+  insstallmentIsComplete?: boolean;
   withDel?: boolean;
   date?: string;
   score?: number;
+  total?: number;
   drawerType: string;
   formType: string;
-  SelectItem: () => void;
-  DelItem: () => void;
-  CompleteItemt: () => void;
+  SelectItem?: () => void;
+  DelItem?: () => void;
+  CompleteItemt?: () => void;
   UpdateItem?: () => void;
 }) => {
+  const { OpenFilter } = useAppSelector((state) => state.Menu);
+
+  const dispatch = useAppDispatch();
   return (
-    <DrawerDialogDemo drawerType={drawerType} formType={formType}>
-      <DialogTrigger asChild>
-        <div
-          onClick={() => {
-            id && SelectItem();
-          }}
-          className="w-full h-fit cursor-pointer flex flex-row items-start justify-start p-3 
-          bg-[rgba(255,_255,_255,_0.25)] backdrop-filter backdrop-blur-[10px] rounded-[16px] border-[1px] border-solid border-[rgba(255,255,255,0.35)] [box-shadow:0_8px_32px_0_rgba(31,_38,_135,_0.1)]"
-        >
-          <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
-            <div className="select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
-              <label
-                htmlFor="terms"
-                className={`cursor-pointer flex justify-center items-center gap-2`}
-              >
-                {priority && <ListPriority priority={priority} />}
-                {title || ""}
-              </label>
-            </div>
-            <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
-              {category && <ListCategorySelected category={category} />}
-              {tag && <ListTagSelected tag={tag} />}
-            </div>
+    <div
+      onClick={() => {
+        id && SelectItem && SelectItem();
+      }}
+      className={cn(
+        "w-full h-fit cursor-pointer flex flex-row items-center gap-y-2 justify-center p-3 rounded-3xl hover:bg-primary",
+        selectedID == id ? "bg-primary" : ""
+      )}
+    >
+      <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
+        <div className="select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
+          <label
+            className={`cursor-pointer flex justify-center items-center gap-2`}
+          >
+            {priority && <ListPriority priority={priority} />}
+            {incomeAmount && <AccountBalance />}
+            {priceOfProduct && <ShoppingCart />}
+            {title || ""}
+          </label>
+        </div>
+        {category && tag && (
+          <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
+            {category && <ListCategorySelected category={category} />}
+            {tag && <ListTagSelected tag={tag} />}
           </div>
-          <div className="flex flex-col w-fit gap-2 justify-end items-end">
-            <div className="flex flex-row gap-x-2">
-              {withDel && (
-                <div
-                  onClick={(e) => {
-                    e && e.preventDefault();
-                    (score && score == 1) || (!isComplete && DelItem());
-                  }}
-                  className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
-                >
-                  <Trash />
-                </div>
-              )}
-              {drawerType == "ReminderList" && UpdateItem ? (
+        )}
+        {drawerType == "PeopleList" && id && <ListItemShare peopleId={id} />}
+      </div>
+      {(!OpenFilter || !!!selectedID) && (
+        <div className="flex flex-col w-fit gap-y-1 justify-end items-end">
+          <div className="flex flex-row gap-x-2">
+            {withDel && DelItem && (
+              <div
+                onClick={(e) => {
+                  e && e.preventDefault();
+                  (score && score == 0) || (!isComplete && DelItem());
+                }}
+                className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
+              >
+                <Trash />
+              </div>
+            )}
+            {drawerType == "PeopleList" && id && (
+              <DrawerDialogDemo drawerType="ShareList" formType="Add Share">
+                <DialogTrigger asChild>
+                  <Button
+                    onClick={(e) => {
+                      e && e.preventDefault();
+                      dispatch(selectPeopleList(id));
+                    }}
+                    variant="outline"
+                    className={
+                      "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
+                    }
+                  >
+                    <Edit />
+                  </Button>
+                </DialogTrigger>
+              </DrawerDialogDemo>
+            )}
+            {drawerType != "SpendsList" &&
+              ((drawerType == "InstallmentsList" ||
+                drawerType == "ReminderList") &&
+              UpdateItem &&
+              CompleteItemt ? (
                 <>
                   <div
                     onClick={(e) => {
                       e && e.preventDefault();
-                      CompleteItemt();
+                      e && e.stopPropagation();
+                      UpdateItem();
                     }}
                   >
-                    <Done />
+                    {isComplete ? <CheckCircle /> : <DoneAll />}
                   </div>
                   <div
                     onClick={(e) => {
                       e && e.preventDefault();
-                      UpdateItem();
+                      e && e.stopPropagation();
+                      CompleteItemt();
                     }}
                   >
-                    <DoneAll />
+                    {insstallmentIsComplete ||
+                    dayjs(dayjs.unix(Number(date))).format("DD") >
+                      dayjs(dayjs.unix(Number(currentUnixTimestamp))).format(
+                        "DD"
+                      ) ? (
+                      <CheckCircle />
+                    ) : (
+                      <Done />
+                    )}
                   </div>
                 </>
               ) : (
-                <BasicSwitch
-                  checked={isComplete || false}
-                  handleToggle={(e) => {
-                    e && e.preventDefault();
-                    !isComplete && CompleteItemt();
-                  }}
-                  label=""
-                  key={"isComplete"}
-                />
-              )}
-            </div>
-
+                CompleteItemt && (
+                  <BasicSwitch
+                    checked={isComplete || false}
+                    handleToggle={(e) => {
+                      e && e.preventDefault();
+                      e && e.stopPropagation();
+                      e && !isComplete && CompleteItemt();
+                    }}
+                    label=""
+                    key={"isComplete"}
+                  />
+                )
+              ))}
+          </div>
+          {drawerType == "GoalsList" && (
             <label
-              className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
+              className={cn(
+                `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
+                score && (score > 5 ? "bg-green-500/15" : "bg-red-600/15")
+              )}
+            >
+              {drawerType == "GoalsList" &&
+                !isComplete &&
+                dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
+              {drawerType == "GoalsList" && !isComplete && ` | `}
+              {score && score}
+            </label>
+          )}
+          {drawerType == "HabbitList" && (
+            <label
+              className={cn(
+                `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
+                score &&
+                  (score == 0
+                    ? "bg-white/80"
+                    : score > 6
+                      ? "bg-green-500/15"
+                      : "bg-red-600/15")
+              )}
+            >
+              {score && score}
+            </label>
+          )}
+          {drawerType == "MyHabbitList" && (
+            <label
+              className={cn(
+                `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
+                score && (score > 15 ? "bg-green-500/15" : "bg-red-600/15")
+              )}
+            >
+              {score && score}
+            </label>
+          )}
+          {drawerType == "PeopleList" && (
+            <label
+              className={cn(
+                "cursor-pointer px-2 py-1 rounded-2xl",
+                !total
+                  ? "bg-white/15"
+                  : total > 0
+                    ? "bg-green-500/15"
+                    : "bg-red-500/15"
+              )}
+            >
+              {total}
+            </label>
+          )}
+          {incomeAmount && priceOfProduct && (
+            <label
+              className={cn(
+                `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
+                incomeAmount && "bg-green-500/15",
+                priceOfProduct && "bg-red-500/15"
+              )}
             >
               {date && dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
-              {score && `(${score || 0})`}
+              {(incomeAmount || priceOfProduct) && ` | `}
+              {incomeAmount ||
+                (priceOfProduct && `${incomeAmount || priceOfProduct}`)}
             </label>
-          </div>
+          )}
+          {drawerType !== "HabbitList" &&
+            drawerType !== "MyHabbitList" &&
+            drawerType !== "GoalsList" &&
+            date && (
+              <label
+                className={cn(
+                  `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
+                  date
+                    ? "bg-white/15"
+                    : date &&
+                        dayjs
+                          .unix(+date)
+                          .diff(dayjs.unix(currentUnixTimestamp), "day") > 10
+                      ? "bg-green-500/15"
+                      : "bg-red-600/15",
+                  incomeAmount && "bg-green-500/15",
+                  priceOfProduct && "bg-red-500/15"
+                )}
+              >
+                {date && dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
+              </label>
+            )}
         </div>
-      </DialogTrigger>
-    </DrawerDialogDemo>
+      )}
+    </div>
   );
 };
 

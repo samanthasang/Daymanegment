@@ -1,5 +1,4 @@
 "use client";
-import { CheckCircle, CheckMark } from "@/components/icons";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
 import { useAppDispatch } from "@/lib/hook";
 import {
@@ -9,18 +8,15 @@ import {
   TReminder,
   updateTimeReminderList,
 } from "@/modules/reminderList/reminder.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import { toast } from "react-toastify";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
-export const ReminderItem = ({ item }: { item: TReminder }) => {
+export const ReminderItem = ({
+  item,
+  selectedID,
+}: {
+  item: TReminder;
+  selectedID?: string;
+}) => {
   const dispatch = useAppDispatch();
 
   const SelectReminderList = () => {
@@ -32,32 +28,33 @@ export const ReminderItem = ({ item }: { item: TReminder }) => {
   };
   const UpdateTimeReminderList = () => {
     dispatch(updateTimeReminderList(item.id));
+    SelectReminderList();
     toast(`${item.title} is updated`);
   };
   const CompleteReminderList = () => {
     dispatch(completeReminderList(item.id));
+    SelectReminderList();
     item.isComplete
       ? toast(`${item.title} is uncompleted`)
       : toast(`${item.title} is completed`);
   };
   return (
-    <>
-      <ListItem
-        id={item.id}
-        priority={item.priority}
-        title={item.title}
-        category={item.category}
-        tag={item.tag}
-        isComplete={item.isComplete}
-        date={item.date}
-        drawerType="ReminderList"
-        formType="Edit Reminder"
-        SelectItem={SelectReminderList}
-        DelItem={DelReminderList}
-        CompleteItemt={CompleteReminderList}
-        UpdateItem={UpdateTimeReminderList}
-      />
-    </>
+    <ListItem
+      id={item.id}
+      priority={item.priority}
+      title={item.title}
+      category={item.category}
+      tag={item.tag}
+      isComplete={item.isComplete}
+      date={item.date}
+      drawerType="ReminderList"
+      formType="Edit Reminder"
+      selectedID={selectedID}
+      SelectItem={SelectReminderList}
+      DelItem={DelReminderList}
+      CompleteItemt={CompleteReminderList}
+      UpdateItem={UpdateTimeReminderList}
+    />
   );
 };
 

@@ -1,20 +1,27 @@
 "use client";
 import { TPeople } from "@/modules/people/PeopleList.slice";
+import { DialogTrigger } from "@radix-ui/react-dialog";
+import { Edit } from "../icons";
 import { useAppSelector } from "../../lib/hook";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
+import { SelectButtonGroup } from "../ui/SelectButtonGroup";
 
 interface ICategotySelect {
-  onClickChange: (category: string) => void;
+  className?: string;
+  required?: boolean;
+  errors?: boolean;
+  onValueChange: (category: string) => void;
   value?: string;
+  description?: string;
 }
 
-function PeopleSelectComponent({ onClickChange, value }: ICategotySelect) {
+function PeopleSelectComponent({
+  required = false,
+  errors = false,
+  onValueChange,
+  value,
+  description,
+}: ICategotySelect) {
   const {
     ListPeople,
   }: {
@@ -23,18 +30,26 @@ function PeopleSelectComponent({ onClickChange, value }: ICategotySelect) {
   } = useAppSelector((state) => state.PeopleList) || {};
 
   return (
-    <Select onValueChange={(e) => e && onClickChange(e)} value={value || ""}>
-      <SelectTrigger className="w-full border-white rounded py-1">
-        <SelectValue placeholder="People" />
-      </SelectTrigger>
-      <SelectContent>
-        {ListPeople.map((people, index) => (
-          <SelectItem key={index} value={people.id}>
-            {people.title}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <SelectButtonGroup
+      title="PeopleList"
+      name="people"
+      errors={errors}
+      placeholder="Choose Your Friend"
+      required={required}
+      itemArray={ListPeople}
+      onValueChange={(e) => e && onValueChange(e)}
+      value={value || ""}
+      description={description}
+      className={`${description ? "border-[1px] border-red-600" : ""}`}
+    >
+      <DrawerDialogDemo drawerType={"PeopleList"} formType="Add People">
+        <DialogTrigger asChild>
+          <div className="text-red-400 w-8 h-8 flex justify-center items-center rounded-r-xl border border-input bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+            <Edit />
+          </div>
+        </DialogTrigger>
+      </DrawerDialogDemo>
+    </SelectButtonGroup>
   );
 }
 

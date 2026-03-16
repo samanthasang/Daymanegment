@@ -1,18 +1,25 @@
 "use client";
-import useInstallmentsList from "@/lib/Hooks/Lists/UseInstallmentsList.component";
-import Link from "next/link";
+import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
+import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
 
-function HomeInstallmentsItem() {
+function HomeInstallmentsItem({
+  pathname,
+  OpenMenu,
+}: {
+  pathname: string;
+  OpenMenu: boolean;
+}) {
   const ListInstallments = useInstallmentsList();
 
   return (
-    <Link
+    <MenuItems
       href={"/installments"}
-      className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white"
-    >
-      <span>Installment</span>
-      <span>{`${ListInstallments?.length}`}</span>
-    </Link>
+      tilte="Installment"
+      className={
+        pathname && pathname.startsWith("/installments") ? "bg-primary" : ""
+      }
+      infoNumber={OpenMenu ? `${ListInstallments?.length}` : ""}
+    />
   );
 }
 

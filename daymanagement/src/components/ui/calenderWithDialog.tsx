@@ -10,6 +10,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DayPicker } from "react-day-picker";
+import { Calender } from "../icons";
 
 export function CalendarDialog({
   className,
@@ -34,10 +35,12 @@ export function CalendarDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Open Calendar</Button>
+        <div className="text-red-400 w-8 h-8 flex justify-center items-center rounded-r-xl border border-input bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+          <Calender />
+        </div>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
+      <DialogContent className="w-fit p-3 bg-secondary backdrop-filter backdrop-blur-[10px] rounded-[16px] border-[1px] border-solid border-[rgba(255,255,255,0.35)] [box-shadow:0_8px_32px_0_rgba(31,_38,_135,_0.1)]">
+        <DialogHeader className="text-left">
           <DialogTitle>Select a Date</DialogTitle>
         </DialogHeader>
         <Input

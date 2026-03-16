@@ -22,21 +22,11 @@ import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useAppDispatch } from "@/lib/hook";
 import { cn } from "@/lib/utils";
-import { selectGoalList } from "@/modules/goalsList/goals.slice";
-import { selectHabbitList } from "@/modules/habbitList/habbit.slice";
-import {
-  selectInstallmentstList,
-  TInstallmentst,
-} from "@/modules/installmentstList/installmentst.slice";
-import { selectPeopleList } from "@/modules/people/PeopleList.slice";
-import { selectReminderList } from "@/modules/reminderList/reminder.slice";
+import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import { TShare } from "@/modules/share/share.slice";
-import { selectSpendsList } from "@/modules/spends/spends.slice";
-import { selectTimerList } from "@/modules/timerList/timer.slice";
-import { selectToDoList } from "@/modules/toDoList/todo.slice";
-import { selectVisitList } from "@/modules/visitsList/visit.slice";
 import { FieldErrors } from "react-hook-form";
 import CategoryForm from "../Category/CategoryForm";
+import FilterComponent from "../Filter/FilterComponent";
 import FormGoals from "../Goals/AddGoals/FormGoal";
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit";
 import FormInstallments from "../Installments/AddInstallments/FormInstallments";
@@ -50,7 +40,6 @@ import TagForm from "../Tags/TagForm";
 import FormTimer from "../Timer/AddTimer/FormTimer";
 import FormTodo from "../Todo/AddTodo/FormTodo";
 import FormVisits from "../Visits/AddVisit/FormVisit";
-import FilterComponent from "../Filter/FilterComponent";
 
 export function DrawerDialogDemo({
   drawerType,
@@ -61,11 +50,13 @@ export function DrawerDialogDemo({
   errors,
   onChangeinstallment,
   onChangeShare,
+  removeShare,
   shareList,
 }: {
   drawerType: string;
   onChangeinstallment?: (install: TInstallmentst) => void;
   onChangeShare?: (onChangeShare: TShare) => void;
+  removeShare?: (id: string) => void;
   formType: string;
   children?: React.ReactNode;
   onSubmitForm?: () => void;
@@ -96,17 +87,17 @@ export function DrawerDialogDemo({
 
   const openDrawer = (e: boolean) => {
     console.log(e);
-    if (e == false) {
-      dispatch(selectToDoList(""));
-      dispatch(selectHabbitList(""));
-      dispatch(selectTimerList(""));
-      dispatch(selectSpendsList(""));
-      dispatch(selectReminderList(""));
-      dispatch(selectInstallmentstList(""));
-      dispatch(selectVisitList(""));
-      dispatch(selectGoalList(""));
-      dispatch(selectPeopleList(""));
-    }
+    // if (e == false) {
+    //   dispatch(selectToDoList(""));
+    //   dispatch(selectHabbitList(""));
+    //   dispatch(selectTimerList(""));
+    //   dispatch(selectSpendsList(""));
+    //   dispatch(selectReminderList(""));
+    //   dispatch(selectInstallmentstList(""));
+    //   dispatch(selectVisitList(""));
+    //   dispatch(selectGoalList(""));
+    //   dispatch(selectPeopleList(""));
+    // }
     console.log(drawerType);
     setOpen(e);
   };
@@ -118,7 +109,7 @@ export function DrawerDialogDemo({
     return (
       <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
         {children}
-        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit  bg-[rgba(255,_255,_255,_0.25)] backdrop-filter backdrop-blur-[10px] rounded-[16px] border-[1px] border-solid border-[rgba(255,255,255,0.35)] [box-shadow:0_8px_32px_0_rgba(31,_38,_135,_0.1)]">
+        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter backdrop-blur-md rounded-2xl">
           <DialogHeader>
             <DialogTitle>{formType}</DialogTitle>
           </DialogHeader>
@@ -131,6 +122,7 @@ export function DrawerDialogDemo({
             errors={errors}
             onChangeinstallment={onChangeinstallment}
             onChangeShare={onChangeShare}
+            removeShare={removeShare}
           />
         </DialogContent>
       </Dialog>
@@ -153,6 +145,7 @@ export function DrawerDialogDemo({
           errors={errors}
           onChangeinstallment={onChangeinstallment}
           onChangeShare={onChangeShare}
+          removeShare={removeShare}
         />
         <DrawerFooter className="pt-2">
           <div className="felx flex-row gap-y-2 justify-between items-center">
@@ -182,6 +175,7 @@ function ProfileForm({
   errors,
   onChangeinstallment,
   onChangeShare,
+  removeShare,
   shareList,
 }: {
   drawerType: string;
@@ -190,6 +184,7 @@ function ProfileForm({
   onSubmitForm: () => void;
   onChangeinstallment?: (install: TInstallmentst) => void;
   onChangeShare?: (onChangeShare: TShare) => void;
+  removeShare?: (id: string) => void;
   installment?: TInstallmentst[];
   shareList?: TShare[];
   errors?: FieldErrors<{
@@ -257,12 +252,14 @@ function ProfileForm({
         onSubmitForm &&
         shareList &&
         errors &&
-        onChangeShare && (
+        onChangeShare &&
+        removeShare && (
           <ShareDetailsList
             onSubmitForm={onSubmitForm}
             shareList={shareList}
             errors={errors}
             onChangeShare={onChangeShare}
+            removeShare={removeShare}
           />
         )
       );
@@ -278,7 +275,9 @@ function ProfileForm({
             <Label htmlFor="username">Username</Label>
             <Input id="username" defaultValue="@shadcn" />
           </div>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" variant="default">
+            Save changes
+          </Button>
         </form>
       );
       break;

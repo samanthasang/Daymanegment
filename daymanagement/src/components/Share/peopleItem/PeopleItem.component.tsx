@@ -1,10 +1,17 @@
 "use client";
-import { useAppSelector } from "@/lib/hook";
-import { TPeople } from "@/modules/people/PeopleList.slice";
+import ListItem from "@/components/mainPage/listItem/ListItem.component";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { selectPeopleList, TPeople } from "@/modules/people/PeopleList.slice";
 import { TShare } from "@/modules/share/share.slice";
-import Link from "next/link";
 
-function PeopleItem({ item }: { item: TPeople }) {
+export const PeopleItem = ({
+  item,
+  selectedID,
+}: {
+  item: TPeople;
+  selectedID?: string;
+}) => {
+  const dispatch = useAppDispatch();
   const {
     ListShare,
   }: {
@@ -23,19 +30,20 @@ function PeopleItem({ item }: { item: TPeople }) {
     },
     0
   );
+  const SelectList = () => {
+    dispatch(selectPeopleList(item.id));
+  };
   return (
-    <Link
-      href={`share/${item.id}`}
-      className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white"
-    >
-      <span>{item.title}</span>
-      <span
-        className={`cursor-pointer px-4 py-1 rounded-2xl ${total > 0 ? "bg-green-500/15" : "bg-red-600/15"}`}
-      >
-        {total}
-      </span>
-    </Link>
+    <ListItem
+      id={item.id}
+      title={item.title}
+      total={total}
+      drawerType="PeopleList"
+      formType="Edit People"
+      selectedID={selectedID}
+      SelectItem={SelectList}
+    />
   );
-}
+};
 
 export default PeopleItem;

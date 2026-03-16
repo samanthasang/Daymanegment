@@ -3,23 +3,21 @@ import CategotySelectComponent from "@/components/Category/CategotySelect.compon
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
-import { Textarea } from "@/components/ui/textArea";
+import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 import {
   selectToDoList,
   setToDoList,
   updateToDoList,
 } from "../../../modules/toDoList/todo.slice";
-import { toast } from "react-toastify";
 
 interface IFormInputs {
   title: string;
@@ -58,6 +56,7 @@ export default function FormTodo({
     formState: { errors },
     setValue,
     reset,
+    register,
   } = methods;
 
   useEffect(() => {
@@ -138,178 +137,150 @@ export default function FormTodo({
 
   return (
     <div className="col-span-1 w-auto">
-      <div className="flex flex-row gap-2 w-auto">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4 p-4"
-        >
-          <div className="flex flex-col sm:flex-row w-full gap-x-4">
-            <div className="w-full sm:w-1/2 min-w-60 flex flex-col gap-y-4">
-              <Controller
-                defaultValue={""}
-                name="title"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <InputField
-                    title="Title"
-                    type="string"
-                    // className="!text-white w-full px-3 border-white rounded py-1"
-                    placeholder="Enter Task Name"
-                    disabled={!!errors.title?.message}
-                    content={errors.title?.message}
-                    required
-                    {...field}
-                  />
-                )}
-              />
-
-              <Controller
-                defaultValue={""}
-                name="priority"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <SelectField
-                    title="Priority"
-                    name="priority"
-                    description={errors.priority?.message}
-                    placeholder="Choose Priority"
-                    required
-                    invalid={!!errors.priority?.message}
-                    itemArray={[
-                      { id: "High", title: "High" },
-                      { id: "Medium", title: "Medium" },
-                      { id: "Low", title: "Low" },
-                    ]}
-                    onValueChange={(data) => data && handlePriority(data)}
-                    value={field.value}
-                  />
-                )}
-              />
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="category"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <CategotySelectComponent
-                        required
-                        errors={!!errors.category?.message}
-                        onValueChange={handleCategory}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="tag"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <TagSelectComponent
-                        required
-                        errors={!!errors.tag?.message}
-                        onValueChange={handleTag}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <Controller
-                defaultValue={""}
-                name="description"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <Textarea
-                    className="!text-white h-32 w-full px-3 border-white rounded py-1"
-                    placeholder="Description"
-                    {...field}
-                  />
-                )}
-              />
-              {errors.description?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.description?.message}
-                </p>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-full gap-4"
+      >
+        <div className="flex flex-col sm:flex-row w-full gap-x-4">
+          <div className="w-full sm:w-1/2 min-w-60 flex flex-col gap-y-4">
+            <Controller
+              defaultValue={""}
+              name="title"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <InputField
+                  title="Title"
+                  type="string"
+                  placeholder="Enter Task Name"
+                  disabled={!!errors.title?.message}
+                  required
+                  {...field}
+                />
               )}
-            </div>
-            <div>
-              <Button
-                disabled
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
-              </Button>
+            />
+
+            <ClendarButtonGroup
+              dateValue={date}
+              errors={!date && !!errors.date?.message}
+            >
               <Controller
                 name="date"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <div className=" border-white rounded py-1 flex justify-center">
-                    <CalendarDialog
-                      required
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                      title="a"
-                      dateValue={date}
-                      setDate={setDate}
-                    />
-                  </div>
+                  <CalendarDialog
+                    required
+                    mode="single"
+                    selected={date}
+                    month={date}
+                    onSelect={setDate}
+                    className=" border-white rounded py-1"
+                    captionLayout="dropdown"
+                    title="a"
+                    dateValue={date}
+                    setDate={setDate}
+                  />
                 )}
               />
-              {errors.date?.message && (
-                <p className="text-xs text-red-500">{errors.date?.message}</p>
-              )}
-            </div>
-          </div>
+            </ClendarButtonGroup>
 
-          {!selectedToDo?.title && (
-            <Button
-              type="submit"
-              className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-            >
+            <Controller
+              defaultValue={""}
+              name="priority"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <SelectField
+                  title="Priority"
+                  placeholder="Choose Priority"
+                  required
+                  invalid={!field.value && !!errors.priority?.message}
+                  itemArray={[
+                    { id: "High", title: "High" },
+                    { id: "Medium", title: "Medium" },
+                    { id: "Low", title: "Low" },
+                  ]}
+                  onValueChange={(data) => data && handlePriority(data)}
+                  {...field}
+                  value={field.value}
+                  className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+                  {...register("priority")}
+                />
+              )}
+            />
+            <div className="flex flex-row">
+              <div className="flex-1">
+                <Controller
+                  defaultValue={""}
+                  name="category"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <CategotySelectComponent
+                      required
+                      errors={!field.value && !!errors.category?.message}
+                      description={errors.category?.message}
+                      onValueChange={handleCategory}
+                      value={field.value}
+                    />
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-row">
+              <div className="flex-1">
+                <Controller
+                  defaultValue={""}
+                  name="tag"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <TagSelectComponent
+                      required
+                      errors={!field.value && !!errors.tag?.message}
+                      description={errors.tag?.message}
+                      onValueChange={handleTag}
+                      value={field.value}
+                    />
+                  )}
+                />
+              </div>
+            </div>
+            <Controller
+              defaultValue={""}
+              name="description"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TextAreaField
+                  className="!text-white h-32 w-full px-3 border-white rounded py-1"
+                  placeholder="Description"
+                  {...field}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        {!selectedToDo?.title && (
+          <Button type="submit" variant="default">
+            submit
+          </Button>
+        )}
+
+        {selectedToDo?.title && (
+          <div className="flex gap-4">
+            <Button onClick={() => onReset()} type="button" variant="default">
+              reset
+            </Button>
+            <Button type="submit" variant="default">
               submit
             </Button>
-          )}
-
-          {selectedToDo?.title && (
-            <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
-                reset
-              </Button>
-              <Button
-                type="submit"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
-      </div>
+          </div>
+        )}
+      </form>
     </div>
   );
 }

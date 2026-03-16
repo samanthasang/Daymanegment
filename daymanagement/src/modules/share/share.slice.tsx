@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TShare = {
-  id?: string;
+  id: string;
   peopleId: string;
   income: boolean;
   date: string;
@@ -77,6 +77,38 @@ export const shareListSlice = createSlice({
         (share) => share.id != action.payload
       );
     },
+    delVisitShareList: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        visitId?: string;
+      }>
+    ) => {
+      state.ListShare = state.ListShare.filter((share) =>
+        share.id != action.payload.id
+          ? {
+              ...share,
+              shareList: { ...share, visitId: "" },
+            }
+          : share
+      );
+    },
+    delSpendsShareList: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        spendsId?: string;
+      }>
+    ) => {
+      state.ListShare = state.ListShare.filter((share) =>
+        share.id != action.payload.id
+          ? {
+              ...share,
+              shareList: { ...share, spendsId: "" },
+            }
+          : share
+      );
+    },
     updateShareList: (
       state: InitialState,
       action: PayloadAction<{
@@ -120,5 +152,11 @@ export const shareListSlice = createSlice({
 export const shareReducer = shareListSlice.reducer;
 export const shareReducerPath = shareListSlice.reducerPath;
 
-export const { setShareList, delShareList, updateShareList, selectShareList } =
-  shareListSlice.actions;
+export const {
+  setShareList,
+  delShareList,
+  updateShareList,
+  selectShareList,
+  delVisitShareList,
+  delSpendsShareList,
+} = shareListSlice.actions;

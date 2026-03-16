@@ -1,8 +1,8 @@
 "use client";
-import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
-import { FieldErrors, SubmitHandler } from "react-hook-form";
-import FormInstallmentsDetails from "../AddInstallments/FormInstallmentsDetails";
 import { Button } from "@/components/ui/button";
+import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
+import { FieldErrors } from "react-hook-form";
+import FormInstallmentsDetails from "../AddInstallments/FormInstallmentsDetails";
 
 export default function FormInstallmentsDetailsList({
   onSubmitForm,
@@ -34,7 +34,7 @@ export default function FormInstallmentsDetailsList({
 }) {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="flex flex-col gap-2 w-full h-96 overflow-y-scroll">
+      <div className="flex flex-col gap-y-2 w-full h-96 overflow-y-scroll">
         {installment &&
           errors &&
           installment.map((i) => (
@@ -48,7 +48,6 @@ export default function FormInstallmentsDetailsList({
       </div>
       <Button
         onClick={() => onSubmitForm()}
-        className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
       >
         submit
       </Button>

@@ -8,7 +8,7 @@ function HomeComponent() {
       <div className="w-full text-center border-b p-3">Home</div>
 
       <div className=" w-full grid grid-cols-3 h-5 flex-1">
-        <TodoSideBar />
+        {/* <TodoSideBar /> */}
 
         <HomeList />
       </div>

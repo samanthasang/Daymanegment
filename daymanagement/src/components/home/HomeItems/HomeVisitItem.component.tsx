@@ -1,18 +1,23 @@
 "use client";
-import useVisitList from "@/lib/Hooks/Lists/UseVisitList.component";
-import Link from "next/link";
+import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
+import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 
-function HomeVisitItem() {
+function HomeVisitItem({
+  pathname,
+  OpenMenu,
+}: {
+  pathname: string;
+  OpenMenu: boolean;
+}) {
   const ListVisit = useVisitList();
 
   return (
-    <Link
+    <MenuItems
       href={"/visits"}
-      className="w-full h-fit aspect-square cursor-pointer flex flex-col items-center justify-center border p-3 rounded-2xl border-white"
-    >
-      <span>Visits</span>
-      <span>{`${ListVisit && ListVisit.length}`}</span>
-    </Link>
+      tilte="Visits"
+      className={pathname && pathname.startsWith("/visits") ? "bg-primary" : ""}
+      infoNumber={OpenMenu ? `${ListVisit && ListVisit.length}` : ""}
+    />
   );
 }
 

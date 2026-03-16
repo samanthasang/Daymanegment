@@ -1,8 +1,12 @@
 import { CategoryReducer } from "@/modules/category/categoryList.slice";
+import { goalReducer } from "@/modules/goalsList/goals.slice";
 import { habbitReducer } from "@/modules/habbitList/habbit.slice";
 import { installmentstReducer } from "@/modules/installmentstList/installmentst.slice";
+import { MenuReducer } from "@/modules/menu/menu.slice";
 import { MyHabbitReducer } from "@/modules/myHabbitList/myHabbit.slice";
+import { PeopleReducer } from "@/modules/people/PeopleList.slice";
 import { reminderReducer } from "@/modules/reminderList/reminder.slice";
+import { shareReducer } from "@/modules/share/share.slice";
 import { spendsReducer } from "@/modules/spends/spends.slice";
 import { TagReducer } from "@/modules/tag/TagList.slice";
 import { timerReducer } from "@/modules/timerList/timer.slice";
@@ -11,9 +15,6 @@ import { combineReducers, configureStore, Middleware } from "@reduxjs/toolkit";
 import { ticketReducer } from "../modules/ticket/ticket.slice";
 import { todoReducer } from "../modules/toDoList/todo.slice";
 import apiService from "./api.service";
-import { goalReducer } from "@/modules/goalsList/goals.slice";
-import { shareReducer } from "@/modules/share/share.slice";
-import { PeopleReducer } from "@/modules/people/PeopleList.slice";
 
 export const reducers = combineReducers({
   timer: ticketReducer,
@@ -30,6 +31,7 @@ export const reducers = combineReducers({
   visit: VisitReducer,
   Goals: goalReducer,
   ShareList: shareReducer,
+  Menu: MenuReducer,
   [apiService.reducerPath]: apiService.reducer,
 });
 

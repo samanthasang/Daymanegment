@@ -1,8 +1,5 @@
 import { cn } from "@/lib/utils";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
 import FilterComponent from "../../Filter/FilterComponent";
-import { Button } from "../../ui/button";
 
 function SidebarDesktop({
   drawerType,
@@ -16,22 +13,13 @@ function SidebarDesktop({
   witAdd?: boolean;
 }) {
   return (
-    <div className="col-span-1 flex justify-center w-full px-3 border-l h-full">
-      <div className="h-full">
+    <div className="relative flex flex-col justify-center flex-1 h-full rounded-2xl bg-secondary">
+      <div className="w-full text-center p-2 border-b-2 border-[#1C2936]">
+        Filter
+      </div>
+      <div className="h-full px-2">
         <div className={cn("flex flex-col justify-start gap-y-3 w-full")}>
           <FilterComponent witDate={witDate} />
-
-          {witAdd && (
-            <div className="flex justify-between w-full mx-auto h-9">
-              <DrawerDialogDemo drawerType={drawerType} formType={formType}>
-                <DialogTrigger asChild>
-                  <Button variant="outline">
-                    <span>add</span>
-                  </Button>
-                </DialogTrigger>
-              </DrawerDialogDemo>
-            </div>
-          )}
         </div>
       </div>
     </div>

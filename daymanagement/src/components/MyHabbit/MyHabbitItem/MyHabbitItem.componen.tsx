@@ -1,6 +1,6 @@
 "use client";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
-import { useAppDispatch } from "@/lib/hook";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { setHabbitList, Thabbit } from "@/modules/habbitList/habbit.slice";
 import {
   completeMyHabbitList,
@@ -14,7 +14,13 @@ import { toast } from "react-toastify";
 
 const currentUnixTimestamp = dayjs().unix();
 
-export const MyHabbitItem = ({ item }: { item: Thabbit }) => {
+export const MyHabbitItem = ({
+  item,
+  selectedID,
+}: {
+  item: Thabbit;
+  selectedID?: string;
+}) => {
   const dispatch = useAppDispatch();
 
   const SelectHabbitList = () => {
@@ -31,45 +37,55 @@ export const MyHabbitItem = ({ item }: { item: Thabbit }) => {
       ? toast(`${item.title} is uncompleted`)
       : toast(`${item.title} is completed`);
   };
+  const {
+    ListHabbit,
+  }: {
+    ListHabbit: Thabbit[];
+  } = useAppSelector((state) => state.habbitList) || [];
 
   useEffect(() => {
     if (
       dayjs
         .unix(currentUnixTimestamp)
-        .diff(dayjs.unix(item.lastUpdate), "day") > 2
+        .diff(dayjs.unix(Number(item.lastUpdate)), "day") > 2
     ) {
       dispatch(
         updateMyHabbitList({
-          id: item.id || "",
+          id: item.id,
           title: item.title,
           description: item.description,
           score:
             item.score -
             dayjs
               .unix(currentUnixTimestamp)
-              .diff(dayjs.unix(item.lastUpdate), "day"),
+              .diff(dayjs.unix(Number(item.lastUpdate)), "day"),
           priority: item.priority,
-          lastUpdate: currentUnixTimestamp,
+          lastUpdate: Math.floor(
+            new Date(currentUnixTimestamp).getTime()
+          ).toString(),
           completeUpdate: item.completeUpdate,
           category: item.category,
           tag: item.tag,
         })
       );
     }
-    if (item.score < 10) {
-      dispatch(
-        setHabbitList({
-          id: item.id || "",
-          title: item.title,
-          description: item.description,
-          score: 9,
-          priority: item.priority,
-          lastUpdate: currentUnixTimestamp,
-          completeUpdate: item.completeUpdate,
-          category: item.category,
-          tag: item.tag,
-        })
-      );
+    if (item.score < 20) {
+      ListHabbit.filter((list) => list.id == item.id).length == 0 &&
+        dispatch(
+          setHabbitList({
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            score: 9,
+            priority: item.priority,
+            lastUpdate: Math.floor(
+              new Date(currentUnixTimestamp).getTime()
+            ).toString(),
+            completeUpdate: item.completeUpdate,
+            category: item.category,
+            tag: item.tag,
+          })
+        );
       dispatch(delMyHabbitList(item.id));
     }
   }, []);
@@ -86,12 +102,13 @@ export const MyHabbitItem = ({ item }: { item: Thabbit }) => {
         dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
       }
       score={item.score}
-      drawerType="HabbitList"
+      drawerType="MyHabbitList"
       formType="Edit Habbit"
+      selectedID={selectedID}
       SelectItem={SelectHabbitList}
       DelItem={DelHabbitList}
       CompleteItemt={CompleteHabbitList}
-      withDel={false}
+      withDel={true}
     />
   );
 };

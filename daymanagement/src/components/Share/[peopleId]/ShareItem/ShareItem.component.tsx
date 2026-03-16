@@ -1,6 +1,8 @@
 "use client";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Trash } from "@/components/icons";
+import { Edit, Trash } from "@/components/icons";
+import SelectedItemContainer from "@/components/mainPage/selectedItem/SelectedItemContainer.component";
+import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TCategory } from "@/modules/category/categoryList.slice";
@@ -18,6 +20,8 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import ShareItemVisit from "./ShareItemVisit.componen";
+import ShareItemSpends from "./ShareItemSpends.component";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -72,78 +76,84 @@ export const ShareItem = ({ item }: { item: TShare }) => {
       };
 
   return (
-    <DrawerDialogDemo drawerType={"ShareList"} formType="Edit Share">
-      <DialogTrigger asChild>
-        <div
-          onClick={(e) => {
-            item.id && dispatch(selectShareList(item.id));
-          }}
-          className="w-full h-fit cursor-pointer flex flex-row items-start justify-start border p-3 rounded-2xl border-white"
-        >
-          <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
-            <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
-              <label
-                htmlFor="terms"
-                className={`cursor-pointer flex justify-center items-center gap-2`}
-              >
-                {peopleSelected && peopleSelected.title
-                  ? peopleSelected.title
-                  : ""}
-              </label>
-            </div>
-            <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
-              {categorySelected && (
-                <label
-                  className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-                >
-                  {categorySelected.title || ""}
-                </label>
-              )}
-              {tagSelected && (
-                <label
-                  className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-                >
-                  {tagSelected.title || ""}
-                </label>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col w-fit gap-2 justify-end items-end">
-            <div className="flex flex-row gap-x-2">
-              <div
-                onClick={(e) => {
-                  e && e.preventDefault();
-                  item.id && dispatch(delShareList(item.id));
-                  item.id &&
-                    item.visitId &&
-                    (dispatch(
-                      delVisitListShare({ id: item.id, visitId: item.visitId })
-                    ),
-                    item.spendsId &&
-                      (dispatch(
-                        delSpendsListShare({
-                          id: item.id,
-                          spendsId: item.spendsId,
-                        })
-                      ),
-                      dispatch(delShareList(item.id))));
-                }}
-                className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
-              >
-                <Trash />
-              </div>
-            </div>
-
+    <div className="w-full h-fit flex flex-col items-start justify-start p-3 gap-y-2 rounded-2xl bg-secondary">
+      <div className="w-full h-fit flex flex-row items-start justify-start rounded-2xl">
+        <div className="select-none flex flex-col flex-1 gap-2 justify-start items-start">
+          <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
             <label
-              className={`cursor-pointer px-2 py-1 rounded-2xl ${item.income ? "bg-green-500/15" : "bg-red-600/15"}`}
+              className={`cursor-pointer flex justify-center items-center gap-2`}
             >
-              {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")} |{" "}
-              {`${item.incomeAmount || item.outcomeAmount}`}
+              {peopleSelected && peopleSelected.title
+                ? peopleSelected.title
+                : ""}
             </label>
           </div>
+          <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
+            {categorySelected && (
+              <label
+                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
+              >
+                {categorySelected.title || ""}
+              </label>
+            )}
+            {tagSelected && (
+              <label
+                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
+              >
+                {tagSelected.title || ""}
+              </label>
+            )}
+          </div>
         </div>
-      </DialogTrigger>
-    </DrawerDialogDemo>
+        <div className="flex flex-col w-fit gap-2 justify-end items-end">
+          <div className="flex flex-row gap-x-2">
+            <div
+              onClick={(e) => {
+                e && e.preventDefault();
+                item.id && dispatch(delShareList(item.id));
+                item.id &&
+                  item.visitId &&
+                  (dispatch(
+                    delVisitListShare({ id: item.id, visitId: item.visitId })
+                  ),
+                  item.spendsId &&
+                    dispatch(
+                      delSpendsListShare({
+                        id: item.id,
+                        spendsId: item.spendsId,
+                      })
+                    ));
+              }}
+              className="cursor-pointer flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none"
+            >
+              <Trash />
+            </div>
+            <DrawerDialogDemo drawerType={"ShareList"} formType="Edit Share">
+              <DialogTrigger asChild>
+                <Button
+                  onClick={(e) => {
+                    item.id && dispatch(selectShareList(item.id));
+                  }}
+                  variant="outline"
+                  className="flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none hover:bg-transparent"
+                >
+                  <Edit />
+                </Button>
+              </DialogTrigger>
+            </DrawerDialogDemo>
+          </div>
+
+          <label
+            className={`cursor-pointer px-2 py-1 rounded-2xl ${item.income ? "bg-green-500/15" : "bg-red-600/15"}`}
+          >
+            {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")} |{" "}
+            {`${item.incomeAmount || item.outcomeAmount}`}
+          </label>
+        </div>
+      </div>
+      {item.visitId && <ShareItemVisit item={item} />}
+      {item.spendsId && <ShareItemSpends item={item} />}
+    </div>
   );
 };
 

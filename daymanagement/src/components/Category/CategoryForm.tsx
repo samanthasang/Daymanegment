@@ -1,5 +1,4 @@
 "use client";
-import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import {
   selectCategoryList,
@@ -8,10 +7,11 @@ import {
   updateCategoryList,
 } from "@/modules/category/categoryList.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
+import { InputField } from "../ui/inputField";
 import { CategoryList } from "./Category.component";
 
 interface IFormInputs {
@@ -33,8 +33,6 @@ export default function CategoryForm({
       setValue("category", selectedCategory?.title);
     }
   }, [selectedCategory]);
-
-  // const [todoList ,setTodoList]= useState<string[]>([])
 
   // creating a schema for strings
   const formSchema = z.object({
@@ -71,7 +69,7 @@ export default function CategoryForm({
         );
     dispatch(selectCategoryList(""));
     reset();
-    onSubmitForm();
+    // onSubmitForm();
   };
 
   const onReset = () => {
@@ -93,38 +91,28 @@ export default function CategoryForm({
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <Input
-                className="!text-white w-full px-3 border-white rounded py-1"
-                placeholder="Name"
+              <InputField
+                title="Title"
+                type="string"
+                placeholder="Enter Name"
+                disabled={!!errors.category?.message}
+                required
                 {...field}
               />
             )}
           />
-          {errors.category?.message && (
-            <p className="text-xs text-red-500">{errors.category?.message}</p>
-          )}
           {!selectedCategory?.title && (
-            <Button
-              type="submit"
-              className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-            >
+            <Button type="submit" variant="default">
               submit
             </Button>
           )}
 
           {selectedCategory?.title && (
             <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button onClick={() => onReset()} type="button" variant="default">
                 reset
               </Button>
-              <Button
-                type="submit"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button type="submit" variant="default">
                 submit
               </Button>
             </div>

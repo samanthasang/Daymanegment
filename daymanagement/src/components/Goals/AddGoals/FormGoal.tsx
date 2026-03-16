@@ -1,24 +1,13 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
+import { InputField } from "@/components/ui/inputField";
+import { SelectField } from "@/components/ui/selectField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogTrigger } from "@radix-ui/react-dialog";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,12 +16,16 @@ import {
   setGoalList,
   updateGoalList,
 } from "../../../modules/goalsList/goals.slice";
+import dayjs from "dayjs";
+
+const currentUnixTimestamp = dayjs().unix();
 
 interface IFormInputs {
-  todo: string;
+  title: string;
   priority: string;
   date: string;
   category: string;
+  score?: number;
   tag: string;
 }
 
@@ -45,10 +38,11 @@ export default function FormGoals({
 
   // creating a schema for strings
   const formSchema = z.object({
-    todo: z.string().min(4, { message: "Name is required" }),
+    title: z.string().min(4, { message: "Name is required" }),
     priority: z.string().min(1, { message: "priority is required" }),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
+    score: z.number().optional(),
     date: z.string().min(1, { message: "date is required" }),
   });
   type FormData = z.infer<typeof formSchema>;
@@ -63,6 +57,7 @@ export default function FormGoals({
     formState: { errors },
     setValue,
     reset,
+    register,
   } = methods;
 
   useEffect(() => {
@@ -78,7 +73,7 @@ export default function FormGoals({
 
   useEffect(() => {
     if (selectedGoal) {
-      setValue("todo", selectedGoal?.title);
+      setValue("title", selectedGoal?.title);
       setValue("priority", selectedGoal.priority);
       setValue("category", selectedGoal.category);
       setValue("tag", selectedGoal.tag);
@@ -98,30 +93,51 @@ export default function FormGoals({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+    console.log(dayjs.unix(Number(currentUnixTimestamp)));
+    console.log(date);
+    console.log(data.date);
+    console.log(dayjs.unix(Number(date)));
+
+    console.log(
+      dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(Number(date)), "day")
+    );
+    console.log(
+      dayjs
+        .unix(currentUnixTimestamp)
+        .diff(dayjs.unix(Number(data.date)), "day")
+    );
+
     selectedGoal?.title
       ? dispatch(
           updateGoalList({
             id: selectedGoal.id,
-            title: data.todo,
+            title: data.title,
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
             priority: data.priority,
             category: data.category,
             tag: data.tag,
-            score: 0,
+            score:
+              dayjs
+                .unix(Number(data.date))
+                .diff(dayjs.unix(currentUnixTimestamp), "day") || 0,
           })
         )
       : dispatch(
           setGoalList({
             id: "",
-            title: data.todo,
+            title: data.title,
             date: date
               ? Math.floor(new Date(date).getTime() / 1000.0).toString()
               : data.date,
             priority: data.priority,
             category: data.category,
             tag: data.tag,
+            score:
+              dayjs
+                .unix(Number(data.date))
+                .diff(dayjs.unix(currentUnixTimestamp), "day") || 0,
           })
         );
     dispatch(selectGoalList(""));
@@ -146,20 +162,46 @@ export default function FormGoals({
             <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
               <Controller
                 defaultValue={""}
-                name="todo"
+                name="title"
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Input
-                    className="!text-white w-full px-3 border-white rounded py-1"
-                    placeholder="Name"
+                  <InputField
+                    title="Title"
+                    type="string"
+                    placeholder="Enter Task Name"
+                    disabled={!!errors.title?.message}
+                    required
                     {...field}
                   />
                 )}
               />
-              {errors.todo?.message && (
-                <p className="text-xs text-red-500">{errors.todo?.message}</p>
-              )}
+
+              <ClendarButtonGroup
+                dateValue={date}
+                errors={!date && !!errors.date?.message}
+                // description={errors.category?.message}
+              >
+                <Controller
+                  name="date"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <CalendarDialog
+                      required
+                      mode="single"
+                      selected={date}
+                      month={date}
+                      onSelect={setDate}
+                      className=" border-white rounded py-1"
+                      captionLayout="dropdown"
+                      title="a"
+                      dateValue={date}
+                      setDate={setDate}
+                    />
+                  )}
+                />
+              </ClendarButtonGroup>
 
               <Controller
                 defaultValue={""}
@@ -167,26 +209,24 @@ export default function FormGoals({
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Select
+                  <SelectField
+                    title="Priority"
+                    placeholder="Choose Priority"
+                    required
+                    invalid={!field.value && !!errors.priority?.message}
+                    itemArray={[
+                      { id: "High", title: "High" },
+                      { id: "Medium", title: "Medium" },
+                      { id: "Low", title: "Low" },
+                    ]}
                     onValueChange={(data) => data && handlePriority(data)}
+                    {...field}
                     value={field.value}
-                  >
-                    <SelectTrigger className="w-full border-white rounded py-1">
-                      <SelectValue placeholder="Priority" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={"High"}>High</SelectItem>
-                      <SelectItem value={"Medium"}>Medium</SelectItem>
-                      <SelectItem value={"Low"}>Low</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+                    {...register("priority")}
+                  />
                 )}
               />
-              {errors.priority?.message && (
-                <p className="text-xs text-red-500">
-                  {errors.priority?.message}
-                </p>
-              )}
               <div className="flex flex-row">
                 <div className="flex-1">
                   <Controller
@@ -196,24 +236,15 @@ export default function FormGoals({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <CategotySelectComponent
+                        required
+                        errors={!field.value && !!errors.category?.message}
+                        description={errors.category?.message}
                         onValueChange={handleCategory}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.category?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.category?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
 
               <div className="flex flex-row">
@@ -225,83 +256,31 @@ export default function FormGoals({
                     rules={{ required: true }}
                     render={({ field }) => (
                       <TagSelectComponent
+                        required
+                        errors={!field.value && !!errors.tag?.message}
+                        description={errors.tag?.message}
                         onValueChange={handleTag}
                         value={field.value}
                       />
                     )}
                   />
-                  {errors.tag?.message && (
-                    <p className="text-xs text-red-500">
-                      {errors.tag?.message}
-                    </p>
-                  )}
                 </div>
-                <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                  <DialogTrigger asChild>
-                    <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                      <Edit />
-                    </div>
-                  </DialogTrigger>
-                </DrawerDialogDemo>
               </div>
-            </div>
-            <div>
-              <Button
-                disabled
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal border-white rounded py-1 bg-transparent",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon />
-                {date ? format(date, "PPP") : <span>Pick a date</span>}
-              </Button>
-              <Controller
-                name="date"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <div className=" border-white rounded py-1 flex justify-center">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                    />
-                  </div>
-                )}
-              />
-              {errors.date?.message && (
-                <p className="text-xs text-red-500">{errors.date?.message}</p>
-              )}
             </div>
           </div>
 
           {!selectedGoal?.title && (
-            <Button
-              type="submit"
-              className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-            >
+            <Button type="submit" variant="default">
               submit
             </Button>
           )}
 
           {selectedGoal?.title && (
             <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button onClick={() => onReset()} type="button" variant="default">
                 reset
               </Button>
-              <Button
-                type="submit"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
-              >
+              <Button type="submit" variant="default">
                 submit
               </Button>
             </div>
