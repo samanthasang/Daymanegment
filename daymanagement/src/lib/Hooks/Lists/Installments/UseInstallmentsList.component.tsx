@@ -19,7 +19,6 @@ function useInstallmentsList() {
     ListInstallmentst,
   }: {
     ListInstallmentst: TInstallmentsts[];
-    selectedInstallmentst: {};
   } = useAppSelector((state) => state.InstallmentstList) || [];
 
   const searchParams = useSearchParams();
@@ -46,18 +45,36 @@ function useInstallmentsList() {
         ? dateTo
         : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString();
       let filterArrayDay = ListInstallmentst || [];
+
       if (hasdateTo && hasdateFrom && fromDay) {
         if (toDay) {
-          filterArrayDay = ListInstallmentst.filter(
-            (list) => list.lastUpdate >= fromDay && list.lastUpdate <= toDay
+          filterArrayDay = ListInstallmentst.filter((list) =>
+            list.installmentstList.filter((ins) => !ins.isComplete)[0]
+              ? list.installmentstList.filter((ins) => !ins.isComplete)[0].date
+              : list.lastUpdate >= fromDay &&
+                  list.installmentstList.filter((ins) => !ins.isComplete)[0]
+                ? list.installmentstList.filter((ins) => !ins.isComplete)[0]
+                    .date
+                : list.lastUpdate <= toDay
           );
         }
       }
       if (fromDay && toDay && fromDay == toDay) {
-        filterArrayDay = ListInstallmentst;
+        filterArrayDay = ListInstallmentst.filter((list) =>
+          list.installmentstList.filter((ins) => !ins.isComplete)[0]
+            ? list.installmentstList.filter((ins) => !ins.isComplete)[0].date
+            : list.lastUpdate >= toDay
+        );
       }
       if (fromDay && toDay && fromDay != toDay) {
-        filterArrayDay = ListInstallmentst;
+        filterArrayDay = ListInstallmentst.filter((list) =>
+          list.installmentstList.filter((ins) => !ins.isComplete)[0]
+            ? list.installmentstList.filter((ins) => !ins.isComplete)[0].date
+            : list.lastUpdate >= fromDay &&
+                list.installmentstList.filter((ins) => !ins.isComplete)[0]
+              ? list.installmentstList.filter((ins) => !ins.isComplete)[0].date
+              : list.lastUpdate <= toDay
+        );
       }
 
       let filterArrayCat = filterArrayDay;

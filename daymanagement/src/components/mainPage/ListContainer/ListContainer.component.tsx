@@ -8,7 +8,7 @@ function ListContainer({
   children,
 }: {
   selectedID: boolean;
-  listTitle: string;
+  listTitle?: string;
   children: React.ReactNode;
 }) {
   const { OpenFilter } = useAppSelector((state) => state.Menu);
@@ -25,9 +25,11 @@ function ListContainer({
           : "w-full"
       )}
     >
-      <div className="w-full text-center p-2 border-b-2 border-[#1C2936]">
-        {listTitle}
-      </div>
+      {listTitle && (
+        <div className="w-full text-center p-2 border-b-2 border-[#1C2936]">
+          {listTitle}
+        </div>
+      )}
       {children}
     </div>
   );

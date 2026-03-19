@@ -69,7 +69,7 @@ export const MyHabbitItem = ({
         })
       );
     }
-    if (item.score < 20) {
+    if (item.score < 10) {
       ListHabbit.filter((list) => list.id == item.id).length == 0 &&
         dispatch(
           setHabbitList({
@@ -81,7 +81,9 @@ export const MyHabbitItem = ({
             lastUpdate: Math.floor(
               new Date(currentUnixTimestamp).getTime()
             ).toString(),
-            completeUpdate: item.completeUpdate,
+            completeUpdate: Math.floor(
+              new Date(currentUnixTimestamp).getTime()
+            ).toString(),
             category: item.category,
             tag: item.tag,
           })

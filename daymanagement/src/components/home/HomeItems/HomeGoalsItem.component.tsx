@@ -18,7 +18,7 @@ function HomeGoalsItem({
       className={pathname && pathname.startsWith("/goals") ? "bg-primary" : ""}
       infoNumber={
         OpenMenu
-          ? `${ListGoals?.filter((todo) => todo.isComplete != true).length}`
+          ? `${ListGoals?.filter((todo) => todo.isComplete == true).length} / ${ListGoals?.length}`
           : ""
       }
     />

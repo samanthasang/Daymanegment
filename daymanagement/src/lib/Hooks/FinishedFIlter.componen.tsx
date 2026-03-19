@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 
 function FinishedFIlter(List: any[]) {
-  const [finishFIlter, setFinishFIlter] = useState(true);
+  const [finishFIlter, setFinishFIlter] = useState(false);
 
   const finishArray = useMemo(
     () => (finishFIlter ? [...List]?.filter((a) => !a.isComplete) : List),

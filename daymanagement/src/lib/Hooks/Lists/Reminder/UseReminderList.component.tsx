@@ -19,7 +19,6 @@ function useReminderList() {
     ListReminder,
   }: {
     ListReminder: TReminder[];
-    selectedReminder: {};
   } = useAppSelector((state) => state.reminder) || [];
 
   const searchParams = useSearchParams();
@@ -46,11 +45,24 @@ function useReminderList() {
         ? dateTo
         : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString();
       let filterArrayDay = ListReminder || [];
+      if (hasdateTo && hasdateFrom && fromDay) {
+        if (toDay) {
+          filterArrayDay = ListReminder.filter(
+            (list) => list.date >= fromDay && list.date <= toDay
+          );
+        }
+      }
       if (fromDay && toDay && fromDay == toDay) {
-        filterArrayDay = ListReminder;
+        filterArrayDay = ListReminder.filter(
+          (list) => list.date >= fromDay && list.date >= toDay
+        );
       }
       if (fromDay && toDay && fromDay != toDay) {
-        filterArrayDay = ListReminder;
+        filterArrayDay = ListReminder.filter(
+          (list) =>
+            Math.floor(+list.date).toString() >= fromDay &&
+            Math.floor(+list.date).toString() <= toDay
+        );
       }
 
       let filterArrayCat = filterArrayDay;

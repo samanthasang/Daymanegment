@@ -11,13 +11,8 @@ export const InstallmentsItem = ({
   item: TInstallmentsts;
   selectedID?: string;
 }) => {
-  const {
-    CompleteItemt,
-    DelItem,
-    SelectItem,
-    SelectWithId,
-    CompleteItemInstallment,
-  } = InstallmentsListActivities();
+  const { CompleteItemt, DelItem, SelectWithId, CompleteItemInstallment } =
+    InstallmentsListActivities();
 
   const lastItem =
     item.installmentstList.filter((ins) => !ins.isComplete).length != 0
@@ -45,7 +40,7 @@ export const InstallmentsItem = ({
       date={(lastItem && lastItem.date) || item.lastUpdate}
       drawerType="InstallmentsList"
       formType="Edit Installment"
-      selectedID={selectedID} 
+      selectedID={selectedID}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
       CompleteItemt={CompleteInstallment}

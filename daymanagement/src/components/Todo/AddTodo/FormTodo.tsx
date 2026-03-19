@@ -30,8 +30,10 @@ interface IFormInputs {
 
 export default function FormTodo({
   onSubmitForm,
+  formType,
 }: {
   onSubmitForm: () => void;
+  formType: string;
 }) {
   const [date, setDate] = useState<Date>();
 
@@ -71,7 +73,7 @@ export default function FormTodo({
   const { selectedToDo }: any = useAppSelector((state) => state.todoList) || {};
 
   useEffect(() => {
-    if (selectedToDo) {
+    if (formType.split(" ")[0] == "Edit" && selectedToDo) {
       setValue("title", selectedToDo?.title);
       setValue("priority", selectedToDo.priority);
       setValue("category", selectedToDo.category);

@@ -115,6 +115,7 @@ export function DrawerDialogDemo({
           </DialogHeader>
           <ProfileForm
             drawerType={drawerType}
+            formType={formType}
             onSubmit={() => openDrawer(false)}
             onSubmitForm={onSubmitFormHandler}
             installment={installment}
@@ -138,6 +139,7 @@ export function DrawerDialogDemo({
         </DrawerHeader>
         <ProfileForm
           drawerType={drawerType}
+          formType={formType}
           onSubmit={() => openDrawer(false)}
           onSubmitForm={onSubmitFormHandler}
           installment={installment}
@@ -168,6 +170,7 @@ export function DrawerDialogDemo({
 
 function ProfileForm({
   drawerType,
+  formType,
   className,
   onSubmit,
   onSubmitForm,
@@ -179,6 +182,7 @@ function ProfileForm({
   shareList,
 }: {
   drawerType: string;
+  formType: string;
   className?: React.ComponentProps<"form">;
   onSubmit: () => void;
   onSubmitForm: () => void;
@@ -210,29 +214,29 @@ function ProfileForm({
     case "FilterList":
       return <FilterComponent witDate />;
     case "ReminderList":
-      return <FormReminder onSubmitForm={onSubmit} />;
+      return <FormReminder formType={formType} onSubmitForm={onSubmit} />;
     case "TodoList":
-      return <FormTodo onSubmitForm={onSubmit} />;
+      return <FormTodo formType={formType} onSubmitForm={onSubmit} />;
     case "HabbitList":
-      return <FormHabbit onSubmitForm={onSubmit} />;
+      return <FormHabbit formType={formType} onSubmitForm={onSubmit} />;
     case "CategoryList":
       return <CategoryForm onSubmitForm={onSubmit} />;
     case "TagList":
       return <TagForm onSubmitForm={onSubmit} />;
     case "PeopleList":
-      return <PeopleForm onSubmitForm={onSubmit} />;
+      return <PeopleForm formType={formType} onSubmitForm={onSubmit} />;
     case "TimerList":
-      return <FormTimer onSubmitForm={onSubmit} />;
+      return <FormTimer formType={formType} onSubmitForm={onSubmit} />;
     case "SpendsList":
-      return <FormSpends onSubmitForm={onSubmit} />;
+      return <FormSpends formType={formType} onSubmitForm={onSubmit} />;
     case "InstallmentsList":
-      return <FormInstallments onSubmitForm={onSubmit} />;
+      return <FormInstallments formType={formType} onSubmitForm={onSubmit} />;
     case "VisitsList":
-      return <FormVisits onSubmitForm={onSubmit} />;
+      return <FormVisits formType={formType} onSubmitForm={onSubmit} />;
     case "GoalsList":
-      return <FormGoals onSubmitForm={onSubmit} />;
+      return <FormGoals formType={formType} onSubmitForm={onSubmit} />;
     case "ShareList":
-      return <FormShare onSubmitForm={onSubmit} />;
+      return <FormShare formType={formType} onSubmitForm={onSubmit} />;
     case "InstallmentsListDetails":
       return (
         onSubmitForm &&

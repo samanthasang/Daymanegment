@@ -1,6 +1,6 @@
 "use client";
 import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
-import useTimerList from "@/lib/Hooks/Lists/UseTimerList.component";
+import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
 
 function HomeTimerItem({
   pathname,

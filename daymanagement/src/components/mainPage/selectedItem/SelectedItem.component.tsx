@@ -1,17 +1,20 @@
 import PeopleShareList from "@/components/Share/[peopleId]/ShareList/ShareList.component";
 import { AccountBalance, ShoppingCart } from "@/components/icons";
 import BasicSwitch from "@/components/ui/BasicSwitch";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import { TShare } from "@/modules/share/share.slice";
 import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
 import ListPriority from "../ListPriority/ListPriority.component";
 import ListCategorySelected from "../listCategorySelected/ListCategorySelected.component";
+import ListItemTimeDiff from "../listItem/ListItemTimeDiff.component";
 import ListTagSelected from "../listTagSelected/ListTagSelected.component";
 import SelectedInsstalmentsItem from "./SelectedInsstalmentsItem.component";
 import SelectedItemContainer from "./SelectedItemContainer.component";
-import SelectedShareItem from "./SelectedShareItem.component";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import SelectedItemReminder from "./SelectedItemReminder.component";
+import SelectedShareItem from "./SelectedShareItem.component";
+dayjs.extend(duration);
 
 const currentUnixTimestamp = dayjs().unix();
 export const SelectedItem = ({
@@ -23,6 +26,7 @@ export const SelectedItem = ({
   tag,
   isComplete,
   date,
+  diff,
   score,
   income,
   incomeAmount,
@@ -61,6 +65,7 @@ export const SelectedItem = ({
   withDel?: boolean;
   income?: boolean;
   date?: string;
+  diff?: duration.Duration;
   shareList?: TShare[];
   installmentstList?: TInstallmentst[];
   startDate?: string;
@@ -213,6 +218,23 @@ export const SelectedItem = ({
               />
             </div>
           </div>
+        </SelectedItemContainer>
+      )}
+      {drawerType == "TimerList" && !isComplete && (
+        <SelectedItemContainer title="Timer">
+          <ListItemTimeDiff date={startDate} />
+        </SelectedItemContainer>
+      )}
+      {drawerType == "TimerList" && isComplete && diff && (
+        <SelectedItemContainer title="Timer">
+          <label className="bg-white/15 rounded-2xl py-1 px-2">
+            {diff.years() > 0 && `${diff.years()} : `}
+            {diff.months() > 0 && `${diff.months()} : `}
+            {diff.days() > 0 && `${diff.days()} : `}
+            {diff.hours() > 0 && `${diff.hours()} : `}
+            {diff.minutes() > 0 && `${diff.minutes()} : `}
+            {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
+          </label>
         </SelectedItemContainer>
       )}
       {category && category != "" && (

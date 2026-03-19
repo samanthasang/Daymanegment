@@ -1,7 +1,12 @@
 "use client";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
 import { useAppDispatch } from "@/lib/hook";
-import { completeGoalList, delGoalList, selectGoalList, TGoals } from "@/modules/goalsList/goals.slice";
+import {
+  completeGoalList,
+  delGoalList,
+  selectGoalList,
+  TGoals,
+} from "@/modules/goalsList/goals.slice";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -53,7 +58,9 @@ export const GoalsItem = ({
       tag={item.tag}
       isComplete={item.isComplete}
       date={item.date}
-      score={item.score}
+      score={
+        dayjs.unix(+item.date).diff(dayjs.unix(currentUnixTimestamp), "day") + 1
+      }
       drawerType="GoalsList"
       formType="Edit Goals"
       selectedID={selectedID}

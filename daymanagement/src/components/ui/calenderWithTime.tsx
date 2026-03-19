@@ -1,22 +1,20 @@
 "use client";
-
-import * as React from "react";
-
-import { Clock2Icon } from "lucide-react";
-
-import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker";
-
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Calendar } from "./calendar";
-import { Card, CardContent, CardFooter } from "./card";
-import { Field, FieldGroup, FieldLabel } from "./field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { Clock2Icon } from "lucide-react";
+import * as React from "react";
+import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker";
+import { Calendar } from "./calendar";
+import { Card, CardContent, CardFooter } from "./card";
+import { Field, FieldGroup, FieldLabel } from "./field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
+import { CalendarDialog } from "./calenderWithDialog";
+import { ClendarButtonGroup } from "./ClendarButtonGroup";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -33,25 +31,29 @@ function CalendarWithTime({
   dateValue,
   setDate,
   title,
+  message,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
   dateValue: Date | undefined;
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   title: string;
+  message?: boolean;
 }) {
   const handleInputChange = (event: any) => {
     const yearMMDD = dayjs(dateValue).format("YYYY, MM, DD");
     console.log(yearMMDD);
 
     // "2025, 12, 25"; // example: "YYYY, MM, DD"
-    const timeHHMM = `${event.target.value.split(":")[0]}:${event.target.value.split(":")[1]}`;
+    const timeHHMM = `${event.target.value.split(":")[0]}:${event.target.value.split(":")[1]}:${event.target.value.split(":")[2]}`;
     console.log(timeHHMM);
     // parse
     const [yearStr, monthStr, dayStr] = yearMMDD
       .split(",")
       .map((s) => s.trim());
-    const [hourStr, minuteStr] = timeHHMM.split(":").map((s) => s.trim());
+    const [hourStr, minuteStr, secondStr] = timeHHMM
+      .split(":")
+      .map((s) => s.trim());
 
     const year = Number(yearStr);
     const month = Number(monthStr); // 1-12
@@ -60,10 +62,11 @@ function CalendarWithTime({
     console.log(year, month, day);
     const hour = Number(hourStr);
     const minute = Number(minuteStr);
-    console.log(hour, minute);
+    const second = Number(secondStr);
+    console.log(hour, minute, second);
 
     // Note: JavaScript Date months are 0-based
-    const date = new Date(year, month - 1, day, hour, minute, 0, 0);
+    const date = new Date(year, month - 1, day, hour, minute, second, 0);
     console.log(date);
 
     // Unix timestamp in seconds
@@ -87,25 +90,37 @@ function CalendarWithTime({
   }, [dateValue]);
 
   return (
-    <Card size="sm" className="mx-auto w-fit">
+    <Card size="sm" className="mx-auto w-fit bg-primary">
       <CardContent>
-        <Calendar
-          mode="single"
-          selected={dateValue}
-          onSelect={setDate}
-          className="p-0"
-        />
-      </CardContent>
-      <CardFooter className="bg-card border-t">
         <FieldGroup>
           <Field>
             <FieldLabel htmlFor="time-from">{title}</FieldLabel>
+            <InputGroup>
+              <ClendarButtonGroup
+                dateValue={dateValue}
+                errors={message || false}
+                // description={errors.category?.message}
+              >
+                <CalendarDialog
+                  required
+                  mode="single"
+                  selected={dateValue}
+                  month={dateValue}
+                  onSelect={setDate}
+                  className=" border-white rounded py-1"
+                  captionLayout="dropdown"
+                  title="a"
+                  dateValue={dateValue}
+                  setDate={setDate}
+                />
+              </ClendarButtonGroup>
+            </InputGroup>
             <InputGroup>
               <InputGroupInput
                 id="time-from"
                 type="time"
                 step="1"
-                value={`${dayjs(dateValue).format("HH")}:${dayjs(dateValue).format("mm")}:00`}
+                value={`${dayjs(dateValue).format("HH")}:${dayjs(dateValue).format("mm")}:${dayjs(dateValue).format("ss")}`}
                 onChange={handleInputChange}
                 className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
               />
@@ -115,7 +130,7 @@ function CalendarWithTime({
             </InputGroup>
           </Field>
         </FieldGroup>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 }

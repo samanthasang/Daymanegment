@@ -1,13 +1,7 @@
 "use client";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
-import { useAppDispatch } from "@/lib/hook";
-import {
-  completeToDoList,
-  delToDoList,
-  selectToDoList,
-  TToDo,
-} from "@/modules/toDoList/todo.slice";
-import { toast } from "react-toastify";
+import TodoListActivities from "@/lib/Hooks/Lists/Todo/TodoListActivities.component";
+import { TToDo } from "@/modules/toDoList/todo.slice";
 
 export const TodoItem = ({
   item,
@@ -16,21 +10,8 @@ export const TodoItem = ({
   item: TToDo;
   selectedID?: string;
 }) => {
-  const dispatch = useAppDispatch();
+  const { CompleteItemt, DelItem, SelectWithId } = TodoListActivities();
 
-  const SelectToDoList = () => {
-    dispatch(selectToDoList(item.id));
-  };
-  const DelToDoList = () => {
-    dispatch(delToDoList(item.id));
-    toast(`${item.title} is deleted`);
-  };
-  const CompleteToDoList = () => {
-    dispatch(completeToDoList(item.id));
-    item.isComplete
-      ? toast(`${item.title} is uncompleted`)
-      : toast(`${item.title} is completed`);
-  };
   return (
     <ListItem
       id={item.id}
@@ -43,9 +24,9 @@ export const TodoItem = ({
       drawerType="TodoList"
       formType="Edit Todo"
       selectedID={selectedID}
-      SelectItem={SelectToDoList}
-      DelItem={DelToDoList}
-      CompleteItemt={CompleteToDoList}
+      SelectItem={() => SelectWithId(item.id)}
+      DelItem={DelItem}
+      CompleteItemt={() => CompleteItemt(item.id, item.title)}
     />
   );
 };

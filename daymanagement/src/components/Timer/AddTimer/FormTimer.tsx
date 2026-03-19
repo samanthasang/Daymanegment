@@ -24,6 +24,7 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import { InputField } from "@/components/ui/inputField";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -212,101 +213,72 @@ export default function FormTimer({
             control={control}
             rules={{ required: true }}
             render={({ field }) => (
-              <Input
-                className="!text-white w-full px-3 border-white rounded py-1"
-                placeholder="Name"
+              <InputField
+                title="Title"
+                type="string"
+                // className="!text-white w-full px-3 border-white rounded py-1"
+                placeholder="Enter Reminder Name"
+                disabled={!!errors.title?.message}
+                required
                 {...field}
               />
             )}
           />
-          {errors.title?.message && (
-            <p className="text-xs text-red-500">{errors.title?.message}</p>
-          )}
 
-          <div className="w-full flex flex-row">
-            <div className="flex flex-row flex-1">
-              <div className="flex-1">
-                <Controller
-                  defaultValue={""}
-                  name="category"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <CategotySelectComponent
-                      onValueChange={handleCategory}
-                      value={field.value}
-                    />
-                  )}
+          <div className="flex-1">
+            <Controller
+              defaultValue={""}
+              name="category"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <CategotySelectComponent
+                  required
+                  errors={!field.value && !!errors.category?.message}
+                  description={errors.category?.message}
+                  onValueChange={handleCategory}
+                  value={field.value}
                 />
-                {errors.category?.message && (
-                  <p className="text-xs text-red-500">
-                    {errors.category?.message}
-                  </p>
-                )}
-              </div>
-              <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                <DialogTrigger asChild>
-                  <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                    <Edit />
-                  </div>
-                </DialogTrigger>
-              </DrawerDialogDemo>
-            </div>
-            <div className="flex flex-row flex-1">
-              <div className="flex-1">
-                <Controller
-                  defaultValue={""}
-                  name="tag"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <TagSelectComponent
-                      onValueChange={handleTag}
-                      value={field.value}
-                    />
-                  )}
+              )}
+            />
+          </div>
+
+          <div className="flex-1">
+            <Controller
+              defaultValue={""}
+              name="tag"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <TagSelectComponent
+                  required
+                  errors={!field.value && !!errors.tag?.message}
+                  description={errors.tag?.message}
+                  onValueChange={handleTag}
+                  value={field.value}
                 />
-                {errors.tag?.message && (
-                  <p className="text-xs text-red-500">{errors.tag?.message}</p>
-                )}
-              </div>
-              <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
-                <DialogTrigger asChild>
-                  <div className="text-red-400 w-10 h-10 flex justify-center items-center">
-                    <Edit />
-                  </div>
-                </DialogTrigger>
-              </DrawerDialogDemo>
-            </div>
-          </div>
-          <div className="flex flex-row">
-            <CalendarWithTime
-              title="start time"
-              dateValue={startDate}
-              setDate={setStartDate}
+              )}
             />
-            {errors.startDate?.message && (
-              <p className="text-xs text-red-500">
-                {errors.startDate?.message}
-              </p>
-            )}
-            <CalendarWithTime
-              title="end time"
-              dateValue={endDate}
-              setDate={setEndDate}
-            />
-            {errors.startDate?.message && (
-              <p className="text-xs text-red-500">
-                {errors.startDate?.message}
-              </p>
-            )}
           </div>
+
+          <CalendarWithTime
+            title="start time"
+            dateValue={startDate}
+            setDate={setStartDate}
+            message={!startDate && !!errors.startDate?.message}
+          />
+
+          <CalendarWithTime
+            title="end time"
+            dateValue={endDate}
+            setDate={setEndDate}
+            message={!endDate && !!errors.endDate?.message}
+          />
 
           {!selectedTimer?.title && (
             <Button
               type="submit"
               variant="default"
-              className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
             >
               submit
             </Button>
@@ -318,14 +290,12 @@ export default function FormTimer({
                 onClick={() => onReset()}
                 type="button"
                 variant="default"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
               >
                 reset
               </Button>
               <Button
                 type="submit"
                 variant="default"
-                className="cursor-pointer w-full text-white bg-background border border-white rounded py-1"
               >
                 submit
               </Button>

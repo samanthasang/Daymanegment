@@ -18,7 +18,11 @@ function HomeInstallmentsItem({
       className={
         pathname && pathname.startsWith("/installments") ? "bg-primary" : ""
       }
-      infoNumber={OpenMenu ? `${ListInstallments?.length}` : ""}
+      infoNumber={
+        OpenMenu
+          ? `${ListInstallments?.filter((todo) => todo.isComplete == true).length} / ${ListInstallments?.length}`
+          : ""
+      }
     />
   );
 }

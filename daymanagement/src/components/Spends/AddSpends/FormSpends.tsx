@@ -42,8 +42,10 @@ interface IFormInputs {
 
 export default function FormSpends({
   onSubmitForm,
+  formType,
 }: {
   onSubmitForm: () => void;
+  formType: string;
 }) {
   const [date, setDate] = useState<Date>();
   const [spendsIdSelected, setSpendsIdSelected] = useState<string>();
@@ -111,7 +113,7 @@ export default function FormSpends({
 
   const [shareList, setSharelist] = useState<TShare[]>([]);
   useEffect(() => {
-    if (selectedSpends) {
+    if (formType.split(" ")[0] == "Edit" && selectedSpends) {
       setValue("title", selectedSpends?.title);
       setValue("income", selectedSpends.income);
       setValue("numberOfProduct", selectedSpends.numberOfProduct);

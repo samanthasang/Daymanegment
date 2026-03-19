@@ -3,7 +3,7 @@ import TimerList from "./TimerList/TimerList.component";
 
 function TimerListComponent() {
   return (
-    <PageContainer witDate>
+    <PageContainer>
       <TimerList />
     </PageContainer>
   );

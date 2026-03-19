@@ -1,26 +1,40 @@
 "use client";
-import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
 import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
-import ListMenuBottom from "@/components/mainPage/ListContainer/ListMenuBottom.component";
-import SelectedItem from "@/components/mainPage/selectedItem/SelectedItem.component";
-import SelectedMenuBottom from "@/components/mainPage/selectedItem/SelectedMenuBottom.component";
+import ListTitle from "@/components/mainPage/ListContainer/ListTitle.component";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import SpendsListActivities from "@/lib/Hooks/Lists/Spends/SpendsListActivities.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
-import { cn } from "@/lib/utils";
 import { selectSpendsList, TSpends } from "@/modules/spends/spends.slice";
-import { useEffect } from "react";
-import SpendsItem from "../SpendsItem/SpendsItem.component";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import relativeTime from "dayjs/plugin/relativeTime";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import { useEffect, useState } from "react";
+import SelectedSpendsList from "../SpendsItem/SelectedSpendsList.component";
+import SpendsListCurrent from "./SpendsListCurrent.component";
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const currentUnixTimestamp = dayjs().unix();
 
 function SpendsList() {
   const dispatch = useAppDispatch();
 
-  const ListSpends = useSpendsList();
+  const [forgot, setForgot] = useState(false);
+
   const Spends = useAppSelector((state) => state.SpendsList);
 
   const selectedSpends = Spends?.selectedSpends as TSpends;
 
-  const { DelItem, SelectItem, SelectWithId } = SpendsListActivities();
+  const ListSpends = useSpendsList();
+  const ListSpendsAll = Spends?.ListSpends as TSpends[];
+  const ListSpendsForgot = ListSpendsAll.filter(
+    (a) =>
+      dayjs(dayjs.unix(Number(a.date))) <
+      dayjs(dayjs.unix(Number(currentUnixTimestamp)))
+  );
 
   useEffect(() => {
     ListSpends.length == 0 && dispatch(selectSpendsList(""));
@@ -28,46 +42,25 @@ function SpendsList() {
 
   return (
     <div className="flex flex-row gap-x-3 flex-1 w-full mx-auto">
-      <ListContainer listTitle="Spends" selectedID={!!selectedSpends}>
-        <div
-          className={cn(
-            "flex flex-col h-full gap-y-1",
-            (ListSpends && ListSpends.length !== 0) || false
-              ? "scroll-m-0 overflow-y-scroll"
-              : ""
-          )}
-        >
-          {ListSpends?.length == 0 ? (
-            <EmptyList />
-          ) : (
-            ListSpends?.map((li: TSpends) => (
-              <SpendsItem
-                key={li.id}
-                item={li}
-                selectedID={selectedSpends && selectedSpends.id}
-              />
-            ))
-          )}
-        </div>
-        <ListMenuBottom
-          listTitle="Spends"
-          drawerType="SpendsList"
-          formType="Add Spends"
-          selectedID={!!selectedSpends}
-          ListInfo={`${ListSpends?.filter((spends) => spends.income == true).length} | ${ListSpends?.filter((spends) => spends.income != true).length}`}
+      <ListContainer selectedID={!!selectedSpends}>
+        <ListTitle
+          forgot={forgot}
+          setForgot={(f) => setForgot(f)}
+          title="Spends"
         />
-      </ListContainer>
-      {selectedSpends && (
-        <div className="flex flex-col w-full flex-1 bg-secondary rounded-2xl relative">
-          <SelectedItem {...selectedSpends} />
-          <SelectedMenuBottom
-            DelItem={DelItem}
-            SelectItem={SelectItem}
-            drawerType="SpendsList"
-            formType="Edit Spends"
+        {!forgot ? (
+          <SpendsListCurrent
+            ListSpends={ListSpends}
+            selectedID={selectedSpends && selectedSpends.id}
           />
-        </div>
-      )}
+        ) : (
+          <SpendsListCurrent
+            ListSpends={ListSpendsForgot}
+            selectedID={selectedSpends && selectedSpends.id}
+          />
+        )}
+      </ListContainer>
+      {selectedSpends && <SelectedSpendsList />}
     </div>
   );
 }

@@ -7,12 +7,14 @@ import {
   updatePeopleList,
 } from "@/modules/people/PeopleList.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { InputField } from "../ui/inputField";
 import { PeopleItem } from "./People.component";
+import usePeopleList from "@/lib/Hooks/Lists/Share/UsePeopleList.component";
+import { cn } from "@/lib/utils";
 
 interface IFormInputs {
   title: string;
@@ -20,19 +22,29 @@ interface IFormInputs {
 
 export default function PeopleForm({
   onSubmitForm,
+  formType,
 }: {
   onSubmitForm: () => void;
+  formType: string;
 }) {
   const dispatch = useAppDispatch();
-  const { ListPeople, selectedPeople }: any =
-    useAppSelector((state) => state.PeopleList) || {};
+
+  const People = useAppSelector((state) => state.PeopleList) || {};
+
+  const selectedPeople = People?.selectedPeople as TPeople;
+
+  const { ListPeople } = usePeopleList();
 
   useEffect(() => {
-    if (selectedPeople && selectedPeople.id) {
+    if (
+      formType.split(" ")[0] == "Edit" &&
+      selectedPeople &&
+      selectedPeople.id
+    ) {
       console.log(selectedPeople);
       setValue("title", selectedPeople?.title);
     }
-  }, [selectedPeople]);
+  }, [selectedPeople, ListPeople]);
 
   const formSchema = z.object({
     title: z.string().min(3, { message: "Name is required" }),
@@ -43,11 +55,22 @@ export default function PeopleForm({
     setValue,
     getValues,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
+  const peopleFilter = useMemo(
+    () =>
+      watch("title")
+        ? [...ListPeople].filter((people) =>
+            people.title.includes(watch("title"))
+          )
+        : ListPeople,
+    [watch, getValues, watch("title"), getValues("title")]
+  );
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     console.log(data);
@@ -67,7 +90,7 @@ export default function PeopleForm({
         );
     dispatch(selectPeopleList(""));
     reset();
-    // onSubmitForm();
+    formType.split(" ")[0] == "Edit" && onSubmitForm();
   };
 
   const onReset = () => {
@@ -116,11 +139,17 @@ export default function PeopleForm({
             </div>
           )}
         </form>
-
-        {ListPeople &&
-          ListPeople?.map((li: TPeople) => (
-            <PeopleItem key={li.id} item={li} />
-          ))}
+        <div
+          className={cn(
+            "relative flex flex-col h-[40vh] w-full mx-auto gap-y-4 ",
+            peopleFilter.length > 5 ? "overflow-y-scroll" : ""
+          )}
+        >
+          {peopleFilter &&
+            peopleFilter?.map((li: TPeople) => (
+              <PeopleItem key={li.id} item={li} />
+            ))}
+        </div>
       </div>
     </div>
   );

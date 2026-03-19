@@ -23,6 +23,7 @@ import ListPriority from "../ListPriority/ListPriority.component";
 import ListCategorySelected from "../listCategorySelected/ListCategorySelected.component";
 import ListTagSelected from "../listTagSelected/ListTagSelected.component";
 import ListItemShare from "./ListItemShareItem.component";
+import ListItemTimeDiff from "./ListItemTimeDiff.component";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -39,10 +40,12 @@ export const ListItem = ({
   isComplete,
   insstallmentIsComplete,
   date,
+  diff,
   score,
   incomeAmount,
   numberOfProduct,
   total,
+  hasShare,
   priceOfProduct,
   drawerType,
   formType,
@@ -66,8 +69,10 @@ export const ListItem = ({
   insstallmentIsComplete?: boolean;
   withDel?: boolean;
   date?: string;
+  diff?: duration.Duration;
   score?: number;
   total?: number;
+  hasShare?: boolean;
   drawerType: string;
   formType: string;
   SelectItem?: () => void;
@@ -84,7 +89,7 @@ export const ListItem = ({
         id && SelectItem && SelectItem();
       }}
       className={cn(
-        "w-full h-fit cursor-pointer flex flex-row items-center gap-y-2 justify-center p-3 rounded-3xl hover:bg-primary",
+        "w-full h-fit cursor-pointer flex flex-row gap-y-2 justify-center items-center p-3 rounded-3xl hover:bg-primary",
         selectedID == id ? "bg-primary" : ""
       )}
     >
@@ -105,16 +110,22 @@ export const ListItem = ({
             {tag && <ListTagSelected tag={tag} />}
           </div>
         )}
-        {drawerType == "PeopleList" && id && <ListItemShare peopleId={id} />}
+        {drawerType == "PeopleList" && hasShare && (
+          <ListItemShare peopleId={id} />
+        )}
       </div>
       {(!OpenFilter || !!!selectedID) && (
         <div className="flex flex-col w-fit gap-y-1 justify-end items-end">
-          <div className="flex flex-row gap-x-2">
+          <div className="flex flex-row gap-x-2 items-center">
             {withDel && DelItem && (
               <div
                 onClick={(e) => {
                   e && e.preventDefault();
-                  (score && score == 0) || (!isComplete && DelItem());
+                  e && e.stopPropagation();
+                  e &&
+                    !(hasShare || (score == 0 && score)) &&
+                    !isComplete &&
+                    DelItem();
                 }}
                 className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
               >
@@ -122,12 +133,15 @@ export const ListItem = ({
               </div>
             )}
             {drawerType == "PeopleList" && id && (
-              <DrawerDialogDemo drawerType="ShareList" formType="Add Share">
+              <DrawerDialogDemo
+                drawerType="PeopleList"
+                formType={`Edit ${title}`}
+              >
                 <DialogTrigger asChild>
                   <Button
                     onClick={(e) => {
-                      e && e.preventDefault();
-                      dispatch(selectPeopleList(id));
+                      e && e.stopPropagation();
+                      e && dispatch(selectPeopleList(id));
                     }}
                     variant="outline"
                     className={
@@ -149,7 +163,7 @@ export const ListItem = ({
                     onClick={(e) => {
                       e && e.preventDefault();
                       e && e.stopPropagation();
-                      UpdateItem();
+                      e && UpdateItem();
                     }}
                   >
                     {isComplete ? <CheckCircle /> : <DoneAll />}
@@ -158,7 +172,7 @@ export const ListItem = ({
                     onClick={(e) => {
                       e && e.preventDefault();
                       e && e.stopPropagation();
-                      CompleteItemt();
+                      e && CompleteItemt();
                     }}
                   >
                     {insstallmentIsComplete ||
@@ -226,7 +240,7 @@ export const ListItem = ({
               {score && score}
             </label>
           )}
-          {drawerType == "PeopleList" && (
+          {drawerType == "PeopleList" && hasShare && (
             <label
               className={cn(
                 "cursor-pointer px-2 py-1 rounded-2xl",
@@ -254,9 +268,26 @@ export const ListItem = ({
                 (priceOfProduct && `${incomeAmount || priceOfProduct}`)}
             </label>
           )}
+          {drawerType == "TimerList" && !isComplete && date && (
+            <ListItemTimeDiff date={date} />
+          )}
+          {drawerType == "TimerList" && isComplete && diff && (
+            <label
+              className={cn(`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`)}
+            >
+              {/* {date && dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD ")} */}
+              {diff.years() > 0 && `${diff.years()} : `}
+              {diff.months() > 0 && `${diff.months()} : `}
+              {diff.days() > 0 && `${diff.days()} : `}
+              {diff.hours() > 0 && `${diff.hours()} : `}
+              {diff.minutes() > 0 && `${diff.minutes()} : `}
+              {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
+            </label>
+          )}
           {drawerType !== "HabbitList" &&
             drawerType !== "MyHabbitList" &&
             drawerType !== "GoalsList" &&
+            drawerType != "TimerList" &&
             date && (
               <label
                 className={cn(

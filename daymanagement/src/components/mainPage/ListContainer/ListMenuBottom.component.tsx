@@ -9,7 +9,8 @@ import {
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
-import { useAppSelector } from "@/lib/hook";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { setTimerList } from "@/modules/timerList/timer.slice";
 
 function ListMenuBottom({
   listTitle,
@@ -42,7 +43,22 @@ function ListMenuBottom({
   drawerType: string;
   formType: string;
 }) {
+  const dispatch = useAppDispatch();
   const { OpenFilter } = useAppSelector((state) => state.Menu);
+
+  const StartTimer = () => {
+    dispatch(
+      setTimerList({
+        id: "",
+        title: `timer-${Math.floor(new Date().getTime() / 1000).toString()}`,
+        startDate: Math.floor(new Date().getTime() / 1000).toString(),
+        endDate: Math.floor(new Date().getTime() / 1000).toString(),
+        isComplete: false,
+        category: "",
+        tag: "",
+      })
+    );
+  };
   return (
     <div className="flex justify-around items-center gap-x-1 w-full mx-auto h-10 px-1 absolute bottom-0 left-0 right-0 m-1">
       <div className="flex justify-between items-center w-full mx-auto h-9 p-[6px] bg-slate-800 rounded-3xl px-3">
@@ -125,18 +141,31 @@ function ListMenuBottom({
               </DialogTrigger>
             </DrawerDialogDemo>
           )}
-          <DrawerDialogDemo drawerType={drawerType} formType={formType}>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className={
-                  "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
-                }
-              >
-                <AltTask />
-              </Button>
-            </DialogTrigger>
-          </DrawerDialogDemo>
+          {drawerType != "TimerList" && (
+            <DrawerDialogDemo drawerType={drawerType} formType={formType}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={
+                    "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
+                  }
+                >
+                  <AltTask />
+                </Button>
+              </DialogTrigger>
+            </DrawerDialogDemo>
+          )}
+          {drawerType == "TimerList" && (
+            <Button
+              variant="outline"
+              onClick={() => StartTimer()}
+              className={
+                "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
+              }
+            >
+              <AltTask />
+            </Button>
+          )}
         </>
       )}
     </div>

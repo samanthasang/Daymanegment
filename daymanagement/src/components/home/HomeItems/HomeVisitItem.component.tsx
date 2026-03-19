@@ -16,7 +16,11 @@ function HomeVisitItem({
       href={"/visits"}
       tilte="Visits"
       className={pathname && pathname.startsWith("/visits") ? "bg-primary" : ""}
-      infoNumber={OpenMenu ? `${ListVisit && ListVisit.length}` : ""}
+      infoNumber={
+        OpenMenu
+          ? `${ListVisit?.filter((item) => item.isComplete == true).length} / ${ListVisit && ListVisit.length}`
+          : ""
+      }
     />
   );
 }

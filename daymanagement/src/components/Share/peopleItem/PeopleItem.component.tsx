@@ -1,15 +1,22 @@
 "use client";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { selectPeopleList, TPeople } from "@/modules/people/PeopleList.slice";
+import {
+  delPeopleList,
+  selectPeopleList,
+  TPeople,
+} from "@/modules/people/PeopleList.slice";
 import { TShare } from "@/modules/share/share.slice";
+import { toast } from "react-toastify";
 
 export const PeopleItem = ({
   item,
   selectedID,
+  hasShare = false,
 }: {
   item: TPeople;
   selectedID?: string;
+  hasShare?: boolean;
 }) => {
   const dispatch = useAppDispatch();
   const {
@@ -31,17 +38,25 @@ export const PeopleItem = ({
     0
   );
   const SelectList = () => {
-    dispatch(selectPeopleList(item.id));
+    hasShare && dispatch(selectPeopleList(item.id));
+  };
+  const DelItem = () => {
+    dispatch(delPeopleList(item.id));
+    dispatch(selectPeopleList(""));
+    toast(`${item.title} is deleted`);
   };
   return (
     <ListItem
       id={item.id}
       title={item.title}
-      total={total}
+      withDel={!hasShare}
+      total={hasShare ? total : undefined}
+      hasShare={hasShare}
       drawerType="PeopleList"
-      formType="Edit People"
+      formType={`Edit ${item.title}`}
       selectedID={selectedID}
       SelectItem={SelectList}
+      DelItem={DelItem}
     />
   );
 };
