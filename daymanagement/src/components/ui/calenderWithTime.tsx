@@ -9,12 +9,11 @@ import utc from "dayjs/plugin/utc";
 import { Clock2Icon } from "lucide-react";
 import * as React from "react";
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker";
-import { Calendar } from "./calendar";
-import { Card, CardContent, CardFooter } from "./card";
+import { CalendarDialog } from "./calenderWithDialog";
+import { Card, CardContent } from "./card";
+import { ClendarButtonGroup } from "./ClendarButtonGroup";
 import { Field, FieldGroup, FieldLabel } from "./field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
-import { CalendarDialog } from "./calenderWithDialog";
-import { ClendarButtonGroup } from "./ClendarButtonGroup";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -90,7 +89,7 @@ function CalendarWithTime({
   }, [dateValue]);
 
   return (
-    <Card size="sm" className="mx-auto w-fit bg-primary">
+    <Card size="sm" className="mx-auto w-full bg-primary">
       <CardContent>
         <FieldGroup>
           <Field>

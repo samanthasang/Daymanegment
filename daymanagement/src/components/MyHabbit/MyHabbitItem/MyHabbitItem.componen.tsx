@@ -1,7 +1,7 @@
 "use client";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { setHabbitList, Thabbit } from "@/modules/habbitList/habbit.slice";
+import { useAppDispatch } from "@/lib/hook";
+import { Thabbit } from "@/modules/habbitList/habbit.slice";
 import {
   completeMyHabbitList,
   delMyHabbitList,
@@ -37,12 +37,7 @@ export const MyHabbitItem = ({
       ? toast(`${item.title} is uncompleted`)
       : toast(`${item.title} is completed`);
   };
-  const {
-    ListHabbit,
-  }: {
-    ListHabbit: Thabbit[];
-  } = useAppSelector((state) => state.habbitList) || [];
-
+  
   useEffect(() => {
     if (
       dayjs
@@ -69,27 +64,27 @@ export const MyHabbitItem = ({
         })
       );
     }
-    if (item.score < 10) {
-      ListHabbit.filter((list) => list.id == item.id).length == 0 &&
-        dispatch(
-          setHabbitList({
-            id: item.id,
-            title: item.title,
-            description: item.description,
-            score: 9,
-            priority: item.priority,
-            lastUpdate: Math.floor(
-              new Date(currentUnixTimestamp).getTime()
-            ).toString(),
-            completeUpdate: Math.floor(
-              new Date(currentUnixTimestamp).getTime()
-            ).toString(),
-            category: item.category,
-            tag: item.tag,
-          })
-        );
-      dispatch(delMyHabbitList(item.id));
-    }
+    // if (item.score < 10) {
+    //   ListHabbit.filter((list) => list.id == item.id).length == 0 &&
+    //     dispatch(
+    //       setHabbitList({
+    //         id: item.id,
+    //         title: item.title,
+    //         description: item.description,
+    //         score: 9,
+    //         priority: item.priority,
+    //         lastUpdate: Math.floor(
+    //           new Date(currentUnixTimestamp).getTime()
+    //         ).toString(),
+    //         completeUpdate: Math.floor(
+    //           new Date(currentUnixTimestamp).getTime()
+    //         ).toString(),
+    //         category: item.category,
+    //         tag: item.tag,
+    //       })
+    //     );
+    //   dispatch(delMyHabbitList(item.id));
+    // }
   }, []);
 
   return (

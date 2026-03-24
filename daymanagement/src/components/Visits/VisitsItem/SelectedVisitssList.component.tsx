@@ -39,7 +39,11 @@ function SelectedVisitssList() {
   };
   return (
     <div className="flex flex-col w-full flex-1 bg-secondary rounded-2xl relative">
-      <SelectedItem CompleteItemt={CompleteItemt} {...selectedVisit} />
+      <SelectedItem
+        CompleteItemt={CompleteItemt}
+        time={selectedVisit.date}
+        {...selectedVisit}
+      />
       <SelectedMenuBottom
         CompleteItemt={CompleteItemt}
         DelItem={DelItem}

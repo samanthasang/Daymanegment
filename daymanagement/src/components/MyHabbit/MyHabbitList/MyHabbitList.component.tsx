@@ -69,7 +69,7 @@ function MyHabbitList() {
             <EmptyList />
           ) : (
             ListMyHabbit?.map((li: Thabbit) => (
-              <MyHabbitItem key={li.id} item={li} />
+              <MyHbbitItem key={li.id} item={li} />
             ))
           )}
         </div>

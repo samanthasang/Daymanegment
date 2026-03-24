@@ -21,7 +21,7 @@ function MenuMainSideBarComponent({
       <HomeTodoList pathname={pathname} OpenMenu={OpenMenu} />
       <HomeSpendsItem pathname={pathname} OpenMenu={OpenMenu} />
       <HomeHabbitItem pathname={pathname} OpenMenu={OpenMenu} />
-      <HomeMyHabbitItem pathname={pathname} OpenMenu={OpenMenu} />
+      {/* <HomeMyHabbitItem pathname={pathname} OpenMenu={OpenMenu} /> */}
       <HomeTimerItem pathname={pathname} OpenMenu={OpenMenu} />
       <HomeVisitItem pathname={pathname} OpenMenu={OpenMenu} />
       <HomeReminderItem pathname={pathname} OpenMenu={OpenMenu} />

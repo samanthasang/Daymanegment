@@ -1,10 +1,7 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit } from "@/components/icons";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import {
   selectTimerList,
@@ -13,18 +10,17 @@ import {
   updateTimerList,
 } from "@/modules/timerList/timer.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
+import { InputField } from "@/components/ui/inputField";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { InputField } from "@/components/ui/inputField";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);

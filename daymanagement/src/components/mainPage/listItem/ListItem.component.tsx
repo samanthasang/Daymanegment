@@ -230,14 +230,23 @@ export const ListItem = ({
               {score && score}
             </label>
           )}
-          {drawerType == "MyHabbitList" && (
+          {drawerType == "VisitsList" && (
             <label
               className={cn(
                 `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-                score && (score > 15 ? "bg-green-500/15" : "bg-red-600/15")
+                date
+                  ? "bg-white/15"
+                  : date &&
+                      dayjs
+                        .unix(+date)
+                        .diff(dayjs.unix(currentUnixTimestamp), "day") > 10
+                    ? "bg-green-500/15"
+                    : "bg-red-600/15",
+                incomeAmount && "bg-green-500/15",
+                priceOfProduct && "bg-red-500/15"
               )}
             >
-              {score && score}
+              {date && dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD HH:mm")}
             </label>
           )}
           {drawerType == "PeopleList" && hasShare && (
@@ -285,7 +294,7 @@ export const ListItem = ({
             </label>
           )}
           {drawerType !== "HabbitList" &&
-            drawerType !== "MyHabbitList" &&
+            drawerType !== "VisitsList" &&
             drawerType !== "GoalsList" &&
             drawerType != "TimerList" &&
             date && (

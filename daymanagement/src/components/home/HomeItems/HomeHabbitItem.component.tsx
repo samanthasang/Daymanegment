@@ -22,6 +22,7 @@ function HomeHabbitItem({
   OpenMenu: boolean;
 }) {
   const ListHabbit = UseHabbitList();
+  const ListMyHabbit = ListHabbit.filter((a) => a.score > 9);
 
   return (
     <MenuItems
@@ -31,12 +32,12 @@ function HomeHabbitItem({
       infoNumber={
         OpenMenu
           ? `${
-              ListHabbit?.filter(
+              ListMyHabbit?.filter(
                 (todo) =>
                   dayjs(dayjs.unix(Number(todo.completeUpdate))).format("DD") ==
                   dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
               ).length
-            } / ${ListHabbit?.length}`
+            } / ${ListMyHabbit?.length}`
           : ""
       }
     />

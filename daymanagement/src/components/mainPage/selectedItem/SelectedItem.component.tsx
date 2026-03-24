@@ -28,6 +28,7 @@ export const SelectedItem = ({
   date,
   diff,
   score,
+  time,
   income,
   incomeAmount,
   numberOfProduct,
@@ -65,6 +66,7 @@ export const SelectedItem = ({
   withDel?: boolean;
   income?: boolean;
   date?: string;
+  time?: string;
   diff?: duration.Duration;
   shareList?: TShare[];
   installmentstList?: TInstallmentst[];
@@ -143,6 +145,12 @@ export const SelectedItem = ({
         <SelectedItemContainer
           title="Do Date"
           description={dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
+        />
+      )}
+      {time && (
+        <SelectedItemContainer
+          title="Do Time"
+          description={dayjs(dayjs.unix(Number(date))).format("hh:mm")}
         />
       )}
       {drawerType == "GoalsList" && (

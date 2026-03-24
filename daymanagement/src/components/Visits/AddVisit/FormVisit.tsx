@@ -5,6 +5,7 @@ import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { Button } from "@/components/ui/button";
 import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
@@ -324,32 +325,12 @@ export default function FormVisits({
                   />
                 )}
               />
-
-              <ClendarButtonGroup
+              <CalendarWithTime
+                title="visit time"
                 dateValue={date}
-                errors={!date && !!errors.date?.message}
-                // description={errors.category?.message}
-              >
-                <Controller
-                  name="date"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <CalendarDialog
-                      required
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                      title="a"
-                      dateValue={date}
-                      setDate={setDate}
-                    />
-                  )}
-                />
-              </ClendarButtonGroup>
+                setDate={setDate}
+                message={!date && !!errors.date?.message}
+              />
               <Controller
                 name="income"
                 control={control}
