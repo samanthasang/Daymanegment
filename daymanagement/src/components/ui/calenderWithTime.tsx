@@ -36,16 +36,14 @@ function CalendarWithTime({
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
   dateValue: Date | undefined;
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
-  title: string;
+  title?: string;
   message?: boolean;
 }) {
   const handleInputChange = (event: any) => {
     const yearMMDD = dayjs(dateValue).format("YYYY, MM, DD");
-    console.log(yearMMDD);
 
     // "2025, 12, 25"; // example: "YYYY, MM, DD"
     const timeHHMM = `${event.target.value.split(":")[0]}:${event.target.value.split(":")[1]}:${event.target.value.split(":")[2]}`;
-    console.log(timeHHMM);
     // parse
     const [yearStr, monthStr, dayStr] = yearMMDD
       .split(",")
@@ -58,42 +56,34 @@ function CalendarWithTime({
     const month = Number(monthStr); // 1-12
     const day = Number(dayStr);
 
-    console.log(year, month, day);
     const hour = Number(hourStr);
     const minute = Number(minuteStr);
     const second = Number(secondStr);
-    console.log(hour, minute, second);
 
     // Note: JavaScript Date months are 0-based
     const date = new Date(year, month - 1, day, hour, minute, second, 0);
-    console.log(date);
 
-    // Unix timestamp in seconds
-    const unixSeconds = Math.floor(date.getTime() / 1000);
-
-    console.log(unixSeconds);
-    console.log(dayjs(+unixSeconds * 1000).format("YYYY:MM:DD HH:mm"));
     setDate(date);
   };
 
-  React.useEffect(() => {
-    console.log(dateValue);
-  }, [dateValue]);
+  // React.useEffect(() => {
+  //   console.log(dateValue);
+  // }, [dateValue]);
 
-  React.useEffect(() => {
-    console.log(
-      `${dayjs(dayjs.unix(Number(dateValue))).format(
-        "HH"
-      )}:${dayjs(dayjs.unix(Number(dateValue))).format("mm")}:00`
-    );
-  }, [dateValue]);
+  // React.useEffect(() => {
+  //   console.log(
+  //     `${dayjs(dayjs.unix(Number(dateValue))).format(
+  //       "HH"
+  //     )}:${dayjs(dayjs.unix(Number(dateValue))).format("mm")}:00`
+  //   );
+  // }, [dateValue]);
 
   return (
     <Card size="sm" className="mx-auto w-full bg-primary">
       <CardContent>
         <FieldGroup>
           <Field>
-            <FieldLabel htmlFor="time-from">{title}</FieldLabel>
+            {title &&<FieldLabel htmlFor="time-from">{title}</FieldLabel>}
             <InputGroup>
               <ClendarButtonGroup
                 dateValue={dateValue}
@@ -106,7 +96,7 @@ function CalendarWithTime({
                   selected={dateValue}
                   month={dateValue}
                   onSelect={setDate}
-                  className=" border-white rounded py-1"
+                  className=" border-white rounded"
                   captionLayout="dropdown"
                   title="a"
                   dateValue={dateValue}

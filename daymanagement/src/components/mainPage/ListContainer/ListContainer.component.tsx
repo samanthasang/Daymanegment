@@ -15,13 +15,13 @@ function ListContainer({
   return (
     <div
       className={cn(
-        "relative flex flex-col h-[calc(100vh-24px)] col-span-7 p-1 mx-auto rounded-2xl bg-secondary",
+        "relative w-full flex flex-col flex-1 h-[calc(100vh-24px)] p-1 mx-auto rounded-3xl bg-secondary",
         selectedID || OpenFilter
           ? selectedID && !OpenFilter
-            ? "w-2/5"
+            ? "w-1/2"
             : !selectedID && OpenFilter
               ? "w-full"
-              : "w-2/5"
+              : "w-1/2"
           : "w-full"
       )}
     >

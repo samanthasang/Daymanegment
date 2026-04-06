@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import useQueryParams from "./useQueryParams";
-import { useRouter } from "next/navigation";
 
 export default function useFilters() {
   const { getUrlWithNewQueryParam } = useQueryParams();
@@ -31,7 +30,6 @@ export default function useFilters() {
       const url = getUrlWithParams(parameter, value);
 
       return window.history.pushState(null, "", url);
-      return history.replaceState(null, "", url);
     },
     [getUrlWithParams]
   );

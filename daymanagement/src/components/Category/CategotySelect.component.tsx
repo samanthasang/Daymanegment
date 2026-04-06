@@ -39,7 +39,7 @@ function CategotySelectComponent({
       itemArray={ListCategory}
       onValueChange={(e) => e && onValueChange(e)}
       value={value || ""}
-      className={`${errors ? "border-[1px] border-red-600" : ""}`}
+      className={`${errors ? "border-[1px] border-red-600 w-full" : " w-full"}`}
     >
       <DrawerDialogDemo drawerType={"CategoryList"} formType="Add Category">
         <DialogTrigger asChild>

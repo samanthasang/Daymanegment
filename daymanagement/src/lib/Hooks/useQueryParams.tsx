@@ -21,12 +21,11 @@ export default function useQueryParams() {
 
       if (value === false) {
         // REMOVE FILTER ACTION
-        console.log("REMOVE FILTER ACTION");
 
         if (params.has(name)) {
-          console.log("params.delete", name);
+
           params.delete(name);
-          console.log(params.toString()); // Outputs: bar=2
+
         }
       } else if (params.has(name)) {
         params.set(name, value.toString ? value.toString() : (value as string));

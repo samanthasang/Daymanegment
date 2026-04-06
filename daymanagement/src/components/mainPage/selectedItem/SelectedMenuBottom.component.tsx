@@ -1,9 +1,9 @@
 "use client";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Ballot, Edit, Trash } from "@/components/icons";
-import BasicSwitch from "@/components/ui/BasicSwitch";
+import { Ballot, Done, Edit, Trash } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 export const SelectedMenuBottom = ({
   selectedIsComplete = false,
@@ -21,13 +21,13 @@ export const SelectedMenuBottom = ({
   CompleteItemt?: () => void;
 }) => {
   return (
-    <div className="flex justify-around w-full mx-auto h-10 px-1 absolute bottom-0 left-0 right-0">
+    <div className="flex justify-around w-full mx-auto gap-x-0.5">
       <div
         onClick={(e) => {
           e && e.preventDefault();
           SelectItem();
         }}
-        className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
+        className="flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer"
       >
         <Ballot />
       </div>
@@ -37,9 +37,13 @@ export const SelectedMenuBottom = ({
             e && e.preventDefault();
             CompleteItemt();
           }}
-          className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
+          className={cn(
+            "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
+            selectedIsComplete ? "bg-button" : "bg-primary"
+          )}
         >
-          <BasicSwitch
+          <Done />
+          {/* <BasicSwitch
             checked={selectedIsComplete}
             handleToggle={(e) => {
               e && e.preventDefault();
@@ -48,7 +52,7 @@ export const SelectedMenuBottom = ({
             }}
             label=""
             key={"isComplete"}
-          />
+          /> */}
         </div>
       )}
       {DelItem && (
@@ -58,7 +62,7 @@ export const SelectedMenuBottom = ({
             e && e.stopPropagation();
             drawerType !== "MyHabbitList" && DelItem();
           }}
-          className={`flex justify-center items-center h-9 flex-1 rounded-full w-full ${drawerType == "MyHabbitList" ? "opacity-85 bg-slate-800/50 cursor-default" : "hover:bg-slate-800 cursor-pointer"}`}
+          className={`flex justify-center items-center h-10 flex-1 rounded-full w-full hover:bg-error cursor-pointer`}
         >
           <Trash />
         </div>
@@ -68,7 +72,7 @@ export const SelectedMenuBottom = ({
           <Button
             disabled={drawerType == "MyHabbitList"}
             variant="outline"
-            className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer bg-transparent border-none"
+            className="flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer bg-transparent border-none"
           >
             <Edit />
           </Button>

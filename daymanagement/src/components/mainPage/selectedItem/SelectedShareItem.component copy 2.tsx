@@ -26,7 +26,7 @@ export const SelectedShareItem = ({
         {/* <Eye /> */}
         {peopleAcoreToId && peopleAcoreToId.title}
       </label>
-      <label className={`${incomeAmount ? "text-green-500" : "text-red-500"}`}>
+      <label className={`${incomeAmount ? "text-success" : "text-red-500"}`}>
         {incomeAmount || outcomeAmount}
       </label>
     </div>

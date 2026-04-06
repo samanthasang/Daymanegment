@@ -1,59 +1,26 @@
 "use client";
-import { AccountBalance } from "@/components/icons";
 import { useAppSelector } from "@/lib/hook";
+import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
-import SidebarContainer from "../sidebarContainer/sidebarContainer.componen";
-import MenuBottomSideBarComponent from "./MenuBottomSideBarComponent";
-import MenuMainSideBarComponent from "./MainMenuSideBar.component";
+import SidebarFilter from "../sidebarContainer/sidebarDesktop.componen";
+import SideBarMenu from "./SideBarMenu.component";
 
 function MenuSideBarComponent({ witDate }: { witDate?: boolean }) {
-  const { OpenFilter, OpenMenu } = useAppSelector((state) => state.Menu);
-
-  const pathname = usePathname();
+  const { OpenFilter } = useAppSelector((state) => state.Menu);
+  const { isSX, isMDMin } = useMediaQueryValues();
 
   return (
-    <div
-      className={cn(
-        "flex flex-row gap-3 h-full relative w-fit",
-        OpenMenu || OpenFilter
-          ? OpenMenu && !OpenFilter
-            ? "w-3/12"
-            : !OpenMenu && OpenFilter
-              ? "w-4/12"
-              : "w-5/12"
-          : "w-1/12"
-      )}
-    >
+    isMDMin && (
       <div
         className={cn(
-          "relative bg-secondary flex flex-col justify-start items-start h-full rounded-3xl",
-          OpenMenu ? "col-span-2 w-full" : "col-span-1 w-fit"
+          "flex flex-row gap-x-3 h-full relative w-fit",
+          !isSX ? "w-fit" : "w-full"
         )}
       >
-        <div
-          className={cn(
-            "w-full flex justify-center items-center gap-x-2 text-center p-2 border-b-2 border-[#1C2936]",
-            OpenMenu ? "w-full" : "w-fit"
-          )}
-        >
-          <AccountBalance />
-          Menu
-        </div>
-        <MenuMainSideBarComponent pathname={pathname} OpenMenu={OpenMenu} />
-        <MenuBottomSideBarComponent
-          OpenFilter={OpenFilter}
-          OpenMenu={OpenMenu}
-        />
+        <SideBarMenu />
+        {OpenFilter && <SidebarFilter witDate={witDate} />}
       </div>
-      {OpenFilter && (
-        <SidebarContainer
-          drawerType="TodoList"
-          formType="Add Todo"
-          witDate={witDate}
-        />
-      )}
-    </div>
+    )
   );
 }
 

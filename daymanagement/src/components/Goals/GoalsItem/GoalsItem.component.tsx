@@ -1,24 +1,10 @@
 "use client";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
-import { useAppDispatch } from "@/lib/hook";
+import GoalListActivities from "@/lib/Hooks/Lists/Goal/GoalListActivities.component";
+import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import {
-  completeGoalList,
-  delGoalList,
-  selectGoalList,
-  TGoals,
+  TGoals
 } from "@/modules/goalsList/goals.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-import { toast } from "react-toastify";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-const currentUnixTimestamp = dayjs().unix();
 
 export const GoalsItem = ({
   item,
@@ -27,28 +13,8 @@ export const GoalsItem = ({
   item: TGoals;
   selectedID?: string;
 }) => {
-  const dispatch = useAppDispatch();
+  const { CompleteItemt, DelItem, SelectWithId } = GoalListActivities();
 
-  const SelectGoalList = () => {
-    dispatch(selectGoalList(item.id));
-  };
-  const DelGoalList = () => {
-    dispatch(delGoalList(item.id));
-    toast(`${item.title} is deleted`);
-  };
-  const CompleteGoalList = () => {
-    dispatch(
-      completeGoalList({
-        id: item.id,
-        score: dayjs
-          .unix(+item.date)
-          .diff(dayjs.unix(currentUnixTimestamp), "day"),
-      })
-    );
-    item.isComplete
-      ? toast(`${item.title} is uncompleted`)
-      : toast(`${item.title} is completed`);
-  };
   return (
     <ListItem
       id={item.id}
@@ -58,15 +24,13 @@ export const GoalsItem = ({
       tag={item.tag}
       isComplete={item.isComplete}
       date={item.date}
-      score={
-        dayjs.unix(+item.date).diff(dayjs.unix(currentUnixTimestamp), "day") + 1
-      }
+      score={DayUnixDiff(+item.date, "day") + 1}
       drawerType="GoalsList"
       formType="Edit Goals"
       selectedID={selectedID}
-      SelectItem={SelectGoalList}
-      DelItem={DelGoalList}
-      CompleteItemt={CompleteGoalList}
+      SelectItem={() => SelectWithId(item.id)}
+      DelItem={DelItem}
+      CompleteItemt={() => CompleteItemt(item.id, item.title, item?.score || 0)}
     />
   );
 };

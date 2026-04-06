@@ -1,19 +1,16 @@
 "use client";
+import SelectedContainer from "@/components/mainPage/selectedItem/SelectedContainer.component";
 import SelectedItem from "@/components/mainPage/selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "@/components/mainPage/selectedItem/SelectedMenuBottom.component";
-import { useAppSelector } from "@/lib/hook";
 import TodoListActivities from "@/lib/Hooks/Lists/Todo/TodoListActivities.component";
-import { TToDo } from "@/modules/toDoList/todo.slice";
+import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
 
 function SelectedTodoList() {
   const { CompleteItemt, DelItem, SelectItem } = TodoListActivities();
-
-  const ToDo = useAppSelector((state) => state.todoList);
-
-  const selectedToDo = ToDo?.selectedToDo as TToDo;
+  const { selectedToDo } = useTodoList();
 
   return (
-    <div className="flex flex-col w-full flex-1 bg-secondary rounded-2xl relative">
+    <SelectedContainer>
       <SelectedItem
         CompleteItemt={() => CompleteItemt(selectedToDo.id, selectedToDo.title)}
         {...selectedToDo}
@@ -26,7 +23,7 @@ function SelectedTodoList() {
         formType="Edit Todo"
         selectedIsComplete={selectedToDo.isComplete}
       />
-    </div>
+    </SelectedContainer>
   );
 }
 

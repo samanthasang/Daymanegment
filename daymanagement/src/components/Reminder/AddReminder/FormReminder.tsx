@@ -30,8 +30,10 @@ interface IFormInputs {
 
 export default function FormReminder({
   onSubmitForm,
+  formType,
 }: {
   onSubmitForm: () => void;
+  formType: string;
 }) {
   const [date, setDate] = useState<Date>();
 
@@ -63,8 +65,11 @@ export default function FormReminder({
   });
 
   useEffect(() => {
-    if (selectedReminder && selectedReminder.id) {
-      console.log(selectedReminder);
+    if (
+      formType.split(" ")[0] == "Edit" &&
+      selectedReminder &&
+      selectedReminder.id
+    ) {
       setValue("title", selectedReminder?.title);
       setValue("priority", selectedReminder.priority);
       setValue("timeDiff", selectedReminder?.timeDiff);
@@ -98,9 +103,6 @@ export default function FormReminder({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-    console.log(date);
-
     selectedReminder?.title
       ? dispatch(
           updateReminderList({
@@ -133,13 +135,10 @@ export default function FormReminder({
     onSubmitForm();
   };
   const onReset = () => {
-    console.log("reset");
-
     dispatch(selectReminderList(""));
     setValue("date", "");
     reset();
   };
-  console.log(date);
 
   return (
     <div className="col-span-1 w-auto">
@@ -149,7 +148,7 @@ export default function FormReminder({
           className="flex flex-col w-full gap-4"
         >
           <div className="flex flex-col sm:flex-row w-full gap-x-4">
-            <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
+            <div className="min-w-60 flex flex-col gap-y-4">
               <Controller
                 defaultValue={""}
                 name="title"
@@ -302,26 +301,17 @@ export default function FormReminder({
           </div>
 
           {!selectedReminder?.title && (
-            <Button
-              type="submit"
-              variant={"default"}
-            >
+            <Button type="submit" variant={"default"}>
               submit
             </Button>
           )}
 
           {selectedReminder?.title && (
             <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-              >
+              <Button onClick={() => onReset()} type="button">
                 reset
               </Button>
-              <Button
-                variant={"default"}
-                type="submit"
-              >
+              <Button variant={"default"} type="submit">
                 submit
               </Button>
             </div>

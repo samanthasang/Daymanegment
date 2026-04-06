@@ -1,52 +1,22 @@
-import { AccountBalance, EventAvailable, Filter } from "@/components/icons";
-import { useAppDispatch } from "@/lib/hook";
-import {
-  changeFilterStatuse,
-  changeMenuStatuse,
-} from "@/modules/menu/menu.slice";
-import Link from "next/link";
+import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
+import MenuButton from "./MenuButton.component";
+import MenuFilter from "./MenuFilter.component";
+import MenuToday from "./MenuToday.component";
 
-function MenuBottomSideBarComponent({
-  OpenMenu,
-  OpenFilter,
-}: {
-  OpenMenu: boolean;
-  OpenFilter: boolean;
-}) {
-  const dispatch = useAppDispatch();
+function MenuBottomSideBarComponent() {
+  const { isSX } = useMediaQueryValues();
+
   return (
-    <div className="flex justify-around w-full mx-auto h-10 px-1 absolute bottom-0 left-0 right-0">
-      {OpenMenu && (
-        <>
-          <Link
-            href={"/"}
-            className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-          >
-            <EventAvailable />
-          </Link>
-          <div
-            onClick={(e) => {
-              e && e.preventDefault();
-              // dispatch(selectToDoList(""));
-            }}
-            className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-          >
-            <EventAvailable />
-          </div>
-        </>
+    <div
+      className={cn(
+        "flex justify-around w-full mx-auto p-1 absolute bottom-0 left-0 right-0 gap-x-1",
+        isSX ? "relative mt-3" : "absolute"
       )}
-      <div
-        onClick={() => dispatch(changeFilterStatuse())}
-        className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-      >
-        <Filter />
-      </div>
-      <div
-        onClick={() => dispatch(changeMenuStatuse())}
-        className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-      >
-        <AccountBalance />
-      </div>
+    >
+      <MenuToday />
+      <MenuFilter />
+      <MenuButton />
     </div>
   );
 }

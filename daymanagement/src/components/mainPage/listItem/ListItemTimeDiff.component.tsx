@@ -37,7 +37,7 @@ export const ListItemTimeDiff = ({ date }: { date?: string }) => {
   }, [date]);
 
   return (
-    <label className={`cursor-pointer px-2 py-1 rounded-2xl bg-green-500/15`}>
+    <label className={`cursor-pointer px-2 py-1 rounded-2xl bg-success`}>
       {dateState.years() > 0 && `${dateState.years()} : `}
       {dateState.months() > 0 && `${dateState.months()} : `}
       {dateState.days() > 0 && `${dateState.days()} : `}

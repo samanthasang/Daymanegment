@@ -21,7 +21,7 @@ function SidebarTablet({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className={"flex-1 h-12 bg-transparent border-none"}
+            className={"flex-1 h-10 bg-transparent border-none"}
           >
             <span>Filter</span>
           </Button>
@@ -31,7 +31,7 @@ function SidebarTablet({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className={"flex-1 h-12 bg-transparent border-none"}
+            className={"flex-1 h-10 bg-transparent border-none"}
           >
             <span>Filter</span>
           </Button>
@@ -41,7 +41,7 @@ function SidebarTablet({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className={"flex-1 h-12 bg-transparent border-none"}
+            className={"flex-1 h-10 bg-transparent border-none"}
           >
             <span>add</span>
           </Button>
@@ -51,7 +51,7 @@ function SidebarTablet({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className={"flex-1 h-12 bg-transparent border-none"}
+            className={"flex-1 h-10 bg-transparent border-none"}
           >
             <span>Filter</span>
           </Button>
@@ -59,7 +59,7 @@ function SidebarTablet({
       </DrawerDialogDemo>
       <Button
         variant="outline"
-        className={"flex-1 h-12 bg-transparent border-none"}
+        className={"flex-1 h-10 bg-transparent border-none"}
       >
         <span>Home</span>
       </Button>

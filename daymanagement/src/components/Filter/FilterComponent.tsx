@@ -1,8 +1,8 @@
 "use client";
-import UseCategoryFilterComponent from "@/lib/Hooks/CategoryFilter.component";
-import UseDateRangeComponent from "@/lib/Hooks/DateFilter.component";
+import UseCategoryFilterComponent from "@/lib/Hooks/UseCategoryFilterComponent.component";
+import UseDateRangeComponent from "@/lib/Hooks/UseDateRangeComponent.component";
 import UseResetFilterComponent from "@/lib/Hooks/ResetFilter.component";
-import UseTagFilterComponent from "@/lib/Hooks/TagFilter.component";
+import UseTagFilterComponent from "@/lib/Hooks/UseTagFilterComponent.component";
 
 function FilterComponent({ witDate }: { witDate: boolean }) {
   return (

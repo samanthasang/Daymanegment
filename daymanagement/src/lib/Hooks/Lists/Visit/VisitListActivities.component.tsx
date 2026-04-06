@@ -1,10 +1,7 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import {
-  selectSpendsList,
-  TSpends
-} from "@/modules/spends/spends.slice";
-import {
+  completeVisitList,
   delVisitList,
   selectVisitList,
   TVisit,
@@ -29,7 +26,12 @@ function VisitListActivities() {
     SelectItem();
     toast(`${selectedVisit.title} is deleted`);
   };
-  return { DelItem, SelectWithId, SelectItem };
+  const CompleteItemt = (id: string, title: string) => {
+    dispatch(completeVisitList(id));
+    id && selectedVisit && dispatch(selectVisitList(id));
+    toast(`${title} is updated`);
+  };
+  return { CompleteItemt, DelItem, SelectWithId, SelectItem };
 }
 
 export default VisitListActivities;

@@ -50,7 +50,7 @@ export function SelectField({
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="rounded-2xl">
           <SelectGroup>
             {itemArray.map((item) => (
               <SelectItem key={item.id} value={item.id}>

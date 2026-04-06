@@ -1,23 +1,15 @@
 "use client";
-import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
-import { useAppSelector } from "@/lib/hook";
-import { TPeople } from "@/modules/people/PeopleList.slice";
+import MenuItems from "@/components/mainPage/MenuItems/MenuItems.component";
+import usePeopleList from "@/lib/Hooks/Lists/Share/UsePeopleList.component";
 
-function HomeShareItem({
-  pathname,
-  OpenMenu,
-}: {
-  pathname: string;
-  OpenMenu: boolean;
-}) {
-  const People = useAppSelector((state) => state.PeopleList) || {};
-  const ListPeople = People?.ListPeople as TPeople[];
+function HomeShareItem() {
+  const { ListPeople } = usePeopleList();
+  
   return (
     <MenuItems
-      href={"/share"}
-      tilte="Shares"
-      className={pathname && pathname.startsWith("/share") ? "bg-primary" : ""}
-      infoNumber={OpenMenu ? `${ListPeople && ListPeople.length}` : ""}
+      href={"/friends"}
+      tilte="Friends"
+      infoNumber={`${ListPeople && ListPeople.length}`}
     />
   );
 }

@@ -2,7 +2,6 @@
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
 import InstallmentsListActivities from "@/lib/Hooks/Lists/Installments/InstallmentsListActivities.component";
 import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
-import { toast } from "react-toastify";
 
 export const InstallmentsItem = ({
   item,
@@ -18,16 +17,7 @@ export const InstallmentsItem = ({
     item.installmentstList.filter((ins) => !ins.isComplete).length != 0
       ? item.installmentstList.filter((ins) => !ins.isComplete)[0]
       : item.installmentstList[item.installmentstList.length - 1];
-  console.log("lastItem ", lastItem);
 
-  const CompleteInstallment = () => {
-    CompleteItemt(item.id, item.title, lastItem.date);
-    toast(`${item.title} is completed`);
-  };
-  const CompleteItemInstallmentList = () => {
-    CompleteItemInstallment(item.id, item.title);
-    toast(`${item.title} is updated`);
-  };
   return (
     <ListItem
       id={item.id}
@@ -43,8 +33,8 @@ export const InstallmentsItem = ({
       selectedID={selectedID}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
-      CompleteItemt={CompleteInstallment}
-      UpdateItem={CompleteItemInstallmentList}
+      CompleteItemt={() => CompleteItemt(item.id, item.title, item.startDate)}
+      UpdateItem={() => CompleteItemInstallment(item.id, item.title)}
     />
   );
 };

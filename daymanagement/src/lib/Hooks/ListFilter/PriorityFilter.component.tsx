@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 function PriorityFilter(List: any[]) {
   const [priorityFilter, setPriorityFilter] = useState(true);
 
-  console.log("PriorityFilter ", List);
   const priorityArray = useMemo(
     () =>
       priorityFilter

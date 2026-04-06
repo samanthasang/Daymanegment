@@ -1,30 +1,15 @@
 "use client";
+import SelectedContainer from "@/components/mainPage/selectedItem/SelectedContainer.component";
 import SelectedItem from "@/components/mainPage/selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "@/components/mainPage/selectedItem/SelectedMenuBottom.component";
-import { useAppSelector } from "@/lib/hook";
 import SelectHabbitListActivities from "@/lib/Hooks/Lists/Habbit/HabbitListActivities.component";
-import {
-  Thabbit
-} from "@/modules/habbitList/habbit.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-const currentUnixTimestamp = dayjs().unix();
+import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
+import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 
 function SelectedHabbitList() {
-  const Habbit = useAppSelector((state) => state.habbitList);
-
   const { CompleteItemt, DelItem, SelectItem } = SelectHabbitListActivities();
 
-  const selectedHabbit = Habbit?.selectedhabbit as Thabbit;
+  const { selectedHabbit } = UseHabbitList();
 
   // const MoveToMyHabbit = (item: Thabbit) => {
   //   dispatch(
@@ -47,15 +32,14 @@ function SelectedHabbitList() {
   //   dispatch(delHabbitList(item.id));
   // };
   return (
-    <div className="flex flex-col w-full flex-1 bg-secondary rounded-2xl relative">
+    <SelectedContainer>
       <SelectedItem
         CompleteItemt={() =>
           CompleteItemt(selectedHabbit.id, selectedHabbit.title)
         }
         isComplete={
-          dayjs(dayjs.unix(Number(selectedHabbit.completeUpdate))).format(
-            "DD"
-          ) == dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+          DayUnixFormat(+selectedHabbit.completeUpdate, "DD") ==
+          DayUnixFormatNow("DD")
         }
         drawerType="HabbitList"
         {...selectedHabbit}
@@ -69,12 +53,11 @@ function SelectedHabbitList() {
         drawerType="HabbitList"
         formType="Edit Habbit"
         selectedIsComplete={
-          dayjs(dayjs.unix(Number(selectedHabbit.completeUpdate))).format(
-            "DD"
-          ) == dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+          DayUnixFormat(+selectedHabbit.completeUpdate, "DD") ==
+          DayUnixFormatNow("DD")
         }
       />
-    </div>
+    </SelectedContainer>
   );
 }
 

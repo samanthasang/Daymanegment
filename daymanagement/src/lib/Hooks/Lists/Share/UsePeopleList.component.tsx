@@ -12,11 +12,10 @@ function usePeopleList() {
     selectedShare: {};
   } = useAppSelector((state) => state.ShareList) || [];
 
-  const {
-    ListPeople,
-  }: {
-    ListPeople: TPeople[];
-  } = useAppSelector((state) => state.PeopleList) || [];
+  const People = useAppSelector((state) => state.PeopleList) || {};
+
+  const selectedPeople = People?.selectedPeople as TPeople;
+  const ListPeople = People?.ListPeople as TPeople[];
 
   const [listHasShare, setListHasShare] = useState<TPeople[] | undefined>(
     ListPeople
@@ -39,11 +38,6 @@ function usePeopleList() {
           ListShare.filter((share) => share.peopleId == people.id).length == 0
       );
 
-      console.log(ListShare);
-      console.log(ListPeople);
-      console.log(filterArrayHasShare);
-      console.log(filterArrayHasNoShare);
-
       return { filterArrayHasShare, filterArrayHasNoShare };
     };
     const { filterArrayHasNoShare, filterArrayHasShare } = filterdList();
@@ -52,7 +46,7 @@ function usePeopleList() {
     ListPeople && setListHasShare(filterArrayHasShare);
   }, [ListShare, ListPeople]);
 
-  return { listHasShare, listHasNoShare, ListPeople };
+  return { listHasShare, listHasNoShare, ListPeople, selectedPeople };
 }
 
 export default usePeopleList;

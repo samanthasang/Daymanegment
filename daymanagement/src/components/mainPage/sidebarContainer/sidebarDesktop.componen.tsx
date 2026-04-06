@@ -1,29 +1,19 @@
 import { cn } from "@/lib/utils";
 import FilterComponent from "../../Filter/FilterComponent";
+import { Filter } from "@/components/icons";
 
-function SidebarDesktop({
-  drawerType,
-  formType,
-  witDate = true,
-  witAdd = true,
-}: {
-  drawerType: string;
-  formType: string;
-  witDate: boolean;
-  witAdd?: boolean;
-}) {
+function SidebarFilter({ witDate = true }: { witDate?: boolean }) {
   return (
-    <div className="relative flex flex-col justify-center flex-1 h-full rounded-2xl bg-secondary">
-      <div className="w-full text-center p-2 border-b-2 border-[#1C2936]">
+    <div className="relative bg-secondary min-w-[320px] w-fit flex flex-col justify-start items-start h-full rounded-3xl p-1">
+      <div className="w-full flex justify-center items-center gap-x-2 py-2 bg-primary rounded-full">
+        <Filter />
         Filter
       </div>
-      <div className="h-full px-2">
-        <div className={cn("flex flex-col justify-start gap-y-3 w-full")}>
-          <FilterComponent witDate={witDate} />
-        </div>
+      <div className="bg-secondary w-full flex flex-col gap-y-3 justify-start items-center h-full rounded-2xl py-1">
+        <FilterComponent witDate={witDate} />
       </div>
     </div>
   );
 }
 
-export default SidebarDesktop;
+export default SidebarFilter;

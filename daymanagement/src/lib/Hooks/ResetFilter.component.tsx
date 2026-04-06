@@ -1,122 +1,74 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-import { usePathname, useSearchParams } from "next/navigation";
+import { Ballot, Calender, EventAvailable } from "@/components/icons";
+import { useSearchParams } from "next/navigation";
+import { cn } from "../utils";
 import useFilters from "./useFilters";
-import {
-  AltTask,
-  Ballot,
-  Calender,
-  ChevronSmallDoubleUp,
-  ChevronSmallTripleUp,
-  ChevronSmallUp,
-  EventAvailable,
-  Trash,
-} from "@/components/icons";
-import BasicSwitch from "@/components/ui/BasicSwitch";
-
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import useMediaQueryValues from "./useMediaQuery";
 
 function UseResetFilterComponent() {
   const { applyFilter } = useFilters();
 
+  const { isMDMax } = useMediaQueryValues();
+
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
-  const hasdateFrom = searchParams.has("dateFrom");
   const hasdateTo = searchParams.has("dateTo");
-  const hasCategorySearch = searchParams.has("category");
-  const hasTagSearch = searchParams.has("tag");
+  const hasCategory = searchParams.has("category");
+  const hasTag = searchParams.has("tag");
 
-  const handleResetFilter = () => {
-    console.log("applyFilter");
-    return window.history.pushState(null, "", pathname);
-  };
   const handleCatFilter = () => {
-    console.log("applyFilter category");
     applyFilter("category", "");
   };
   const handleTagFilter = () => {
-    console.log("applyFilter tag");
     applyFilter("tag", "");
   };
   const handleDateFilter = () => {
-    console.log("applyFilter date");
     applyFilter("dateFrom", "");
     applyFilter("dateTo", "");
   };
 
   return (
-    <div className="flex justify-around w-full mx-auto h-10 px-1 absolute bottom-0 left-0 right-0">
+    <div
+      className={cn(
+        "flex justify-around w-full mx-auto p-1 bottom-0 left-0 right-0 gap-x-1",
+        isMDMax ? "relative" : "absolute"
+      )}
+    >
       <div
         onClick={(e) => {
           e && e.preventDefault();
           hasdateTo && handleDateFilter();
         }}
-        className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
+        className={cn(
+          "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
+          hasdateTo ? "bg-button" : "bg-primary"
+        )}
       >
         <Calender />
-        <BasicSwitch
-          checked={hasdateTo}
-          handleToggle={(e) => {
-            e && e.preventDefault();
-            hasdateTo && handleDateFilter();
-          }}
-          label=""
-          key={"isComplete"}
-        />
       </div>
       <div
         onClick={(e) => {
           e && e.preventDefault();
-          hasCategorySearch && handleCatFilter();
+          hasCategory && handleCatFilter();
         }}
-        className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
+        className={cn(
+          "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
+          hasCategory ? "bg-button" : "bg-primary"
+        )}
       >
         <Ballot className="fill-red-500" />
-        <BasicSwitch
-          checked={hasCategorySearch}
-          handleToggle={(e) => {
-            e && e.preventDefault();
-            hasCategorySearch && handleCatFilter();
-          }}
-          label=""
-          key={"isComplete"}
-        />
       </div>
       <div
         onClick={(e) => {
           e && e.preventDefault();
-          hasTagSearch && handleTagFilter();
+          hasTag && handleTagFilter();
         }}
-        className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
+        className={cn(
+          "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
+          hasTag ? "bg-button" : "bg-primary"
+        )}
       >
         <EventAvailable className="fill-red-500" />
-        <BasicSwitch
-          checked={hasTagSearch}
-          handleToggle={(e) => {
-            e && e.preventDefault();
-            hasTagSearch && handleTagFilter();
-          }}
-          label=""
-          key={"isComplete"}
-        />
-      </div>
-      <div
-        onClick={(e) => {
-          e && e.preventDefault();
-          hasdateTo && hasCategorySearch && hasTagSearch && handleResetFilter();
-        }}
-        className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-      >
-        <AltTask className="fill-red-500" />
       </div>
     </div>
   );

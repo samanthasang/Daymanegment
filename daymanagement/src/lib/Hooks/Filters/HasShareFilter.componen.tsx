@@ -1,6 +1,6 @@
 "use client";
 import { TShare } from "@/modules/share/share.slice";
-import { useAppSelector } from "../hook";
+import { useAppSelector } from "../../hook";
 
 function HasShareFilter(id: string) {
   const {

@@ -1,55 +1,35 @@
 "use client";
 import { useAppSelector } from "@/lib/hook";
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import CategoryFilter from "../../Filters/CategoryFilter.componen";
+import DateFromFilter from "../../Filters/DateFromFilter";
+import DateToFilter from "../../Filters/DateToFilter";
+import TagFilter from "../../Filters/TagFilter.componen";
 
 function UseHabbitList() {
-  const {
-    ListHabbit,
-  }: {
-    ListHabbit: Thabbit[];
-  } = useAppSelector((state) => state.habbitList) || [];
+  const Habbit = useAppSelector((state) => state.habbitList);
 
-  const searchParams = useSearchParams();
+  const selectedHabbit = Habbit?.selectedhabbit as Thabbit;
+  const ListHabbit = Habbit?.ListHabbit as Thabbit[];
 
-  const categorySearch = searchParams.get("category");
-  const hasCategorySearch = searchParams.has("category");
-  const tagSearch = searchParams.get("tag");
-  const hasTagSearch = searchParams.has("tag");
+  const categoryArray = CategoryFilter([...ListHabbit] as any);
 
-  const [listAfterFilter, setListAfterFilter] = useState<Thabbit[]>(ListHabbit);
+  const listAfterFilter = TagFilter([...categoryArray] as any);
 
-  useEffect(() => {
-    const filterdList = () => {
-      let filterArrayCat = ListHabbit;
-      if (hasCategorySearch) {
-        filterArrayCat =
-          ListHabbit.length > 0
-            ? ListHabbit.filter((list) => list.category == categorySearch)
-            : [];
-      }
+  const ListMyHabbit = listAfterFilter.filter((a) => a.score > 9);
+  const ListHabbitNew = ListHabbit.filter((a) => a.score <= 9);
 
-      let filterArrayTag = filterArrayCat;
-      if (hasTagSearch) {
-        filterArrayTag =
-          filterArrayCat.length > 0
-            ? filterArrayCat.filter((list) => list.tag == tagSearch)
-            : [];
-      }
-      console.log(ListHabbit);
-      console.log(filterArrayCat);
-      console.log(filterArrayTag);
+  console.log(ListHabbit);
+  console.log(listAfterFilter);
+  console.log(ListMyHabbit);
+  console.log(ListHabbitNew);
 
-      return filterArrayTag;
-    };
-    const list = filterdList();
-
-    list ? setListAfterFilter(list) : setListAfterFilter([]);
-    console.log(list);
-  }, [ListHabbit, tagSearch, categorySearch]);
-
-  return listAfterFilter;
+  return {
+    ListMyHabbit,
+    ListHabbitAll: ListHabbit,
+    ListHabbitNew,
+    selectedHabbit,
+  };
 }
 
 export default UseHabbitList;

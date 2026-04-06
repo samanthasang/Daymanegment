@@ -65,10 +65,6 @@ export default function FormShareDetails({
     onChangeshare(shareDetail);
   }, [shareDetail]);
 
-  useEffect(() => {
-    console.log(share.income);
-  }, [shareDetail]);
-
   return (
     <div className=" flex flex-row justify-center items-centerw-full min-w-60 gap-y-4 p-3 rounded-2xl bg-primary">
       <div className="w-full flex flex-col gap-y-4">
@@ -130,7 +126,7 @@ export default function FormShareDetails({
               disabled={!!errors.title?.message}
               content={errors.title?.message}
               required
-              className={`${share.income ? "text-green-500" : "text-red-500"}`}
+              className={`${share.income ? "text-success" : "text-red-500"}`}
               placeholder="Outcome Amount"
               value={shareDetail.outcomeAmount}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>

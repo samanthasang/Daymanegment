@@ -1,19 +1,10 @@
 "use client";
 import { Calendar } from "@/components/ui/calendar";
 import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import useFilters from "./useFilters";
-
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 function UseDateRangeComponent() {
   const { applyFilter } = useFilters();
@@ -44,29 +35,18 @@ function UseDateRangeComponent() {
   ).toString();
 
   useEffect(() => {
-    dateRange && console.log(toDay);
-
     dateRange && dateRange.to && toDay
       ? applyFilter("dateTo", toDay)
       : applyFilter("dateTo", toDaUnix);
   }, [dateRange?.to]);
 
   useEffect(() => {
-    dateRange && console.log(fromDay);
-
     dateRange && dateRange.from && fromDay
       ? applyFilter("dateFrom", fromDay)
       : applyFilter("dateFrom", toDaUnix);
   }, [dateRange?.from]);
 
   useEffect(() => {
-    hasdateFrom && console.log(dateRange?.from);
-    hasdateFrom &&
-      fromDay &&
-      console.log(new Date(dayjs(dayjs.unix(Number(dateFrom))).toDate()));
-    hasdateTo &&
-      console.log(new Date(dayjs(dayjs.unix(Number(dateTo))).toDate()));
-
     hasdateFrom
       ? hasdateTo
         ? dateTo &&
@@ -95,7 +75,7 @@ function UseDateRangeComponent() {
       onSelect={setDateRange}
       numberOfMonths={1}
       captionLayout="dropdown"
-      className="w-full rounded-[8px] border shadow-sm bg-transparent"
+      className="w-[320px] mx-auto rounded-2xl border shadow-sm bg-transparent"
     />
   );
 }

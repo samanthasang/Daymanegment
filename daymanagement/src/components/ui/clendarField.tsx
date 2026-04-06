@@ -30,12 +30,10 @@ export function CalendarField({
 }) {
   return (
     <ClendarButtonGroup
-      title="Category"
-      errors={errors}
+      errors={errors || false}
       dateValue={dateValue}
-      setDate={setDate}
       description={description}
-      className={`${description ? "border-[1px] border-red-600" : ""}`}
+      // className={`${description ? "border-[1px] border-red-600" : ""}`}
     >
       <DrawerDialogDemo drawerType={"TagList"} formType="Add Tag">
         <DialogTrigger asChild>

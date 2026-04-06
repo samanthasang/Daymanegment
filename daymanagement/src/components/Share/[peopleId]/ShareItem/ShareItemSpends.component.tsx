@@ -33,8 +33,6 @@ export const ShareItemSpends = ({ item }: { item: TShare }) => {
   const SpendsSelected =
     ListSpends && ListSpends.filter((visit) => visit.id == item.spendsId)[0];
 
-  console.log(ListSpends);
-  console.log(SpendsSelected);
   return (
     <SelectedItemContainer title="Spends">
       <div className="w-full h-fit flex flex-row items-center justify-between rounded-2xl bg-primary">

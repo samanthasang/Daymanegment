@@ -1,10 +1,9 @@
 "use client";
-import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
+import ListContent from "@/components/mainPage/ListContainer/ListContent.component";
 import ListMenuBottom from "@/components/mainPage/ListContainer/ListMenuBottom.component";
-import ComplateFIlter from "@/lib/Hooks/ComplateFIlter.component";
-import StartDateOrderFilter from "@/lib/Hooks/StartDateOrderFilter.component";
-import FinishedFIlter from "@/lib/Hooks/FinishedFIlter.componen";
-import { cn } from "@/lib/utils";
+import ComplateFIlter from "@/lib/Hooks/ListFilter/ComplateFIlter.component";
+import FinishedFIlter from "@/lib/Hooks/Filters/FinishedFIlter.componen";
+import StartDateOrderFilter from "@/lib/Hooks/ListFilter/StartDateOrderFilter.component";
 import { TTimer } from "@/modules/timerList/timer.slice";
 import { Timeritem } from "../TimerItem/TimerItem.component";
 
@@ -18,44 +17,33 @@ function TimerListCurrent({
   const { startDateOrderArray, startDateOrderFilter } =
     StartDateOrderFilter(ListTimer);
 
-  const { finishArray, finishFIlter, setFinishFIlter } = startDateOrderFilter
+  const { finishArray, finishFilter, setFinishFilter } = startDateOrderFilter
     ? FinishedFIlter([...startDateOrderArray] as any)
-    : ([...ListTimer] as any);
+    : FinishedFIlter([...ListTimer] as any);
 
   const { complateArray, complateFIlter, setcomplateFIlter } =
-    finishArray && finishFIlter
+    finishArray && finishFilter
       ? ComplateFIlter([...finishArray] as any)
       : ComplateFIlter([...ListTimer] as any);
 
   return (
     <>
-      <div
-        className={cn(
-          "flex flex-col h-full gap-y-2 ml-1",
-          complateArray && complateArray.length > 5
-            ? "scroll-m-0 overflow-y-scroll"
-            : ""
-        )}
-      >
-        {ListTimer?.length == 0 ? (
-          <EmptyList />
-        ) : (
-          complateArray?.map((li: TTimer) => (
-            <Timeritem key={li.id} item={li} />
-          ))
-        )}
-      </div>
+      <ListContent ListCount={complateArray.length}>
+        {complateArray?.map((li: TTimer) => (
+          <Timeritem key={li.id} item={li} />
+        ))}
+      </ListContent>
       <ListMenuBottom
         listTitle="Timer"
         drawerType="TimerList"
         formType="Edit Timer"
         selectedID={!!selectedID}
         complateFIlter={complateFIlter}
-        dateFIlter={!finishFIlter}
+        dateFIlter={!finishFilter}
         withcomplate
         withdate
         ChangeComplate={() => setcomplateFIlter(!complateFIlter)}
-        ChangeDate={() => setFinishFIlter(!finishFIlter)}
+        ChangeDate={() => setFinishFilter(!finishFilter)}
         ListInfo={`${ListTimer?.filter((todo) => todo.isComplete == true).length} / ${ListTimer?.length}`}
       />
     </>

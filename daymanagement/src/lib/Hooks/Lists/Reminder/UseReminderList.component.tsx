@@ -1,99 +1,37 @@
 "use client";
 import { useAppSelector } from "@/lib/hook";
 import { TReminder } from "@/modules/reminderList/reminder.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import CategoryFilter from "../../Filters/CategoryFilter.componen";
+import DateFromFilter from "../../Filters/DateFromFilter";
+import DateToFilter from "../../Filters/DateToFilter";
+import TagFilter from "../../Filters/TagFilter.componen";
+import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useReminderList() {
-  const {
-    ListReminder,
-  }: {
-    ListReminder: TReminder[];
-  } = useAppSelector((state) => state.reminder) || [];
+  const Reminder = useAppSelector((state) => state.reminder);
 
-  const searchParams = useSearchParams();
+  const selectedReminder = Reminder?.selectedReminder as TReminder;
 
-  const dateFrom = searchParams.get("dateFrom");
-  const hasdateFrom = searchParams.has("dateFrom");
-  const dateTo = searchParams.get("dateTo");
-  const hasdateTo = searchParams.has("dateTo");
-  const categorySearch = searchParams.get("category");
-  const hasCategorySearch = searchParams.has("category");
-  const tagSearch = searchParams.get("tag");
-  const hasTagSearch = searchParams.has("tag");
-  const fromTodayNow = new Date().setHours(0, 0, 0, 0);
+  const ListReminder = Reminder?.ListReminder as TReminder[];
 
-  const [listAfterFilter, setListAfterFilter] =
-    useState<TReminder[]>(ListReminder);
+  const dateFromArray = DateFromFilter([ListReminder] as any);
 
-  useEffect(() => {
-    const filterdList = () => {
-      const fromDay = hasdateFrom
-        ? dateFrom
-        : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString();
-      const toDay = hasdateTo
-        ? dateTo
-        : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString();
-      let filterArrayDay = ListReminder || [];
-      if (hasdateTo && hasdateFrom && fromDay) {
-        if (toDay) {
-          filterArrayDay = ListReminder.filter(
-            (list) => list.date >= fromDay && list.date <= toDay
-          );
-        }
-      }
-      if (fromDay && toDay && fromDay == toDay) {
-        filterArrayDay = ListReminder.filter(
-          (list) => list.date >= fromDay && list.date >= toDay
-        );
-      }
-      if (fromDay && toDay && fromDay != toDay) {
-        filterArrayDay = ListReminder.filter(
-          (list) =>
-            Math.floor(+list.date).toString() >= fromDay &&
-            Math.floor(+list.date).toString() <= toDay
-        );
-      }
+  const dateToArray = DateToFilter([...dateFromArray] as any);
 
-      let filterArrayCat = filterArrayDay;
-      if (hasCategorySearch) {
-        filterArrayCat =
-          filterArrayDay.length > 0
-            ? filterArrayDay.filter((list) => list.category == categorySearch)
-            : [];
-      }
+  const categoryArray = CategoryFilter([...dateToArray] as any);
 
-      let filterArrayTag = filterArrayCat;
-      if (hasTagSearch) {
-        filterArrayTag =
-          filterArrayCat.length > 0
-            ? filterArrayCat.filter((list) => list.tag == tagSearch)
-            : [];
-      }
-      console.log(ListReminder);
-      console.log(filterArrayDay);
-      console.log(filterArrayCat);
-      console.log(filterArrayTag);
+  const ListReminderFiltered = TagFilter([...categoryArray] as any);
 
-      return filterArrayTag;
-    };
-    const list = filterdList();
+  const ListReminderForgot = ListReminder.filter(
+    (a) => +a.date < currentUnixTimestampZero
+  );
 
-    list ? setListAfterFilter(list) : setListAfterFilter([]);
-    console.log(list);
-  }, [ListReminder, dateFrom, dateTo, tagSearch, categorySearch]);
-
-  return listAfterFilter;
+  return {
+    ListReminderFiltered,
+    ListReminderForgot,
+    ListReminderAll: ListReminder,
+    selectedReminder,
+  };
 }
 
 export default useReminderList;

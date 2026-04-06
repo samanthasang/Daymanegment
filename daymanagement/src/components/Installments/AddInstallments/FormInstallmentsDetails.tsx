@@ -47,12 +47,8 @@ export default function FormInstallmentsDetails({
     onChangeinstallment(instalmentDetail);
   }, [instalmentDetail]);
 
-  useEffect(() => {
-    console.log(installment.isComplete);
-  }, [instalmentDetail]);
-
   return (
-    <div className=" flex flex-row justify-between items-center w-full min-w-60 gap-y-4 bg-primary px-2 py-2 rounded-2xl">
+    <div className=" flex flex-row justify-between items-center w-full min-w-60 gap-y-4 bg-primary p-2 rounded-2xl">
       <label className="px-2 py-1 flex-none">
         {dayjs(dayjs.unix(Number(installment.date))).format("YYYY-MM-DD")}
       </label>

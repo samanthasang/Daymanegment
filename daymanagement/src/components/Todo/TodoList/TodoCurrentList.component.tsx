@@ -1,11 +1,10 @@
 "use client";
-import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
+import ListContent from "@/components/mainPage/ListContainer/ListContent.component";
 import ListMenuBottom from "@/components/mainPage/ListContainer/ListMenuBottom.component";
-import ComplateFIlter from "@/lib/Hooks/ComplateFIlter.component";
-import DateOrderFilter from "@/lib/Hooks/DateOrderFilter.component";
-import FinishedFIlter from "@/lib/Hooks/FinishedFIlter.componen";
-import PriorityFilter from "@/lib/Hooks/PriorityFilter.component";
-import { cn } from "@/lib/utils";
+import ComplateFIlter from "@/lib/Hooks/ListFilter/ComplateFIlter.component";
+import DateOrderFilter from "@/lib/Hooks/ListFilter/DateOrderFilter.component";
+import FinishedFIlter from "@/lib/Hooks/Filters/FinishedFIlter.componen";
+import PriorityFilter from "@/lib/Hooks/ListFilter/PriorityFilter.component";
 import { TToDo } from "@/modules/toDoList/todo.slice";
 import TodoItem from "../TodoItem/TodoItem.component";
 
@@ -18,12 +17,12 @@ function TodoCurrentList({
 }) {
   const { dateOrderArray, dateOrderFilter } = DateOrderFilter(ListToDo);
 
-  const { finishArray, finishFIlter, setFinishFIlter } = dateOrderFilter
+  const { finishArray, finishFilter, setFinishFilter } = dateOrderFilter
     ? FinishedFIlter([...dateOrderArray] as any)
-    : ([...ListToDo] as any);
+    : FinishedFIlter([...ListToDo] as any);
 
   const { priorityArray, priorityFilter, setPriorityFilter } =
-    finishArray && finishFIlter
+    finishArray && finishFilter
       ? PriorityFilter([...finishArray] as any)
       : PriorityFilter([...ListToDo] as any);
 
@@ -34,22 +33,11 @@ function TodoCurrentList({
 
   return (
     <>
-      <div
-        className={cn(
-          "flex flex-col h-full gap-y-2 ml-1",
-          complateArray && complateArray.length > 5
-            ? "scroll-m-0 overflow-y-scroll"
-            : ""
-        )}
-      >
-        {complateArray?.length == 0 ? (
-          <EmptyList />
-        ) : (
-          complateArray?.map((li: TToDo) => (
-            <TodoItem key={li.id} item={li} selectedID={selectedID} />
-          ))
-        )}
-      </div>
+      <ListContent ListCount={complateArray.length}>
+        {complateArray?.map((li: TToDo) => (
+          <TodoItem key={li.id} item={li} selectedID={selectedID} />
+        ))}
+      </ListContent>
       <ListMenuBottom
         listTitle="Todos"
         drawerType="TodoList"
@@ -57,13 +45,13 @@ function TodoCurrentList({
         selectedID={!!selectedID}
         priorityFilter={priorityFilter}
         complateFIlter={complateFIlter}
-        dateFIlter={!finishFIlter}
+        dateFIlter={!finishFilter}
         withpriority
         withcomplate
         withdate
         ChangeComplate={() => setcomplateFIlter(!complateFIlter)}
         ChangePriority={() => setPriorityFilter(!priorityFilter)}
-        ChangeDate={() => setFinishFIlter(!finishFIlter)}
+        ChangeDate={() => setFinishFilter(!finishFilter)}
         ListInfo={`${complateArray?.filter((item) => item.isComplete == true).length} / ${complateArray?.length}`}
       />
     </>

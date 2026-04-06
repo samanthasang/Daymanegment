@@ -11,16 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/Drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { useAppDispatch } from "@/lib/hook";
 import { cn } from "@/lib/utils";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import { TShare } from "@/modules/share/share.slice";
@@ -31,6 +28,8 @@ import FormGoals from "../Goals/AddGoals/FormGoal";
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit";
 import FormInstallments from "../Installments/AddInstallments/FormInstallments";
 import FormInstallmentsDetailsList from "../Installments/InstallmentsList/installmentsDetailsList.components";
+import ListMenuButtons from "../mainPage/ListContainer/ListMenuButtons.component";
+import MenuMainSideBarComponent from "../mainPage/MenuSideBar/MainMenuSideBar.component";
 import PeopleForm from "../People/PeopleForm";
 import FormReminder from "../Reminder/AddReminder/FormReminder";
 import FormShare from "../Share/[peopleId]/AddShare/FormShare";
@@ -83,22 +82,8 @@ export function DrawerDialogDemo({
 }) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const dispatch = useAppDispatch();
 
   const openDrawer = (e: boolean) => {
-    console.log(e);
-    // if (e == false) {
-    //   dispatch(selectToDoList(""));
-    //   dispatch(selectHabbitList(""));
-    //   dispatch(selectTimerList(""));
-    //   dispatch(selectSpendsList(""));
-    //   dispatch(selectReminderList(""));
-    //   dispatch(selectInstallmentstList(""));
-    //   dispatch(selectVisitList(""));
-    //   dispatch(selectGoalList(""));
-    //   dispatch(selectPeopleList(""));
-    // }
-    console.log(drawerType);
     setOpen(e);
   };
   const onSubmitFormHandler = () => {
@@ -109,7 +94,7 @@ export function DrawerDialogDemo({
     return (
       <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
         {children}
-        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter backdrop-blur-md rounded-2xl">
+        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter p-4 gap-y-4 backdrop-blur-md rounded-2xl">
           <DialogHeader>
             <DialogTitle>{formType}</DialogTitle>
           </DialogHeader>
@@ -133,7 +118,7 @@ export function DrawerDialogDemo({
   return (
     <Drawer open={open} onOpenChange={(e) => openDrawer(e)}>
       {children}
-      <DrawerContent className="p-3 bg-[rgba(255,_255,_255,_0.25)] backdrop-filter backdrop-blur-[10px] rounded-[16px] border-[1px] border-solid border-[rgba(255,255,255,0.35)] [box-shadow:0_8px_32px_0_rgba(31,_38,_135,_0.1)]">
+      <DrawerContent className="sm:max-w-full w-full bg-secondary backdrop-filter backdrop-blur-md px-3 gap-y-3">
         <DrawerHeader className="text-left">
           <DrawerTitle>{formType}</DrawerTitle>
         </DrawerHeader>
@@ -149,7 +134,7 @@ export function DrawerDialogDemo({
           onChangeShare={onChangeShare}
           removeShare={removeShare}
         />
-        <DrawerFooter className="pt-2">
+        {/* <DrawerFooter className="pt-2">
           <div className="felx flex-row gap-y-2 justify-between items-center">
             <DrawerClose asChild className="flex-1">
               <Button className="w-1/2" variant="outline">
@@ -162,7 +147,7 @@ export function DrawerDialogDemo({
               </Button>
             </DrawerClose>
           </div>
-        </DrawerFooter>
+        </DrawerFooter> */}
       </DrawerContent>
     </Drawer>
   );
@@ -211,6 +196,10 @@ function ProfileForm({
   }>;
 }) {
   switch (drawerType) {
+    case "BootomList":
+      return <ListMenuButtons />;
+    case "MenuList":
+      return <MenuMainSideBarComponent />;
     case "FilterList":
       return <FilterComponent witDate />;
     case "ReminderList":

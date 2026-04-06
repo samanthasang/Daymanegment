@@ -29,7 +29,6 @@ export default function TagForm({
 
   useEffect(() => {
     if (selectedTag && selectedTag.id) {
-      console.log(selectedTag);
       setValue("tag", selectedTag?.title);
     }
   }, [selectedTag]);
@@ -49,20 +48,18 @@ export default function TagForm({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-
+  const onSubmit = () => {
     selectedTag?.title
       ? dispatch(
           updateTagList({
             id: selectedTag.id,
-            title: data.tag,
+            title: getValues("tag"),
           })
         )
       : dispatch(
           setTagList({
             id: "",
-            title: data.tag,
+            title: getValues("tag"),
           })
         );
     dispatch(selectTagList(""));
@@ -71,55 +68,41 @@ export default function TagForm({
   };
 
   const onReset = () => {
-    console.log("reset");
-
     dispatch(selectTagList(""));
     reset();
   };
   return (
-    <div className="col-span-1">
-      <div className="flex flex-col gap-2 ">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
-        >
-          <Controller
-            defaultValue={""}
-            name="tag"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <InputField
-                title="Title"
-                type="string"
-                placeholder="Enter Name"
-                disabled={!!errors.tag?.message}
-                required
-                {...field}
-              />
-            )}
-          />
-          {!selectedTag?.title && (
-            <Button type="submit" variant="default">
-              submit
+    <div className="flex flex-col gap-2 ">
+      <form className="flex flex-col w-full gap-4">
+        <Controller
+          defaultValue={""}
+          name="tag"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <InputField
+              title="Title"
+              type="string"
+              placeholder="Enter Name"
+              disabled={!!errors.tag?.message}
+              required
+              {...field}
+            />
+          )}
+        />
+        <div className="flex gap-4">
+          {selectedTag?.title && (
+            <Button onClick={() => onReset()} type="button" variant="secondary">
+              reset
             </Button>
           )}
+          <Button type="button" variant="default" onClick={() => onSubmit()}>
+            submit
+          </Button>
+        </div>
+      </form>
 
-          {selectedTag?.title && (
-            <div className="flex gap-4">
-              <Button onClick={() => onReset()} type="button" variant="default">
-                reset
-              </Button>
-              <Button type="submit" variant="default">
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
-
-        {ListTag &&
-          ListTag?.map((li: TTag) => <TagList key={li.id} item={li} />)}
-      </div>
+      {ListTag && ListTag?.map((li: TTag) => <TagList key={li.id} item={li} />)}
     </div>
   );
 }

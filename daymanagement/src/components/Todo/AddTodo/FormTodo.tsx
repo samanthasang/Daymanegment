@@ -138,151 +138,133 @@ export default function FormTodo({
   };
 
   return (
-    <div className="col-span-1 w-auto">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-4"
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full min-w-60 flex flex-col gap-y-3"
+    >
+      <Controller
+        defaultValue={""}
+        name="title"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <InputField
+            title="Title"
+            type="string"
+            placeholder="Enter Task Name"
+            disabled={!!errors.title?.message}
+            required
+            {...field}
+          />
+        )}
+      />
+
+      <ClendarButtonGroup
+        dateValue={date}
+        errors={!date && !!errors.date?.message}
       >
-        <div className="flex flex-col sm:flex-row w-full gap-x-4">
-          <div className="w-full sm:w-1/2 min-w-60 flex flex-col gap-y-4">
-            <Controller
-              defaultValue={""}
-              name="title"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <InputField
-                  title="Title"
-                  type="string"
-                  placeholder="Enter Task Name"
-                  disabled={!!errors.title?.message}
-                  required
-                  {...field}
-                />
-              )}
-            />
-
-            <ClendarButtonGroup
+        <Controller
+          name="date"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <CalendarDialog
+              required
+              mode="single"
+              selected={date}
+              month={date}
+              onSelect={setDate}
+              className=" border-white rounded py-1"
+              captionLayout="dropdown"
+              title="a"
               dateValue={date}
-              errors={!date && !!errors.date?.message}
-            >
-              <Controller
-                name="date"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <CalendarDialog
-                    required
-                    mode="single"
-                    selected={date}
-                    month={date}
-                    onSelect={setDate}
-                    className=" border-white rounded py-1"
-                    captionLayout="dropdown"
-                    title="a"
-                    dateValue={date}
-                    setDate={setDate}
-                  />
-                )}
-              />
-            </ClendarButtonGroup>
-
-            <Controller
-              defaultValue={""}
-              name="priority"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <SelectField
-                  title="Priority"
-                  placeholder="Choose Priority"
-                  required
-                  invalid={!field.value && !!errors.priority?.message}
-                  itemArray={[
-                    { id: "High", title: "High" },
-                    { id: "Medium", title: "Medium" },
-                    { id: "Low", title: "Low" },
-                  ]}
-                  onValueChange={(data) => data && handlePriority(data)}
-                  {...field}
-                  value={field.value}
-                  className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
-                  {...register("priority")}
-                />
-              )}
+              setDate={setDate}
             />
-            <div className="flex flex-row">
-              <div className="flex-1">
-                <Controller
-                  defaultValue={""}
-                  name="category"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <CategotySelectComponent
-                      required
-                      errors={!field.value && !!errors.category?.message}
-                      description={errors.category?.message}
-                      onValueChange={handleCategory}
-                      value={field.value}
-                    />
-                  )}
-                />
-              </div>
-            </div>
+          )}
+        />
+      </ClendarButtonGroup>
 
-            <div className="flex flex-row">
-              <div className="flex-1">
-                <Controller
-                  defaultValue={""}
-                  name="tag"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <TagSelectComponent
-                      required
-                      errors={!field.value && !!errors.tag?.message}
-                      description={errors.tag?.message}
-                      onValueChange={handleTag}
-                      value={field.value}
-                    />
-                  )}
-                />
-              </div>
-            </div>
-            <Controller
-              defaultValue={""}
-              name="description"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <TextAreaField
-                  className="!text-white h-32 w-full px-3 border-white rounded py-1"
-                  placeholder="Description"
-                  {...field}
-                />
-              )}
-            />
-          </div>
-        </div>
+      <Controller
+        defaultValue={""}
+        name="priority"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <SelectField
+            title="Priority"
+            placeholder="Choose Priority"
+            required
+            invalid={!field.value && !!errors.priority?.message}
+            itemArray={[
+              { id: "High", title: "High" },
+              { id: "Medium", title: "Medium" },
+              { id: "Low", title: "Low" },
+            ]}
+            onValueChange={(data) => data && handlePriority(data)}
+            {...field}
+            value={field.value}
+            className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+            {...register("priority")}
+          />
+        )}
+      />
 
-        {!selectedToDo?.title && (
-          <Button type="submit" variant="default">
-            submit
+      <Controller
+        defaultValue={""}
+        name="category"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <CategotySelectComponent
+            required
+            errors={!field.value && !!errors.category?.message}
+            description={errors.category?.message}
+            onValueChange={handleCategory}
+            value={field.value}
+          />
+        )}
+      />
+
+      <Controller
+        defaultValue={""}
+        name="tag"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TagSelectComponent
+            required
+            errors={!field.value && !!errors.tag?.message}
+            description={errors.tag?.message}
+            onValueChange={handleTag}
+            value={field.value}
+          />
+        )}
+      />
+
+      <Controller
+        defaultValue={""}
+        name="description"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextAreaField
+            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            placeholder="Description"
+            {...field}
+          />
+        )}
+      />
+
+      <div className="flex gap-4">
+        {selectedToDo?.title && (
+          <Button onClick={() => onReset()} type="button">
+            reset
           </Button>
         )}
-
-        {selectedToDo?.title && (
-          <div className="flex gap-4">
-            <Button onClick={() => onReset()} type="button" variant="default">
-              reset
-            </Button>
-            <Button type="submit" variant="default">
-              submit
-            </Button>
-          </div>
-        )}
-      </form>
-    </div>
+        <Button type="submit" variant="default">
+          submit
+        </Button>
+      </div>
+    </form>
   );
 }

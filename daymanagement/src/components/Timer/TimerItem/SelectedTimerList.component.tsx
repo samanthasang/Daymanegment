@@ -1,24 +1,22 @@
 "use client";
+import SelectedContainer from "@/components/mainPage/selectedItem/SelectedContainer.component";
 import SelectedItem from "@/components/mainPage/selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "@/components/mainPage/selectedItem/SelectedMenuBottom.component";
-import { useAppSelector } from "@/lib/hook";
 import TimerListActivities from "@/lib/Hooks/Lists/Timer/TimerListActivities.component";
-import { TTimer } from "@/modules/timerList/timer.slice";
-import dayjs from "dayjs";
+import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
+import { DayUnixDuration } from "@/lib/Hooks/UseDayJS";
 
 function SelectedTimerList() {
   const { CompleteItemt, DelItem, SelectItem } = TimerListActivities();
 
-  const Timer = useAppSelector((state) => state.TimerList);
+  const { selectedTimer } = useTimerList();
 
-  const selectedTimer = Timer?.selectedTimer as TTimer;
-
-  const startD = selectedTimer && dayjs.unix(Number(selectedTimer.startDate));
-  const endD = selectedTimer && dayjs.unix(Number(selectedTimer.endDate));
-  const diff = selectedTimer && dayjs.duration(endD.diff(startD));
+  const diff =
+    selectedTimer &&
+    DayUnixDuration(selectedTimer.startDate, selectedTimer.endDate);
 
   return (
-    <div className="flex flex-col w-full flex-1 bg-secondary rounded-2xl relative">
+    <SelectedContainer>
       <SelectedItem
         CompleteItemt={() =>
           CompleteItemt(selectedTimer.id, selectedTimer.title)
@@ -37,7 +35,7 @@ function SelectedTimerList() {
         formType="Edit Timer"
         selectedIsComplete={selectedTimer.isComplete}
       />
-    </div>
+    </SelectedContainer>
   );
 }
 

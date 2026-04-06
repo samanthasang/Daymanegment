@@ -3,7 +3,7 @@ import GoalsList from "./GoalsList/GoalsList.component";
 
 function GoalsListComponent() {
   return (
-    <PageContainer witDate>
+    <PageContainer>
       <GoalsList />
     </PageContainer>
   );

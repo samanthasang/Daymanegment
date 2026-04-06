@@ -1,50 +1,60 @@
 "use client";
 import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
 import ListTitle from "@/components/mainPage/ListContainer/ListTitle.component";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import { selectHabbitList, Thabbit } from "@/modules/habbitList/habbit.slice";
-import { useEffect, useState } from "react";
+import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
+import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
+import { useState } from "react";
 import SelectedHabbitList from "../HabbitItem/SelectedHabbitList.component";
 import HabbitListCurrent from "./HabbitListCurrent.component";
 
 function HabbitList() {
-  const dispatch = useAppDispatch();
   const [forgot, setForgot] = useState(false);
+  const { isSX, isSMMin } = useMediaQueryValues();
 
-  const Habbit = useAppSelector((state) => state.habbitList);
-
-  const selectedHabbit = Habbit?.selectedhabbit as Thabbit;
-
-  const ListHabbit = UseHabbitList();
-  const ListHabbitAll = Habbit?.ListHabbit as Thabbit[];
-  const ListMyHabbit = ListHabbitAll.filter((a) => a.score > 9);
-  const ListHabbitForgot = ListHabbitAll.filter((a) => a.score <= 9);
-
-  useEffect(() => {
-    ListHabbit.length == 0 && dispatch(selectHabbitList(""));
-  }, [ListHabbit]);
+  const { ListHabbitNew, ListMyHabbit, selectedHabbit } = UseHabbitList();
 
   return (
     <div className="flex flex-row gap-x-3 flex-1 w-full mx-auto">
-      <ListContainer selectedID={!!selectedHabbit}>
-        <ListTitle
-          forgot={forgot}
-          setForgot={(f) => setForgot(f)}
-          title="Habbits"
-        />
-        {!forgot ? (
-          <HabbitListCurrent
-            ListHabbit={ListMyHabbit}
-            selectedID={selectedHabbit && selectedHabbit.id}
+      {((isSX && !selectedHabbit) || isSMMin) && (
+        <ListContainer selectedID={!!selectedHabbit}>
+          <ListTitle
+            forgot={forgot}
+            setForgot={(f) => setForgot(f)}
+            title="Habbits"
+            titleSec="New Habbits"
+            listCount={
+              ListMyHabbit.length > 0
+                ? ListMyHabbit?.filter(
+                    (todo) =>
+                      DayUnixFormat(+todo.completeUpdate, "DD") !=
+                      DayUnixFormatNow("DD")
+                  ).length
+                : undefined
+            }
+            secListCount={
+              ListHabbitNew.length > 0
+                ? ListHabbitNew?.filter(
+                    (todo) =>
+                      DayUnixFormat(+todo.completeUpdate, "DD") !=
+                      DayUnixFormatNow("DD")
+                  ).length
+                : undefined
+            }
           />
-        ) : (
-          <HabbitListCurrent
-            ListHabbit={ListHabbitForgot}
-            selectedID={selectedHabbit && selectedHabbit.id}
-          />
-        )}
-      </ListContainer>
+          {!forgot ? (
+            <HabbitListCurrent
+              ListHabbit={ListMyHabbit}
+              selectedID={selectedHabbit && selectedHabbit.id}
+            />
+          ) : (
+            <HabbitListCurrent
+              ListHabbit={ListHabbitNew}
+              selectedID={selectedHabbit && selectedHabbit.id}
+            />
+          )}
+        </ListContainer>
+      )}
       {selectedHabbit && <SelectedHabbitList />}
     </div>
   );

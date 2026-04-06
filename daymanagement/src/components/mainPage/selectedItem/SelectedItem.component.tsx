@@ -1,10 +1,9 @@
 import PeopleShareList from "@/components/Share/[peopleId]/ShareList/ShareList.component";
 import { AccountBalance, ShoppingCart } from "@/components/icons";
 import BasicSwitch from "@/components/ui/BasicSwitch";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import { TShare } from "@/modules/share/share.slice";
-import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import ListPriority from "../ListPriority/ListPriority.component";
 import ListCategorySelected from "../listCategorySelected/ListCategorySelected.component";
@@ -14,9 +13,7 @@ import SelectedInsstalmentsItem from "./SelectedInsstalmentsItem.component";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import SelectedItemReminder from "./SelectedItemReminder.component";
 import SelectedShareItem from "./SelectedShareItem.component";
-dayjs.extend(duration);
 
-const currentUnixTimestamp = dayjs().unix();
 export const SelectedItem = ({
   CompleteItemt,
   id,
@@ -30,6 +27,9 @@ export const SelectedItem = ({
   score,
   time,
   income,
+  total,
+  totalIncome,
+  totalOuCome,
   incomeAmount,
   numberOfProduct,
   priceOfProduct,
@@ -67,6 +67,9 @@ export const SelectedItem = ({
   income?: boolean;
   date?: string;
   time?: string;
+  total?: number;
+  totalIncome?: number;
+  totalOuCome?: number;
   diff?: duration.Duration;
   shareList?: TShare[];
   installmentstList?: TInstallmentst[];
@@ -80,27 +83,8 @@ export const SelectedItem = ({
   drawerType?: string;
   formType?: string;
 }) => {
-  const dispatch = useAppDispatch();
-  const {
-    ListShare,
-  }: {
-    ListShare: TShare[];
-  } = useAppSelector((state) => state.ShareList) || {};
-
-  const total = ListShare?.filter((share) => share.peopleId == id).reduce(
-    (acc, obj) => {
-      if (obj.income && obj.incomeAmount) {
-        return acc + +obj.incomeAmount;
-      }
-      if (!obj.income && obj.outcomeAmount) {
-        return acc - +obj.outcomeAmount;
-      }
-      return acc;
-    },
-    0
-  );
   return (
-    <div className="w-full h-fit flex flex-col justify-start items-start p-3 gap-y-3 scroll-m-0 overflow-y-scroll">
+    <div className="w-full flex-1 flex flex-col justify-start items-start gap-y-3 scroll-m-0 overflow-y-scroll">
       <SelectedItemContainer title="Title" description={title} />
       {priority && (
         <SelectedItemContainer title="Priority">
@@ -113,23 +97,40 @@ export const SelectedItem = ({
       {startDate && (
         <SelectedItemContainer
           title="Start Date"
-          description={dayjs(dayjs.unix(Number(startDate))).format(
-            "YYYY-MM-DD"
-          )}
+          description={DayUnixFormat(+startDate, "YYYY-MM-DD")}
         />
       )}
       {lastUpdate && (
         <SelectedItemContainer
           title="Last Update"
-          description={dayjs(dayjs.unix(Number(lastUpdate))).format(
-            "YYYY-MM-DD"
-          )}
+          description={DayUnixFormat(+lastUpdate, "YYYY-MM-DD")}
+        />
+      )}
+      {drawerType == "PeopleList" && (totalIncome || totalIncome == 0) && (
+        <SelectedItemContainer
+          title="Income Amount"
+          className={`${totalIncome && "text-success"}`}
+          description={(!!totalIncome && totalIncome.toString()) || "0"}
+        />
+      )}
+      {drawerType == "PeopleList" && (totalOuCome || totalOuCome == 0) && (
+        <SelectedItemContainer
+          title="Outcome Amount"
+          className={`${totalOuCome && "text-red-600"}`}
+          description={(!!totalOuCome && totalOuCome.toString()) || "0"}
+        />
+      )}
+      {drawerType == "PeopleList" && (total || total == 0) && (
+        <SelectedItemContainer
+          title="Total Amount"
+          className={`${total > 0 ? "text-success" : "text-red-600"}`}
+          description={total.toString()}
         />
       )}
       {drawerType == "SpendsList" && (total || total == 0) && (
         <SelectedItemContainer
           title="Payment Amount"
-          className={`${total > 0 ? "text-green-500" : "text-red-600"}`}
+          className={`${total > 0 ? "text-success" : "text-red-600"}`}
           description={total.toString()}
         />
       )}
@@ -144,20 +145,20 @@ export const SelectedItem = ({
       {date && (
         <SelectedItemContainer
           title="Do Date"
-          description={dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
+          description={DayUnixFormat(+date, "YYYY-MM-DD")}
         />
       )}
-      {time && (
+      {time && date && (
         <SelectedItemContainer
           title="Do Time"
-          description={dayjs(dayjs.unix(Number(date))).format("hh:mm")}
+          description={DayUnixFormat(+date, "hh:mm")}
         />
       )}
       {drawerType == "GoalsList" && (
         <SelectedItemContainer title="Score">
           <label
             className={`${
-              score && score > 4 ? "text-green-500" : "text-red-600"
+              score && score > 4 ? "text-success" : "text-red-600"
             }`}
           >
             {score}
@@ -173,7 +174,7 @@ export const SelectedItem = ({
         <SelectedItemContainer title="Score">
           <label
             className={`${
-              score && score > 6 ? "text-green-500" : "text-red-600"
+              score && score > 6 ? "text-success" : "text-red-600"
             }`}
           >
             {score}
@@ -184,7 +185,7 @@ export const SelectedItem = ({
         <SelectedItemContainer title="Score">
           <label
             className={`${
-              score && score > 15 ? "text-green-500" : "text-red-600"
+              score && score > 15 ? "text-success" : "text-red-600"
             }`}
           >
             {score}
@@ -204,8 +205,7 @@ export const SelectedItem = ({
             title={title}
             isfinished={isComplete || false}
             isComplete={
-              dayjs(dayjs.unix(Number(date))).format("DD") >
-              dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
+              !!date && DayUnixFormat(+date, "DD") > DayUnixFormatNow("DD")
             }
           />
         </SelectedItemContainer>
@@ -287,7 +287,7 @@ export const SelectedItem = ({
           className={
             +paymentCompleteValue - +advancePayment > 0
               ? "text-red-500"
-              : "text-green-500"
+              : "text-success"
           }
           description={advancePayment}
         />
@@ -295,7 +295,7 @@ export const SelectedItem = ({
       {incomeAmount && (
         <SelectedItemContainer
           title="Income Amount"
-          className="text-green-500"
+          className="text-success"
           description={incomeAmount}
         />
       )}

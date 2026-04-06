@@ -5,6 +5,7 @@ import {
   delReminderList,
   selectReminderList,
   TReminder,
+  updateTimeReminderList,
 } from "@/modules/reminderList/reminder.slice";
 
 import { toast } from "react-toastify";
@@ -32,7 +33,18 @@ function ReminderListActivities() {
     id && selectedselectedReminder && dispatch(selectReminderList(id));
     toast(`${title} is updated`);
   };
-  return { CompleteItemt, DelItem, SelectWithId, SelectItem };
+  const UpdateTimeReminderList = (id: string, title: string) => {
+    dispatch(updateTimeReminderList(id));
+    SelectItem();
+    toast(`${title} is updated`);
+  };
+  return {
+    UpdateTimeReminderList,
+    CompleteItemt,
+    DelItem,
+    SelectWithId,
+    SelectItem,
+  };
 }
 
 export default ReminderListActivities;

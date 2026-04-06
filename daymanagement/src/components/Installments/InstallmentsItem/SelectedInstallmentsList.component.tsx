@@ -1,17 +1,13 @@
 "use client";
 import SelectedItem from "@/components/mainPage/selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "@/components/mainPage/selectedItem/SelectedMenuBottom.component";
-import { useAppSelector } from "@/lib/hook";
 import InstallmentsListActivities from "@/lib/Hooks/Lists/Installments/InstallmentsListActivities.component";
-import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
+import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
 
 function SelectedInstallmentsList() {
-  const Installmentst = useAppSelector((state) => state.InstallmentstList);
-
   const { CompleteItemt, DelItem, SelectItem } = InstallmentsListActivities();
 
-  const selectedInstallmentstList =
-    Installmentst?.selectedInstallmentst as TInstallmentsts;
+  const { selectedInstallmentstList } = useInstallmentsList();
 
   return (
     <div className="flex flex-col w-full flex-1 bg-secondary rounded-2xl relative">

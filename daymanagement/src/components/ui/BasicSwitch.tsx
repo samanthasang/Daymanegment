@@ -16,15 +16,17 @@ const BasicSwitch = ({ checked, handleToggle, label, labelSx }: Props) => {
       sx={{
         cursor: "pointer",
         width: "fit-content",
+        paddingX: "5px",
       }}
     >
       <Box
         sx={{
           display: "inline-flex",
+          justifyContent: "center",
           alignItems: "center",
-          width: "28px",
-          height: "16px",
-          backgroundColor: checked ? "#07C307" : "#A8A8A8",
+          width: "24px",
+          height: "8px",
+          backgroundColor: checked ? "#499BF0" : "#A8A8A8",
           borderRadius: "100px",
           padding: "5px",
           position: "relative",
@@ -34,10 +36,10 @@ const BasicSwitch = ({ checked, handleToggle, label, labelSx }: Props) => {
         <Box
           sx={{
             position: "absolute",
-            top: "2px",
-            left: checked ? "14px" : "2px",
-            width: "12px",
-            height: "12px",
+            top: "-3px",
+            left: checked ? "18px" : "-6px",
+            width: "16px",
+            height: "16px",
             borderRadius: "50%",
             backgroundColor: "#fff",
             transition: "left 0.3s ease",

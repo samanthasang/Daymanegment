@@ -7,6 +7,7 @@ import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -16,9 +17,6 @@ import {
   setGoalList,
   updateGoalList,
 } from "../../../modules/goalsList/goals.slice";
-import dayjs from "dayjs";
-
-const currentUnixTimestamp = dayjs().unix();
 
 interface IFormInputs {
   title: string;
@@ -31,8 +29,10 @@ interface IFormInputs {
 
 export default function FormGoals({
   onSubmitForm,
+  formType,
 }: {
   onSubmitForm: () => void;
+  formType: string;
 }) {
   const [date, setDate] = useState<Date>();
 
@@ -72,7 +72,7 @@ export default function FormGoals({
   const { selectedGoal }: any = useAppSelector((state) => state.Goals) || {};
 
   useEffect(() => {
-    if (selectedGoal) {
+    if (formType.split(" ")[0] == "Edit" && selectedGoal) {
       setValue("title", selectedGoal?.title);
       setValue("priority", selectedGoal.priority);
       setValue("category", selectedGoal.category);
@@ -93,20 +93,6 @@ export default function FormGoals({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(dayjs.unix(Number(currentUnixTimestamp)));
-    console.log(date);
-    console.log(data.date);
-    console.log(dayjs.unix(Number(date)));
-
-    console.log(
-      dayjs.unix(currentUnixTimestamp).diff(dayjs.unix(Number(date)), "day")
-    );
-    console.log(
-      dayjs
-        .unix(currentUnixTimestamp)
-        .diff(dayjs.unix(Number(data.date)), "day")
-    );
-
     selectedGoal?.title
       ? dispatch(
           updateGoalList({
@@ -118,10 +104,7 @@ export default function FormGoals({
             priority: data.priority,
             category: data.category,
             tag: data.tag,
-            score:
-              dayjs
-                .unix(Number(data.date))
-                .diff(dayjs.unix(currentUnixTimestamp), "day") || 0,
+            score: DayUnixDiff(Number(data.date), "day"),
           })
         )
       : dispatch(
@@ -134,10 +117,7 @@ export default function FormGoals({
             priority: data.priority,
             category: data.category,
             tag: data.tag,
-            score:
-              dayjs
-                .unix(Number(data.date))
-                .diff(dayjs.unix(currentUnixTimestamp), "day") || 0,
+            score: DayUnixDiff(Number(data.date), "day"),
           })
         );
     dispatch(selectGoalList(""));
@@ -152,141 +132,119 @@ export default function FormGoals({
   };
 
   return (
-    <div className="col-span-1 w-auto">
-      <div className="flex flex-row gap-2 w-auto">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
-        >
-          <div className="flex flex-col sm:flex-row w-full gap-x-4">
-            <div className="w-1/2 min-w-60 flex flex-col gap-y-4">
-              <Controller
-                defaultValue={""}
-                name="title"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <InputField
-                    title="Title"
-                    type="string"
-                    placeholder="Enter Task Name"
-                    disabled={!!errors.title?.message}
-                    required
-                    {...field}
-                  />
-                )}
-              />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col w-full gap-4"
+    >
+      <Controller
+        defaultValue={""}
+        name="title"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <InputField
+            title="Title"
+            type="string"
+            placeholder="Enter Task Name"
+            disabled={!!errors.title?.message}
+            required
+            {...field}
+          />
+        )}
+      />
 
-              <ClendarButtonGroup
-                dateValue={date}
-                errors={!date && !!errors.date?.message}
-                // description={errors.category?.message}
-              >
-                <Controller
-                  name="date"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <CalendarDialog
-                      required
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                      title="a"
-                      dateValue={date}
-                      setDate={setDate}
-                    />
-                  )}
-                />
-              </ClendarButtonGroup>
-
-              <Controller
-                defaultValue={""}
-                name="priority"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <SelectField
-                    title="Priority"
-                    placeholder="Choose Priority"
-                    required
-                    invalid={!field.value && !!errors.priority?.message}
-                    itemArray={[
-                      { id: "High", title: "High" },
-                      { id: "Medium", title: "Medium" },
-                      { id: "Low", title: "Low" },
-                    ]}
-                    onValueChange={(data) => data && handlePriority(data)}
-                    {...field}
-                    value={field.value}
-                    className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
-                    {...register("priority")}
-                  />
-                )}
-              />
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="category"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <CategotySelectComponent
-                        required
-                        errors={!field.value && !!errors.category?.message}
-                        description={errors.category?.message}
-                        onValueChange={handleCategory}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="tag"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <TagSelectComponent
-                        required
-                        errors={!field.value && !!errors.tag?.message}
-                        description={errors.tag?.message}
-                        onValueChange={handleTag}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {!selectedGoal?.title && (
-            <Button type="submit" variant="default">
-              submit
-            </Button>
+      <ClendarButtonGroup
+        dateValue={date}
+        errors={!date && !!errors.date?.message}
+      >
+        <Controller
+          name="date"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <CalendarDialog
+              required
+              mode="single"
+              selected={date}
+              month={date}
+              onSelect={setDate}
+              className=" border-white rounded py-1"
+              captionLayout="dropdown"
+              title="a"
+              dateValue={date}
+              setDate={setDate}
+            />
           )}
+        />
+      </ClendarButtonGroup>
 
-          {selectedGoal?.title && (
-            <div className="flex gap-4">
-              <Button onClick={() => onReset()} type="button" variant="default">
-                reset
-              </Button>
-              <Button type="submit" variant="default">
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
+      <Controller
+        defaultValue={""}
+        name="priority"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <SelectField
+            title="Priority"
+            placeholder="Choose Priority"
+            required
+            invalid={!field.value && !!errors.priority?.message}
+            itemArray={[
+              { id: "High", title: "High" },
+              { id: "Medium", title: "Medium" },
+              { id: "Low", title: "Low" },
+            ]}
+            onValueChange={(data) => data && handlePriority(data)}
+            {...field}
+            value={field.value}
+            className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+            {...register("priority")}
+          />
+        )}
+      />
+
+      <Controller
+        defaultValue={""}
+        name="category"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <CategotySelectComponent
+            required
+            errors={!field.value && !!errors.category?.message}
+            description={errors.category?.message}
+            onValueChange={handleCategory}
+            value={field.value}
+          />
+        )}
+      />
+
+      <Controller
+        defaultValue={""}
+        name="tag"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TagSelectComponent
+            required
+            errors={!field.value && !!errors.tag?.message}
+            description={errors.tag?.message}
+            onValueChange={handleTag}
+            value={field.value}
+          />
+        )}
+      />
+
+      <div className="flex gap-4">
+        {selectedGoal?.title && (
+          <Button onClick={() => onReset()} type="button">
+            reset
+          </Button>
+        )}
+        <Button type="submit" variant="default">
+          submit
+        </Button>
       </div>
-    </div>
+    </form>
   );
 }

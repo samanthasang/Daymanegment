@@ -1,23 +1,17 @@
 "use client";
+import SelectedContainer from "@/components/mainPage/selectedItem/SelectedContainer.component";
 import SelectedItem from "@/components/mainPage/selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "@/components/mainPage/selectedItem/SelectedMenuBottom.component";
-import { useAppSelector } from "@/lib/hook";
 import ReminderListActivities from "@/lib/Hooks/Lists/Reminder/ReminderListActivities.component";
-import {
-  TReminder
-} from "@/modules/reminderList/reminder.slice";
+import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 
 function SelectedReminderList() {
+  const { CompleteItemt, DelItem, SelectItem } = ReminderListActivities();
 
-  const Reminder = useAppSelector((state) => state.reminder);
-
-  const { CompleteItemt, DelItem, SelectItem } =
-    ReminderListActivities();
-
-  const selectedReminder = Reminder?.selectedReminder as TReminder;
+  const { selectedReminder } = useReminderList();
 
   return (
-    <div className="flex flex-col w-full flex-1 bg-secondary rounded-2xl relative">
+    <SelectedContainer>
       <SelectedItem
         drawerType="ReminderList"
         CompleteItemt={() =>
@@ -35,7 +29,7 @@ function SelectedReminderList() {
         formType="Edit Reminder"
         selectedIsComplete={selectedReminder.isComplete}
       />
-    </div>
+    </SelectedContainer>
   );
 }
 

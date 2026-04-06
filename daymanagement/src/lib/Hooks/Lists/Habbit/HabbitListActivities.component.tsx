@@ -1,19 +1,17 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import {
   completeHabbitList,
   delHabbitList,
-  selectHabbitList,
+  selectHabbitList
 } from "@/modules/habbitList/habbit.slice";
-import { TToDo } from "@/modules/toDoList/todo.slice";
 import { toast } from "react-toastify";
+import UseHabbitList from "./UseHabbitList.component";
 
 function SelectHabbitListActivities() {
   const dispatch = useAppDispatch();
 
-  const Habbit = useAppSelector((state) => state.habbitList);
-
-  const selectedhabbit = Habbit?.selectedhabbit as TToDo;
+  const { selectedHabbit } = UseHabbitList();
 
   const SelectItem = () => {
     dispatch(selectHabbitList(""));
@@ -22,13 +20,13 @@ function SelectHabbitListActivities() {
     dispatch(selectHabbitList(id));
   };
   const DelItem = () => {
-    dispatch(delHabbitList(selectedhabbit.id));
+    dispatch(delHabbitList(selectedHabbit.id));
     SelectItem();
-    toast(`${selectedhabbit.title} is deleted`);
+    toast(`${selectedHabbit.title} is deleted`);
   };
   const CompleteItemt = (id: string, title: string) => {
     dispatch(completeHabbitList(id));
-    id && selectedhabbit && dispatch(selectHabbitList(id));
+    id && selectedHabbit && dispatch(selectHabbitList(id));
     toast(`${title} is updated`);
   };
   return { CompleteItemt, DelItem, SelectWithId, SelectItem };

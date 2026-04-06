@@ -11,25 +11,23 @@ import {
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
+import {
+  DayUnixDiff,
+  DayUnixFormat,
+  DayUnixFormatNow,
+} from "@/lib/Hooks/UseDayJS";
+import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";
+import { changeFilterStatuse } from "@/modules/menu/menu.slice";
 import { selectPeopleList } from "@/modules/people/PeopleList.slice";
-import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import ListPriority from "../ListPriority/ListPriority.component";
 import ListCategorySelected from "../listCategorySelected/ListCategorySelected.component";
 import ListTagSelected from "../listTagSelected/ListTagSelected.component";
 import ListItemShare from "./ListItemShareItem.component";
 import ListItemTimeDiff from "./ListItemTimeDiff.component";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-const currentUnixTimestamp = dayjs().unix();
+import SwitchComponent from "@/components/FormItem/SwitchComponent";
 
 export const ListItem = ({
   id,
@@ -80,31 +78,36 @@ export const ListItem = ({
   CompleteItemt?: () => void;
   UpdateItem?: () => void;
 }) => {
+  const dispatch = useAppDispatch();
   const { OpenFilter } = useAppSelector((state) => state.Menu);
 
-  const dispatch = useAppDispatch();
+  const { isSX, isMDMax, isSMMin, isLGMin, isLGMax } = useMediaQueryValues();
+  const showDetails =
+    isSX ||
+    (isSMMin && isMDMax && !selectedID) ||
+    (isLGMin && (!OpenFilter || !selectedID));
+
   return (
     <div
       onClick={() => {
+        isLGMax && OpenFilter && dispatch(changeFilterStatuse());
         id && SelectItem && SelectItem();
       }}
       className={cn(
-        "w-full h-fit cursor-pointer flex flex-row gap-y-2 justify-center items-center p-3 rounded-3xl hover:bg-primary",
-        selectedID == id ? "bg-primary" : ""
+        "w-full h-fit cursor-pointer flex flex-row gap-y-2 justify-center items-center p-3 rounded-3xl hover:bg-card/15",
+        selectedID == id ? "bg-card/15" : "bg-secondary"
       )}
     >
       <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
         <div className="select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
-          <label
-            className={`cursor-pointer flex justify-center items-center gap-2`}
-          >
+          <label className={`h-8 flex justify-center items-center gap-2`}>
             {priority && <ListPriority priority={priority} />}
             {incomeAmount && <AccountBalance />}
             {priceOfProduct && <ShoppingCart />}
             {title || ""}
           </label>
         </div>
-        {category && tag && (
+        {(category || tag) && (
           <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
             {category && <ListCategorySelected category={category} />}
             {tag && <ListTagSelected tag={tag} />}
@@ -114,7 +117,7 @@ export const ListItem = ({
           <ListItemShare peopleId={id} />
         )}
       </div>
-      {(!OpenFilter || !!!selectedID) && (
+      {showDetails && (
         <div className="flex flex-col w-fit gap-y-1 justify-end items-end">
           <div className="flex flex-row gap-x-2 items-center">
             {withDel && DelItem && (
@@ -127,7 +130,7 @@ export const ListItem = ({
                     !isComplete &&
                     DelItem();
                 }}
-                className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
+                className={`flex justify-center items-center h-8 w-8 flex-1 rounded-full hover:bg-error cursor-pointer`}
               >
                 <Trash />
               </div>
@@ -145,7 +148,7 @@ export const ListItem = ({
                     }}
                     variant="outline"
                     className={
-                      "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
+                      "h-10 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
                     }
                   >
                     <Edit />
@@ -176,10 +179,8 @@ export const ListItem = ({
                     }}
                   >
                     {insstallmentIsComplete ||
-                    dayjs(dayjs.unix(Number(date))).format("DD") >
-                      dayjs(dayjs.unix(Number(currentUnixTimestamp))).format(
-                        "DD"
-                      ) ? (
+                    (date &&
+                      DayUnixFormat(+date, "DD") > DayUnixFormatNow("DD")) ? (
                       <CheckCircle />
                     ) : (
                       <Done />
@@ -198,6 +199,13 @@ export const ListItem = ({
                     label=""
                     key={"isComplete"}
                   />
+                  // <SwitchComponent
+                  //   ChangeStatus={CompleteItemt}
+                  //   checkStatus={isComplete}
+                  //   className="h-8 w-8 min-w-8"
+                  // >
+                  //   <Done />
+                  // </SwitchComponent>
                 )
               ))}
           </div>
@@ -205,13 +213,11 @@ export const ListItem = ({
             <label
               className={cn(
                 `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-                score && (score > 5 ? "bg-green-500/15" : "bg-red-600/15")
+                score && (score > 5 ? "bg-success" : "bg-error")
               )}
             >
-              {drawerType == "GoalsList" &&
-                !isComplete &&
-                dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
-              {drawerType == "GoalsList" && !isComplete && ` | `}
+              {!isComplete && date && DayUnixFormat(+date, "MM-DD")}
+              {!isComplete && ` | `}
               {score && score}
             </label>
           )}
@@ -223,8 +229,8 @@ export const ListItem = ({
                   (score == 0
                     ? "bg-white/80"
                     : score > 6
-                      ? "bg-green-500/15"
-                      : "bg-red-600/15")
+                      ? "bg-success"
+                      : "bg-error")
               )}
             >
               {score && score}
@@ -236,45 +242,37 @@ export const ListItem = ({
                 `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
                 date
                   ? "bg-white/15"
-                  : date &&
-                      dayjs
-                        .unix(+date)
-                        .diff(dayjs.unix(currentUnixTimestamp), "day") > 10
-                    ? "bg-green-500/15"
-                    : "bg-red-600/15",
-                incomeAmount && "bg-green-500/15",
-                priceOfProduct && "bg-red-500/15"
+                  : date && DayUnixDiff(+date, "day") > 10
+                    ? "bg-success"
+                    : "bg-error",
+                incomeAmount && "bg-success",
+                priceOfProduct && "bg-error"
               )}
             >
-              {date && dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD HH:mm")}
+              {date && DayUnixFormat(+date, "MM-DD HH:mm")}
             </label>
           )}
           {drawerType == "PeopleList" && hasShare && (
             <label
               className={cn(
                 "cursor-pointer px-2 py-1 rounded-2xl",
-                !total
-                  ? "bg-white/15"
-                  : total > 0
-                    ? "bg-green-500/15"
-                    : "bg-red-500/15"
+                !total ? "bg-white/15" : total > 0 ? "bg-success" : "bg-error"
               )}
             >
               {total}
             </label>
           )}
-          {incomeAmount && priceOfProduct && (
+          {(incomeAmount || priceOfProduct) && (
             <label
               className={cn(
                 `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-                incomeAmount && "bg-green-500/15",
-                priceOfProduct && "bg-red-500/15"
+                incomeAmount && "bg-success",
+                priceOfProduct && "bg-error"
               )}
             >
-              {date && dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
+              {date && DayUnixFormat(+date, "MM-DD")}
               {(incomeAmount || priceOfProduct) && ` | `}
-              {incomeAmount ||
-                (priceOfProduct && `${incomeAmount || priceOfProduct}`)}
+              {`${incomeAmount || priceOfProduct}`}
             </label>
           )}
           {drawerType == "TimerList" && !isComplete && date && (
@@ -296,24 +294,18 @@ export const ListItem = ({
           {drawerType !== "HabbitList" &&
             drawerType !== "VisitsList" &&
             drawerType !== "GoalsList" &&
+            drawerType != "SpendsList" &&
             drawerType != "TimerList" &&
             date && (
               <label
                 className={cn(
                   `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-                  date
-                    ? "bg-white/15"
-                    : date &&
-                        dayjs
-                          .unix(+date)
-                          .diff(dayjs.unix(currentUnixTimestamp), "day") > 10
-                      ? "bg-green-500/15"
-                      : "bg-red-600/15",
-                  incomeAmount && "bg-green-500/15",
-                  priceOfProduct && "bg-red-500/15"
+                  date && DayUnixDiff(+date, "day") > -1
+                    ? "bg-success"
+                    : "bg-error"
                 )}
               >
-                {date && dayjs(dayjs.unix(Number(date))).format("YYYY-MM-DD")}
+                {date && DayUnixFormat(+date, "MM-DD")}
               </label>
             )}
         </div>

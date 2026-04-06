@@ -1,26 +1,15 @@
 "use client";
-import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
+import MenuItems from "@/components/mainPage/MenuItems/MenuItems.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 
-function HomeSpendsItem({
-  pathname,
-  OpenMenu,
-}: {
-  pathname: string;
-  OpenMenu: boolean;
-}) {
-  const ListSpends = useSpendsList();
+function HomeSpendsItem() {
+  const { ListSpendsFiltered } = useSpendsList();
 
   return (
     <MenuItems
       href={"/spends"}
       tilte="Spends"
-      className={pathname && pathname.startsWith("/spends") ? "bg-primary" : ""}
-      infoNumber={
-        OpenMenu
-          ? `${ListSpends?.filter((spends) => spends.income == true).length} | ${ListSpends?.filter((spends) => spends.income != true).length}`
-          : ""
-      }
+      infoNumber={`${ListSpendsFiltered?.filter((spends) => spends.income == true).length} | ${ListSpendsFiltered?.filter((spends) => spends.income != true).length}`}
     />
   );
 }

@@ -55,7 +55,6 @@ function Header() {
 
   const handleChangeRout = (rout: string) => {
     router.push(`/${rout.toLowerCase()}`);
-    console.log(rout);
   };
   return (
     <AppBar position="static" className="!bg-background h-14 sm:h-16">

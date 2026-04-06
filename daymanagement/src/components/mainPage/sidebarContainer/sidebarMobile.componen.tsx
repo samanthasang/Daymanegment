@@ -22,7 +22,7 @@ function SidebarMobile({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className={"flex-1 h-12 bg-transparent border-none"}
+            className={"flex-1 h-10 bg-transparent border-none"}
           >
             <Filter />
           </Button>
@@ -32,7 +32,7 @@ function SidebarMobile({
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className={"flex-1 h-12 bg-transparent border-none"}
+            className={"flex-1 h-10 bg-transparent border-none"}
           >
             <AddTask />
           </Button>
@@ -40,7 +40,7 @@ function SidebarMobile({
       </DrawerDialogDemo>
       <Button
         variant="outline"
-        className={"flex-1 h-12 bg-transparent border-none"}
+        className={"flex-1 h-10 bg-transparent border-none"}
       >
         <Home />
       </Button>

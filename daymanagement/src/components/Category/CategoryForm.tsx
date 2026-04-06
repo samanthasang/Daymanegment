@@ -29,7 +29,6 @@ export default function CategoryForm({
 
   useEffect(() => {
     if (selectedCategory && selectedCategory.id) {
-      console.log(selectedCategory);
       setValue("category", selectedCategory?.title);
     }
   }, [selectedCategory]);
@@ -50,21 +49,18 @@ export default function CategoryForm({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-    console.log(errors);
-
+  const onSubmit = () => {
     selectedCategory?.title
       ? dispatch(
           updateCategoryList({
             id: selectedCategory.id,
-            title: data.category,
+            title: getValues("category"),
           })
         )
       : dispatch(
           setCategoryList({
             id: "",
-            title: data.category,
+            title: getValues("category"),
           })
         );
     dispatch(selectCategoryList(""));
@@ -73,57 +69,47 @@ export default function CategoryForm({
   };
 
   const onReset = () => {
-    console.log("reset");
-
     dispatch(selectCategoryList(""));
     reset();
   };
   return (
-    <div className="col-span-1">
-      <div className="flex flex-col gap-2 ">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
-        >
-          <Controller
-            defaultValue={""}
-            name="category"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <InputField
-                title="Title"
-                type="string"
-                placeholder="Enter Name"
-                disabled={!!errors.category?.message}
-                required
-                {...field}
-              />
-            )}
-          />
-          {!selectedCategory?.title && (
-            <Button type="submit" variant="default">
-              submit
+    <div className="flex flex-col gap-2 ">
+      <form
+        // onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-full gap-4"
+      >
+        <Controller
+          defaultValue={""}
+          name="category"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <InputField
+              title="Title"
+              type="string"
+              placeholder="Enter Name"
+              disabled={!!errors.category?.message}
+              required
+              {...field}
+            />
+          )}
+        />
+        <div className="flex gap-4">
+          {selectedCategory?.title && (
+            <Button onClick={() => onReset()} type="button" variant="secondary">
+              reset
             </Button>
           )}
+          <Button type="button" variant="default" onClick={() => onSubmit()}>
+            submit
+          </Button>
+        </div>
+      </form>
 
-          {selectedCategory?.title && (
-            <div className="flex gap-4">
-              <Button onClick={() => onReset()} type="button" variant="default">
-                reset
-              </Button>
-              <Button type="submit" variant="default">
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
-
-        {ListCategory &&
-          ListCategory?.map((li: TCategory) => (
-            <CategoryList key={li.id} item={li} />
-          ))}
-      </div>
+      {ListCategory &&
+        ListCategory?.map((li: TCategory) => (
+          <CategoryList key={li.id} item={li} />
+        ))}
     </div>
   );
 }

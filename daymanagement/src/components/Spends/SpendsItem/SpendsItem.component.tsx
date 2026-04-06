@@ -1,21 +1,7 @@
 "use client";
 import ListItem from "@/components/mainPage/listItem/ListItem.component";
-import { useAppDispatch } from "@/lib/hook";
-import {
-  delSpendsList,
-  selectSpendsList,
-  TSpends,
-} from "@/modules/spends/spends.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-import { toast } from "react-toastify";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import SpendsListActivities from "@/lib/Hooks/Lists/Spends/SpendsListActivities.component";
+import { TSpends } from "@/modules/spends/spends.slice";
 
 export const SpendsItem = ({
   item,
@@ -24,18 +10,7 @@ export const SpendsItem = ({
   item: TSpends;
   selectedID?: string;
 }) => {
-  const dispatch = useAppDispatch();
-
-  const SelectToDoList = () => {
-    dispatch(selectSpendsList(item.id));
-  };
-  const DelToDoList = () => {
-    dispatch(delSpendsList(item.id));
-    toast(`${item.title} is deleted`);
-  };
-  const CompleteToDoList = () => {
-    toast(`${item.title} is completed`);
-  };
+  const { DelItem, SelectWithId } = SpendsListActivities();
 
   return (
     <ListItem
@@ -50,9 +25,8 @@ export const SpendsItem = ({
       drawerType="SpendsList"
       formType="Add Todo"
       selectedID={selectedID}
-      SelectItem={SelectToDoList}
-      DelItem={DelToDoList}
-      CompleteItemt={CompleteToDoList}
+      SelectItem={() => SelectWithId(item.id)}
+      DelItem={DelItem}
     />
   );
 };

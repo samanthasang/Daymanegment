@@ -41,7 +41,6 @@ export default function PeopleForm({
       selectedPeople &&
       selectedPeople.id
     ) {
-      console.log(selectedPeople);
       setValue("title", selectedPeople?.title);
     }
   }, [selectedPeople, ListPeople]);
@@ -73,8 +72,6 @@ export default function PeopleForm({
   );
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-
     selectedPeople?.title
       ? dispatch(
           updatePeopleList({
@@ -94,62 +91,63 @@ export default function PeopleForm({
   };
 
   const onReset = () => {
-    console.log("reset");
-
     dispatch(selectPeopleList(""));
     reset();
   };
+
   return (
     <div className="col-span-1">
-      <div className="flex flex-col gap-2 ">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
-        >
-          <Controller
-            defaultValue={""}
-            name="title"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <InputField
-                title="Title"
-                type="string"
-                placeholder="Enter Name"
-                disabled={!!errors.title?.message}
-                required
-                {...field}
-              />
-            )}
-          />
-          {!selectedPeople?.title && (
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col w-full gap-4"
+      >
+        <div className="flex flex-col sm:flex-row w-full gap-x-4">
+          <div className="w-full min-w-60 flex flex-col gap-y-4">
+            <Controller
+              defaultValue={""}
+              name="title"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <InputField
+                  title="Title"
+                  type="string"
+                  placeholder="Enter Name"
+                  disabled={!!errors.title?.message}
+                  required
+                  {...field}
+                />
+              )}
+            />
+          </div>
+        </div>
+        {!selectedPeople?.title && (
+          <Button type="submit" variant="default">
+            submit
+          </Button>
+        )}
+
+        {selectedPeople?.title && (
+          <div className="flex gap-4">
+            <Button onClick={() => onReset()} type="button" variant="secondary">
+              reset
+            </Button>
             <Button type="submit" variant="default">
               submit
             </Button>
-          )}
-
-          {selectedPeople?.title && (
-            <div className="flex gap-4">
-              <Button onClick={() => onReset()} type="button" variant="default">
-                reset
-              </Button>
-              <Button type="submit" variant="default">
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
-        <div
-          className={cn(
-            "relative flex flex-col h-[40vh] w-full mx-auto gap-y-4 ",
-            peopleFilter.length > 5 ? "overflow-y-scroll" : ""
-          )}
-        >
-          {peopleFilter &&
-            peopleFilter?.map((li: TPeople) => (
-              <PeopleItem key={li.id} item={li} />
-            ))}
-        </div>
+          </div>
+        )}
+      </form>
+      <div
+        className={cn(
+          "relative flex flex-col max-h-[40vh] h-fit w-full mx-auto gap-y-4 mt-4 ",
+          peopleFilter.length > 5 ? "overflow-y-scroll" : ""
+        )}
+      >
+        {peopleFilter &&
+          peopleFilter?.map((li: TPeople) => (
+            <PeopleItem key={li.id} item={li} />
+          ))}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 "use client";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import { Edit, Trash } from "@/components/icons";
-import SelectedItemContainer from "@/components/mainPage/selectedItem/SelectedItemContainer.component";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
@@ -20,8 +19,8 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import ShareItemVisit from "./ShareItemVisit.componen";
 import ShareItemSpends from "./ShareItemSpends.component";
+import ShareItemVisit from "./ShareItemVisit.componen";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -43,9 +42,6 @@ export const ShareItem = ({ item }: { item: TShare }) => {
         id: "",
         title: "",
       };
-
-  console.log(ListPeople);
-  console.log(peopleSelected);
 
   const {
     ListCategory,
@@ -144,7 +140,7 @@ export const ShareItem = ({ item }: { item: TShare }) => {
           </div>
 
           <label
-            className={`cursor-pointer px-2 py-1 rounded-2xl ${item.income ? "bg-green-500/15" : "bg-red-600/15"}`}
+            className={`cursor-pointer px-2 py-1 rounded-2xl ${item.income ? "bg-success" : "bg-error"}`}
           >
             {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")} |{" "}
             {`${item.incomeAmount || item.outcomeAmount}`}

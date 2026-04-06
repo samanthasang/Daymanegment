@@ -1,97 +1,36 @@
 "use client";
 import { useAppSelector } from "@/lib/hook";
 import { TGoals } from "@/modules/goalsList/goals.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import CategoryFilter from "../../Filters/CategoryFilter.componen";
+import DateFromFilter from "../../Filters/DateFromFilter";
+import DateToFilter from "../../Filters/DateToFilter";
+import TagFilter from "../../Filters/TagFilter.componen";
+import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useGoalsList() {
-  const {
-    ListTGoals,
-  }: {
-    ListTGoals: TGoals[];
-    selectedGoal: {};
-  } = useAppSelector((state) => state.Goals) || [];
+  const Goal = useAppSelector((state) => state.Goals);
 
-  const searchParams = useSearchParams();
+  const selectedGoal = Goal?.selectedGoal as TGoals;
+  const ListGoals = Goal?.ListTGoals as TGoals[];
 
-  const dateFrom = searchParams.get("dateFrom");
-  const hasdateFrom = searchParams.has("dateFrom");
-  const dateTo = searchParams.get("dateTo");
-  const hasdateTo = searchParams.has("dateTo");
-  const categorySearch = searchParams.get("category");
-  const hasCategorySearch = searchParams.has("category");
-  const tagSearch = searchParams.get("tag");
-  const hasTagSearch = searchParams.has("tag");
-  const fromTodayNow = new Date().setHours(0, 0, 0, 0);
+  const dateFromArray = DateFromFilter([...ListGoals] as any);
 
-  const [listAfterFilter, setListAfterFilter] = useState<TGoals[]>(ListTGoals);
+  const dateToArray = DateToFilter([...dateFromArray] as any);
 
-  useEffect(() => {
-    const filterdList = () => {
-      const fromDay = hasdateFrom
-        ? dateFrom
-        : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString();
-      const toDay = hasdateTo
-        ? dateTo
-        : Math.floor(new Date(fromTodayNow).getTime() / 1000.0).toString();
-      let filterArrayDay = ListTGoals || [];
-      if (hasdateTo && hasdateFrom && fromDay) {
-        if (toDay) {
-          filterArrayDay = ListTGoals.filter(
-            (list) => list.date >= fromDay && list.date <= toDay
-          );
-        }
-      }
-      if (fromDay && toDay && fromDay == toDay) {
-        filterArrayDay = ListTGoals.filter((list) => list.date >= fromDay);
-      }
-      if (fromDay && toDay && fromDay != toDay) {
-        filterArrayDay = ListTGoals.filter(
-          (list) =>
-            Math.floor(+list.date).toString() >= fromDay &&
-            Math.floor(+list.date).toString() <= toDay
-        );
-      }
+  const categoryArray = CategoryFilter([...dateToArray] as any);
 
-      let filterArrayCat = filterArrayDay;
-      if (hasCategorySearch) {
-        filterArrayCat =
-          filterArrayDay.length > 0
-            ? filterArrayDay.filter((list) => list.category == categorySearch)
-            : [];
-      }
+  const ListGoalsFiltered = TagFilter([...categoryArray] as any);
 
-      let filterArrayTag = filterArrayCat;
-      if (hasTagSearch) {
-        filterArrayTag =
-          filterArrayCat.length > 0
-            ? filterArrayCat.filter((list) => list.tag == tagSearch)
-            : [];
-      }
-      console.log(ListTGoals);
-      console.log(filterArrayDay);
-      console.log(filterArrayCat);
-      console.log(filterArrayTag);
+  const ListGoalsForgot = ListGoals.filter(
+    (a) => +a.date < currentUnixTimestampZero
+  );
 
-      return filterArrayTag;
-    };
-    const list = filterdList();
-
-    list ? setListAfterFilter(list) : setListAfterFilter([]);
-    console.log(list);
-  }, [ListTGoals, dateFrom, dateTo, tagSearch, categorySearch]);
-
-  return listAfterFilter;
+  return {
+    ListGoalsFiltered,
+    ListGoalsForgot,
+    ListGoalsAll: ListGoals,
+    selectedGoal,
+  };
 }
 
 export default useGoalsList;

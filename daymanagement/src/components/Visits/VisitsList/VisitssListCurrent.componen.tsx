@@ -1,11 +1,10 @@
 "use client";
-import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
+import ListContent from "@/components/mainPage/ListContainer/ListContent.component";
 import ListMenuBottom from "@/components/mainPage/ListContainer/ListMenuBottom.component";
-import ComplateFIlter from "@/lib/Hooks/ComplateFIlter.component";
-import DateOrderFilter from "@/lib/Hooks/DateOrderFilter.component";
-import FinishedFIlter from "@/lib/Hooks/FinishedFIlter.componen";
-import PriorityFilter from "@/lib/Hooks/PriorityFilter.component";
-import { cn } from "@/lib/utils";
+import ComplateFIlter from "@/lib/Hooks/ListFilter/ComplateFIlter.component";
+import DateOrderFilter from "@/lib/Hooks/ListFilter/DateOrderFilter.component";
+import FinishedFIlter from "@/lib/Hooks/Filters/FinishedFIlter.componen";
+import PriorityFilter from "@/lib/Hooks/ListFilter/PriorityFilter.component";
 import { TVisit } from "@/modules/visitsList/visit.slice";
 import VisitsItem from "../VisitsItem/VisitsItem.component";
 
@@ -18,12 +17,12 @@ function VisitssListCurrent({
 }) {
   const { dateOrderArray, dateOrderFilter } = DateOrderFilter(ListVisit);
 
-  const { finishArray, finishFIlter, setFinishFIlter } = dateOrderFilter
+  const { finishArray, finishFilter, setFinishFilter } = dateOrderFilter
     ? FinishedFIlter([...dateOrderArray] as any)
-    : ([...ListVisit] as any);
+    : FinishedFIlter([...ListVisit] as any);
 
   const { priorityArray, priorityFilter, setPriorityFilter } =
-    finishArray && finishFIlter
+    finishArray && finishFilter
       ? PriorityFilter([...finishArray] as any)
       : PriorityFilter([...dateOrderArray] as any);
 
@@ -34,22 +33,11 @@ function VisitssListCurrent({
 
   return (
     <>
-      <div
-        className={cn(
-          "flex flex-col h-full gap-y-2",
-          (complateArray && complateArray.length !== 0) || false
-            ? "scroll-m-0 overflow-y-scroll"
-            : ""
-        )}
-      >
-        {complateArray?.length == 0 ? (
-          <EmptyList />
-        ) : (
-          complateArray?.map((li: TVisit) => (
-            <VisitsItem key={li.id} item={li} selectedID={selectedID} />
-          ))
-        )}
-      </div>
+      <ListContent ListCount={complateArray.length}>
+        {complateArray?.map((li: TVisit) => (
+          <VisitsItem key={li.id} item={li} selectedID={selectedID} />
+        ))}
+      </ListContent>
       <ListMenuBottom
         listTitle="Visits"
         drawerType="VisitsList"
@@ -57,13 +45,13 @@ function VisitssListCurrent({
         selectedID={!!selectedID}
         priorityFilter={priorityFilter}
         complateFIlter={complateFIlter}
-        dateFIlter={!finishFIlter}
+        dateFIlter={!finishFilter}
         withpriority
         withcomplate
         withdate
         ChangeComplate={() => setcomplateFIlter(!complateFIlter)}
         ChangePriority={() => setPriorityFilter(!priorityFilter)}
-        ChangeDate={() => setFinishFIlter(!finishFIlter)}
+        ChangeDate={() => setFinishFilter(!finishFilter)}
         ListInfo={`${complateArray?.filter((item) => item.isComplete == true).length} / ${complateArray && complateArray.length}`}
       />
     </>

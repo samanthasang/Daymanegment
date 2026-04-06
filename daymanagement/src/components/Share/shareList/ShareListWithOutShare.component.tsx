@@ -1,9 +1,8 @@
 "use client";
-import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
+import ListContent from "@/components/mainPage/ListContainer/ListContent.component";
 import ListMenuBottom from "@/components/mainPage/ListContainer/ListMenuBottom.component";
 import { useAppSelector } from "@/lib/hook";
 import usePeopleList from "@/lib/Hooks/Lists/Share/UsePeopleList.component";
-import { cn } from "@/lib/utils";
 import { TPeople } from "@/modules/people/PeopleList.slice";
 import PeopleItem from "../peopleItem/PeopleItem.component";
 
@@ -14,26 +13,15 @@ function ShareListWithOutShare() {
   const { listHasNoShare } = usePeopleList();
   return (
     <>
-      <div
-        className={cn(
-          "flex flex-col h-full gap-y-2",
-          (listHasNoShare && listHasNoShare.length !== 0) || false
-            ? "scroll-m-0 overflow-y-scroll"
-            : ""
-        )}
-      >
-        {listHasNoShare?.length == 0 ? (
-          <EmptyList />
-        ) : (
-          listHasNoShare?.map((li: TPeople) => (
-            <PeopleItem
-              key={li.id}
-              item={li}
-              selectedID={selectedPeople && selectedPeople.id}
-            />
-          ))
-        )}
-      </div>
+      <ListContent ListCount={listHasNoShare && listHasNoShare.length}>
+        {listHasNoShare?.map((li: TPeople) => (
+          <PeopleItem
+            key={li.id}
+            item={li}
+            selectedID={selectedPeople && selectedPeople.id}
+          />
+        ))}
+      </ListContent>
       <ListMenuBottom
         listTitle="Friends"
         drawerType="PeopleList"

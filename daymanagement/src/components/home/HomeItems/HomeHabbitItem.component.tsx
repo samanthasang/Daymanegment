@@ -1,45 +1,21 @@
 "use client";
-import MenuItems from "@/components/mainPage/MenuItems/HomeTodoItem.component";
+import MenuItems from "@/components/mainPage/MenuItems/MenuItems.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
+import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-const currentUnixTimestamp = dayjs().unix();
-
-function HomeHabbitItem({
-  pathname,
-  OpenMenu,
-}: {
-  pathname: string;
-  OpenMenu: boolean;
-}) {
-  const ListHabbit = UseHabbitList();
-  const ListMyHabbit = ListHabbit.filter((a) => a.score > 9);
+function HomeHabbitItem() {
+  const { ListMyHabbit } = UseHabbitList();
 
   return (
     <MenuItems
       href={"/habbit"}
       tilte="Habbit"
-      className={pathname && pathname.startsWith("/habbit") ? "bg-primary" : ""}
-      infoNumber={
-        OpenMenu
-          ? `${
-              ListMyHabbit?.filter(
-                (todo) =>
-                  dayjs(dayjs.unix(Number(todo.completeUpdate))).format("DD") ==
-                  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD")
-              ).length
-            } / ${ListMyHabbit?.length}`
-          : ""
-      }
+      infoNumber={`${
+        ListMyHabbit?.filter(
+          (todo) =>
+            DayUnixFormat(+todo.completeUpdate, "DD") == DayUnixFormatNow("DD")
+        ).length
+      } / ${ListMyHabbit?.length}`}
     />
   );
 }

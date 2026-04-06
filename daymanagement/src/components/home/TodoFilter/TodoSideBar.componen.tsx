@@ -31,7 +31,7 @@ function TodoSideBar() {
         <div className="flex justify-between w-full mx-auto h-9">
           <span>
             {"Todos : " +
-              `${ListToDo?.filter((todo) => todo.isComplete == true).length} / ${ListToDo?.length}`}
+              `${ListToDo?.ListToDoFiltered.filter((todo) => todo.isComplete == true).length} / ${ListToDo?.ListToDoFiltered.length}`}
           </span>
         </div>
       </div>

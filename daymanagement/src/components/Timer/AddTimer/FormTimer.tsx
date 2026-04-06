@@ -2,6 +2,8 @@
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
+import { InputField } from "@/components/ui/inputField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import {
   selectTimerList,
@@ -14,18 +16,6 @@ import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { CalendarWithTime } from "@/components/ui/calenderWithTime";
-import { InputField } from "@/components/ui/inputField";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
 interface IFormInputs {
   title: string;
   startDate?: string;
@@ -36,8 +26,10 @@ interface IFormInputs {
 
 export default function FormTimer({
   onSubmitForm,
+  formType,
 }: {
   onSubmitForm: () => void;
+  formType: string;
 }) {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -90,10 +82,6 @@ export default function FormTimer({
     selectedTimer: any;
   } = useAppSelector((state) => state.TimerList) || [];
 
-  useEffect(() => {
-    console.log(selectedTimer);
-  }, [selectedTimer]);
-
   const handleCategory = (data: string) => {
     setValue("category", data);
   };
@@ -101,19 +89,19 @@ export default function FormTimer({
     setValue("tag", data);
   };
 
-  useEffect(() => {
-    console.log(startDate);
-    console.log(endDate);
-    startDate &&
-      console.log(
-        Math.floor(new Date(startDate).getTime() / 1000.0).toString()
-      );
-    endDate &&
-      console.log(Math.floor(new Date(endDate).getTime() / 1000.0).toString());
-  }, [endDate, startDate]);
+  // useEffect(() => {
+  //   console.log(startDate);
+  //   console.log(endDate);
+  //   startDate &&
+  //     console.log(
+  //       Math.floor(new Date(startDate).getTime() / 1000.0).toString()
+  //     );
+  //   endDate &&
+  //     console.log(Math.floor(new Date(endDate).getTime() / 1000.0).toString());
+  // }, [endDate, startDate]);
 
   useEffect(() => {
-    if (selectedTimer) {
+    if (formType.split(" ")[0] == "Edit" && selectedTimer) {
       setValue("title", selectedTimer?.title);
       setValue("category", selectedTimer.category);
       setValue("tag", selectedTimer.tag);
@@ -125,27 +113,6 @@ export default function FormTimer({
   }, [selectedTimer, setValue]);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    console.log(data);
-    console.log({
-      id: selectedTimer.id,
-      title: data.title,
-      startDate: startDate
-        ? Math.floor(new Date(startDate).getTime() / 1000.0).toString()
-        : (data.startDate as string),
-      endDate: endDate
-        ? Math.floor(new Date(endDate).getTime() / 1000.0).toString()
-        : (data.startDate as string),
-      isComplete:
-        startDate &&
-        endDate &&
-        Math.floor(new Date(startDate).getTime() / 1000.0) ==
-          Math.floor(new Date(endDate).getTime() / 1000.0)
-          ? selectedTimer.isComplete
-          : true,
-      category: data.category,
-      tag: data.tag,
-    });
-
     selectedTimer?.title
       ? dispatch(
           updateTimerList({
@@ -197,108 +164,83 @@ export default function FormTimer({
   };
 
   return (
-    <div className="col-span-1">
-      <div className="flex flex-row gap-2 ">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
-        >
-          <Controller
-            defaultValue={""}
-            name="title"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <InputField
-                title="Title"
-                type="string"
-                // className="!text-white w-full px-3 border-white rounded py-1"
-                placeholder="Enter Reminder Name"
-                disabled={!!errors.title?.message}
-                required
-                {...field}
-              />
-            )}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full min-w-60 flex flex-col gap-y-3"
+    >
+      <Controller
+        defaultValue={""}
+        name="title"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <InputField
+            title="Title"
+            type="string"
+            placeholder="Enter Reminder Name"
+            disabled={!!errors.title?.message}
+            required
+            {...field}
           />
+        )}
+      />
 
-          <div className="flex-1">
-            <Controller
-              defaultValue={""}
-              name="category"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <CategotySelectComponent
-                  required
-                  errors={!field.value && !!errors.category?.message}
-                  description={errors.category?.message}
-                  onValueChange={handleCategory}
-                  value={field.value}
-                />
-              )}
-            />
-          </div>
-
-          <div className="flex-1">
-            <Controller
-              defaultValue={""}
-              name="tag"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <TagSelectComponent
-                  required
-                  errors={!field.value && !!errors.tag?.message}
-                  description={errors.tag?.message}
-                  onValueChange={handleTag}
-                  value={field.value}
-                />
-              )}
-            />
-          </div>
-
-          <CalendarWithTime
-            title="start time"
-            dateValue={startDate}
-            setDate={setStartDate}
-            message={!startDate && !!errors.startDate?.message}
+      <Controller
+        defaultValue={""}
+        name="category"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <CategotySelectComponent
+            required
+            errors={!field.value && !!errors.category?.message}
+            description={errors.category?.message}
+            onValueChange={handleCategory}
+            value={field.value}
           />
+        )}
+      />
 
-          <CalendarWithTime
-            title="end time"
-            dateValue={endDate}
-            setDate={setEndDate}
-            message={!endDate && !!errors.endDate?.message}
+      <Controller
+        defaultValue={""}
+        name="tag"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TagSelectComponent
+            required
+            errors={!field.value && !!errors.tag?.message}
+            description={errors.tag?.message}
+            onValueChange={handleTag}
+            value={field.value}
           />
+        )}
+      />
 
-          {!selectedTimer?.title && (
-            <Button
-              type="submit"
-              variant="default"
-            >
-              submit
-            </Button>
-          )}
+      <CalendarWithTime
+        title="start time"
+        dateValue={startDate}
+        setDate={setStartDate}
+        message={!startDate && !!errors.startDate?.message}
+      />
 
-          {selectedTimer?.title && (
-            <div className="flex gap-4">
-              <Button
-                onClick={() => onReset()}
-                type="button"
-                variant="default"
-              >
-                reset
-              </Button>
-              <Button
-                type="submit"
-                variant="default"
-              >
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
+      <CalendarWithTime
+        title="end time"
+        dateValue={endDate}
+        setDate={setEndDate}
+        message={!endDate && !!errors.endDate?.message}
+      />
+
+      <div className="flex gap-4">
+        {selectedTimer?.title && (
+          <Button onClick={() => onReset()} type="button">
+            reset
+          </Button>
+        )}
+        <Button type="submit" variant="default">
+          submit
+        </Button>
       </div>
-    </div>
+    </form>
   );
 }

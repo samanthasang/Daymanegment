@@ -11,17 +11,24 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#19232e",
+          DEFAULT: "#151E26",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#213040",
+          DEFAULT: "#1C2733",
           foreground: "hsl(var(--secondary-foreground))",
         },
         background: "#18222d",
-        foreground: "hsl(var(--foreground))",
+        backgroundMenu: "#2B3F56",
+        backgroundMain: "#151E26",
+        button: "#499BF0",
+        error: "#E5656C99",
+        success: "#47C34199",
+        describtion: "#3E5164",
+        foreground: "#fff",
+        TextForeground: "#7F8C99",
         card: {
-          DEFAULT: "hsl(var(--card))",
+          DEFAULT: "#6ABDFF",
           foreground: "hsl(var(--card-foreground))",
         },
         popover: {

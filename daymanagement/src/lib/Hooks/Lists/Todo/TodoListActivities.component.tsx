@@ -13,22 +13,26 @@ function TodoListActivities() {
 
   const ToDo = useAppSelector((state) => state.todoList);
 
-  const selectedhabbit = ToDo?.selectedToDo as TToDo;
+  const selectedToDo = ToDo?.selectedToDo as TToDo;
+
+  console.log(selectedToDo);
 
   const SelectItem = () => {
     dispatch(selectToDoList(""));
   };
   const SelectWithId = (id: string) => {
+    console.log(id);
+
     dispatch(selectToDoList(id));
   };
   const DelItem = () => {
-    dispatch(delToDoList(selectedhabbit.id));
+    dispatch(delToDoList(selectedToDo.id));
     SelectItem();
-    toast(`${selectedhabbit.title} is deleted`);
+    toast(`${selectedToDo.title} is deleted`);
   };
   const CompleteItemt = (id: string, title: string) => {
     dispatch(completeToDoList(id));
-    id && selectedhabbit && dispatch(selectToDoList(id));
+    id && selectedToDo && dispatch(selectToDoList(id));
     toast(`${title} is updated`);
   };
   return { CompleteItemt, DelItem, SelectWithId, SelectItem };

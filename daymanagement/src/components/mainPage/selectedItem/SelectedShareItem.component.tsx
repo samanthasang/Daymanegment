@@ -21,10 +21,8 @@ export const SelectedShareItem = ({
 
   return (
     <div className="flex justify-between w-full">
-      <label>
-        {peopleAcoreToId && peopleAcoreToId.title}
-      </label>
-      <label className={`${incomeAmount ? "text-green-500" : "text-red-500"}`}>
+      <label>{peopleAcoreToId && peopleAcoreToId.title}</label>
+      <label className={`${incomeAmount ? "text-success" : "text-red-500"}`}>
         {incomeAmount || outcomeAmount}
       </label>
     </div>

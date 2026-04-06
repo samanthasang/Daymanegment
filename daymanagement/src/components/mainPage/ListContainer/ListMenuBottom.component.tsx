@@ -1,23 +1,33 @@
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import {
-  AddTask,
-  AltTask,
-  ChevronSmallTripleUp,
-  Done,
-  DoneAll,
-} from "@/components/icons";
-import BasicSwitch from "@/components/ui/BasicSwitch";
+import DrawerButton from "@/components/Drawer/DrawerButton.component";
+import { AddTask, More } from "@/components/icons";
+import Earth from "@/components/icons/Earth";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { setTimerList } from "@/modules/timerList/timer.slice";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/Drawer";
+import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
+import { useState } from "react";
+import MenuFilter from "../MenuSideBar/MenuFilter.component";
+import MenuToday from "../MenuSideBar/MenuToday.component";
+import ListMenuButtons from "./ListMenuButtons.component";
+import TimerListMenuBottom from "./TimerListMenuBottom.component";
 
 function ListMenuBottom({
   listTitle,
   priorityFilter,
+  withShop,
+  withBalance,
   dateFIlter,
   complateFIlter,
+  shopFilter,
+  balanceFilter,
   ChangePriority,
+  ChangeShop,
+  ChangeBalance,
   ChangeDate,
   ChangeComplate,
   ListInfo,
@@ -30,6 +40,12 @@ function ListMenuBottom({
 }: {
   selectedID: boolean;
   withpriority?: boolean;
+  withShop?: boolean;
+  withBalance?: boolean;
+  shopFilter?: boolean;
+  balanceFilter?: boolean;
+  ChangeShop?: () => void;
+  ChangeBalance?: () => void;
   withdate?: boolean;
   withcomplate?: boolean;
   priorityFilter?: boolean;
@@ -43,131 +59,94 @@ function ListMenuBottom({
   drawerType: string;
   formType: string;
 }) {
-  const dispatch = useAppDispatch();
-  const { OpenFilter } = useAppSelector((state) => state.Menu);
-
-  const StartTimer = () => {
-    dispatch(
-      setTimerList({
-        id: "",
-        title: `timer-${Math.floor(new Date().getTime() / 1000).toString()}`,
-        startDate: Math.floor(new Date().getTime() / 1000).toString(),
-        endDate: Math.floor(new Date().getTime() / 1000).toString(),
-        isComplete: false,
-        category: "",
-        tag: "",
-      })
-    );
+  const [open, setOpen] = useState(false);
+  const openDrawer = (e: boolean) => {
+    setOpen(e);
   };
+
+  const { isMDMax, isSMMax } = useMediaQueryValues();
   return (
-    <div className="flex justify-around items-center gap-x-1 w-full mx-auto h-10 px-1 absolute bottom-0 left-0 right-0 m-1">
-      <div className="flex justify-between items-center w-full mx-auto h-9 p-[6px] bg-slate-800 rounded-3xl px-3">
-        <span>{listTitle}</span>
-        <span>{ListInfo}</span>
-      </div>
-      {(!OpenFilter || !selectedID) && (
-        <>
-          {withdate && (
-            <div
-              onClick={(e) => {
-                e && e.preventDefault();
-                ChangeDate && ChangeDate();
-              }}
-              className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-            >
-              <DoneAll />
-              <BasicSwitch
-                checked={dateFIlter || false}
-                handleToggle={(e) => {
-                  e && e.preventDefault();
-                  ChangeDate && ChangeDate();
-                }}
-                label=""
-                key={"isComplete"}
-              />
-            </div>
-          )}
-          {withcomplate && (
-            <div
-              onClick={(e) => {
-                e && e.preventDefault();
-                ChangeComplate && ChangeComplate();
-              }}
-              className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-            >
-              <Done />
-              <BasicSwitch
-                checked={complateFIlter || false}
-                handleToggle={(e) => {
-                  e && e.preventDefault();
-                  ChangeComplate && ChangeComplate();
-                }}
-                label=""
-                key={"isComplete"}
-              />
-            </div>
-          )}
-          {withpriority && (
-            <div
-              onClick={(e) => {
-                e && e.preventDefault();
-                ChangePriority && ChangePriority();
-              }}
-              className="flex justify-center items-center h-9 flex-1 rounded-full hover:bg-slate-800 w-full cursor-pointer"
-            >
-              <ChevronSmallTripleUp className="fill-red-500" />
-              <BasicSwitch
-                checked={priorityFilter || false}
-                handleToggle={(e) => {
-                  e && e.preventDefault();
-                  ChangePriority && ChangePriority();
-                }}
-                label=""
-                key={"isComplete"}
-              />
-            </div>
-          )}
-          {drawerType == "PeopleList" && (
-            <DrawerDialogDemo drawerType="ShareList" formType="Add Share">
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={
-                    "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
-                  }
-                >
-                  <AddTask />
-                </Button>
-              </DialogTrigger>
-            </DrawerDialogDemo>
-          )}
-          {drawerType != "TimerList" && (
-            <DrawerDialogDemo drawerType={drawerType} formType={formType}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={
-                    "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
-                  }
-                >
-                  <AltTask />
-                </Button>
-              </DialogTrigger>
-            </DrawerDialogDemo>
-          )}
-          {drawerType == "TimerList" && (
+    <div className="flex justify-around w-full mx-auto gap-x-0.5">
+      {isSMMax && (
+        <DrawerButton drawerType={"MenuList"} formType={"Menu"}>
+          <Earth />
+        </DrawerButton>
+      )}
+      {isSMMax && <MenuFilter />}
+      {isSMMax && <MenuToday />}
+      {!isMDMax && (
+        <div className="flex justify-between items-center w-full mx-auto h-10 p-[6px] bg-slate-800 rounded-3xl px-3">
+          <span>{listTitle}</span>
+          <span>{ListInfo}</span>
+        </div>
+      )}
+      {isSMMax ? (
+        <Drawer open={open} onOpenChange={(e) => openDrawer(e)}>
+          <DialogTrigger asChild>
             <Button
               variant="outline"
-              onClick={() => StartTimer()}
               className={
-                "h-9 bg-transparent border-none flex-1 rounded-3xl hover:bg-slate-800 w-full cursor-pointer"
+                "flex justify-center items-center h-10 flex-1 rounded-full min-w-10 hover:bg-button/15 w-full cursor-pointer"
               }
             >
-              <AltTask />
+              <More />
             </Button>
-          )}
-        </>
+          </DialogTrigger>
+          <DrawerContent>
+            <DrawerHeader className="text-left">
+              <DrawerTitle>Custom</DrawerTitle>
+            </DrawerHeader>
+            <div className="flex flex-col gap-y-3">
+              <ListMenuButtons
+                ChangeComplate={ChangeComplate}
+                ChangeDate={ChangeDate}
+                ChangeShop={ChangeShop}
+                ChangePriority={ChangePriority}
+                ChangeBalance={ChangeBalance}
+                complateFIlter={complateFIlter}
+                dateFIlter={dateFIlter}
+                priorityFilter={priorityFilter}
+                shopFilter={shopFilter}
+                balanceFilter={balanceFilter}
+                withcomplate={withcomplate}
+                withdate={withdate}
+                withpriority={withpriority}
+                withShop={withShop}
+                withBalance={withBalance}
+              />
+            </div>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <ListMenuButtons
+          ChangeComplate={ChangeComplate}
+          ChangeDate={ChangeDate}
+          ChangeShop={ChangeShop}
+          ChangePriority={ChangePriority}
+          ChangeBalance={ChangeBalance}
+          complateFIlter={complateFIlter}
+          dateFIlter={dateFIlter}
+          priorityFilter={priorityFilter}
+          shopFilter={shopFilter}
+          balanceFilter={balanceFilter}
+          withcomplate={withcomplate}
+          withdate={withdate}
+          withpriority={withpriority}
+          withShop={withShop}
+          withBalance={withBalance}
+        />
       )}
+      {drawerType == "PeopleList" && (
+        <DrawerButton drawerType="ShareList" formType="Add Share">
+          <AddTask />
+        </DrawerButton>
+      )}
+      {drawerType != "TimerList" && (
+        <DrawerButton drawerType={drawerType} formType={formType}>
+          <AddTask />
+        </DrawerButton>
+      )}
+      {drawerType == "TimerList" && <TimerListMenuBottom />}
     </div>
   );
 }
