@@ -1,30 +1,18 @@
 "use client";
-import ListContent from "@/components/mainPage/ListContainer/ListContent.component";
-import ListMenuBottom from "@/components/mainPage/ListContainer/ListMenuBottom.component";
+import ListContent from "@/components/mainPage/List/ListContainer/ListContent.component";
+import ListMenuBottom from "@/components/mainPage/List/ListMenu/ListMenuBottom.component";
+import FinishedFIlter from "@/lib/Hooks/Filters/FinishedFilter.componen";
 import ComplateFIlter from "@/lib/Hooks/ListFilter/ComplateFIlter.component";
-import FinishedFIlter from "@/lib/Hooks/Filters/FinishedFIlter.componen";
-import StartDateOrderFilter from "@/lib/Hooks/ListFilter/StartDateOrderFilter.component";
 import { TTimer } from "@/modules/timerList/timer.slice";
 import { Timeritem } from "../TimerItem/TimerItem.component";
 
-function TimerListCurrent({
-  ListTimer,
-  selectedID,
-}: {
-  ListTimer: TTimer[];
-  selectedID: string;
-}) {
-  const { startDateOrderArray, startDateOrderFilter } =
-    StartDateOrderFilter(ListTimer);
-
-  const { finishArray, finishFilter, setFinishFilter } = startDateOrderFilter
-    ? FinishedFIlter([...startDateOrderArray] as any)
-    : FinishedFIlter([...ListTimer] as any);
-
-  const { complateArray, complateFIlter, setcomplateFIlter } =
-    finishArray && finishFilter
-      ? ComplateFIlter([...finishArray] as any)
-      : ComplateFIlter([...ListTimer] as any);
+function TimerListCurrent({ ListTimer }: { ListTimer: TTimer[] }) {
+  const { finishArray, finishFilter, setFinishFilter } = FinishedFIlter([
+    ...ListTimer,
+  ] as any);
+  const { complateArray, complateFIlter, setcomplateFIlter } = ComplateFIlter([
+    ...finishArray,
+  ] as any);
 
   return (
     <>
@@ -37,9 +25,8 @@ function TimerListCurrent({
         listTitle="Timer"
         drawerType="TimerList"
         formType="Edit Timer"
-        selectedID={!!selectedID}
         complateFIlter={complateFIlter}
-        dateFIlter={!finishFilter}
+        dateFIlter={finishFilter}
         withcomplate
         withdate
         ChangeComplate={() => setcomplateFIlter(!complateFIlter)}

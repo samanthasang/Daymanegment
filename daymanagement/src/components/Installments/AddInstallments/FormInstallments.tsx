@@ -7,8 +7,10 @@ import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import { TextAreaField } from "@/components/ui/textAreaField";
+import { useAppDispatch } from "@/lib/hook";
+import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
+import { currentUnixTimestamp, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import {
   selectInstallmentstList,
   setInstallmentstList,
@@ -20,23 +22,55 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { ManipulateType } from "dayjs";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
   title: string;
-  startDate: string;
   description?: string;
   priority?: string;
-  lastUpdate?: string;
-  completeUpdate?: string;
+  startDate: number;
+  lastUpdate?: number;
+  doDate: number;
+  createDate?: number;
+  completeUpdate?: number;
   paymentNumber: string;
   numberOfPayment?: string;
   paymentCompleteValue: string;
+  isComplete: boolean;
   category: string;
   tag: string;
   installmentstList?: TInstallmentst[];
 }
-
+const formSchema = z.object({
+  title: z.string().min(4, { message: "Name is required" }),
+  description: z.string().optional(),
+  installmentstList: z
+    .array(
+      z.object({
+        doDate: z.number(),
+        payment: z.string(),
+        isComplete: z.boolean(),
+      })
+    )
+    .optional(),
+  priority: z.string().optional(),
+  paymentNumber: z.string().min(1, { message: "Payment Number is required" }),
+  numberOfPayment: z
+    .string()
+    .min(1, { message: "Number Of Payment is required" }),
+  paymentCompleteValue: z
+    .string()
+    .min(1, { message: "Payment Complete Value is required" }),
+  category: z.string().min(1, { message: "Category is required" }),
+  tag: z.string().min(1, { message: "Tag is required" }),
+  startDate: z.number().min(1, { message: "date is required" }),
+  lastUpdate: z.number().optional(),
+  doDate: z.number().min(1, { message: "date is required" }),
+  createDate: z.number().optional(),
+  completeUpdate: z.number().optional(),
+  isComplete: z.boolean(),
+});
 export default function FormInstallments({
   onSubmitForm,
   formType,
@@ -44,36 +78,14 @@ export default function FormInstallments({
   onSubmitForm: () => void;
   formType: string;
 }) {
+  const dispatch = useAppDispatch();
+  const { selectedInstallmentstList } = useInstallmentsList();
+
   const [date, setDate] = useState<Date>();
   const [instalmentDetails, setInstalmentDetails] =
     useState<TInstallmentst[]>();
   // creating a schema for strings
-  const formSchema = z.object({
-    title: z.string().min(4, { message: "Name is required" }),
-    description: z.string().optional(),
-    installmentstList: z
-      .array(
-        z.object({
-          date: z.string(),
-          payment: z.string(),
-          isComplete: z.boolean(),
-        })
-      )
-      .optional(),
-    priority: z.string().optional(),
-    paymentNumber: z.string().min(1, { message: "Payment Number is required" }),
-    numberOfPayment: z
-      .string()
-      .min(1, { message: "Number Of Payment is required" }),
-    paymentCompleteValue: z
-      .string()
-      .min(1, { message: "Payment Complete Value is required" }),
-    category: z.string().min(1, { message: "Category is required" }),
-    tag: z.string().min(1, { message: "Tag is required" }),
-    startDate: z.string().min(1, { message: "date is required" }),
-    lastUpdate: z.string().optional(),
-    completeUpdate: z.string().optional(),
-  });
+
   type FormData = z.infer<typeof formSchema>;
 
   const methods = useForm<FormData>({
@@ -93,13 +105,10 @@ export default function FormInstallments({
 
   useEffect(() => {
     date &&
-      setValue(
-        "startDate",
-        Math.floor(new Date(date).getTime() / 1000.0).toString()
-      );
+      setValue("startDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
 
-  const fillINstallmentsArray = () => {
+  useEffect(() => {
     const installmentArray: TInstallmentst[] = [];
 
     const insstallmentValue =
@@ -108,48 +117,55 @@ export default function FormInstallments({
     if (
       watch("startDate") &&
       watch("numberOfPayment") &&
-      watch("paymentNumber") &&
-      !instalmentDetails
+      watch("paymentNumber")
     ) {
       for (let i = 1; i < +watch("numberOfPayment") + 1; i++) {
         installmentArray.push({
-          date: DayUnixAdd(
+          doDate: DayUnixAdd(
             +watch("startDate"),
             watch("paymentNumber") as ManipulateType,
             i
-          ).toString(),
+          ),
           payment: insstallmentValue.toString(),
           isComplete: false,
         });
       }
+      console.log(installmentArray);
+
       setInstalmentDetails(installmentArray);
     }
-  };
-
-  const dispatch = useAppDispatch();
-  const { selectedInstallmentst }: any =
-    useAppSelector((state) => state.InstallmentstList) || {};
+  }, [
+    getValues("startDate"),
+    getValues("numberOfPayment"),
+    getValues("paymentNumber"),
+  ]);
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedInstallmentst) {
-      setValue("title", selectedInstallmentst?.title);
-      setValue("description", selectedInstallmentst?.description);
-      setValue("paymentNumber", selectedInstallmentst.paymentNumber);
-      setValue("numberOfPayment", selectedInstallmentst.numberOfPayment);
+    if (formType.split(" ")[0] == "Edit" && selectedInstallmentstList) {
+      setValue("title", selectedInstallmentstList?.title);
+      setValue("description", selectedInstallmentstList?.description);
+      setValue("paymentNumber", selectedInstallmentstList.paymentNumber);
+      setValue("numberOfPayment", selectedInstallmentstList.numberOfPayment);
       setValue(
         "paymentCompleteValue",
-        selectedInstallmentst.paymentCompleteValue
+        selectedInstallmentstList.paymentCompleteValue
       );
-      setValue("category", selectedInstallmentst.category);
-      setValue("tag", selectedInstallmentst.tag);
-      setValue("startDate", selectedInstallmentst.startDate);
-      setValue("lastUpdate", selectedInstallmentst.lastUpdate);
-      setValue("installmentstList", selectedInstallmentst.installmentstList);
-      setValue("completeUpdate", selectedInstallmentst.completeUpdate);
-      setDate(new Date(Number(selectedInstallmentst.startDate) * 1000));
-      setInstalmentDetails(selectedInstallmentst.installmentstList);
+      setValue("category", selectedInstallmentstList.category);
+      setValue("tag", selectedInstallmentstList.tag);
+      setValue("lastUpdate", selectedInstallmentstList.lastUpdate);
+      setValue("startDate", selectedInstallmentstList.startDate);
+      setValue("isComplete", selectedInstallmentstList.isComplete);
+      setValue(
+        "installmentstList",
+        selectedInstallmentstList.installmentstList
+      );
+      setValue("completeUpdate", selectedInstallmentstList.completeUpdate);
+      setValue("doDate", selectedInstallmentstList.doDate);
+      setValue("createDate", +selectedInstallmentstList.doDate);
+      setDate(new Date(Number(selectedInstallmentstList.startDate) * 1000));
+      setInstalmentDetails(selectedInstallmentstList.installmentstList);
     }
-  }, [selectedInstallmentst, setValue]);
+  }, [selectedInstallmentstList, setValue]);
 
   const handlePriod = (data: string) => {
     setValue("paymentNumber", data);
@@ -166,21 +182,53 @@ export default function FormInstallments({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    const nextDate =
-      instalmentDetails &&
-      instalmentDetails.find(
-        (element: TInstallmentst) => element.isComplete != false
-      );
-    selectedInstallmentst?.title
+    const instalmentComplete =
+      instalmentDetails && instalmentDetails.filter((ins) => ins.isComplete);
+
+    const instalmentNotComplete =
+      instalmentDetails && instalmentDetails.filter((ins) => !ins.isComplete);
+
+    const lastInstalment =
+      (instalmentDetails &&
+        instalmentDetails.length > 0 &&
+        instalmentDetails[instalmentDetails.length - 1].doDate) ||
+      selectedInstallmentstList.startDate;
+
+    const lastComplete =
+      instalmentComplete && instalmentComplete?.length > 0
+        ? instalmentComplete[instalmentComplete.length - 1].doDate
+        : lastInstalment;
+
+    const firstNOtComplete =
+      instalmentNotComplete && instalmentNotComplete?.length > 0
+        ? instalmentNotComplete[0].doDate
+        : lastInstalment;
+
+    // const secondNOtComplete =
+    //   instalmentNotComplete && instalmentNotComplete?.length > 0
+    //     ? instalmentNotComplete[1].date
+    //     : lastInstalment;
+
+    const lastNOtComplete =
+      instalmentNotComplete && instalmentNotComplete?.length > 0
+        ? instalmentNotComplete[instalmentNotComplete.length - 1].doDate
+        : lastInstalment;
+
+    selectedInstallmentstList?.title
       ? dispatch(
           updateInstallmentstList({
-            id: selectedInstallmentst.id,
+            id: selectedInstallmentstList.id,
             title: data.title,
             startDate: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.title,
-            lastUpdate: nextDate || selectedInstallmentst.startDate,
-            completeUpdate: nextDate || selectedInstallmentst.startDate,
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.startDate,
+            lastUpdate: lastComplete,
+            doDate: firstNOtComplete,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
+            completeUpdate: lastNOtComplete,
             description: data.description || "",
             priority: data.priority || "",
             paymentNumber: data.paymentNumber || "",
@@ -196,18 +244,12 @@ export default function FormInstallments({
             id: "",
             title: data.title,
             startDate: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
+              ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.startDate,
-            lastUpdate: instalmentDetails
-              ? instalmentDetails[0].date
-              : date
-                ? Math.floor(new Date(date).getTime()).toString()
-                : data.startDate,
-            completeUpdate: instalmentDetails
-              ? instalmentDetails[0].date
-              : date
-                ? Math.floor(new Date(date).getTime()).toString()
-                : data.startDate,
+            lastUpdate: lastComplete,
+            doDate: firstNOtComplete,
+            createDate: currentUnixTimestamp,
+            completeUpdate: lastNOtComplete,
             description: data.description || "",
             priority: data.priority || "",
             paymentNumber: data.paymentNumber || "",
@@ -218,15 +260,21 @@ export default function FormInstallments({
             installmentstList: instalmentDetails || [],
           })
         );
+
+    setValue("startDate", 0);
+
+    selectedInstallmentstList?.id
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
+
     dispatch(selectInstallmentstList(""));
-    setValue("startDate", "");
     reset();
     onSubmitForm();
   };
 
   const onReset = () => {
     dispatch(selectInstallmentstList(""));
-    setValue("startDate", "");
+    setValue("startDate", 0);
     reset();
   };
 
@@ -234,7 +282,7 @@ export default function FormInstallments({
     const installmentArray =
       instalmentDetails &&
       instalmentDetails.map((installment) =>
-        installment.date == install.date
+        installment.doDate == install.doDate
           ? {
               ...installment,
               payment: install.payment,
@@ -389,6 +437,19 @@ export default function FormInstallments({
         )}
       />
 
+      <Controller
+        defaultValue={""}
+        name="description"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextAreaField
+            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            placeholder="Description"
+            {...field}
+          />
+        )}
+      />
       <DrawerDialogDemo
         drawerType={"InstallmentsListDetails"}
         formType="Installments List Details"
@@ -398,14 +459,12 @@ export default function FormInstallments({
         onChangeinstallment={onChangeinstallment}
       >
         <DialogTrigger asChild disabled={!date}>
-          <Button onClick={() => fillINstallmentsArray()} variant="default">
-            Installments list
-          </Button>
+          <Button variant="default">Installments list</Button>
         </DialogTrigger>
       </DrawerDialogDemo>
 
-      <div className="flex gap-4">
-        {selectedInstallmentst?.title && (
+      {/* <div className="flex gap-4">
+        {selectedInstallmentstList?.title && (
           <Button onClick={() => onReset()} type="button" variant="secondary">
             reset
           </Button>
@@ -422,6 +481,17 @@ export default function FormInstallments({
             <Button variant="default">submit</Button>
           </DialogTrigger>
         </DrawerDialogDemo>
+      </div> */}
+      <div className="flex gap-4">
+        {formType.split(" ")[0] == "Edit" &&
+          selectedInstallmentstList?.title && (
+            <Button onClick={() => onReset()} type="button">
+              reset
+            </Button>
+          )}
+        <Button type="submit" variant="default">
+          submit
+        </Button>
       </div>
     </form>
   );

@@ -1,5 +1,5 @@
 "use client";
-import MenuItems from "@/components/mainPage/MenuItems/MenuItems.component";
+import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 
 function HomeReminderItem() {

@@ -28,8 +28,7 @@ import FormGoals from "../Goals/AddGoals/FormGoal";
 import FormHabbit from "../Habbit/AddHabbit/FormHabbit";
 import FormInstallments from "../Installments/AddInstallments/FormInstallments";
 import FormInstallmentsDetailsList from "../Installments/InstallmentsList/installmentsDetailsList.components";
-import ListMenuButtons from "../mainPage/ListContainer/ListMenuButtons.component";
-import MenuMainSideBarComponent from "../mainPage/MenuSideBar/MainMenuSideBar.component";
+import MenuMainSideBarComponent from "../mainPage/Page/MenuSideBar/MainMenuSideBar.component";
 import PeopleForm from "../People/PeopleForm";
 import FormReminder from "../Reminder/AddReminder/FormReminder";
 import FormShare from "../Share/[peopleId]/AddShare/FormShare";
@@ -39,6 +38,7 @@ import TagForm from "../Tags/TagForm";
 import FormTimer from "../Timer/AddTimer/FormTimer";
 import FormTodo from "../Todo/AddTodo/FormTodo";
 import FormVisits from "../Visits/AddVisit/FormVisit";
+import ListMenuButtons from "../mainPage/ListSection/ListMenu/ListMenuButtons.component";
 
 export function DrawerDialogDemo({
   drawerType,
@@ -94,7 +94,7 @@ export function DrawerDialogDemo({
     return (
       <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
         {children}
-        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter p-4 gap-y-4 backdrop-blur-md rounded-2xl">
+        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter p-3 gap-y-3 backdrop-blur-md rounded-2xl">
           <DialogHeader>
             <DialogTitle>{formType}</DialogTitle>
           </DialogHeader>

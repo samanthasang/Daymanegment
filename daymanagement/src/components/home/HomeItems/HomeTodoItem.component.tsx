@@ -1,5 +1,5 @@
 "use client";
-import MenuItems from "@/components/mainPage/MenuItems/MenuItems.component";
+import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
 
 function HomeTodoList() {

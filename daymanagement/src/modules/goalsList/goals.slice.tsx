@@ -4,11 +4,13 @@ export type TGoals = {
   id: string;
   title: string;
   isComplete: boolean;
-  date: string;
+  doDate: number;
+  createDate: number;
   score?: number;
   priority: string;
   category: string;
   tag: string;
+  description: string;
 };
 
 export interface InitialState {
@@ -29,9 +31,11 @@ export const goalsListSlice = createSlice({
       action: PayloadAction<{
         id: string;
         title: string;
-        date: string;
+        doDate: number;
+        createDate: number;
         score: number;
         priority: string;
+        description: string;
         category: string;
         tag: string;
       }>
@@ -44,9 +48,11 @@ export const goalsListSlice = createSlice({
               title: action.payload.title,
               priority: action.payload.priority,
               score: action.payload.score,
+              description: action.payload.description,
               category: action.payload.category,
               tag: action.payload.tag,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               isComplete: false,
             },
           ]
@@ -54,9 +60,11 @@ export const goalsListSlice = createSlice({
             {
               id: nanoid(),
               priority: action.payload.priority,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               title: action.payload.title,
               score: action.payload.score,
+              description: action.payload.description,
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: false,
@@ -87,9 +95,11 @@ export const goalsListSlice = createSlice({
       action: PayloadAction<{
         id: any;
         title: string;
-        date: string;
+        doDate: number;
+        createDate: number;
         score: number;
         priority: string;
+        description: string;
         category: string;
         tag: string;
       }>
@@ -101,7 +111,9 @@ export const goalsListSlice = createSlice({
               title: action.payload.title,
               isComplete: goal.isComplete,
               priority: action.payload.priority,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
+              description: action.payload.description,
               score: action.payload.score,
               category: action.payload.category,
               tag: action.payload.tag,

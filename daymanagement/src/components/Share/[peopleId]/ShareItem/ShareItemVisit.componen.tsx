@@ -1,11 +1,8 @@
 "use client";
 import { Eye, Trash } from "@/components/icons";
-import SelectedItemContainer from "@/components/mainPage/selectedItem/SelectedItemContainer.component";
+import SelectedItemContainer from "@/components/mainPage/SelectedSection/selectedItem/SelectedItemContainer.component";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import {
-  delVisitShareList,
-  TShare
-} from "@/modules/share/share.slice";
+import { delVisitShareList, TShare } from "@/modules/share/share.slice";
 import {
   delVisitListShare,
   selectVisitList,
@@ -56,7 +53,7 @@ export const ShareItemVisit = ({ item }: { item: TShare }) => {
                   delVisitListShare({ id: item.id, visitId: item.visitId })
                 );
             }}
-            className="cursor-pointer flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none"
+            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
           >
             <Trash />
           </div>
@@ -67,10 +64,10 @@ export const ShareItemVisit = ({ item }: { item: TShare }) => {
                 item.visitId &&
                 dispatch(
                   selectVisitList(item.visitId),
-                  router.push(`/visits?dateFrom=${VisitSelected.date}`)
+                  router.push(`/visits?dateFrom=${VisitSelected.doDate}`)
                 );
             }}
-            className="cursor-pointer flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none"
+            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-card/15 cursor-pointer"
           >
             <Eye />
           </div>

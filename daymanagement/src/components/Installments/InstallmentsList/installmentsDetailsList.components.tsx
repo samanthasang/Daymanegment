@@ -18,7 +18,7 @@ export default function FormInstallmentsDetailsList({
     description: string;
     installmentstList: {
       isComplete: boolean;
-      date: string;
+      doDate: number;
       payment: string;
     }[];
     priority: string;
@@ -32,6 +32,32 @@ export default function FormInstallmentsDetailsList({
     completeUpdate: string;
   }>;
 }) {
+  // const instalmentComplete =
+  //   installment && installment.filter((ins) => ins.isComplete);
+
+  // const instalmentNotComplete =
+  //   installment && installment.filter((ins) => !ins.isComplete);
+
+  // const lastInstalment =
+  //   installment &&
+  //   installment.length > 0 &&
+  //   installment[installment.length - 1].doDate;
+
+  // const lastComplete =
+  //   instalmentComplete && instalmentComplete?.length > 0
+  //     ? instalmentComplete[instalmentComplete.length - 1].doDate
+  //     : lastInstalment;
+
+  // const firstNOtComplete =
+  //   instalmentNotComplete && instalmentNotComplete?.length > 0
+  //     ? instalmentNotComplete[0].doDate
+  //     : lastInstalment;
+
+  // const lastNOtComplete =
+  //   instalmentNotComplete && instalmentNotComplete?.length > 0
+  //     ? instalmentNotComplete[instalmentNotComplete.length - 1].doDate
+  //     : lastInstalment;
+
   return (
     <div className="flex flex-col gap-2 w-full">
       <div className="flex flex-col gap-y-2 w-full h-96 overflow-y-scroll">
@@ -39,18 +65,14 @@ export default function FormInstallmentsDetailsList({
           errors &&
           installment.map((i) => (
             <FormInstallmentsDetails
-              key={i.date}
+              key={i.doDate}
               errors={errors}
               installment={i}
               onChangeinstallment={onChangeinstallment}
             />
           ))}
       </div>
-      <Button
-        onClick={() => onSubmitForm()}
-      >
-        submit
-      </Button>
+      <Button onClick={() => onSubmitForm()}>submit</Button>
     </div>
   );
 }

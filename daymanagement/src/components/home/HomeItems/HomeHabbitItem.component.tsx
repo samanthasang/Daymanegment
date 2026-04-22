@@ -1,5 +1,5 @@
 "use client";
-import MenuItems from "@/components/mainPage/MenuItems/MenuItems.component";
+import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
 import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 

@@ -1,15 +1,10 @@
 "use client";
 import { Eye, Trash } from "@/components/icons";
-import SelectedItemContainer from "@/components/mainPage/selectedItem/SelectedItemContainer.component";
+import SelectedItemContainer from "@/components/mainPage/SelectedSection/selectedItem/SelectedItemContainer.component";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import {
-  delSpendsShareList,
-  TShare
-} from "@/modules/share/share.slice";
+import { delSpendsShareList, TShare } from "@/modules/share/share.slice";
 import { delSpendsListShare, TSpends } from "@/modules/spends/spends.slice";
-import {
-  selectVisitList
-} from "@/modules/visitsList/visit.slice";
+import { selectVisitList } from "@/modules/visitsList/visit.slice";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -55,7 +50,7 @@ export const ShareItemSpends = ({ item }: { item: TShare }) => {
                   delSpendsListShare({ id: item.id, spendsId: item.spendsId })
                 );
             }}
-            className="cursor-pointer flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none"
+            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
           >
             <Trash />
           </div>
@@ -66,10 +61,10 @@ export const ShareItemSpends = ({ item }: { item: TShare }) => {
                 item.visitId &&
                 dispatch(
                   selectVisitList(item.visitId),
-                  router.push(`/spends?dateFrom=${SpendsSelected.date}`)
+                  router.push(`/spends?dateFrom=${SpendsSelected.doDate}`)
                 );
             }}
-            className="cursor-pointer flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none"
+            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-card/15 cursor-pointer"
           >
             <Eye />
           </div>

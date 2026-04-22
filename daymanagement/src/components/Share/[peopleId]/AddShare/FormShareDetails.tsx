@@ -18,7 +18,7 @@ export default function FormShareDetails({
   onChangeshare: (install: TShare) => void;
   removeShare: (id: string) => void;
   errors: FieldErrors<{
-    date: string;
+    doDate: string;
     category: string;
     tag: string;
     title: string;
@@ -28,7 +28,7 @@ export default function FormShareDetails({
     shareList?:
       | {
           peopleId: string;
-          date: string;
+          doDate: string;
           category: string;
           tag: string;
           description: string;
@@ -70,7 +70,7 @@ export default function FormShareDetails({
       <div className="w-full flex flex-col gap-y-4">
         <div className="w-full flex h-8 bg-transparent  py-1 text-base shadow-sm justify-between rounded-xl ">
           <label className="text-white/50">
-            {dayjs(dayjs.unix(Number(share.date))).format("YYYY-MM-DD")}
+            {dayjs(dayjs.unix(Number(share.doDate))).format("YYYY-MM-DD")}
           </label>
           <div className="flex justify-end w-fit gap-x-1">
             <div
@@ -78,7 +78,7 @@ export default function FormShareDetails({
                 e && e.preventDefault();
                 removeShare(share.id);
               }}
-              className="flex justify-center items-center h-5 w-5 bg-white/80 rounded-full"
+              className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
             >
               <Trash />
             </div>
@@ -86,7 +86,7 @@ export default function FormShareDetails({
               checked={share.income}
               handleToggle={(e) => {
                 e && e.preventDefault();
-                share.date &&
+                share.doDate &&
                   setShareDetail({
                     ...share,
                     income: !share.income,

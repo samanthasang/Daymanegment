@@ -1,4 +1,4 @@
-import ShareListComponent from "@/components/Share/Share.component";
+import ShareListComponent from "@/components/People/People.component";
 
 function page() {
   return <ShareListComponent />;

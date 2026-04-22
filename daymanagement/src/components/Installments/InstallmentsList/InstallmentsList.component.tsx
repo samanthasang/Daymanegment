@@ -1,62 +1,54 @@
 "use client";
-import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
-import ListTitle from "@/components/mainPage/ListContainer/ListTitle.component";
+import ListSection from "@/components/mainPage/ListSection/ListSection.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
+import InstallmentsListActivities from "@/lib/Hooks/Lists/Installments/InstallmentsListActivities.component";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
-import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
-import { useState } from "react";
-import SelectedInstallmentsList from "../InstallmentsItem/SelectedInstallmentsList.component";
-import InstallmentsListCurrent from "./InstallmentsListCurrent.component";
+import dynamic from "next/dynamic";
+
+const SelectedSection = dynamic(
+  () =>
+    import("@/components/mainPage/SelectedSection/SelectedSection.component"),
+  { ssr: false }
+);
 
 function InstallmentsList() {
-  const [forgot, setForgot] = useState(false);
-  const { isSX, isSMMin } = useMediaQueryValues();
-
   const {
     ListInstallmentsFiltered,
     ListInstallmentsForgot,
     selectedInstallmentstList,
   } = useInstallmentsList();
+  const { CompleteItem, DelItem, SelectItem } = InstallmentsListActivities();
 
   return (
-    <div className="flex flex-row gap-x-3 flex-1 w-full mx-auto">
-      {((isSX && !selectedInstallmentstList) || isSMMin) && (
-        <ListContainer selectedID={!!selectedInstallmentstList}>
-          <ListTitle
-            forgot={forgot}
-            setForgot={(f) => setForgot(f)}
-            title="Installments"
-            listCount={
-              ListInstallmentsFiltered.length > 0
-                ? ListInstallmentsFiltered?.filter((item) => !item.isComplete)
-                    .length
-                : undefined
-            }
-            secListCount={
-              ListInstallmentsForgot.length > 0
-                ? ListInstallmentsForgot?.filter((item) => !item.isComplete)
-                    .length
-                : undefined
-            }
-          />
-          {!forgot ? (
-            <InstallmentsListCurrent
-              ListInstallments={ListInstallmentsFiltered}
-              selectedID={
-                selectedInstallmentstList && selectedInstallmentstList.id
-              }
-            />
-          ) : (
-            <InstallmentsListCurrent
-              ListInstallments={ListInstallmentsForgot}
-              selectedID={
-                selectedInstallmentstList && selectedInstallmentstList.id
-              }
-            />
-          )}
-        </ListContainer>
-      )}
-      {selectedInstallmentstList && <SelectedInstallmentsList />}
-    </div>
+    <>
+      <ListSection
+        drawerType="InstallmentsList"
+        formType="Add Installment"
+        selectedID={selectedInstallmentstList && !!selectedInstallmentstList.id}
+        ListFilteredTilte="Installments"
+        ListForgotTilte="Old Installments"
+        ListFilteredCount={FinishedArray(ListInstallmentsFiltered).length}
+        ListForgotCount={FinishedArray(ListInstallmentsForgot).length}
+        ListFiltered={ListInstallmentsFiltered as []}
+        ListForgot={ListInstallmentsForgot as []}
+      />
+      <SelectedSection
+        CompleteItem={() =>
+          CompleteItem(
+            selectedInstallmentstList.id,
+            selectedInstallmentstList.title,
+            selectedInstallmentstList.startDate,
+            selectedInstallmentstList.doDate
+          )
+        }
+        DelItem={DelItem}
+        SelectItem={SelectItem}
+        drawerType="InstallmentsList"
+        formType="Edit Installment"
+        selectedIsComplete={selectedInstallmentstList.isComplete}
+        selected={selectedInstallmentstList}
+      />
+    </>
   );
 }
 

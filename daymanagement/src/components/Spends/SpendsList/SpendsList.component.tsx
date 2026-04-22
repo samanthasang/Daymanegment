@@ -1,43 +1,39 @@
 "use client";
-import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
-import ListTitle from "@/components/mainPage/ListContainer/ListTitle.component";
+import ListSection from "@/components/mainPage/ListSection/ListSection.component";
+import SpendsListActivities from "@/lib/Hooks/Lists/Spends/SpendsListActivities.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
-import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
-import { useState } from "react";
-import SelectedSpendsList from "../SpendsItem/SelectedSpendsList.component";
-import SpendsListCurrent from "./SpendsListCurrent.component";
+import dynamic from "next/dynamic";
+
+const SelectedSection = dynamic(
+  () =>
+    import("@/components/mainPage/SelectedSection/SelectedSection.component"),
+  { ssr: false }
+);
 
 function SpendsList() {
-  const [forgot, setForgot] = useState(false);
-  const { isSX, isSMMin } = useMediaQueryValues();
-
-  const { ListSpendsForgot, ListSpendsFiltered, selectedSpends } =
+  const { ListSpendsFiltered, ListSpendsForgot, selectedSpends } =
     useSpendsList();
+  const { DelItem, SelectItem } = SpendsListActivities();
 
   return (
-    <div className="flex flex-row gap-x-3 flex-1 w-full mx-auto">
-      {((isSX && !selectedSpends) || isSMMin) && (
-        <ListContainer selectedID={!!selectedSpends}>
-          <ListTitle
-            forgot={forgot}
-            setForgot={(f) => setForgot(f)}
-            title="Spends"
-          />
-          {!forgot ? (
-            <SpendsListCurrent
-              ListSpends={ListSpendsFiltered}
-              selectedID={selectedSpends && selectedSpends.id}
-            />
-          ) : (
-            <SpendsListCurrent
-              ListSpends={ListSpendsForgot}
-              selectedID={selectedSpends && selectedSpends.id}
-            />
-          )}
-        </ListContainer>
-      )}
-      {selectedSpends && <SelectedSpendsList />}
-    </div>
+    <>
+      <ListSection
+        drawerType="SpendsList"
+        formType="Add Spends"
+        selectedID={selectedSpends && !!selectedSpends.id}
+        ListFilteredTilte="Spends"
+        ListForgotTilte="Old Spends"
+        ListFiltered={ListSpendsFiltered as []}
+        ListForgot={ListSpendsForgot as []}
+      />
+      <SelectedSection
+        drawerType="SpendsList"
+        formType="Add Spends"
+        DelItem={() => DelItem()}
+        SelectItem={() => SelectItem()}
+        selected={selectedSpends}
+      />
+    </>
   );
 }
 

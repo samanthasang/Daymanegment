@@ -4,7 +4,8 @@ export type TShare = {
   id: string;
   peopleId: string;
   income: boolean;
-  date: string;
+  doDate: number;
+  createDate?: number;
   incomeAmount?: string;
   outcomeAmount?: string;
   spendsId?: string;
@@ -32,7 +33,8 @@ export const shareListSlice = createSlice({
         id: string;
         peopleId: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         incomeAmount?: string;
         outcomeAmount?: string;
         spendsId?: string;
@@ -53,7 +55,8 @@ export const shareListSlice = createSlice({
               visitId: action.payload.visitId,
               category: action.payload.category,
               tag: action.payload.tag,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               income: action.payload.income,
             },
           ]
@@ -67,7 +70,8 @@ export const shareListSlice = createSlice({
               visitId: action.payload.visitId,
               category: action.payload.category,
               tag: action.payload.tag,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               income: action.payload.income,
             },
           ];
@@ -115,7 +119,8 @@ export const shareListSlice = createSlice({
         id: string;
         peopleId: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         incomeAmount?: string;
         outcomeAmount?: string;
         spendsId?: string;
@@ -135,7 +140,8 @@ export const shareListSlice = createSlice({
               visitId: action.payload.visitId,
               category: action.payload.category,
               tag: action.payload.tag,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               income: action.payload.income,
             }
           : share

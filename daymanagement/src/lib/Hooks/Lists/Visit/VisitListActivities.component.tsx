@@ -26,12 +26,12 @@ function VisitListActivities() {
     SelectItem();
     toast(`${selectedVisit.title} is deleted`);
   };
-  const CompleteItemt = (id: string, title: string) => {
+  const CompleteItem = (id: string, title: string) => {
     dispatch(completeVisitList(id));
     id && selectedVisit && dispatch(selectVisitList(id));
     toast(`${title} is updated`);
   };
-  return { CompleteItemt, DelItem, SelectWithId, SelectItem };
+  return { CompleteItem, DelItem, SelectWithId, SelectItem };
 }
 
 export default VisitListActivities;

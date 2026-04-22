@@ -1,4 +1,4 @@
-import PageContainer from "../mainPage/PageContainer/PageContainer.component";
+import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
 import GoalsList from "./GoalsList/GoalsList.component";
 
 function GoalsListComponent() {

@@ -1,5 +1,5 @@
 "use client";
-import PageContainer from "../mainPage/PageContainer/PageContainer.component";
+import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
 import HomeList from "./HomeList/HomeList.component";
 
 function HomeComponent() {

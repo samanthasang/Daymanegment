@@ -2,9 +2,9 @@
 import { useAppSelector } from "@/lib/hook";
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
-import DateFromFilter from "../../Filters/DateFromFilter";
-import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
+import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
+import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
 function UseHabbitList() {
   const Habbit = useAppSelector((state) => state.habbitList);
@@ -19,15 +19,12 @@ function UseHabbitList() {
   const ListMyHabbit = listAfterFilter.filter((a) => a.score > 9);
   const ListHabbitNew = ListHabbit.filter((a) => a.score <= 9);
 
-  console.log(ListHabbit);
-  console.log(listAfterFilter);
-  console.log(ListMyHabbit);
-  console.log(ListHabbitNew);
-
+  const dateUpOrderArray: Thabbit[] = DatePlusOrderFilter(ListMyHabbit);
+  const dateDOwnOrderArray: Thabbit[] = DateMinusOrderFilter(ListHabbitNew);
   return {
-    ListMyHabbit,
+    ListMyHabbit: dateUpOrderArray,
     ListHabbitAll: ListHabbit,
-    ListHabbitNew,
+    ListHabbitNew: dateDOwnOrderArray,
     selectedHabbit,
   };
 }

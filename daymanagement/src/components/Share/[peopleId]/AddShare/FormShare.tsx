@@ -17,12 +17,14 @@ import { updateVisitListShare } from "@/modules/visitsList/visit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
   peopleId: string;
   income?: boolean;
-  date: string;
+  doDate: number;
+  createDate?: number;
   incomeAmount?: string;
   outcomeAmount?: string;
   shareId?: string;
@@ -48,7 +50,8 @@ export default function FormShare({
     outcomeAmount: z.string().optional(),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
-    date: z.string().min(1, { message: "date is required" }),
+    doDate: z.number().min(1, { message: "date is required" }),
+    createDate: z.number().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
 
@@ -67,11 +70,7 @@ export default function FormShare({
   } = methods;
 
   useEffect(() => {
-    date &&
-      setValue(
-        "date",
-        Math.floor(new Date(date).getTime() / 1000.0).toString()
-      );
+    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
 
   const dispatch = useAppDispatch();
@@ -86,8 +85,9 @@ export default function FormShare({
       setValue("outcomeAmount", selectedShare.outcomeAmount);
       setValue("category", selectedShare.category);
       setValue("tag", selectedShare.tag);
-      setValue("date", selectedShare.date);
-      setDate(new Date(Number(selectedShare.date) * 1000));
+      setValue("doDate", selectedShare.doDate);
+      setValue("createDate", +selectedShare.doDate);
+      setDate(new Date(Number(selectedShare.doDate) * 1000));
     }
   }, [selectedShare, setValue]);
 
@@ -108,9 +108,13 @@ export default function FormShare({
             id: selectedShare.id,
             peopleId: data.peopleId,
             income: data.income || false,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
             incomeAmount: data.incomeAmount || "",
             outcomeAmount: data.outcomeAmount || "",
             category: data.category,
@@ -122,9 +126,13 @@ export default function FormShare({
             id: "",
             peopleId: data.peopleId,
             income: data.income || false,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
             incomeAmount: data.incomeAmount || "",
             outcomeAmount: data.outcomeAmount || "",
             category: data.category,
@@ -137,9 +145,13 @@ export default function FormShare({
           id: selectedShare.id,
           peopleId: data.peopleId,
           income: data.income || false,
-          date: date
-            ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-            : data.date,
+          doDate: date
+            ? Math.floor(new Date(date).getTime() / 1000.0)
+            : data.doDate,
+          createDate:
+            data.createDate && data.createDate > 0
+              ? data.createDate
+              : data.doDate,
           visitId: selectedShare.visitId,
           incomeAmount: data.incomeAmount || "",
           outcomeAmount: data.outcomeAmount || "",
@@ -148,14 +160,14 @@ export default function FormShare({
         })
       );
     dispatch(selectShareList(""));
-    setValue("date", "");
+    setValue("doDate", 0);
     reset();
     onSubmitForm();
   };
 
   const onReset = () => {
     dispatch(selectShareList(""));
-    setValue("date", "");
+    setValue("doDate", 0);
     reset();
   };
 
@@ -184,7 +196,7 @@ export default function FormShare({
         description={errors.category?.message}
       >
         <Controller
-          name="date"
+          name="doDate"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
@@ -322,7 +334,7 @@ export default function FormShare({
         )}
       />
       <div className="flex gap-4">
-        {selectedShare?.title && (
+        {selectedShare?.id && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

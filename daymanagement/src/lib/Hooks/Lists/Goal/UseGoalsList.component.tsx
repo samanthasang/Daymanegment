@@ -6,6 +6,8 @@ import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
 import { currentUnixTimestampZero } from "../../UseDayJS";
+import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
+import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
 function useGoalsList() {
   const Goal = useAppSelector((state) => state.Goals);
@@ -13,21 +15,24 @@ function useGoalsList() {
   const selectedGoal = Goal?.selectedGoal as TGoals;
   const ListGoals = Goal?.ListTGoals as TGoals[];
 
-  const dateFromArray = DateFromFilter([...ListGoals] as any);
+  const dateFromArray = DateFromFilter([...ListGoals]);
 
-  const dateToArray = DateToFilter([...dateFromArray] as any);
+  const dateToArray = DateToFilter([...dateFromArray]);
 
-  const categoryArray = CategoryFilter([...dateToArray] as any);
+  const categoryArray = CategoryFilter([...dateToArray]);
 
-  const ListGoalsFiltered = TagFilter([...categoryArray] as any);
+  const ListGoalsFiltered = TagFilter([...categoryArray]);
 
   const ListGoalsForgot = ListGoals.filter(
-    (a) => +a.date < currentUnixTimestampZero
+    (a) => +a.doDate < currentUnixTimestampZero
   );
 
+  const dateUpOrderArray: TGoals[] = DatePlusOrderFilter(ListGoalsFiltered);
+  const dateDOwnOrderArray: TGoals[] = DateMinusOrderFilter(ListGoalsForgot);
+
   return {
-    ListGoalsFiltered,
-    ListGoalsForgot,
+    ListGoalsFiltered: dateUpOrderArray,
+    ListGoalsForgot: dateDOwnOrderArray,
     ListGoalsAll: ListGoals,
     selectedGoal,
   };

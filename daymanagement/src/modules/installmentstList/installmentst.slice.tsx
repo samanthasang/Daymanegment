@@ -1,20 +1,23 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TInstallmentst = {
-  date: string;
+  doDate: number;
   payment: string;
   isComplete: boolean;
 };
 export type TInstallmentsts = {
   id: string;
   title: string;
-  startDate: string;
   description: string;
   priority: string;
-  lastUpdate: string;
+  startDate: number;
+  lastUpdate: number;
+  doDate: number;
+  createDate: number;
+  completeUpdate: number;
   isComplete: boolean;
   paymentNumber: string;
-  numberOfPayment?: string;
+  numberOfPayment: string;
   paymentCompleteValue: string;
   category: string;
   tag: string;
@@ -39,18 +42,20 @@ export const installmentstListSlice = createSlice({
       action: PayloadAction<{
         id: string;
         title: string;
-        startDate: string;
         description: string;
         priority: string;
-        lastUpdate: string;
-        completeUpdate: string;
+        startDate: number;
+        lastUpdate: number;
+        doDate: number;
+        createDate: number;
+        completeUpdate: number;
         paymentNumber: string;
-        numberOfPayment?: string;
+        numberOfPayment: string;
         paymentCompleteValue: string;
         category: string;
         tag: string;
         installmentstList: {
-          date: string;
+          doDate: number;
           payment: string;
           isComplete: boolean;
         }[];
@@ -66,6 +71,9 @@ export const installmentstListSlice = createSlice({
               startDate: action.payload.startDate,
               description: action.payload.description,
               lastUpdate: action.payload.lastUpdate,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
+              completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,
               paymentCompleteValue: action.payload.paymentCompleteValue,
@@ -83,6 +91,9 @@ export const installmentstListSlice = createSlice({
               startDate: action.payload.startDate,
               description: action.payload.description,
               lastUpdate: action.payload.lastUpdate,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
+              completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,
               paymentCompleteValue: action.payload.paymentCompleteValue,
@@ -118,7 +129,8 @@ export const installmentstListSlice = createSlice({
       state: InitialState,
       action: PayloadAction<{
         id: string;
-        lastUpdate: string;
+        lastUpdate: number;
+        doDate: number;
       }>
     ) => {
       state.ListInstallmentst = state.ListInstallmentst.map((installmentst) =>
@@ -126,10 +138,11 @@ export const installmentstListSlice = createSlice({
           ? {
               ...installmentst,
               lastUpdate: action.payload.lastUpdate,
+              doDate: action.payload.doDate,
               installmentstList:
                 installmentst.installmentstList &&
                 installmentst.installmentstList.map((ins) =>
-                  ins.date == action.payload.lastUpdate
+                  ins.doDate == action.payload.lastUpdate
                     ? {
                         ...ins,
                         isComplete: !ins.isComplete,
@@ -145,13 +158,15 @@ export const installmentstListSlice = createSlice({
       action: PayloadAction<{
         id: any;
         title: string;
-        startDate: string;
         description: string;
         priority: string;
-        lastUpdate: string;
-        completeUpdate: string;
+        startDate: number;
+        lastUpdate: number;
+        doDate: number;
+        createDate: number;
+        completeUpdate: number;
         paymentNumber: string;
-        numberOfPayment?: string;
+        numberOfPayment: string;
         paymentCompleteValue: string;
         category: string;
         tag: string;
@@ -167,6 +182,8 @@ export const installmentstListSlice = createSlice({
               startDate: action.payload.startDate,
               description: action.payload.description,
               lastUpdate: action.payload.lastUpdate,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,

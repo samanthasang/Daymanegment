@@ -1,52 +1,57 @@
 "use client";
-import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
-import ListTitle from "@/components/mainPage/ListContainer/ListTitle.component";
+import ListSection from "@/components/mainPage/ListSection/ListSection.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
+import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
+import GoalListActivities from "@/lib/Hooks/Lists/Goal/GoalListActivities.component";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
-import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
-import { useState } from "react";
-import SelectedGoalsList from "../GoalsItem/SelectGoalsList.component";
-import GoalsListCurrent from "./GoalsListCurrent.component";
+import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import dynamic from "next/dynamic";
+
+const SelectedSection = dynamic(
+  () =>
+    import("@/components/mainPage/SelectedSection/SelectedSection.component"),
+  { ssr: false }
+);
 
 function GoalsList() {
-  const [forgot, setForgot] = useState(false);
-  const { isSX, isSMMin } = useMediaQueryValues();
-
   const { ListGoalsFiltered, ListGoalsForgot, selectedGoal } = useGoalsList();
+  const { CompleteItem, DelItem, SelectItem } = GoalListActivities();
 
   return (
-    <div className="flex flex-row gap-x-3 flex-1 w-full mx-auto">
-      {((isSX && !selectedGoal) || isSMMin) && (
-        <ListContainer selectedID={!!selectedGoal}>
-          <ListTitle
-            forgot={forgot}
-            setForgot={(f) => setForgot(f)}
-            title="Goals"
-            listCount={
-              ListGoalsFiltered.length > 0
-                ? ListGoalsFiltered?.filter((item) => !item.isComplete).length
-                : undefined
-            }
-            secListCount={
-              ListGoalsForgot.length > 0
-                ? ListGoalsForgot?.filter((item) => !item.isComplete).length
-                : undefined
-            }
-          />
-          {!forgot ? (
-            <GoalsListCurrent
-              ListGoals={ListGoalsFiltered}
-              selectedID={selectedGoal && selectedGoal.id}
-            />
-          ) : (
-            <GoalsListCurrent
-              ListGoals={ListGoalsForgot}
-              selectedID={selectedGoal && selectedGoal.id}
-            />
-          )}
-        </ListContainer>
-      )}
-      {selectedGoal && <SelectedGoalsList />}
-    </div>
+    <>
+      <ListSection
+        drawerType="GoalsList"
+        formType="Add Goals"
+        selectedID={selectedGoal && !!selectedGoal.id}
+        ListFilteredTilte="Goals"
+        ListForgotTilte="Old Goals"
+        ListFilteredCount={FinishedArray(ListGoalsFiltered).length}
+        ListForgotCount={FinishedArray(ListGoalsForgot).length}
+        ListFiltered={ListGoalsFiltered as []}
+        ListForgot={ListGoalsForgot as []}
+      />
+      <SelectedSection
+        drawerType="GoalsList"
+        formType="Edit Goals"
+        selectedIsComplete={(selectedGoal && selectedGoal.isComplete) || false}
+        CompleteItem={() =>
+          CompleteItem(
+            selectedGoal.id,
+            selectedGoal.title,
+            selectedGoal.score || 0
+          )
+        }
+        score={
+          (selectedGoal && selectedGoal.score) ||
+          (selectedGoal &&
+            selectedGoal.doDate &&
+            DayUnixDiff(+selectedGoal.doDate, "day") + 1)
+        }
+        DelItem={() => DelItem()}
+        SelectItem={() => SelectItem()}
+        selected={selectedGoal}
+      />
+    </>
   );
 }
 

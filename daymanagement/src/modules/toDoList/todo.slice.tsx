@@ -4,7 +4,8 @@ export type TToDo = {
   id: string;
   title: string;
   isComplete: boolean;
-  date: string;
+  doDate: number;
+  createDate: number;
   priority: string;
   category: string;
   tag: string;
@@ -29,7 +30,8 @@ export const todoListSlice = createSlice({
       action: PayloadAction<{
         id: string;
         title: string;
-        date: string;
+        doDate: number;
+        createDate: number;
         priority: string;
         description: string;
         category: string;
@@ -46,7 +48,8 @@ export const todoListSlice = createSlice({
               category: action.payload.category,
               description: action.payload.description,
               tag: action.payload.tag,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               isComplete: false,
             },
           ]
@@ -54,7 +57,8 @@ export const todoListSlice = createSlice({
             {
               id: nanoid(),
               priority: action.payload.priority,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               title: action.payload.title,
               category: action.payload.category,
               description: action.payload.description,
@@ -80,7 +84,8 @@ export const todoListSlice = createSlice({
       action: PayloadAction<{
         id: any;
         title: string;
-        date: string;
+        doDate: number;
+        createDate: number;
         priority: string;
         description: string;
         category: string;
@@ -95,7 +100,8 @@ export const todoListSlice = createSlice({
               isComplete: todo.isComplete,
               priority: action.payload.priority,
               description: action.payload.description,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               category: action.payload.category,
               tag: action.payload.tag,
             }

@@ -120,7 +120,7 @@ export const ShareItem = ({ item }: { item: TShare }) => {
                       })
                     ));
               }}
-              className="cursor-pointer flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none"
+              className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
             >
               <Trash />
             </div>
@@ -131,7 +131,7 @@ export const ShareItem = ({ item }: { item: TShare }) => {
                     item.id && dispatch(selectShareList(item.id));
                   }}
                   variant="outline"
-                  className="flex justify-center items-center h-5 w-5 rounded-full bg-transparent border-none hover:bg-transparent"
+                  className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-button/15 cursor-pointer"
                 >
                   <Edit />
                 </Button>
@@ -142,7 +142,7 @@ export const ShareItem = ({ item }: { item: TShare }) => {
           <label
             className={`cursor-pointer px-2 py-1 rounded-2xl ${item.income ? "bg-success" : "bg-error"}`}
           >
-            {dayjs(dayjs.unix(Number(item.date))).format("YYYY-MM-DD")} |{" "}
+            {dayjs(dayjs.unix(Number(item.doDate))).format("YYYY-MM-DD")} |{" "}
             {`${item.incomeAmount || item.outcomeAmount}`}
           </label>
         </div>

@@ -7,7 +7,11 @@ import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
+import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
+import {
+  currentUnixTimestamp
+} from "@/lib/Hooks/UseDayJS";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -22,7 +26,8 @@ import {
 interface IFormInputs {
   title: string;
   priority: string;
-  date: string;
+  doDate: number;
+  createDate?: number;
   category: string;
   tag: string;
   description?: string;
@@ -35,6 +40,9 @@ export default function FormTodo({
   onSubmitForm: () => void;
   formType: string;
 }) {
+  const dispatch = useAppDispatch();
+  const { selectedToDo } = useTodoList();
+
   const [date, setDate] = useState<Date>();
 
   // creating a schema for strings
@@ -43,7 +51,8 @@ export default function FormTodo({
     priority: z.string().min(1, { message: "Priority is required" }),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
-    date: z.string().min(1, { message: "date is required" }),
+    doDate: z.number().min(1, { message: "date is required" }),
+    createDate: z.number().optional(),
     description: z.string().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
@@ -59,18 +68,12 @@ export default function FormTodo({
     setValue,
     reset,
     register,
+    getValues,
   } = methods;
 
   useEffect(() => {
-    date &&
-      setValue(
-        "date",
-        Math.floor(new Date(date).getTime() / 1000.0).toString()
-      );
+    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
-
-  const dispatch = useAppDispatch();
-  const { selectedToDo }: any = useAppSelector((state) => state.todoList) || {};
 
   useEffect(() => {
     if (formType.split(" ")[0] == "Edit" && selectedToDo) {
@@ -79,8 +82,9 @@ export default function FormTodo({
       setValue("category", selectedToDo.category);
       setValue("tag", selectedToDo.tag);
       setValue("description", selectedToDo?.description);
-      setValue("date", selectedToDo.date);
-      setDate(new Date(Number(selectedToDo.date) * 1000));
+      setValue("doDate", selectedToDo.doDate);
+      setValue("createDate", +selectedToDo.doDate);
+      setDate(new Date(Number(selectedToDo.doDate) * 1000));
     }
   }, [selectedToDo, setValue]);
 
@@ -95,14 +99,18 @@ export default function FormTodo({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    selectedToDo?.title
+    formType.split(" ")[0] == "Edit"
       ? dispatch(
           updateToDoList({
             id: selectedToDo.id,
             title: data.title,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
             priority: data.priority,
             description: data.description || "",
             category: data.category,
@@ -113,27 +121,30 @@ export default function FormTodo({
           setToDoList({
             id: "",
             title: data.title,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate: currentUnixTimestamp,
             priority: data.priority,
             description: data.description || "",
             category: data.category,
             tag: data.tag,
           })
         );
-    dispatch(selectToDoList(""));
 
-    selectedToDo?.title
+    setValue("doDate", 0);
+
+    selectedToDo?.id
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
-    setValue("date", "");
+
+    dispatch(selectToDoList(""));
     reset();
     onSubmitForm();
   };
   const onReset = () => {
     dispatch(selectToDoList(""));
-    setValue("date", "");
+    setValue("doDate", 0);
     reset();
   };
 
@@ -161,10 +172,10 @@ export default function FormTodo({
 
       <ClendarButtonGroup
         dateValue={date}
-        errors={!date && !!errors.date?.message}
+        errors={!date && !!errors.doDate?.message}
       >
         <Controller
-          name="date"
+          name="doDate"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
@@ -256,7 +267,7 @@ export default function FormTodo({
       />
 
       <div className="flex gap-4">
-        {selectedToDo?.title && (
+        {formType.split(" ")[0] == "Edit" && selectedToDo?.title && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

@@ -1,16 +1,19 @@
+import { DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
-import dayjs, { ManipulateType } from "dayjs";
+import { ManipulateType } from "dayjs";
 
 export type TReminder = {
   id: string;
   title: string;
   isComplete: boolean;
-  date: string;
+  doDate: number;
+  createDate: number;
   timeDiff: string;
   priodDiff: string;
   priority: string;
   category: string;
   tag: string;
+  description: string;
 };
 
 export interface InitialState {
@@ -31,12 +34,14 @@ export const reminderListSlice = createSlice({
       action: PayloadAction<{
         id: string;
         title: string;
-        date: string;
+        doDate: number;
+        createDate: number;
         timeDiff: string;
         priodDiff: string;
         priority: string;
         category: string;
         tag: string;
+        description: string;
       }>
     ) => {
       state.ListReminder = state.ListReminder
@@ -48,9 +53,11 @@ export const reminderListSlice = createSlice({
               priority: action.payload.priority,
               category: action.payload.category,
               tag: action.payload.tag,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
+              description: action.payload.description,
               isComplete: false,
             },
           ]
@@ -58,12 +65,14 @@ export const reminderListSlice = createSlice({
             {
               id: nanoid(),
               priority: action.payload.priority,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
               title: action.payload.title,
               category: action.payload.category,
               tag: action.payload.tag,
+              description: action.payload.description,
               isComplete: false,
             },
           ];
@@ -94,13 +103,11 @@ export const reminderListSlice = createSlice({
         reminder.id == action.payload
           ? {
               ...reminder,
-              date: dayjs(
-                dayjs
-                  .unix(+reminder.date)
-                  .add(+reminder.timeDiff, reminder.priodDiff as ManipulateType)
-              )
-                .unix()
-                .toString(),
+              date: DayUnixAdd(
+                +reminder.doDate,
+                reminder.priodDiff as ManipulateType,
+                +reminder.timeDiff
+              ).toString(),
             }
           : reminder
       );
@@ -110,11 +117,13 @@ export const reminderListSlice = createSlice({
       action: PayloadAction<{
         id: any;
         title: string;
-        date: string;
+        doDate: number;
+        createDate: number;
         timeDiff: string;
         priodDiff: string;
         priority: string;
         category: string;
+        description: string;
         tag: string;
       }>
     ) => {
@@ -127,8 +136,10 @@ export const reminderListSlice = createSlice({
               priority: action.payload.priority,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               category: action.payload.category,
+              description: action.payload.description,
               tag: action.payload.tag,
             }
           : reminder

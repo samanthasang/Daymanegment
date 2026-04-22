@@ -9,14 +9,12 @@ import {
 } from "@/modules/installmentstList/installmentst.slice";
 
 import { toast } from "react-toastify";
+import useInstallmentsList from "./UseInstallmentsList.component";
 
 function InstallmentsListActivities() {
   const dispatch = useAppDispatch();
 
-  const Installments = useAppSelector((state) => state.InstallmentstList);
-
-  const selectedselectedInstallments =
-    Installments?.selectedInstallmentst as TInstallmentsts;
+  const { selectedInstallmentstList } = useInstallmentsList();
 
   const SelectItem = () => {
     dispatch(selectInstallmentstList(""));
@@ -25,23 +23,34 @@ function InstallmentsListActivities() {
     dispatch(selectInstallmentstList(id));
   };
   const DelItem = () => {
-    dispatch(delInstallmentstList(selectedselectedInstallments.id));
+    dispatch(delInstallmentstList(selectedInstallmentstList.id));
     SelectItem();
-    toast(`${selectedselectedInstallments.title} is deleted`);
+    toast(`${selectedInstallmentstList.title} is deleted`);
   };
-  const CompleteItemt = (id: string, title: string, lastUpdate: string) => {
-    dispatch(completeInstallmentstList({ id: id, lastUpdate: lastUpdate }));
-    id && selectedselectedInstallments && dispatch(selectInstallmentstList(id));
+  const CompleteItem = (
+    id: string,
+    title: string,
+    lastUpdate: number,
+    nexeDate: number
+  ) => {
+    dispatch(
+      completeInstallmentstList({
+        id: id,
+        lastUpdate: lastUpdate,
+        doDate: nexeDate,
+      })
+    );
+    id && selectedInstallmentstList && dispatch(selectInstallmentstList(id));
     toast(`${title} is updated`);
   };
   const CompleteItemInstallment = (id: string, title: string) => {
     dispatch(completeInstallmentst(id));
-    id && selectedselectedInstallments && dispatch(selectInstallmentstList(id));
+    id && selectedInstallmentstList && dispatch(selectInstallmentstList(id));
     toast(`${title} is updated`);
   };
   return {
     CompleteItemInstallment,
-    CompleteItemt,
+    CompleteItem,
     DelItem,
     SelectWithId,
     SelectItem,

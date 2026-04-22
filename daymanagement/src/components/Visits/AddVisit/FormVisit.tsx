@@ -7,6 +7,8 @@ import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   delShareList,
@@ -24,13 +26,15 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { nanoid } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
   id?: string;
   title: string;
   income?: boolean;
-  date: string;
+  doDate: number;
+  createDate?: number;
   description?: string;
   shareList?: TShare[];
   advancePayment?: string;
@@ -46,6 +50,9 @@ export default function FormVisits({
   onSubmitForm: () => void;
   formType: string;
 }) {
+  const dispatch = useAppDispatch();
+  const { selectedVisit } = useVisitList();
+
   const [date, setDate] = useState<Date>();
   const [visitIdSelected, setVisitIdSelected] = useState<string>();
 
@@ -66,7 +73,8 @@ export default function FormVisits({
           visitId: z.string().optional(),
           shareId: z.string().optional(),
           tag: z.string().min(1, { message: "Tag is required" }),
-          date: z.string().min(1, { message: "date is required" }),
+          doDate: z.number().min(1, { message: "date is required" }),
+          createDate: z.number().optional(),
         })
       )
       .optional(),
@@ -74,7 +82,8 @@ export default function FormVisits({
     paymentCompleteValue: z.string().optional(),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
-    date: z.string().min(1, { message: "date is required" }),
+    doDate: z.number().min(1, { message: "date is required" }),
+    createDate: z.number().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
 
@@ -93,15 +102,8 @@ export default function FormVisits({
   } = methods;
 
   useEffect(() => {
-    date &&
-      setValue(
-        "date",
-        Math.floor(new Date(date).getTime() / 1000.0).toString()
-      );
+    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
-
-  const dispatch = useAppDispatch();
-  const { selectedVisit }: any = useAppSelector((state) => state.visit) || {};
 
   const {
     ListShare: ListShareAll,
@@ -121,8 +123,9 @@ export default function FormVisits({
       setValue("paymentCompleteValue", selectedVisit.paymentCompleteValue);
       setValue("category", selectedVisit.category);
       setValue("tag", selectedVisit.tag);
-      setValue("date", selectedVisit.date);
-      setDate(new Date(Number(selectedVisit.date) * 1000));
+      setValue("doDate", selectedVisit.doDate);
+      setValue("createDate", +selectedVisit.doDate);
+      setDate(new Date(Number(selectedVisit.doDate) * 1000));
       setSharelist(selectedVisit.shareList);
       setVisitIdSelected(selectedVisit.id);
     }
@@ -134,19 +137,25 @@ export default function FormVisits({
   const handleTag = (data: string) => {
     setValue("tag", data);
   };
+  console.log(getValues());
+  console.log(errors);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const visitId = visitIdSelected ? visitIdSelected : nanoid();
-    visitIdSelected
+    formType.split(" ")[0] == "Edit"
       ? dispatch(
           updateVisitList({
             id: visitId,
             title: data.title,
             income: data.income || false,
             description: data.description || "",
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
             shareList: shareList || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
@@ -160,9 +169,10 @@ export default function FormVisits({
             title: data.title,
             income: data.income || false,
             description: data.description || "",
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate: currentUnixTimestamp,
             shareList: shareList || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
@@ -170,7 +180,7 @@ export default function FormVisits({
             tag: data.tag,
           })
         );
-    if (shareList.length > 0) {
+    if (shareList && shareList.length > 0) {
       shareList.map((share) => {
         const result = ListShareAll.find((obj) => obj.id === share.id);
 
@@ -180,9 +190,13 @@ export default function FormVisits({
                 id: share.id || "",
                 peopleId: share.peopleId,
                 income: share.income || false,
-                date: date
-                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-                  : share.date,
+                doDate: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0)
+                  : share.doDate,
+                createDate:
+                  share.createDate && share.createDate > 0
+                    ? +share.createDate
+                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 visitId: visitId,
@@ -195,9 +209,13 @@ export default function FormVisits({
                 id: share.id || "",
                 peopleId: share.peopleId,
                 income: share.income || false,
-                date: date
-                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-                  : share.date,
+                doDate: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0)
+                  : share.doDate,
+                createDate:
+                  share.createDate && share.createDate > 0
+                    ? +share.createDate
+                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 visitId: visitId,
@@ -207,15 +225,20 @@ export default function FormVisits({
             );
       });
     }
+    setValue("doDate", 0);
+
+    selectedVisit?.id
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
+
     dispatch(selectVisitList(""));
-    setValue("date", "");
     reset();
     onSubmitForm();
   };
 
   const onReset = () => {
     dispatch(selectVisitList(""));
-    setValue("date", "");
+    setValue("doDate", 0);
     reset();
   };
 
@@ -232,10 +255,16 @@ export default function FormVisits({
                 id: shareItem.id,
                 peopleId: share.peopleId,
                 income: share.income,
-                date: getValues("date"),
+                doDate: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0)
+                  : share.doDate,
+                createDate:
+                  share.createDate && share.createDate > 0
+                    ? +share.createDate
+                    : share.doDate,
                 incomeAmount: share.incomeAmount,
                 outcomeAmount: share.outcomeAmount,
-                shareId: getValues("date"),
+                shareId: getValues("doDate").toString(),
                 visitId: "",
                 category: getValues("category"),
                 tag: getValues("tag"),
@@ -252,10 +281,16 @@ export default function FormVisits({
           id: share.id || nanoid(),
           peopleId: share.peopleId,
           income: share.income,
-          date: getValues("date"),
+          doDate: date
+            ? Math.floor(new Date(date).getTime() / 1000.0)
+            : share.doDate,
+          createDate:
+            share.createDate && share.createDate > 0
+              ? +share.createDate
+              : share.doDate,
           incomeAmount: share.incomeAmount,
           outcomeAmount: share.outcomeAmount,
-          shareId: getValues("date"),
+          shareId: getValues("doDate").toString(),
           visitId: "",
           category: getValues("category"),
           tag: getValues("tag"),
@@ -271,10 +306,13 @@ export default function FormVisits({
       id: shareItem.id,
       peopleId: shareItem.peopleId,
       income: shareItem.income,
-      date: getValues("date"),
+      doDate: date
+        ? Math.floor(new Date(date).getTime() / 1000.0)
+        : getValues("doDate"),
+      createDate: currentUnixTimestamp,
       incomeAmount: shareItem.incomeAmount,
       outcomeAmount: shareItem.outcomeAmount,
-      shareId: getValues("date"),
+      shareId: getValues("doDate").toString(),
       visitId: "",
       category: getValues("category"),
       tag: getValues("tag"),
@@ -316,49 +354,32 @@ export default function FormVisits({
       <CalendarWithTime
         dateValue={date}
         setDate={setDate}
-        message={!date && !!errors.date?.message}
+        message={!date && !!errors.doDate?.message}
       />
 
       <div className="bg-primary p-2 rounded-2xl flex flex-col gap-y-2">
-        {/* <Controller
-          name="income"
-          control={control}
-          render={({ field }) => (
-            <div className="w-full flex h-8 border border-input bg-transparent px-3 py-1 text-base shadow-sm  justify-between rounded-xl ">
-              <label className="text-white/50">With Payment</label>
-              <BasicSwitch
-                checked={!!field.value}
-                handleToggle={() => {
-                  setValue("income", !field.value);
-                }}
-                label=""
-                key={"income"}
-              />
-            </div>
-          )}
-        /> */}
-        <div className="w-full flex justify-center items-center gap-x-2 bg-primary rounded-full">
+        <div className="w-full flex justify-center items-center gap-x-1 bg-primary rounded-full">
           <div
             className={cn(
-              "cursor-pointer w-full text-center py-1 rounded-2xl hover:bg-card/15",
+              "cursor-pointer w-full text-center py-1 rounded-xl px-1 hover:bg-card/15",
               !getValues("income")
                 ? "bg-card/15 text-card"
                 : "text-TextForeground hover:text-white"
             )}
             onClick={() => setValue("income", false)}
           >
-            No Payment
+            No Pay
           </div>
           <div
             className={cn(
-              "cursor-pointer w-full text-center py-1 rounded-2xl hover:bg-card/15",
+              "cursor-pointer w-full text-center py-1 rounded-xl px-1 hover:bg-card/15",
               !!getValues("income")
                 ? "bg-card/15 text-card"
                 : "text-TextForeground "
             )}
             onClick={() => setValue("income", true)}
           >
-            With Payment
+            With Pay
           </div>
         </div>
         {watch("income") && (
@@ -471,7 +492,7 @@ export default function FormVisits({
       />
 
       <div className="flex gap-4">
-        {selectedVisit?.title && (
+        {selectedVisit?.id && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

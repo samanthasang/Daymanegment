@@ -1,12 +1,12 @@
 "use client";
 import { useMemo, useState } from "react";
+import IncomeArray from "../ListInfo/IncomeArray.componen";
 
 function IncomeFilter(List: any[]) {
   const [incomeFilter, setIncomeFilter] = useState(false);
 
   const incomeArray = useMemo(
-    () => (incomeFilter ? [...List]?.filter((a) => !a.income) : List),
-
+    () => (incomeFilter ? IncomeArray(List) : List),
     [incomeFilter, List]
   );
 

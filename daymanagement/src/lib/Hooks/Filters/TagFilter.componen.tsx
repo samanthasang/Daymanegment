@@ -8,7 +8,7 @@ function TagFilter(List: any[]) {
   const tagArray = useMemo(
     () =>
       hasTagSearch && !!tagSearch
-        ? [...List]?.filter((a) => a.tag == tagSearch)
+        ? List?.filter((a) => a.tag == tagSearch)
         : List,
     [List, hasTagSearch, tagSearch]
   );

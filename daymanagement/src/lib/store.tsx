@@ -48,17 +48,25 @@ const localStorageMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 const reHydrateStore = () => {
-  if (localStorage.getItem("applicationState") !== null) {
-    return JSON.parse(localStorage.getItem("applicationState") as string); // re-hydrate the store
+  try {
+    const persistedState = localStorage.getItem("applicationState");
+    if (persistedState) {
+      return JSON.parse(persistedState);
+    }
+  } catch (error) {
+    console.warn("Failed to rehydrate state from localStorage:", error);
   }
+  return undefined;
 };
 export const store = configureStore({
   reducer: reducers,
   preloadedState: reHydrateStore(),
   middleware(getDefaultMiddleware) {
-    return getDefaultMiddleware()
-      // .concat(apiService.middleware)
-      .concat(localStorageMiddleware);
+    return (
+      getDefaultMiddleware()
+        // .concat(apiService.middleware)
+        .concat(localStorageMiddleware)
+    );
   },
   // devTools: import.meta.env.DEV,
 });

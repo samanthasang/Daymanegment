@@ -1,33 +1,22 @@
 "use client";
-import ListItem from "@/components/mainPage/listItem/ListItem.component";
+import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.component";
+import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import VisitListActivities from "@/lib/Hooks/Lists/Visit/VisitListActivities.component";
-import {
-  TVisit
-} from "@/modules/visitsList/visit.slice";
+import { TVisit } from "@/modules/visitsList/visit.slice";
 
-export const VisitsItem = ({
-  item,
-  selectedID,
-}: {
-  item: TVisit;
-  selectedID?: string;
-}) => {
-  const { CompleteItemt, DelItem, SelectWithId } = VisitListActivities();
+export const VisitsItem = ({ item }: { item: TVisit }) => {
+  const { CompleteItem, DelItem, SelectWithId } = VisitListActivities();
+  const { selectedVisit } = useVisitList();
 
   return (
     <ListItem
-      id={item.id}
-      title={item.title}
-      category={item.category}
-      tag={item.tag}
-      isComplete={item.isComplete}
-      date={item.date}
+      date={item.doDate}
       drawerType="VisitsList"
-      formType="Edit Visit"
-      selectedID={selectedID}
+      selectedID={selectedVisit && selectedVisit.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
-      CompleteItemt={() => CompleteItemt(item.id, item.title)}
+      CompleteItem={() => CompleteItem(item.id, item.title)}
+      {...item}
     />
   );
 };

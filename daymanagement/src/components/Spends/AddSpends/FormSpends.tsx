@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
+import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
+import { currentUnixTimestamp, DayUnix } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   delShareList,
@@ -31,13 +34,15 @@ interface IFormInputs {
   id?: string;
   title: string;
   income?: boolean;
-  date: string;
+  doDate: number;
+  createDate?: number;
   incomeAmount?: string;
   numberOfProduct?: string;
   priceOfProduct?: string;
   shareList?: TShare[];
   category: string;
   tag: string;
+  description?: string;
 }
 
 export default function FormSpends({
@@ -47,6 +52,9 @@ export default function FormSpends({
   onSubmitForm: () => void;
   formType: string;
 }) {
+  const dispatch = useAppDispatch();
+  const { selectedSpends } = useSpendsList();
+
   const [date, setDate] = useState<Date>();
   const [spendsIdSelected, setSpendsIdSelected] = useState<string>();
 
@@ -59,7 +67,9 @@ export default function FormSpends({
     incomeAmount: z.string().optional(),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
-    date: z.string().min(1, { message: "date is required" }),
+    doDate: z.number().min(1, { message: "date is required" }),
+    createDate: z.number().optional(),
+    description: z.string().optional(),
     shareList: z
       .array(
         z.object({
@@ -72,7 +82,8 @@ export default function FormSpends({
           visitId: z.string().optional(),
           shareId: z.string().optional(),
           tag: z.string().min(1, { message: "Tag is required" }),
-          date: z.string().min(1, { message: "date is required" }),
+          doDate: z.number().min(1, { message: "date is required" }),
+          createDate: z.number().optional(),
         })
       )
       .optional(),
@@ -94,16 +105,12 @@ export default function FormSpends({
   } = methods;
 
   useEffect(() => {
-    date &&
-      setValue(
-        "date",
-        Math.floor(new Date(date).getTime() / 1000.0).toString()
-      );
-  }, [date]);
+    console.log(date && Math.floor(new Date(date).getTime() / 1000.0));
+    console.log(date && new Date(date).getTime() / 1000.0);
+    console.log(date && date);
 
-  const dispatch = useAppDispatch();
-  const { selectedSpends }: any =
-    useAppSelector((state) => state.SpendsList) || {};
+    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
+  }, [date]);
 
   const {
     ListShare: ListShareAll,
@@ -121,10 +128,15 @@ export default function FormSpends({
       setValue("incomeAmount", selectedSpends.incomeAmount);
       setValue("category", selectedSpends.category);
       setValue("tag", selectedSpends.tag);
-      setValue("date", selectedSpends.date);
-      setDate(new Date(Number(selectedSpends.date) * 1000));
+      setValue("doDate", selectedSpends.doDate);
+      setValue(
+        "createDate",
+        +selectedSpends.createDate || +selectedSpends.doDate
+      );
+      setDate(new Date(Number(selectedSpends.doDate) * 1000));
       setSharelist(selectedSpends.shareList);
       setSpendsIdSelected(selectedSpends.id);
+      setValue("description", selectedSpends?.description);
     }
   }, [selectedSpends, setValue]);
 
@@ -135,6 +147,8 @@ export default function FormSpends({
     setValue("tag", data);
   };
 
+  console.log(getValues());
+  console.log(errors);
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const spendsId = spendsIdSelected ? spendsIdSelected : nanoid();
 
@@ -144,15 +158,20 @@ export default function FormSpends({
             id: spendsId,
             title: data.title,
             income: data.income || false,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
             numberOfProduct: data.numberOfProduct || "",
             priceOfProduct: data.priceOfProduct || "",
             incomeAmount: data.incomeAmount || "",
             shareList: shareList || [],
             category: data.category,
             tag: data.tag,
+            description: data.description || "",
           })
         )
       : dispatch(
@@ -160,15 +179,17 @@ export default function FormSpends({
             id: spendsId,
             title: data.title,
             income: data.income || false,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate: currentUnixTimestamp,
             numberOfProduct: data.numberOfProduct || "",
             shareList: shareList || [],
             priceOfProduct: data.priceOfProduct || "",
             incomeAmount: data.incomeAmount || "",
             category: data.category,
             tag: data.tag,
+            description: data.description || "",
           })
         );
     if (shareList.length > 0) {
@@ -181,9 +202,13 @@ export default function FormSpends({
                 id: share.id || "",
                 peopleId: share.peopleId,
                 income: share.income || false,
-                date: date
-                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-                  : share.date,
+                doDate: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0)
+                  : share.doDate,
+                createDate:
+                  share.createDate && share.createDate > 0
+                    ? share.createDate
+                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 spendsId: spendsId,
@@ -196,9 +221,13 @@ export default function FormSpends({
                 id: share.id || "",
                 peopleId: share.peopleId,
                 income: share.income || false,
-                date: date
-                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-                  : share.date,
+                doDate: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0)
+                  : share.doDate,
+                createDate:
+                  share.createDate && share.createDate > 0
+                    ? share.createDate
+                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 spendsId: spendsId,
@@ -208,16 +237,20 @@ export default function FormSpends({
             );
       });
     }
+    setValue("doDate", 0);
+
+    selectedSpends?.id
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
+    
     dispatch(selectSpendsList(""));
-    toast("Wow so easy!");
-    setValue("date", "");
     reset();
     onSubmitForm();
   };
 
   const onReset = () => {
     dispatch(selectSpendsList(""));
-    setValue("date", "");
+    setValue("doDate", 0);
     reset();
   };
 
@@ -234,12 +267,16 @@ export default function FormSpends({
                 id: shareItem.id,
                 peopleId: share.peopleId,
                 income: share.income,
-                date: date
-                  ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-                  : share.date,
+                doDate: date
+                  ? Math.floor(new Date(date).getTime() / 1000.0)
+                  : share.doDate,
+                createDate:
+                  share.createDate && share.createDate > 0
+                    ? share.createDate
+                    : share.doDate,
                 incomeAmount: share.incomeAmount,
                 outcomeAmount: share.outcomeAmount,
-                shareId: getValues("date"),
+                shareId: getValues("doDate").toString(),
                 visitId: "",
                 category: getValues("category"),
                 tag: getValues("tag"),
@@ -255,12 +292,16 @@ export default function FormSpends({
           id: share.id || nanoid(),
           peopleId: share.peopleId,
           income: share.income,
-          date: getValues("date")
-            ? Math.floor(new Date().getTime() / 1000.0).toString()
-            : getValues("date"),
+          doDate: date
+            ? Math.floor(new Date(date).getTime() / 1000.0)
+            : share.doDate,
+          createDate:
+            share.createDate && share.createDate > 0
+              ? share.createDate
+              : share.doDate,
           incomeAmount: share.incomeAmount,
           outcomeAmount: share.outcomeAmount,
-          shareId: getValues("date"),
+          shareId: getValues("doDate").toString(),
           visitId: "",
           category: getValues("category"),
           tag: getValues("tag"),
@@ -276,10 +317,13 @@ export default function FormSpends({
       id: shareItem.id,
       peopleId: shareItem.peopleId,
       income: shareItem.income,
-      date: getValues("date"),
+      doDate: date
+        ? Math.floor(new Date(date).getTime() / 1000.0)
+        : getValues("doDate"),
+      createDate: currentUnixTimestamp,
       incomeAmount: shareItem.incomeAmount,
       outcomeAmount: shareItem.outcomeAmount,
-      shareId: getValues("date"),
+      shareId: getValues("doDate").toString(),
       visitId: "",
       category: getValues("category"),
       tag: getValues("tag"),
@@ -319,10 +363,10 @@ export default function FormSpends({
 
       <ClendarButtonGroup
         dateValue={date}
-        errors={!date && !!errors.date?.message}
+        errors={!date && !!errors.doDate?.message}
       >
         <Controller
-          name="date"
+          name="doDate"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
@@ -473,6 +517,19 @@ export default function FormSpends({
             description={errors.tag?.message}
             onValueChange={handleTag}
             value={field.value}
+          />
+        )}
+      />
+      <Controller
+        defaultValue={""}
+        name="description"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextAreaField
+            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            placeholder="Description"
+            {...field}
           />
         )}
       />

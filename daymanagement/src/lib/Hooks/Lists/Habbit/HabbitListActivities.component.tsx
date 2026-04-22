@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/lib/hook";
 import {
   completeHabbitList,
   delHabbitList,
-  selectHabbitList
+  selectHabbitList,
 } from "@/modules/habbitList/habbit.slice";
 import { toast } from "react-toastify";
 import UseHabbitList from "./UseHabbitList.component";
@@ -24,12 +24,12 @@ function SelectHabbitListActivities() {
     SelectItem();
     toast(`${selectedHabbit.title} is deleted`);
   };
-  const CompleteItemt = (id: string, title: string) => {
+  const CompleteItem = (id: string, title: string) => {
     dispatch(completeHabbitList(id));
     id && selectedHabbit && dispatch(selectHabbitList(id));
     toast(`${title} is updated`);
   };
-  return { CompleteItemt, DelItem, SelectWithId, SelectItem };
+  return { CompleteItem, DelItem, SelectWithId, SelectItem };
 }
 
 export default SelectHabbitListActivities;

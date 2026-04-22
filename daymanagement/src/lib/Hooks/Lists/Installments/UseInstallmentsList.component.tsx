@@ -2,9 +2,11 @@
 import { useAppSelector } from "@/lib/hook";
 import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
-import DateFromInstallmentsFilter from "../../Filters/DateFromInstallmentsFilter";
-import DateToInstallmentsFilter from "../../Filters/DateToInstallmentsFilter";
+import DateFromFilter from "../../Filters/DateFromFilter";
+import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
+import NextDateOrderMinusFilter from "../../ListFilter/NextDateOrderMinusFilter.component";
+import NextDateOrderPlusFilter from "../../ListFilter/NextDateOrderPlusFilter.component";
 import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useInstallmentsList() {
@@ -12,28 +14,31 @@ function useInstallmentsList() {
 
   const selectedInstallmentstList =
     Installmentst?.selectedInstallmentst as TInstallmentsts;
-
   const ListInstallments =
     Installmentst?.ListInstallmentst as TInstallmentsts[];
 
-  const dateFromArray = DateFromInstallmentsFilter([
-    ...ListInstallments,
-  ] as any);
+  const dateFromArray = DateFromFilter([...ListInstallments]);
 
-  const dateToArray = DateToInstallmentsFilter([...dateFromArray] as any);
+  const dateToArray = DateToFilter([...dateFromArray]);
 
-  const categoryArray = CategoryFilter([...dateToArray] as any);
+  const categoryArray = CategoryFilter([...dateToArray]);
 
-  const ListInstallmentsFiltered = TagFilter([...categoryArray] as any);
+  const ListInstallmentsFiltered = TagFilter([...categoryArray]);
 
-  const ListInstallmentsForgot = ListInstallments.filter((a) =>
-    a.installmentstList.filter((ins) => !ins.isComplete)[0]
-      ? a.installmentstList.filter((ins) => !ins.isComplete)[0].date
-      : +a.lastUpdate < currentUnixTimestampZero
+  const ListInstallmentsForgot = ListInstallments.filter(
+    (a) => +a.doDate < currentUnixTimestampZero
   );
+
+  const dateUpOrderArray: TInstallmentsts[] = NextDateOrderPlusFilter(
+    ListInstallmentsFiltered
+  );
+  const dateDOwnOrderArray: TInstallmentsts[] = NextDateOrderMinusFilter(
+    ListInstallmentsForgot
+  );
+
   return {
-    ListInstallmentsFiltered,
-    ListInstallmentsForgot,
+    ListInstallmentsFiltered: dateUpOrderArray,
+    ListInstallmentsForgot: dateDOwnOrderArray,
     ListInstallmentsAll: ListInstallments,
     selectedInstallmentstList,
   };

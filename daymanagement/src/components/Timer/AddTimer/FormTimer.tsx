@@ -4,24 +4,29 @@ import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { TextAreaField } from "@/components/ui/textAreaField";
+import { useAppDispatch } from "@/lib/hook";
+import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import {
   selectTimerList,
   setTimerList,
-  TTimer,
   updateTimerList,
 } from "@/modules/timerList/timer.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
   title: string;
-  startDate?: string;
-  endDate?: string;
+  startDate: number;
+  endDate?: number;
   category: string;
+  createDate?: number;
   tag: string;
+  description?: string;
 }
 
 export default function FormTimer({
@@ -31,6 +36,9 @@ export default function FormTimer({
   onSubmitForm: () => void;
   formType: string;
 }) {
+  const dispatch = useAppDispatch();
+  const { ListTimerAll, selectedTimer } = useTimerList();
+
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
@@ -39,8 +47,10 @@ export default function FormTimer({
     title: z.string().min(4, { message: "Name is required" }),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
-    startDate: z.string().min(1, { message: "date is required" }).optional(),
-    endDate: z.string().min(1, { message: "date is required" }).optional(),
+    startDate: z.number().min(1, { message: "date is required" }),
+    endDate: z.number().min(1, { message: "date is required" }).optional(),
+    createDate: z.number().optional(),
+    description: z.string().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
 
@@ -58,29 +68,13 @@ export default function FormTimer({
 
   useEffect(() => {
     startDate &&
-      setValue(
-        "startDate",
-        Math.floor(new Date(startDate).getTime() / 1000.0).toString()
-      );
+      setValue("startDate", Math.floor(new Date(startDate).getTime() / 1000.0));
   }, [startDate]);
 
   useEffect(() => {
     endDate &&
-      setValue(
-        "endDate",
-        Math.floor(new Date(endDate).getTime() / 1000.0).toString()
-      );
+      setValue("endDate", Math.floor(new Date(endDate).getTime() / 1000.0));
   }, [endDate]);
-
-  const dispatch = useAppDispatch();
-
-  const {
-    ListTimer,
-    selectedTimer,
-  }: {
-    ListTimer: TTimer[];
-    selectedTimer: any;
-  } = useAppSelector((state) => state.TimerList) || [];
 
   const handleCategory = (data: string) => {
     setValue("category", data);
@@ -88,17 +82,6 @@ export default function FormTimer({
   const handleTag = (data: string) => {
     setValue("tag", data);
   };
-
-  // useEffect(() => {
-  //   console.log(startDate);
-  //   console.log(endDate);
-  //   startDate &&
-  //     console.log(
-  //       Math.floor(new Date(startDate).getTime() / 1000.0).toString()
-  //     );
-  //   endDate &&
-  //     console.log(Math.floor(new Date(endDate).getTime() / 1000.0).toString());
-  // }, [endDate, startDate]);
 
   useEffect(() => {
     if (formType.split(" ")[0] == "Edit" && selectedTimer) {
@@ -109,6 +92,8 @@ export default function FormTimer({
       setValue("endDate", selectedTimer.endDate);
       setStartDate(new Date(Number(selectedTimer.startDate) * 1000));
       setEndDate(new Date(Number(selectedTimer.endDate) * 1000));
+      setValue("createDate", +selectedTimer.startDate);
+      setValue("description", selectedTimer?.description);
     }
   }, [selectedTimer, setValue]);
 
@@ -119,11 +104,15 @@ export default function FormTimer({
             id: selectedTimer.id,
             title: data.title,
             startDate: startDate
-              ? Math.floor(new Date(startDate).getTime() / 1000.0).toString()
-              : (data.startDate as string),
+              ? Math.floor(new Date(startDate).getTime() / 1000.0)
+              : data.startDate,
             endDate: endDate
-              ? Math.floor(new Date(endDate).getTime() / 1000.0).toString()
-              : (data.startDate as string),
+              ? Math.floor(new Date(endDate).getTime() / 1000.0)
+              : data.startDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.startDate,
             isComplete:
               startDate &&
               endDate &&
@@ -133,33 +122,41 @@ export default function FormTimer({
                 : true,
             category: data.category,
             tag: data.tag,
+            description: data.description || "",
           })
         )
       : dispatch(
           setTimerList({
             id: "",
-            title: `timer${ListTimer.length}`,
+            title: `timer${ListTimerAll.length}`,
             startDate: startDate
-              ? Math.floor(new Date(startDate).getTime() / 1000.0).toString()
-              : (data.startDate as string),
+              ? Math.floor(new Date(startDate).getTime() / 1000.0)
+              : data.startDate,
             endDate: endDate
-              ? Math.floor(new Date(endDate).getTime() / 1000.0).toString()
-              : (data.startDate as string),
+              ? Math.floor(new Date(endDate).getTime() / 1000.0)
+              : data.startDate,
+            createDate: currentUnixTimestamp,
             isComplete: false,
             category: data.category,
             tag: data.tag,
+            description: data.description || "",
           })
         );
+    setValue("startDate", 0);
+    setValue("endDate", 0);
+
+    selectedTimer?.id
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
+
     dispatch(selectTimerList(""));
-    setValue("startDate", "");
-    setValue("endDate", "");
     reset();
     onSubmitForm();
   };
   const onReset = () => {
     dispatch(selectTimerList(""));
-    setValue("startDate", "");
-    setValue("endDate", "");
+    setValue("startDate", 0);
+    setValue("endDate", 0);
     reset();
   };
 
@@ -231,6 +228,19 @@ export default function FormTimer({
         message={!endDate && !!errors.endDate?.message}
       />
 
+      <Controller
+        defaultValue={""}
+        name="description"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextAreaField
+            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            placeholder="Description"
+            {...field}
+          />
+        )}
+      />
       <div className="flex gap-4">
         {selectedTimer?.title && (
           <Button onClick={() => onReset()} type="button">

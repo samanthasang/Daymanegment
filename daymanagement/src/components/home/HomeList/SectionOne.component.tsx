@@ -1,7 +1,7 @@
 "use client";
 
-import EmptyList from "@/components/mainPage/EmptyList/EmptyList.component";
-import ListTitle from "@/components/mainPage/ListContainer/ListTitle.component";
+import EmptyList from "@/components/mainPage/List/EmptyList/EmptyList.component";
+import ListTitle from "@/components/mainPage/List/ListContainer/ListTitle.component";
 import Timeritem from "@/components/Timer/TimerItem/TimerItem.component";
 import VisitsItem from "@/components/Visits/VisitsItem/VisitsItem.component";
 import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";

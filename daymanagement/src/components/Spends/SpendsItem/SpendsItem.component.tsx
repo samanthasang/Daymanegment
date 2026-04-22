@@ -1,32 +1,23 @@
 "use client";
-import ListItem from "@/components/mainPage/listItem/ListItem.component";
+import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.component";
 import SpendsListActivities from "@/lib/Hooks/Lists/Spends/SpendsListActivities.component";
+import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 import { TSpends } from "@/modules/spends/spends.slice";
 
-export const SpendsItem = ({
-  item,
-  selectedID,
-}: {
-  item: TSpends;
-  selectedID?: string;
-}) => {
+export const SpendsItem = ({ item }: { item: TSpends }) => {
   const { DelItem, SelectWithId } = SpendsListActivities();
+  const { selectedSpends } = useSpendsList();
 
   return (
     <ListItem
-      id={item.id}
-      title={item.title}
-      category={item.category}
-      tag={item.tag}
-      date={item.date}
+      date={item.doDate}
       incomeAmount={item.incomeAmount}
-      numberOfProduct={item.numberOfProduct}
       priceOfProduct={item.priceOfProduct}
       drawerType="SpendsList"
-      formType="Add Todo"
-      selectedID={selectedID}
+      selectedID={selectedSpends && selectedSpends.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
+      {...item}
     />
   );
 };

@@ -2,15 +2,16 @@
 import { useMemo } from "react";
 import { currentUnixTimestampZero } from "../UseDayJS";
 import UseSearchParams from "../UseSearchParams";
+import DateFromArray from "../ListInfo/DateFromArray";
 
 function DateFromFilter(List: any[]) {
   const { hasdateFrom, dateFrom } = UseSearchParams();
 
   const fromDay =
-    hasdateFrom && dateFrom ? dateFrom : currentUnixTimestampZero.toString();
+    hasdateFrom && dateFrom ? +dateFrom : currentUnixTimestampZero;
 
   const dateFromArray = useMemo(
-    () => [...List]?.filter((list) => +list.date >= +fromDay),
+    () => DateFromArray(List, fromDay),
     [List, hasdateFrom, dateFrom]
   );
 

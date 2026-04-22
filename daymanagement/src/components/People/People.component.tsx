@@ -1,13 +1,12 @@
-"use client";
-import { TPeople } from "@/modules/people/PeopleList.slice";
+import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
+import PeopleList from "../Share/shareList/PeopleList.component";
 
-export const PeopleItem = ({ item }: { item: TPeople }) => {
-
+function PeopleListComponent() {
   return (
-    <div className="w-full bg-primary p-3 rounded-2xl">
-      <label>{item.title}</label>
-    </div>
+    <PageContainer>
+      <PeopleList />
+    </PageContainer>
   );
-};
+}
 
-export default PeopleItem;
+export default PeopleListComponent;

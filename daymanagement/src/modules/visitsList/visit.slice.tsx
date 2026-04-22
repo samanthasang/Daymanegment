@@ -6,7 +6,8 @@ export type TVisit = {
   title: string;
   income: boolean;
   isComplete: boolean;
-  date: string;
+  doDate: number;
+  createDate: number;
   description: string;
   shareList: TShare[];
   advancePayment?: string;
@@ -34,7 +35,8 @@ export const visitSlice = createSlice({
         id: string;
         title: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         description: string;
         shareList: TShare[];
         advancePayment?: string;
@@ -50,7 +52,8 @@ export const visitSlice = createSlice({
               id: action.payload.id,
               title: action.payload.title,
               income: action.payload.income,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               description: action.payload.description,
               shareList: action.payload.shareList,
               advancePayment: action.payload.advancePayment,
@@ -65,7 +68,8 @@ export const visitSlice = createSlice({
               id: action.payload.id,
               title: action.payload.title,
               income: action.payload.income,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               description: action.payload.description,
               shareList: action.payload.shareList,
               advancePayment: action.payload.advancePayment,
@@ -97,7 +101,8 @@ export const visitSlice = createSlice({
         id: string;
         title: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         description: string;
         shareList: TShare[];
         advancePayment?: string;
@@ -111,7 +116,8 @@ export const visitSlice = createSlice({
           ? {
               ...visit,
               title: action.payload.title,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               income: action.payload.income,
               description: action.payload.description,
               shareList: action.payload.shareList,
@@ -130,7 +136,8 @@ export const visitSlice = createSlice({
         id: string;
         peopleId: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         incomeAmount?: string;
         outcomeAmount?: string;
         shareId?: string;
@@ -154,7 +161,8 @@ export const visitSlice = createSlice({
                       visitId: action.payload.visitId,
                       category: action.payload.category,
                       tag: action.payload.tag,
-                      date: action.payload.date,
+                      doDate: action.payload.doDate,
+                      createDate: action.payload.createDate,
                       income: action.payload.income,
                     }
                   : share

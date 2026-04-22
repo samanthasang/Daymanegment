@@ -16,10 +16,6 @@ export const zeroHour = new Date().setHours(0, 0, 0, 0);
 export const currentUnixTimestampZero = Math.floor(
   new Date(zeroHour).getTime() / 1000.0
 );
-
-console.log(currentUnixTimestamp);
-console.log(currentUnixTimestampZero);
-
 export const DayUnix = (date: string) => dayjs.unix(Number(date));
 
 export const DayUnixFormat = (date: number, format: string) =>
@@ -36,8 +32,19 @@ export const DayUnixDuration = (dateStart: string, dateEnd: string) =>
     dayjs.unix(Number(dateStart)).diff(dayjs.unix(Number(dateEnd)))
   );
 
+export const DayUnixDurationDiff = (dateStart: string, dateEnd: string) =>
+  dayjs.duration(
+    dayjs.unix(Number(dateStart)).diff(dayjs.unix(Number(dateEnd)))
+  );
+
 export const DayUnixAdd = (
   dateStart: number,
   dateEnd: ManipulateType,
   addIndex: number
 ) => dayjs(dayjs.unix(dateStart).add(addIndex, dateEnd)).unix();
+
+export const TomorrowUnixTimestampZero = DayUnixAdd(
+  currentUnixTimestampZero,
+  "day",
+  1
+);

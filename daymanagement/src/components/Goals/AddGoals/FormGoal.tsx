@@ -6,8 +6,10 @@ import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import { TextAreaField } from "@/components/ui/textAreaField";
+import { useAppDispatch } from "@/lib/hook";
+import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
+import { currentUnixTimestamp, DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -17,14 +19,17 @@ import {
   setGoalList,
   updateGoalList,
 } from "../../../modules/goalsList/goals.slice";
+import { toast } from "react-toastify";
 
 interface IFormInputs {
   title: string;
   priority: string;
-  date: string;
+  doDate: number;
+  createDate?: number;
   category: string;
   score?: number;
   tag: string;
+  description?: string;
 }
 
 export default function FormGoals({
@@ -34,6 +39,8 @@ export default function FormGoals({
   onSubmitForm: () => void;
   formType: string;
 }) {
+  const dispatch = useAppDispatch();
+  const { selectedGoal } = useGoalsList();
   const [date, setDate] = useState<Date>();
 
   // creating a schema for strings
@@ -43,7 +50,9 @@ export default function FormGoals({
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
     score: z.number().optional(),
-    date: z.string().min(1, { message: "date is required" }),
+    doDate: z.number().min(1, { message: "date is required" }),
+    createDate: z.number().optional(),
+    description: z.string().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
 
@@ -61,15 +70,8 @@ export default function FormGoals({
   } = methods;
 
   useEffect(() => {
-    date &&
-      setValue(
-        "date",
-        Math.floor(new Date(date).getTime() / 1000.0).toString()
-      );
+    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
-
-  const dispatch = useAppDispatch();
-  const { selectedGoal }: any = useAppSelector((state) => state.Goals) || {};
 
   useEffect(() => {
     if (formType.split(" ")[0] == "Edit" && selectedGoal) {
@@ -77,8 +79,10 @@ export default function FormGoals({
       setValue("priority", selectedGoal.priority);
       setValue("category", selectedGoal.category);
       setValue("tag", selectedGoal.tag);
-      setValue("date", selectedGoal.date);
-      setDate(new Date(Number(selectedGoal.date) * 1000));
+      setValue("description", selectedGoal?.description);
+      setValue("doDate", selectedGoal.doDate);
+      setValue("createDate", +selectedGoal.doDate);
+      setDate(new Date(Number(selectedGoal.doDate) * 1000));
     }
   }, [selectedGoal, setValue]);
 
@@ -93,41 +97,54 @@ export default function FormGoals({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    selectedGoal?.title
+    formType.split(" ")[0] == "Edit"
       ? dispatch(
           updateGoalList({
             id: selectedGoal.id,
             title: data.title,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
             priority: data.priority,
+            description: data.description || "",
             category: data.category,
             tag: data.tag,
-            score: DayUnixDiff(Number(data.date), "day"),
+            score: DayUnixDiff(Number(data.doDate), "day"),
           })
         )
       : dispatch(
           setGoalList({
             id: "",
             title: data.title,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate: currentUnixTimestamp,
             priority: data.priority,
+            description: data.description || "",
             category: data.category,
             tag: data.tag,
-            score: DayUnixDiff(Number(data.date), "day"),
+            score: DayUnixDiff(Number(data.doDate), "day"),
           })
         );
+
+    setValue("doDate", 0);
+
+    selectedGoal?.id
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
+
     dispatch(selectGoalList(""));
-    setValue("date", "");
     reset();
     onSubmitForm();
   };
   const onReset = () => {
     dispatch(selectGoalList(""));
-    setValue("date", "");
+    setValue("doDate", 0);
     reset();
   };
 
@@ -155,10 +172,10 @@ export default function FormGoals({
 
       <ClendarButtonGroup
         dateValue={date}
-        errors={!date && !!errors.date?.message}
+        errors={!date && !!errors.doDate?.message}
       >
         <Controller
-          name="date"
+          name="doDate"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
@@ -235,6 +252,19 @@ export default function FormGoals({
         )}
       />
 
+      <Controller
+        defaultValue={""}
+        name="description"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextAreaField
+            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            placeholder="Description"
+            {...field}
+          />
+        )}
+      />
       <div className="flex gap-4">
         {selectedGoal?.title && (
           <Button onClick={() => onReset()} type="button">

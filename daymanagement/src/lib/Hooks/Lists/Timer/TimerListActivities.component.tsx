@@ -26,17 +26,17 @@ function TimerListActivities() {
     SelectItem();
     toast(`${selectedTimer.title} is deleted`);
   };
-  const CompleteItemt = (id: string, title: string) => {
+  const CompleteItem = (id: string, title: string) => {
     dispatch(
       completeTimerList({
         id: id,
-        endDate: Math.floor(new Date().getTime()).toString(),
+        endDate: Math.floor(new Date().getTime() / 1000.0).toString(),
       })
     );
     id && selectedTimer && dispatch(selectTimerList(id));
     toast(`${title} is updated`);
   };
-  return { CompleteItemt, DelItem, SelectWithId, SelectItem };
+  return { CompleteItem, DelItem, SelectWithId, SelectItem };
 }
 
 export default TimerListActivities;

@@ -5,6 +5,8 @@ import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import EndDateToFilter from "../../Filters/EndDateToFilter";
 import StartDateToFilter from "../../Filters/StartDateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
+import StartDateOrderMinusFilter from "../../ListFilter/StartDateOrderMinusFilter.component";
+import StartDateOrderPlusFilter from "../../ListFilter/StartDateOrderPlusFilter.component";
 import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useTimerList() {
@@ -25,10 +27,15 @@ function useTimerList() {
     (a) => +a.startDate < currentUnixTimestampZero
   );
 
+  const dateUpOrderArray: TTimer[] =
+    StartDateOrderPlusFilter(ListTimerFiltered);
+  const dateDOwnOrderArray: TTimer[] =
+    StartDateOrderMinusFilter(ListTimerForgot);
+
   return {
-    ListTimerFiltered,
+    ListTimerFiltered: dateUpOrderArray,
     ListTimerAll: ListTimer,
-    ListTimerForgot,
+    ListTimerForgot: dateDOwnOrderArray,
     selectedTimer,
   };
 }

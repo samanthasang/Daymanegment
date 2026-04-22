@@ -10,7 +10,7 @@ function SwitchComponent({
 }: {
   checkStatus?: boolean;
   ChangeStatus?: () => void;
-  className: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   const { isSX } = useMediaQueryValues();

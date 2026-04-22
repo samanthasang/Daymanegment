@@ -6,16 +6,19 @@ import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { TextAreaField } from "@/components/ui/textAreaField";
+import { useAppDispatch } from "@/lib/hook";
+import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import {
   selectReminderList,
   setReminderList,
-  TReminder,
   updateReminderList,
 } from "@/modules/reminderList/reminder.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
@@ -23,7 +26,9 @@ interface IFormInputs {
   timeDiff: string;
   priodDiff: string;
   priority: string;
-  date: string;
+  doDate: number;
+  createDate?: number;
+  description?: string;
   category: string;
   tag: string;
 }
@@ -35,20 +40,21 @@ export default function FormReminder({
   onSubmitForm: () => void;
   formType: string;
 }) {
-  const [date, setDate] = useState<Date>();
-
   const dispatch = useAppDispatch();
-  const reminder = useAppSelector((state) => state.reminder);
-  const selectedReminder = reminder?.selectedReminder as TReminder;
+  const { selectedReminder } = useReminderList();
+
+  const [date, setDate] = useState<Date>();
 
   const formSchema = z.object({
     title: z.string().min(4, { message: "Name is required" }),
     priority: z.string().min(1, { message: "priority is required" }),
     timeDiff: z.string().min(1, { message: "Number Diffrence is required" }),
     priodDiff: z.string().min(1, { message: "Priod Diffrence is required" }),
-    date: z.string().min(1, { message: "date is required" }),
+    doDate: z.number().min(1, { message: "date is required" }),
+    createDate: z.number().optional(),
     category: z.string().min(1, { message: "category is required" }),
     tag: z.string().min(1, { message: "tag is required" }),
+    description: z.string().optional(),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -65,6 +71,10 @@ export default function FormReminder({
   });
 
   useEffect(() => {
+    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
+  }, [date]);
+
+  useEffect(() => {
     if (
       formType.split(" ")[0] == "Edit" &&
       selectedReminder &&
@@ -76,18 +86,12 @@ export default function FormReminder({
       setValue("priodDiff", selectedReminder.priodDiff);
       setValue("category", selectedReminder.category);
       setValue("tag", selectedReminder.tag);
-      setValue("date", selectedReminder.date);
-      setDate(new Date(Number(selectedReminder.date) * 1000));
+      setValue("description", selectedReminder?.description);
+      setValue("doDate", selectedReminder.doDate);
+      setValue("createDate", +selectedReminder.doDate);
+      setDate(new Date(Number(selectedReminder.doDate) * 1000));
     }
   }, [selectedReminder]);
-
-  useEffect(() => {
-    date &&
-      setValue(
-        "date",
-        Math.floor(new Date(date).getTime() / 1000.0).toString()
-      );
-  }, [date]);
 
   const handlePriority = (data: string) => {
     setValue("priority", data);
@@ -103,18 +107,23 @@ export default function FormReminder({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    selectedReminder?.title
+    formType.split(" ")[0] == "Edit"
       ? dispatch(
           updateReminderList({
             id: selectedReminder.id,
             title: data.title,
-            date: date
-              ? Math.floor(new Date(date).getTime() / 1000.0).toString()
-              : data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate:
+              data.createDate && data.createDate > 0
+                ? data.createDate
+                : data.doDate,
             priority: data.priority,
             category: data.category,
             timeDiff: data.timeDiff,
             priodDiff: data.priodDiff,
+            description: data.description || "",
             tag: data.tag,
           })
         )
@@ -122,202 +131,200 @@ export default function FormReminder({
           setReminderList({
             id: "",
             title: data.title,
-            date: data.date,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
+            createDate: currentUnixTimestamp,
             priority: data.priority,
             category: data.category,
             timeDiff: data.timeDiff,
             priodDiff: data.priodDiff,
+            description: data.description || "",
             tag: data.tag,
           })
         );
+    setValue("doDate", 0);
+
+    selectedReminder?.id
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
+
     dispatch(selectReminderList(""));
     reset();
     onSubmitForm();
   };
   const onReset = () => {
     dispatch(selectReminderList(""));
-    setValue("date", "");
+    setValue("doDate", 0);
     reset();
   };
 
   return (
-    <div className="col-span-1 w-auto">
-      <div className="flex flex-row gap-2 w-auto">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col w-full gap-4"
-        >
-          <div className="flex flex-col sm:flex-row w-full gap-x-4">
-            <div className="min-w-60 flex flex-col gap-y-4">
-              <Controller
-                defaultValue={""}
-                name="title"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <InputField
-                    title="Title"
-                    type="string"
-                    // className="!text-white w-full px-3 border-white rounded py-1"
-                    placeholder="Enter Reminder Name"
-                    disabled={!!errors.title?.message}
-                    required
-                    {...field}
-                  />
-                )}
-              />
-              <ClendarButtonGroup
-                dateValue={date}
-                errors={!date && !!errors.date?.message}
-                // description={errors.category?.message}
-              >
-                <Controller
-                  name="date"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <CalendarDialog
-                      required
-                      mode="single"
-                      selected={date}
-                      month={date}
-                      onSelect={setDate}
-                      className=" border-white rounded py-1"
-                      captionLayout="dropdown"
-                      title="a"
-                      dateValue={date}
-                      setDate={setDate}
-                    />
-                  )}
-                />
-              </ClendarButtonGroup>
-              <Controller
-                defaultValue={""}
-                name="timeDiff"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <InputField
-                    title="Title"
-                    type="number"
-                    placeholder="Number for Repeat"
-                    disabled={!!errors.timeDiff?.message}
-                    required
-                    {...field}
-                  />
-                )}
-              />
-
-              <Controller
-                defaultValue={""}
-                name="priodDiff"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <SelectField
-                    title="priodDiff"
-                    placeholder="Choose Priod"
-                    required
-                    invalid={!field.value && !!errors.priodDiff?.message}
-                    itemArray={[
-                      { id: "hour", title: "Hour" },
-                      { id: "day", title: "Day" },
-                      { id: "month", title: "Month" },
-                      { id: "year", title: "Year" },
-                    ]}
-                    onValueChange={(data) => data && handlePriod(data)}
-                    {...field}
-                    value={field.value}
-                    className={`${!field.value && errors.priodDiff?.message ? "border-[1px] border-red-600" : ""}`}
-                    {...register("priodDiff")}
-                  />
-                )}
-              />
-              <Controller
-                defaultValue={""}
-                name="priority"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <SelectField
-                    title="Priority"
-                    placeholder="Choose Priority"
-                    required
-                    invalid={!field.value && !!errors.priority?.message}
-                    itemArray={[
-                      { id: "High", title: "High" },
-                      { id: "Medium", title: "Medium" },
-                      { id: "Low", title: "Low" },
-                    ]}
-                    onValueChange={(data) => data && handlePriority(data)}
-                    {...field}
-                    value={field.value}
-                    className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
-                    {...register("priority")}
-                  />
-                )}
-              />
-
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="category"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <CategotySelectComponent
-                        required
-                        errors={!field.value && !!errors.category?.message}
-                        description={errors.category?.message}
-                        onValueChange={handleCategory}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-row">
-                <div className="flex-1">
-                  <Controller
-                    defaultValue={""}
-                    name="tag"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <TagSelectComponent
-                        required
-                        errors={!field.value && !!errors.tag?.message}
-                        description={errors.tag?.message}
-                        onValueChange={handleTag}
-                        value={field.value}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {!selectedReminder?.title && (
-            <Button type="submit" variant={"default"}>
-              submit
-            </Button>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full min-w-60 flex flex-col gap-y-3"
+    >
+      {" "}
+      <Controller
+        defaultValue={""}
+        name="title"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <InputField
+            title="Title"
+            type="string"
+            // className="!text-white w-full px-3 border-white rounded py-1"
+            placeholder="Enter Reminder Name"
+            disabled={!!errors.title?.message}
+            required
+            {...field}
+          />
+        )}
+      />
+      <ClendarButtonGroup
+        dateValue={date}
+        errors={!date && !!errors.doDate?.message}
+        // description={errors.category?.message}
+      >
+        <Controller
+          name="doDate"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <CalendarDialog
+              required
+              mode="single"
+              selected={date}
+              month={date}
+              onSelect={setDate}
+              className=" border-white rounded py-1"
+              captionLayout="dropdown"
+              title="a"
+              dateValue={date}
+              setDate={setDate}
+            />
           )}
-
-          {selectedReminder?.title && (
-            <div className="flex gap-4">
-              <Button onClick={() => onReset()} type="button">
-                reset
-              </Button>
-              <Button variant={"default"} type="submit">
-                submit
-              </Button>
-            </div>
-          )}
-        </form>
+        />
+      </ClendarButtonGroup>
+      <Controller
+        defaultValue={""}
+        name="timeDiff"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <InputField
+            title="Title"
+            type="number"
+            placeholder="Number for Repeat"
+            disabled={!!errors.timeDiff?.message}
+            required
+            {...field}
+          />
+        )}
+      />
+      <Controller
+        defaultValue={""}
+        name="priodDiff"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <SelectField
+            title="priodDiff"
+            placeholder="Choose Priod"
+            required
+            invalid={!field.value && !!errors.priodDiff?.message}
+            itemArray={[
+              { id: "hour", title: "Hour" },
+              { id: "day", title: "Day" },
+              { id: "month", title: "Month" },
+              { id: "year", title: "Year" },
+            ]}
+            onValueChange={(data) => data && handlePriod(data)}
+            {...field}
+            value={field.value}
+            className={`${!field.value && errors.priodDiff?.message ? "border-[1px] border-red-600" : ""}`}
+            {...register("priodDiff")}
+          />
+        )}
+      />
+      <Controller
+        defaultValue={""}
+        name="priority"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <SelectField
+            title="Priority"
+            placeholder="Choose Priority"
+            required
+            invalid={!field.value && !!errors.priority?.message}
+            itemArray={[
+              { id: "High", title: "High" },
+              { id: "Medium", title: "Medium" },
+              { id: "Low", title: "Low" },
+            ]}
+            onValueChange={(data) => data && handlePriority(data)}
+            {...field}
+            value={field.value}
+            className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+            {...register("priority")}
+          />
+        )}
+      />
+      <Controller
+        defaultValue={""}
+        name="category"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <CategotySelectComponent
+            required
+            errors={!field.value && !!errors.category?.message}
+            description={errors.category?.message}
+            onValueChange={handleCategory}
+            value={field.value}
+          />
+        )}
+      />
+      <Controller
+        defaultValue={""}
+        name="tag"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TagSelectComponent
+            required
+            errors={!field.value && !!errors.tag?.message}
+            description={errors.tag?.message}
+            onValueChange={handleTag}
+            value={field.value}
+          />
+        )}
+      />
+      <Controller
+        defaultValue={""}
+        name="description"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextAreaField
+            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            placeholder="Description"
+            {...field}
+          />
+        )}
+      />
+      <div className="flex gap-4">
+        {formType.split(" ")[0] == "Edit" && selectedReminder?.title && (
+          <Button onClick={() => onReset()} type="button">
+            reset
+          </Button>
+        )}
+        <Button type="submit" variant="default">
+          submit
+        </Button>
       </div>
-    </div>
+    </form>
   );
 }

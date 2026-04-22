@@ -66,24 +66,12 @@ function CalendarWithTime({
     setDate(date);
   };
 
-  // React.useEffect(() => {
-  //   console.log(dateValue);
-  // }, [dateValue]);
-
-  // React.useEffect(() => {
-  //   console.log(
-  //     `${dayjs(dayjs.unix(Number(dateValue))).format(
-  //       "HH"
-  //     )}:${dayjs(dayjs.unix(Number(dateValue))).format("mm")}:00`
-  //   );
-  // }, [dateValue]);
-
   return (
     <Card size="sm" className="mx-auto w-full bg-primary">
       <CardContent>
         <FieldGroup>
           <Field>
-            {title &&<FieldLabel htmlFor="time-from">{title}</FieldLabel>}
+            {title && <FieldLabel htmlFor="time-from">{title}</FieldLabel>}
             <InputGroup>
               <ClendarButtonGroup
                 dateValue={dateValue}

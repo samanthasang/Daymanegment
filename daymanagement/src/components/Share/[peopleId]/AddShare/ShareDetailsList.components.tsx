@@ -40,7 +40,7 @@ export default function ShareDetailsList({
       id: nanoid(),
       peopleId: "",
       income: false,
-      date: "",
+      doDate: 0,
       incomeAmount: "",
       outcomeAmount: "",
       spendsId: "",

@@ -17,12 +17,8 @@ function usePeopleList() {
   const selectedPeople = People?.selectedPeople as TPeople;
   const ListPeople = People?.ListPeople as TPeople[];
 
-  const [listHasShare, setListHasShare] = useState<TPeople[] | undefined>(
-    ListPeople
-  );
-  const [listHasNoShare, setListHasNoShare] = useState<TPeople[] | undefined>(
-    ListPeople
-  );
+  const [listHasShare, setListHasShare] = useState<TPeople[]>(ListPeople);
+  const [listHasNoShare, setListHasNoShare] = useState<TPeople[]>(ListPeople);
 
   useEffect(() => {
     const filterdList = () => {

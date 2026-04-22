@@ -1,16 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
+import ComplateSortFIlter from "../ListInfo/ComplateSortFIlter.component";
 
 function ComplateFIlter(List: any[]) {
   const [complateFIlter, setcomplateFIlter] = useState(true);
 
   const complateArray = useMemo(
-    () =>
-      complateFIlter
-        ? [...List]?.sort((a, b) => +a.isComplete - +b.isComplete)
-        : List,
-
-    [complateFIlter, List]
+    () => (complateFIlter ? ComplateSortFIlter(List) : List),
+    [List, complateFIlter]
   );
 
   return { complateArray, complateFIlter, setcomplateFIlter };

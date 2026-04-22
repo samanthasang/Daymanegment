@@ -26,12 +26,12 @@ function GoalListActivities() {
     SelectItem();
     toast(`${selectedhabbit.title} is deleted`);
   };
-  const CompleteItemt = (id: string, title: string, score: number) => {
+  const CompleteItem = (id: string, title: string, score: number) => {
     dispatch(completeGoalList({ id, score }));
     id && selectedhabbit && dispatch(selectGoalList(id));
     toast(`${title} is updated`);
   };
-  return { CompleteItemt, DelItem, SelectWithId, SelectItem };
+  return { CompleteItem, DelItem, SelectWithId, SelectItem };
 }
 
 export default GoalListActivities;

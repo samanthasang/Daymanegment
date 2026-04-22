@@ -81,7 +81,7 @@ export default function FormHabbit({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    selectedhabbit?.title
+    formType.split(" ")[0] == "Edit"
       ? dispatch(
           updateHabbitList({
             id: selectedhabbit.id,
@@ -112,10 +112,12 @@ export default function FormHabbit({
             tag: data.tag,
           })
         );
+
     selectedhabbit &&
-      (selectedhabbit?.title
+      (selectedhabbit?.id
         ? toast(`${data.title} is updated`)
         : toast(`${data.title} is created`));
+
     dispatch(selectHabbitList(""));
     reset();
     onSubmitForm();
@@ -219,7 +221,7 @@ export default function FormHabbit({
       />
 
       <div className="flex gap-4">
-        {selectedhabbit?.title && (
+        {formType.split(" ")[0] == "Edit" && selectedhabbit?.title && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

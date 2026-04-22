@@ -1,36 +1,24 @@
 "use client";
-import ListItem from "@/components/mainPage/listItem/ListItem.component";
+import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.component";
 import GoalListActivities from "@/lib/Hooks/Lists/Goal/GoalListActivities.component";
+import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
-import {
-  TGoals
-} from "@/modules/goalsList/goals.slice";
+import { TGoals } from "@/modules/goalsList/goals.slice";
 
-export const GoalsItem = ({
-  item,
-  selectedID,
-}: {
-  item: TGoals;
-  selectedID?: string;
-}) => {
-  const { CompleteItemt, DelItem, SelectWithId } = GoalListActivities();
+export const GoalsItem = ({ item }: { item: TGoals }) => {
+  const { CompleteItem, DelItem, SelectWithId } = GoalListActivities();
+  const { selectedGoal } = useGoalsList();
 
   return (
     <ListItem
-      id={item.id}
-      priority={item.priority}
-      title={item.title}
-      category={item.category}
-      tag={item.tag}
-      isComplete={item.isComplete}
-      date={item.date}
-      score={DayUnixDiff(+item.date, "day") + 1}
+      date={item.doDate}
+      score={item.score ?? DayUnixDiff(+item.doDate, "day") + 1}
       drawerType="GoalsList"
-      formType="Edit Goals"
-      selectedID={selectedID}
+      selectedID={selectedGoal && selectedGoal.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
-      CompleteItemt={() => CompleteItemt(item.id, item.title, item?.score || 0)}
+      CompleteItem={() => CompleteItem(item.id, item.title, item?.score || 0)}
+      {...item}
     />
   );
 };

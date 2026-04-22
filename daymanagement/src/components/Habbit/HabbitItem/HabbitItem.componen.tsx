@@ -1,17 +1,13 @@
 "use client";
-import ListItem from "@/components/mainPage/listItem/ListItem.component";
+import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.component";
 import SelectHabbitListActivities from "@/lib/Hooks/Lists/Habbit/HabbitListActivities.component";
+import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
 import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 import { Thabbit } from "@/modules/habbitList/habbit.slice";
 
-export const HabbitItem = ({
-  item,
-  selectedID,
-}: {
-  item: Thabbit;
-  selectedID?: string;
-}) => {
-  const { CompleteItemt, DelItem, SelectWithId } = SelectHabbitListActivities();
+export const HabbitItem = ({ item }: { item: Thabbit }) => {
+  const { CompleteItem, DelItem, SelectWithId } = SelectHabbitListActivities();
+  const { selectedHabbit } = UseHabbitList();
 
   return (
     <ListItem
@@ -19,11 +15,10 @@ export const HabbitItem = ({
         DayUnixFormat(+item.completeUpdate, "DD") == DayUnixFormatNow("DD")
       }
       drawerType="HabbitList"
-      formType="Edit Habbit"
-      selectedID={selectedID}
+      selectedID={selectedHabbit && selectedHabbit.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
-      CompleteItemt={() => CompleteItemt(item.id, item.title)}
+      CompleteItem={() => CompleteItem(item.id, item.title)}
       {...item}
     />
   );

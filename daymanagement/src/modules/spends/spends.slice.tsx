@@ -5,13 +5,15 @@ export type TSpends = {
   id: string;
   title: string;
   income: boolean;
-  date: string;
+  doDate: number;
+  createDate: number;
   incomeAmount?: string;
   shareList: TShare[];
   numberOfProduct?: string;
   priceOfProduct?: string;
   category: string;
   tag: string;
+  description: string;
 };
 
 export interface InitialState {
@@ -33,13 +35,15 @@ export const spendsListSlice = createSlice({
         id: string;
         title: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         shareList: TShare[];
         numberOfProduct: string;
         priceOfProduct: string;
         incomeAmount: string;
         category: string;
         tag: string;
+        description: string;
       }>
     ) => {
       state.ListSpends = state.ListSpends
@@ -50,12 +54,14 @@ export const spendsListSlice = createSlice({
               title: action.payload.title,
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               incomeAmount: action.payload.incomeAmount,
               shareList: action.payload.shareList,
               category: action.payload.category,
               tag: action.payload.tag,
-              date: action.payload.date,
               income: action.payload.income,
+              description: action.payload.description,
             },
           ]
         : [
@@ -63,13 +69,15 @@ export const spendsListSlice = createSlice({
               id: action.payload.id,
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
-              date: action.payload.date,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               title: action.payload.title,
               shareList: action.payload.shareList,
               incomeAmount: action.payload.incomeAmount,
               category: action.payload.category,
               tag: action.payload.tag,
               income: action.payload.income,
+              description: action.payload.description,
             },
           ];
     },
@@ -84,13 +92,15 @@ export const spendsListSlice = createSlice({
         id: any;
         title: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         shareList: TShare[];
         numberOfProduct: string;
         priceOfProduct: string;
         incomeAmount: string;
         category: string;
         tag: string;
+        description: string;
       }>
     ) => {
       state.ListSpends = state.ListSpends.map((spends) =>
@@ -99,13 +109,15 @@ export const spendsListSlice = createSlice({
               ...spends,
               title: action.payload.title,
               income: action.payload.income,
+              doDate: action.payload.doDate,
+              createDate: action.payload.createDate,
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
               incomeAmount: action.payload.incomeAmount,
               shareList: action.payload.shareList,
-              date: action.payload.date,
               category: action.payload.category,
               tag: action.payload.tag,
+              description: action.payload.description,
             }
           : spends
       );
@@ -116,7 +128,8 @@ export const spendsListSlice = createSlice({
         id: string;
         peopleId: string;
         income: boolean;
-        date: string;
+        doDate: number;
+        createDate: number;
         incomeAmount?: string;
         outcomeAmount?: string;
         shareId?: string;
@@ -140,7 +153,8 @@ export const spendsListSlice = createSlice({
                       spendsId: action.payload.spendsId,
                       category: action.payload.category,
                       tag: action.payload.tag,
-                      date: action.payload.date,
+                      doDate: action.payload.doDate,
+                      createDate: action.payload.createDate,
                       income: action.payload.income,
                     }
                   : share

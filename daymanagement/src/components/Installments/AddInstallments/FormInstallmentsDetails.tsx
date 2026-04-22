@@ -19,7 +19,7 @@ export default function FormInstallmentsDetails({
     description: string;
     installmentstList: {
       isComplete: boolean;
-      date: string;
+      doDate: number;
       payment: string;
     }[];
     priority: string;
@@ -50,7 +50,7 @@ export default function FormInstallmentsDetails({
   return (
     <div className=" flex flex-row justify-between items-center w-full min-w-60 gap-y-4 bg-primary p-2 rounded-2xl">
       <label className="px-2 py-1 flex-none">
-        {dayjs(dayjs.unix(Number(installment.date))).format("YYYY-MM-DD")}
+        {dayjs(dayjs.unix(Number(installment.doDate))).format("YYYY-MM-DD")}
       </label>
       <Input
         className="!text-white w-full px-3 rounded-2xl py-1 flex-1"
@@ -64,7 +64,7 @@ export default function FormInstallmentsDetails({
           checked={installment.isComplete}
           handleToggle={(e) => {
             e && e.preventDefault();
-            installment.date &&
+            installment.doDate &&
               setInstalmentDetail({
                 ...installment,
                 isComplete: !installment.isComplete,

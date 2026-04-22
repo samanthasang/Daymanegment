@@ -1,13 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
+import FinishedArray from "../ListInfo/FinishedArray.componen";
 
 function FinishedFilter(List: any[]) {
   const [finishFilter, setFinishFilter] = useState(false);
 
   const finishArray = useMemo(
-    () => (finishFilter ? [...List]?.filter((a) => !a.isComplete) : List),
-
-    [finishFilter, List]
+    () => (finishFilter ? FinishedArray(List) : List),
+    [List]
   );
 
   return { finishArray, finishFilter, setFinishFilter };

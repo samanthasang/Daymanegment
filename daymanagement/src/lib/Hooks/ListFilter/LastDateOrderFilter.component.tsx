@@ -7,7 +7,7 @@ function LastDateOrderFilter(List: any[]) {
   const LastDateOrderArray = useMemo(
     () =>
       lastDateFilter
-        ? ([...List]?.sort((a, b) => +a.lastDate - +b.lastDate) as any)
+        ? ([...List]?.sort((a, b) => +a.lastDate + +b.lastDate) as any)
         : List,
     [lastDateFilter, List]
   );

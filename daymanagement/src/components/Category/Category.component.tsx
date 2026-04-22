@@ -26,7 +26,7 @@ export const CategoryList = ({ item }: { item: TCategory }) => {
               e && e.preventDefault();
               item.id && dispatch(delCategoryList(item.id));
             }}
-            className="flex justify-center items-center h-5 w-5 rounded-full"
+            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
           >
             <Trash />
           </div>
@@ -35,7 +35,7 @@ export const CategoryList = ({ item }: { item: TCategory }) => {
               e && e.preventDefault();
               item.id && dispatch(selectCategoryList(item.id));
             }}
-            className="flex justify-center items-center h-5 w-5 rounded-full"
+            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-button/15 cursor-pointer"
           >
             <Edit />
           </div>

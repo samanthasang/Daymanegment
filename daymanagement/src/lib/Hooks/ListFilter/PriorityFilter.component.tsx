@@ -1,21 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
+import PrioritySortArray from "../ListInfo/PrioritySortArray.component";
 
 function PriorityFilter(List: any[]) {
   const [priorityFilter, setPriorityFilter] = useState(true);
 
   const priorityArray = useMemo(
-    () =>
-      priorityFilter
-        ? [...List]?.sort((a, b) => {
-            const aOrder =
-              a.priority == "High" ? 3 : a.priority == "Low" ? 1 : 2;
-            const bOrder =
-              b.priority == "High" ? 3 : b.priority == "Low" ? 1 : 2;
-            return bOrder - aOrder;
-          })
-        : List,
-    [priorityFilter, List]
+    () => (priorityFilter ? PrioritySortArray(List) : List),
+    [List]
   );
 
   return { priorityArray, priorityFilter, setPriorityFilter };

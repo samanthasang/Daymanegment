@@ -1,52 +1,43 @@
 "use client";
-import ListContainer from "@/components/mainPage/ListContainer/ListContainer.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
+import TodoListActivities from "@/lib/Hooks/Lists/Todo/TodoListActivities.component";
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
-import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
-import { useState } from "react";
-import ListTitle from "../../mainPage/ListContainer/ListTitle.component";
-import SelectedTodoList from "../TodoItem/SelectedTodoList.component";
-import TodoCurrentList from "./TodoCurrentList.component";
+import dynamic from "next/dynamic";
+import ListSection from "../../mainPage/ListSection/ListSection.component";
+
+const SelectedSection = dynamic(
+  () =>
+    import("@/components/mainPage/SelectedSection/SelectedSection.component"),
+  { ssr: false }
+);
 
 function TodoList() {
-  const [forgot, setForgot] = useState(false);
-  const { isSX, isSMMin } = useMediaQueryValues();
-
   const { ListToDoFiltered, ListToDoForgot, selectedToDo } = useTodoList();
+  const { CompleteItem, DelItem, SelectItem } = TodoListActivities();
 
   return (
-    <div className="flex flex-row gap-x-3 flex-1 w-full mx-auto">
-      {((isSX && !selectedToDo) || isSMMin) && (
-        <ListContainer selectedID={!!selectedToDo}>
-          <ListTitle
-            forgot={forgot}
-            setForgot={(f) => setForgot(f)}
-            title="Todos"
-            listCount={
-              ListToDoFiltered.length > 0
-                ? ListToDoFiltered?.filter((item) => !item.isComplete).length
-                : undefined
-            }
-            secListCount={
-              ListToDoForgot.length > 0
-                ? ListToDoForgot?.filter((item) => !item.isComplete).length
-                : undefined
-            }
-          />
-          {!forgot ? (
-            <TodoCurrentList
-              ListToDo={ListToDoFiltered}
-              selectedID={selectedToDo && selectedToDo.id}
-            />
-          ) : (
-            <TodoCurrentList
-              ListToDo={ListToDoForgot}
-              selectedID={selectedToDo && selectedToDo.id}
-            />
-          )}
-        </ListContainer>
-      )}
-      {selectedToDo && <SelectedTodoList />}
-    </div>
+    <>
+      <ListSection
+        drawerType="TodoList"
+        formType="Add Todo"
+        selectedID={selectedToDo && !!selectedToDo.id}
+        ListFilteredTilte="Todos"
+        ListForgotTilte="Old Todos"
+        ListFilteredCount={FinishedArray(ListToDoFiltered).length}
+        ListForgotCount={FinishedArray(ListToDoForgot).length}
+        ListFiltered={ListToDoFiltered as []}
+        ListForgot={ListToDoForgot as []}
+      />
+      <SelectedSection
+        drawerType="TodoList"
+        formType="Edit Todo"
+        selectedIsComplete={(selectedToDo && selectedToDo.isComplete) || false}
+        CompleteItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
+        DelItem={() => DelItem()}
+        SelectItem={() => SelectItem()}
+        selected={selectedToDo}
+      />
+    </>
   );
 }
 
