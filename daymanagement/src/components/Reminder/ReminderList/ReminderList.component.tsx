@@ -15,7 +15,7 @@ const SelectedSection = dynamic(
 function ReminderList() {
   const { ListReminderFiltered, ListReminderForgot, selectedReminder } =
     useReminderList();
-  const { CompleteItem, DelItem, SelectItem, UpdateTimeReminderList } =
+  const { CompleteItem, DelItem, SelectItem, FinishItem } =
     ReminderListActivities();
 
   return (
@@ -38,17 +38,10 @@ function ReminderList() {
           (selectedReminder && selectedReminder.isComplete) || false
         }
         FinishItem={() =>
-          UpdateTimeReminderList(selectedReminder.id, selectedReminder.title)
+          FinishItem(selectedReminder.id, selectedReminder.title)
         }
         CompleteItem={() =>
           CompleteItem(selectedReminder.id, selectedReminder.title)
-        }
-        isfinished={(selectedReminder && selectedReminder.isComplete) || false}
-        isComplete={
-          selectedReminder &&
-          !!selectedReminder.doDate &&
-          DayUnixFormat(+selectedReminder.doDate, "YYYY-MM-DD") >
-            DayUnixFormatNow("YYYY-MM-DD")
         }
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}

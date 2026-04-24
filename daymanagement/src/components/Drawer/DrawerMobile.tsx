@@ -1,29 +1,25 @@
 "use client";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+
+import * as React from "react";
+
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/Drawer";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import { TShare } from "@/modules/share/share.slice";
-import { useState } from "react";
 import { FieldErrors } from "react-hook-form";
 import { DrawerForms } from "./DrawerForms";
-import { DrawerInfos } from "./DrawerInfos";
 
-export function DrawerDialogDemo({
+export function DrawerMobile({
+  open,
+  onOpenChange,
+  onSubmitFormHandler,
   drawerType,
   formType,
   children,
-  onSubmitForm,
   installment,
   errors,
   onChangeinstallment,
@@ -31,6 +27,9 @@ export function DrawerDialogDemo({
   removeShare,
   shareList,
 }: {
+  open: boolean;
+  onOpenChange: (e: boolean) => void;
+  onSubmitFormHandler: () => void;
   drawerType: string;
   onChangeinstallment?: (install: TInstallmentst) => void;
   onChangeShare?: (onChangeShare: TShare) => void;
@@ -59,64 +58,40 @@ export function DrawerDialogDemo({
     completeUpdate: string;
   }>;
 }) {
-  const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  const openDrawer = (e: boolean) => {
-    setOpen(e);
-  };
-  const onSubmitFormHandler = () => {
-    onSubmitForm && onSubmitForm();
-  };
-
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
-        {children}
-        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter p-3 gap-y-3 backdrop-blur-md rounded-2xl">
-          <DialogHeader>
-            <DialogTitle>{formType}</DialogTitle>
-          </DialogHeader>
-          {formType == "Info" ? (
-            <DrawerInfos drawerType={drawerType} />
-          ) : (
-            <DrawerForms
-              drawerType={drawerType}
-              formType={formType}
-              onSubmit={() => openDrawer(false)}
-              onSubmitForm={onSubmitFormHandler}
-              installment={installment}
-              shareList={shareList}
-              errors={errors}
-              onChangeinstallment={onChangeinstallment}
-              onChangeShare={onChangeShare}
-              removeShare={removeShare}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
   return (
-    <Drawer open={open} onOpenChange={(e) => openDrawer(e)}>
+    <Drawer open={open} onOpenChange={(e) => onOpenChange(e)}>
       {children}
       <DrawerContent className="sm:max-w-full w-full bg-secondary backdrop-filter backdrop-blur-md px-3 gap-y-3">
         <DrawerHeader className="text-left">
           <DrawerTitle>{formType}</DrawerTitle>
         </DrawerHeader>
-        <DrawerForms
-          drawerType={drawerType}
-          formType={formType}
-          onSubmit={() => openDrawer(false)}
-          onSubmitForm={onSubmitFormHandler}
-          installment={installment}
-          shareList={shareList}
-          errors={errors}
-          onChangeinstallment={onChangeinstallment}
-          onChangeShare={onChangeShare}
-          removeShare={removeShare}
-        />
+        {formType == "Info" ? (
+          <DrawerForms
+            drawerType={drawerType}
+            formType={formType}
+            onSubmit={() => onOpenChange(false)}
+            onSubmitForm={onSubmitFormHandler}
+            installment={installment}
+            shareList={shareList}
+            errors={errors}
+            onChangeinstallment={onChangeinstallment}
+            onChangeShare={onChangeShare}
+            removeShare={removeShare}
+          />
+        ) : (
+          <DrawerForms
+            drawerType={drawerType}
+            formType={formType}
+            onSubmit={() => onOpenChange(false)}
+            onSubmitForm={onSubmitFormHandler}
+            installment={installment}
+            shareList={shareList}
+            errors={errors}
+            onChangeinstallment={onChangeinstallment}
+            onChangeShare={onChangeShare}
+            removeShare={removeShare}
+          />
+        )}
         {/* <DrawerFooter className="pt-2">
           <div className="felx flex-row gap-y-2 justify-between items-center">
             <DrawerClose asChild className="flex-1">

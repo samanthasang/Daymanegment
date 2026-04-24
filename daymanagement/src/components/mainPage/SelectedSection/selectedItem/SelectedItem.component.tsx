@@ -21,10 +21,11 @@ export const SelectedItem = ({
   category,
   tag,
   isComplete,
-  isfinished,
+  isFinish,
   doDate,
   createDate,
   score,
+  highest,
   time,
   total,
   totalIncome,
@@ -60,7 +61,7 @@ export const SelectedItem = ({
   numberOfPayment?: string;
   tag?: string;
   isComplete?: boolean;
-  isfinished?: boolean;
+  isFinish?: boolean;
   doDate: number;
   createDate: number;
   time?: string;
@@ -75,6 +76,7 @@ export const SelectedItem = ({
   completeUpdate?: number;
   description?: string;
   score?: number;
+  highest?: number;
   timeDiff?: string;
   priodDiff?: string;
   drawerType?: string;
@@ -126,25 +128,43 @@ export const SelectedItem = ({
             totalOuCome={totalOuCome}
           />
         )}
-        {score && (
-          <SelectedItemContainer title="Score">
-            <label
-              className={
-                (drawerType == "GoalsList" && score > 4) ||
-                (drawerType == "HabbitList" && score > 6)
-                  ? "text-success"
-                  : "text-red-600"
-              }
-            >
-              {score}
-            </label>
-          </SelectedItemContainer>
+        {(score || highest) && (
+          <div className="w-full flex flex-row justify-between gap-x-3">
+            {score && (
+              <SelectedItemContainer title="Score">
+                <label
+                  className={
+                    (score && drawerType == "GoalsList" && score > 4) ||
+                    (score && drawerType == "HabbitList" && score > 6)
+                      ? "text-success"
+                      : "text-red-600"
+                  }
+                >
+                  {score}
+                </label>
+              </SelectedItemContainer>
+            )}
+            {highest && (
+              <SelectedItemContainer title="Highest">
+                <label
+                  className={
+                    (score && drawerType == "GoalsList" && score > 4) ||
+                    (score && drawerType == "HabbitList" && score > 6)
+                      ? "text-success"
+                      : "text-red-600"
+                  }
+                >
+                  {highest}
+                </label>
+              </SelectedItemContainer>
+            )}
+          </div>
         )}
         {CompleteItem && (
           <SelectedItemContainer title="Proggress">
             <SelectedItemProggress
               isComplete={isComplete || false}
-              isfinished={isfinished || false}
+              isFinish={isFinish || false}
               CompleteItem={CompleteItem}
               FinishItem={FinishItem}
             />

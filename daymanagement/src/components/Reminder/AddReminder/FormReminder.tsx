@@ -28,6 +28,7 @@ interface IFormInputs {
   priority: string;
   doDate: number;
   createDate?: number;
+  lastUpdate?: number;
   description?: string;
   category: string;
   tag: string;
@@ -52,6 +53,7 @@ export default function FormReminder({
     priodDiff: z.string().min(1, { message: "Priod Diffrence is required" }),
     doDate: z.number().min(1, { message: "date is required" }),
     createDate: z.number().optional(),
+    lastUpdate: z.number().optional(),
     category: z.string().min(1, { message: "category is required" }),
     tag: z.string().min(1, { message: "tag is required" }),
     description: z.string().optional(),
@@ -88,7 +90,14 @@ export default function FormReminder({
       setValue("tag", selectedReminder.tag);
       setValue("description", selectedReminder?.description);
       setValue("doDate", selectedReminder.doDate);
-      setValue("createDate", +selectedReminder.doDate);
+      setValue(
+        "createDate",
+        selectedReminder.createDate ?? +selectedReminder.doDate
+      );
+      setValue(
+        "lastUpdate",
+        selectedReminder.lastUpdate ?? +selectedReminder.doDate
+      );
       setDate(new Date(Number(selectedReminder.doDate) * 1000));
     }
   }, [selectedReminder]);
@@ -115,10 +124,8 @@ export default function FormReminder({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
+            createDate: data.createDate ?? data.doDate,
+            lastUpdate: data.lastUpdate ?? data.doDate,
             priority: data.priority,
             category: data.category,
             timeDiff: data.timeDiff,
@@ -135,6 +142,7 @@ export default function FormReminder({
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
             createDate: currentUnixTimestamp,
+            lastUpdate: currentUnixTimestamp,
             priority: data.priority,
             category: data.category,
             timeDiff: data.timeDiff,
@@ -145,7 +153,7 @@ export default function FormReminder({
         );
     setValue("doDate", 0);
 
-    selectedReminder?.id
+    formType.split(" ")[0] == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 
@@ -164,7 +172,6 @@ export default function FormReminder({
       onSubmit={handleSubmit(onSubmit)}
       className="w-full min-w-60 flex flex-col gap-y-3"
     >
-      {" "}
       <Controller
         defaultValue={""}
         name="title"
@@ -174,7 +181,6 @@ export default function FormReminder({
           <InputField
             title="Title"
             type="string"
-            // className="!text-white w-full px-3 border-white rounded py-1"
             placeholder="Enter Reminder Name"
             disabled={!!errors.title?.message}
             required
@@ -185,7 +191,6 @@ export default function FormReminder({
       <ClendarButtonGroup
         dateValue={date}
         errors={!date && !!errors.doDate?.message}
-        // description={errors.category?.message}
       >
         <Controller
           name="doDate"
@@ -316,7 +321,7 @@ export default function FormReminder({
         )}
       />
       <div className="flex gap-4">
-        {formType.split(" ")[0] == "Edit" && selectedReminder?.title && (
+        {formType.split(" ")[0] == "Edit" && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

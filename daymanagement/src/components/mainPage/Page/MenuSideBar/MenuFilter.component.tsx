@@ -15,7 +15,7 @@ function MenuFilter() {
   const dispatch = useAppDispatch();
 
   return isMDMax ? (
-    <DrawerButton drawerType={"FilterList"} formType={"Filter"}>
+    <DrawerButton drawerType="FilterList" formType="Info">
       <Filter />
     </DrawerButton>
   ) : (

@@ -2,10 +2,10 @@
 import { useMemo, useState } from "react";
 import IncomeArray from "../ListInfo/IncomeArray.componen";
 
-function IncomeFilter(List: any[]) {
+function IncomeFilter<T>(List: T[]) {
   const [incomeFilter, setIncomeFilter] = useState(false);
 
-  const incomeArray = useMemo(
+  const incomeArray: T[] = useMemo(
     () => (incomeFilter ? IncomeArray(List) : List),
     [incomeFilter, List]
   );

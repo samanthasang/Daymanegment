@@ -1,8 +1,8 @@
 "use client";
 import ListSection from "@/components/mainPage/ListSection/ListSection.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import SelectHabbitListActivities from "@/lib/Hooks/Lists/Habbit/HabbitListActivities.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -22,20 +22,8 @@ function HabbitList() {
         selectedID={selectedHabbit && !!selectedHabbit.id}
         ListFilteredTilte="Habbit"
         ListForgotTilte="New Habbit"
-        ListFilteredCount={
-          ListMyHabbit?.filter(
-            (habbit) =>
-              DayUnixFormat(+habbit.completeUpdate, "DD") !=
-              DayUnixFormatNow("DD")
-          ).length
-        }
-        ListForgotCount={
-          ListHabbitNew?.filter(
-            (habbit) =>
-              DayUnixFormat(+habbit.completeUpdate, "DD") !=
-              DayUnixFormatNow("DD")
-          ).length
-        }
+        ListFilteredCount={FinishedArray(ListMyHabbit).length}
+        ListForgotCount={FinishedArray(ListHabbitNew).length}
         ListFiltered={ListMyHabbit as []}
         ListForgot={ListHabbitNew as []}
       />
@@ -47,12 +35,7 @@ function HabbitList() {
         }
         DelItem={DelItem}
         SelectItem={SelectItem}
-        selectedIsComplete={
-          selectedHabbit && selectedHabbit.completeUpdate
-            ? DayUnixFormat(+selectedHabbit.completeUpdate, "DD") ==
-              DayUnixFormatNow("DD")
-            : false
-        }
+        selectedIsComplete={selectedHabbit && selectedHabbit.isComplete}
         selected={selectedHabbit}
       />
     </>

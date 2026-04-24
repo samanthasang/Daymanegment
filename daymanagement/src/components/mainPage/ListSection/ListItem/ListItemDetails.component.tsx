@@ -6,10 +6,12 @@ export const ListItemDetails = ({
   id,
   title,
   isComplete,
+  isFinish,
   nextDate,
   date,
   diff,
   score,
+  highest,
   incomeAmount,
   total,
   hasShare,
@@ -25,11 +27,13 @@ export const ListItemDetails = ({
   incomeAmount?: string;
   priceOfProduct?: string;
   isComplete?: boolean;
+  isFinish?: boolean;
   nextDate?: string;
   withDel?: boolean;
   date?: string | number;
   diff?: duration.Duration;
   score?: number;
+  highest?: number;
   total?: number;
   hasShare?: boolean;
   drawerType: string;
@@ -43,6 +47,7 @@ export const ListItemDetails = ({
         id={id}
         title={title}
         isComplete={isComplete}
+        isFinish={isFinish}
         nextDate={nextDate}
         date={date}
         score={score}

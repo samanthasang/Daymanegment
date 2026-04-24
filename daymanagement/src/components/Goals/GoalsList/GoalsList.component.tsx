@@ -1,7 +1,6 @@
 "use client";
 import ListSection from "@/components/mainPage/ListSection/ListSection.component";
 import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
-import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import GoalListActivities from "@/lib/Hooks/Lists/Goal/GoalListActivities.component";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";

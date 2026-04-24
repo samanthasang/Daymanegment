@@ -9,9 +9,7 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
-import {
-  currentUnixTimestamp
-} from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -83,7 +81,7 @@ export default function FormTodo({
       setValue("tag", selectedToDo.tag);
       setValue("description", selectedToDo?.description);
       setValue("doDate", selectedToDo.doDate);
-      setValue("createDate", +selectedToDo.doDate);
+      setValue("createDate", selectedToDo.createDate ?? +selectedToDo.doDate);
       setDate(new Date(Number(selectedToDo.doDate) * 1000));
     }
   }, [selectedToDo, setValue]);
@@ -107,10 +105,7 @@ export default function FormTodo({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
+            createDate: data.createDate ?? data.doDate,
             priority: data.priority,
             description: data.description || "",
             category: data.category,
@@ -134,7 +129,7 @@ export default function FormTodo({
 
     setValue("doDate", 0);
 
-    selectedToDo?.id
+    formType.split(" ")[0] == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 

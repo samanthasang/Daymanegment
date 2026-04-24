@@ -2,12 +2,12 @@ import { Done, DoneAll } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 export const SelectedItemProggress = ({
-  isfinished,
+  isFinish,
   isComplete,
   CompleteItem,
   FinishItem,
 }: {
-  isfinished: boolean;
+  isFinish: boolean;
   isComplete: boolean;
   CompleteItem?: () => void;
   FinishItem?: () => void;
@@ -25,7 +25,7 @@ export const SelectedItemProggress = ({
             }}
             className={cn(
               "h-8 w-8 min-w-8 flex justify-center items-center rounded-full hover:bg-card/15 cursor-pointer",
-              isfinished ? "bg-success" : "bg-primary"
+              isFinish ? "bg-success" : "bg-primary"
             )}
           >
             <DoneAll />
@@ -39,15 +39,15 @@ export const SelectedItemProggress = ({
             onClick={(e) => {
               e && e.preventDefault();
               e && e.stopPropagation();
-              !isfinished && CompleteItem();
+              !isFinish && CompleteItem();
             }}
             className={cn(
               "h-8 w-8 min-w-8 flex justify-center items-center rounded-full hover:bg-card/15 cursor-pointer",
-              !isfinished
+              !isFinish
                 ? isComplete
                   ? "bg-success"
                   : "bg-primary"
-                : "bg-withe/15"
+                : "bg-white/15"
             )}
           >
             <Done />

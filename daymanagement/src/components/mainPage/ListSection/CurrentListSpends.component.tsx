@@ -34,9 +34,6 @@ function ListCurrentSpends({
   return (
     <>
       <ListContent ListCount={incomeMArray.length}>
-        {/* {incomeMArray?.map((li: TSpends) => (
-          <SpendsItem key={li.id} item={li} />
-        ))} */}
         <Suspense>
           <ListDetails List={incomeMArray as []} drawerType={drawerType} />
         </Suspense>

@@ -161,7 +161,11 @@ export default function FormInstallments({
       );
       setValue("completeUpdate", selectedInstallmentstList.completeUpdate);
       setValue("doDate", selectedInstallmentstList.doDate);
-      setValue("createDate", +selectedInstallmentstList.doDate);
+      setValue(
+        "createDate",
+        selectedInstallmentstList.createDate ??
+          +selectedInstallmentstList.doDate
+      );
       setDate(new Date(Number(selectedInstallmentstList.startDate) * 1000));
       setInstalmentDetails(selectedInstallmentstList.installmentstList);
     }

@@ -6,8 +6,10 @@ export type TReminder = {
   id: string;
   title: string;
   isComplete: boolean;
+  isFinish: boolean;
   doDate: number;
   createDate: number;
+  lastUpdate: number;
   timeDiff: string;
   priodDiff: string;
   priority: string;
@@ -36,6 +38,7 @@ export const reminderListSlice = createSlice({
         title: string;
         doDate: number;
         createDate: number;
+        lastUpdate: number;
         timeDiff: string;
         priodDiff: string;
         priority: string;
@@ -55,10 +58,12 @@ export const reminderListSlice = createSlice({
               tag: action.payload.tag,
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
+              lastUpdate: action.payload.lastUpdate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
               description: action.payload.description,
               isComplete: false,
+              isFinish: false,
             },
           ]
         : [
@@ -67,6 +72,7 @@ export const reminderListSlice = createSlice({
               priority: action.payload.priority,
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
+              lastUpdate: action.payload.lastUpdate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
               title: action.payload.title,
@@ -74,6 +80,7 @@ export const reminderListSlice = createSlice({
               tag: action.payload.tag,
               description: action.payload.description,
               isComplete: false,
+              isFinish: false,
             },
           ];
     },
@@ -91,11 +98,17 @@ export const reminderListSlice = createSlice({
           ? {
               ...reminder,
               isComplete: !reminder.isComplete,
+              doDate: DayUnixAdd(
+                +reminder.doDate,
+                reminder.priodDiff as ManipulateType,
+                +reminder.timeDiff
+              ),
+              lastUpdate: reminder.doDate,
             }
           : reminder
       );
     },
-    updateTimeReminderList: (
+    finishReminderList: (
       state: InitialState,
       action: PayloadAction<string>
     ) => {
@@ -103,11 +116,20 @@ export const reminderListSlice = createSlice({
         reminder.id == action.payload
           ? {
               ...reminder,
-              date: DayUnixAdd(
-                +reminder.doDate,
-                reminder.priodDiff as ManipulateType,
-                +reminder.timeDiff
-              ).toString(),
+              isFinish: !reminder.isFinish,
+            }
+          : reminder
+      );
+    },
+    unFinishReminderList: (
+      state: InitialState,
+      action: PayloadAction<string>
+    ) => {
+      state.ListReminder = state.ListReminder.map((reminder) =>
+        reminder.id == action.payload
+          ? {
+              ...reminder,
+              isComplete: false,
             }
           : reminder
       );
@@ -119,6 +141,7 @@ export const reminderListSlice = createSlice({
         title: string;
         doDate: number;
         createDate: number;
+        lastUpdate: number;
         timeDiff: string;
         priodDiff: string;
         priority: string;
@@ -138,6 +161,7 @@ export const reminderListSlice = createSlice({
               priodDiff: action.payload.priodDiff,
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
+              lastUpdate: action.payload.lastUpdate,
               category: action.payload.category,
               description: action.payload.description,
               tag: action.payload.tag,
@@ -165,5 +189,6 @@ export const {
   delReminderList,
   updateReminderList,
   selectReminderList,
-  updateTimeReminderList,
+  unFinishReminderList,
+  finishReminderList,
 } = reminderListSlice.actions;

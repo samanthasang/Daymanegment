@@ -21,13 +21,13 @@ export const SelectedItemTimerList = ({
     <div className="w-full flex flex-row justify-between gap-x-3">
       {startDate && (
         <SelectedItemContainer
-          title="Start Date"
+          title="Start Time"
           description={DayUnixFormat(startDate, "hh:MM")}
         />
       )}
       {isComplete && endDate && (
         <SelectedItemContainer
-          title="End Date"
+          title="End Time"
           description={DayUnixFormat(endDate, "hh:MM")}
         />
       )}

@@ -66,16 +66,20 @@ function ListMenuBottom({
   return (
     <div className="flex justify-around w-full mx-auto gap-x-0.5">
       {isSMMax && (
-        <DrawerButton drawerType={"MenuList"} formType={"Menu"}>
+        <DrawerButton drawerType="MenuList" formType={"Info"}>
           <Earth />
         </DrawerButton>
       )}
       {isSMMax && <MenuFilter />}
       {isSMMax && <MenuToday />}
       {!isMDMax && (
-        <div className="flex justify-between items-center w-full mx-auto h-10 p-[6px] bg-slate-800 rounded-3xl px-3">
-          <span>{listTitle}</span>
-          <span>{ListInfo}</span>
+        <div className="w-full mx-auto h-10 ">
+          <DrawerButton drawerType={drawerType} formType="Info">
+            <div className="flex justify-between items-center w-full mx-auto h-10 px-3 cursor-pointer">
+              <span>{listTitle}</span>
+              <span>{ListInfo}</span>
+            </div>
+          </DrawerButton>
         </div>
       )}
       {isSMMax ? (

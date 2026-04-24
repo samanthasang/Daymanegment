@@ -1,8 +1,9 @@
 "use client";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
-import { Button } from "../../ui/button";
 import { AddTask, Filter, Home } from "@/components/icons";
+import DrawerButton from "@/components/Drawer/DrawerButton.component";
+import { Button } from "@/components/ui/button";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 
 function SidebarMobile({
   drawerType,
@@ -18,7 +19,7 @@ function SidebarMobile({
         backdrop-filter backdrop-blur-3xl backdrop-saturate-200 bg-slate-50/10 
         border border-solid border-balck/10 hover:border-white/100"
     >
-      <DrawerDialogDemo drawerType={"FilterList"} formType={"Filter"}>
+      <DrawerDialogDemo drawerType="FilterList" formType="Info">
         <DialogTrigger asChild>
           <Button
             variant="outline"

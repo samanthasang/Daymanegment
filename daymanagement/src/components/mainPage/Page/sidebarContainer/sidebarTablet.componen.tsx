@@ -1,7 +1,7 @@
 "use client";
+import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { DrawerDialogDemo } from "../../Drawer/DrawerComponent";
-import { Button } from "../../ui/button";
 
 function SidebarTablet({
   drawerType,
@@ -17,7 +17,7 @@ function SidebarTablet({
         backdrop-filter backdrop-blur-3xl backdrop-saturate-200 bg-slate-50/10 
         border border-solid border-balck/10 hover:border-white/100"
     >
-      <DrawerDialogDemo drawerType={"FilterList"} formType={"Filter"}>
+      <DrawerDialogDemo drawerType="FilterList" formType="Info">
         <DialogTrigger asChild>
           <Button
             variant="outline"
@@ -27,7 +27,7 @@ function SidebarTablet({
           </Button>
         </DialogTrigger>
       </DrawerDialogDemo>
-      <DrawerDialogDemo drawerType={"FilterList"} formType={"Filter"}>
+      <DrawerDialogDemo drawerType="FilterList" formType="Info">
         <DialogTrigger asChild>
           <Button
             variant="outline"
@@ -47,7 +47,7 @@ function SidebarTablet({
           </Button>
         </DialogTrigger>
       </DrawerDialogDemo>
-      <DrawerDialogDemo drawerType={"FilterList"} formType={"Filter"}>
+      <DrawerDialogDemo drawerType="FilterList" formType="Info">
         <DialogTrigger asChild>
           <Button
             variant="outline"

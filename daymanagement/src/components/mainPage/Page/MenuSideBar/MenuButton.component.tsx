@@ -16,7 +16,7 @@ function MenuButton() {
   const dispatch = useAppDispatch();
 
   return isSMMax ? (
-    <DrawerButton drawerType={"MenuList"} formType={"Menu"}>
+    <DrawerButton drawerType="MenuList" formType={"Info"}>
       <Earth />
     </DrawerButton>
   ) : (

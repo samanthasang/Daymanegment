@@ -3,9 +3,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import {
   completeReminderList,
   delReminderList,
+  finishReminderList,
   selectReminderList,
   TReminder,
-  updateTimeReminderList,
+  unFinishReminderList,
 } from "@/modules/reminderList/reminder.slice";
 
 import { toast } from "react-toastify";
@@ -33,17 +34,23 @@ function ReminderListActivities() {
     id && selectedselectedReminder && dispatch(selectReminderList(id));
     toast(`${title} is updated`);
   };
-  const UpdateTimeReminderList = (id: string, title: string) => {
-    dispatch(updateTimeReminderList(id));
+  const FinishItem = (id: string, title: string) => {
+    dispatch(finishReminderList(id));
+    id && selectedselectedReminder && dispatch(selectReminderList(id));
+    toast(`${title} is updated`);
+  };
+  const UnFinishItem = (id: string, title: string) => {
+    dispatch(unFinishReminderList(id));
     SelectItem();
     toast(`${title} is updated`);
   };
   return {
-    UpdateTimeReminderList,
+    UnFinishItem,
     CompleteItem,
     DelItem,
     SelectWithId,
     SelectItem,
+    FinishItem,
   };
 }
 

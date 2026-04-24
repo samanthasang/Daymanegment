@@ -124,7 +124,7 @@ export default function FormVisits({
       setValue("category", selectedVisit.category);
       setValue("tag", selectedVisit.tag);
       setValue("doDate", selectedVisit.doDate);
-      setValue("createDate", +selectedVisit.doDate);
+      setValue("createDate", selectedVisit.createDate ?? +selectedVisit.doDate);
       setDate(new Date(Number(selectedVisit.doDate) * 1000));
       setSharelist(selectedVisit.shareList);
       setVisitIdSelected(selectedVisit.id);

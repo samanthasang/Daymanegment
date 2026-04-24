@@ -1,4 +1,5 @@
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 function ListContainer({
@@ -11,7 +12,12 @@ function ListContainer({
   const { isSX, isSMMin } = useMediaQueryValues();
   return (
     ((isSX && !selectedID) || isSMMin) && (
-      <div className="flex flex-col flex-1 h-[calc(100vh-18px)] p-1.5 mx-auto rounded-3xl bg-secondary">
+      <div
+        className={cn(
+          "flex flex-col flex-1 h-[calc(100vh-18px)] p-1.5 mx-auto rounded-3xl bg-secondary",
+          (isSX && !selectedID) || isSMMin ? "w-full" : "w-1/2"
+        )}
+      >
         {children}
       </div>
     )

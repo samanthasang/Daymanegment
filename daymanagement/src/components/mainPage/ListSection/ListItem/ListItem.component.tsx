@@ -14,6 +14,7 @@ export const ListItem = ({
   category,
   tag,
   isComplete,
+  isFinish,
   nextDate,
   date,
   diff,
@@ -39,6 +40,7 @@ export const ListItem = ({
   priceOfProduct?: string;
   tag?: string;
   isComplete?: boolean;
+  isFinish?: boolean;
   nextDate?: string;
   withDel?: boolean;
   date?: string | number;
@@ -92,6 +94,7 @@ export const ListItem = ({
           id={id}
           title={title}
           isComplete={isComplete}
+          isFinish={isFinish}
           nextDate={nextDate}
           date={date}
           score={score}

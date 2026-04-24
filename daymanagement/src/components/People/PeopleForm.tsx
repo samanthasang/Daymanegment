@@ -12,9 +12,9 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { InputField } from "../ui/inputField";
-import { PeopleItem } from "./People.component";
 import usePeopleList from "@/lib/Hooks/Lists/Share/UsePeopleList.component";
 import { cn } from "@/lib/utils";
+import PeopleItem from "../Share/peopleItem/PeopleItem.component";
 
 interface IFormInputs {
   title: string;

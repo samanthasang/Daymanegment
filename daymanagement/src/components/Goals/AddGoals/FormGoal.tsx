@@ -81,7 +81,7 @@ export default function FormGoals({
       setValue("tag", selectedGoal.tag);
       setValue("description", selectedGoal?.description);
       setValue("doDate", selectedGoal.doDate);
-      setValue("createDate", +selectedGoal.doDate);
+      setValue("createDate", selectedGoal.createDate ?? +selectedGoal.doDate);
       setDate(new Date(Number(selectedGoal.doDate) * 1000));
     }
   }, [selectedGoal, setValue]);
@@ -134,7 +134,7 @@ export default function FormGoals({
 
     setValue("doDate", 0);
 
-    selectedGoal?.id
+    formType.split(" ")[0] == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 

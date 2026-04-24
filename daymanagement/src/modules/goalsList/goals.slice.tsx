@@ -1,3 +1,4 @@
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TGoals = {
@@ -6,6 +7,7 @@ export type TGoals = {
   isComplete: boolean;
   doDate: number;
   createDate: number;
+  completeUpdate?: number;
   score?: number;
   priority: string;
   category: string;
@@ -85,7 +87,8 @@ export const goalsListSlice = createSlice({
           ? {
               ...goal,
               isComplete: !goal.isComplete,
-              score: action.payload.score + 1,
+              score: action.payload.score,
+              completeUpdate: currentUnixTimestamp,
             }
           : goal
       );

@@ -86,7 +86,7 @@ export default function FormShare({
       setValue("category", selectedShare.category);
       setValue("tag", selectedShare.tag);
       setValue("doDate", selectedShare.doDate);
-      setValue("createDate", +selectedShare.doDate);
+      setValue("createDate", selectedShare.createDate ?? +selectedShare.doDate);
       setDate(new Date(Number(selectedShare.doDate) * 1000));
     }
   }, [selectedShare, setValue]);

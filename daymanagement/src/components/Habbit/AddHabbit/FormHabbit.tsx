@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
+import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
 import {
   selectHabbitList,
   setHabbitList,
@@ -14,7 +15,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { nanoid } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -26,6 +27,8 @@ interface IFormInputs {
   priority: string;
   category: string;
   tag: string;
+  lastUpdate: number;
+  createDate?: number;
 }
 
 export default function FormHabbit({
@@ -36,8 +39,8 @@ export default function FormHabbit({
   formType: string;
 }) {
   const dispatch = useAppDispatch();
-  const { selectedhabbit }: any =
-    useAppSelector((state) => state.habbitList) || {};
+  const { selectedHabbit } = UseHabbitList();
+  const [date, setDate] = useState<Date>();
 
   // creating a schema for strings
   const formSchema = z.object({
@@ -46,6 +49,8 @@ export default function FormHabbit({
     priority: z.string().min(1, { message: "priority is required" }),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
+    lastUpdate: z.number().min(1, { message: "date is required" }),
+    createDate: z.number().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
   const {
@@ -61,14 +66,25 @@ export default function FormHabbit({
   });
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedhabbit) {
-      setValue("title", selectedhabbit?.title);
-      setValue("description", selectedhabbit?.description);
-      setValue("priority", selectedhabbit?.priority);
-      setValue("category", selectedhabbit?.category);
-      setValue("tag", selectedhabbit?.tag);
+    date &&
+      setValue("lastUpdate", Math.floor(new Date(date).getTime() / 1000.0));
+  }, [date]);
+
+  useEffect(() => {
+    if (formType.split(" ")[0] == "Edit" && selectedHabbit) {
+      setValue("title", selectedHabbit?.title);
+      setValue("description", selectedHabbit?.description);
+      setValue("priority", selectedHabbit?.priority);
+      setValue("category", selectedHabbit?.category);
+      setValue("tag", selectedHabbit?.tag);
+      setValue("lastUpdate", selectedHabbit.lastUpdate);
+      setValue(
+        "createDate",
+        selectedHabbit.createDate ?? +selectedHabbit.lastUpdate
+      );
+      setDate(new Date(Number(selectedHabbit.lastUpdate) * 1000));
     }
-  }, [selectedhabbit]);
+  }, [selectedHabbit]);
 
   const handlePriority = (data: string) => {
     setValue("priority", data);
@@ -79,22 +95,22 @@ export default function FormHabbit({
   const handleTag = (data: string) => {
     setValue("tag", data);
   };
+  console.log(getValues());
+  console.log(errors);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     formType.split(" ")[0] == "Edit"
       ? dispatch(
           updateHabbitList({
-            id: selectedhabbit.id,
+            id: selectedHabbit.id,
             title: data.title,
             description: data.description || "",
             priority: data.priority,
-            completeUpdate: selectedhabbit
-              ? selectedhabbit.completeUpdate
-              : currentUnixTimestamp,
-            lastUpdate: selectedhabbit
-              ? selectedhabbit.lastUpdate
-              : currentUnixTimestamp,
-            score: selectedhabbit.score,
+            createDate: currentUnixTimestamp,
+            lastUpdate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.lastUpdate,
+            score: selectedHabbit.score,
             category: data.category,
             tag: data.tag,
           })
@@ -105,18 +121,18 @@ export default function FormHabbit({
             title: data.title,
             description: data.description || "",
             priority: data.priority,
-            completeUpdate: selectedhabbit ? selectedhabbit.completeUpdate : "",
-            lastUpdate: selectedhabbit ? selectedhabbit.lastUpdate : "",
-            score: selectedhabbit ? selectedhabbit.score : 1,
+            createDate: currentUnixTimestamp,
+            lastUpdate: currentUnixTimestamp,
+            isComplete: false,
+            score: 1,
             category: data.category,
             tag: data.tag,
           })
         );
 
-    selectedhabbit &&
-      (selectedhabbit?.id
-        ? toast(`${data.title} is updated`)
-        : toast(`${data.title} is created`));
+    formType.split(" ")[0] == "Edit"
+      ? toast(`${data.title} is updated`)
+      : toast(`${data.title} is created`);
 
     dispatch(selectHabbitList(""));
     reset();
@@ -221,7 +237,7 @@ export default function FormHabbit({
       />
 
       <div className="flex gap-4">
-        {formType.split(" ")[0] == "Edit" && selectedhabbit?.title && (
+        {formType.split(" ")[0] == "Edit" && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

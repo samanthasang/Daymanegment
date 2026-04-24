@@ -6,10 +6,12 @@ export type Thabbit = {
   id: string;
   title: string;
   score: number;
+  highest: number;
   description: string;
   priority: string;
-  lastUpdate: string;
-  completeUpdate: string;
+  createDate: number;
+  lastUpdate: number;
+  isComplete: boolean;
   category: string;
   tag: string;
 };
@@ -35,8 +37,9 @@ export const habbitListSlice = createSlice({
         description: string;
         priority: string;
         score: number;
-        lastUpdate: string;
-        completeUpdate: string;
+        createDate: number;
+        lastUpdate: number;
+        isComplete: boolean;
         category: string;
         tag: string;
       }>
@@ -53,11 +56,11 @@ export const habbitListSlice = createSlice({
               description: action.payload.description,
               category: action.payload.category,
               tag: action.payload.tag,
-              score: action.payload.score || 0,
-              lastUpdate: Math.floor(
-                new Date(currentUnixTimestamp).getTime()
-              ).toString(),
-              completeUpdate: action.payload.completeUpdate,
+              score: action.payload.score || 1,
+              highest: action.payload.score || 1,
+              createDate: action.payload.createDate,
+              lastUpdate: action.payload.lastUpdate,
+              isComplete: action.payload.isComplete,
             },
           ]
         : [
@@ -68,11 +71,11 @@ export const habbitListSlice = createSlice({
               title: action.payload.title,
               category: action.payload.category,
               tag: action.payload.tag,
-              score: action.payload.score || 0,
-              lastUpdate: Math.floor(
-                new Date(currentUnixTimestamp).getTime()
-              ).toString(),
-              completeUpdate: action.payload.completeUpdate,
+              score: action.payload.score || 1,
+              highest: action.payload.score || 1,
+              createDate: action.payload.createDate,
+              lastUpdate: action.payload.lastUpdate,
+              isComplete: action.payload.isComplete,
             },
           ];
     },
@@ -89,18 +92,11 @@ export const habbitListSlice = createSlice({
         Habbit.id == action.payload
           ? {
               ...Habbit,
-              score:
-                dayjs(dayjs.unix(Number(currentUnixTimestamp))).format("DD") !=
-                  dayjs(dayjs.unix(Number(Habbit.lastUpdate))).format("DD") ||
-                Habbit.score == 0
-                  ? Habbit.score + 1
-                  : Habbit.score,
-              lastUpdate: Math.floor(
-                new Date(currentUnixTimestamp).getTime()
-              ).toString(),
-              completeUpdate: Math.floor(
-                new Date(currentUnixTimestamp).getTime()
-              ).toString(),
+              score: !Habbit.isComplete ? Habbit.score + 1 : Habbit.score - 1,
+              highest:
+                Habbit.highest > Habbit.score ? Habbit.highest : Habbit.score,
+              lastUpdate: currentUnixTimestamp,
+              isComplete: !Habbit.isComplete,
             }
           : Habbit
       );
@@ -113,8 +109,8 @@ export const habbitListSlice = createSlice({
         description: string;
         score: number;
         priority: string;
-        lastUpdate: string;
-        completeUpdate: string;
+        createDate: number;
+        lastUpdate: number;
         category: string;
         tag: string;
       }>
@@ -126,12 +122,13 @@ export const habbitListSlice = createSlice({
               title: action.payload.title,
               description: action.payload.description,
               score: action.payload.score || Habbit.score,
+              highest:
+                Habbit.highest > Habbit.score ? Habbit.highest : Habbit.score,
               priority: action.payload.priority,
               category: action.payload.category,
               tag: action.payload.tag,
-              lastUpdate: action.payload.lastUpdate || Habbit.lastUpdate,
-              completeUpdate:
-                action.payload.completeUpdate || Habbit.completeUpdate,
+              createDate: action.payload.createDate,
+              lastUpdate: action.payload.lastUpdate,
             }
           : Habbit
       );

@@ -12,7 +12,7 @@ function SelectedSection({
   total,
   totalIncome,
   totalOuCome,
-  isfinished,
+  isFinish,
   isComplete,
   SelectItem,
   DelItem,
@@ -29,7 +29,7 @@ function SelectedSection({
   totalIncome?: number;
   totalOuCome?: number;
   isComplete?: boolean;
-  isfinished?: boolean;
+  isFinish?: boolean;
   SelectItem: () => void;
   DelItem?: () => void;
   CompleteItem?: () => void;
@@ -43,7 +43,7 @@ function SelectedSection({
           score={score}
           time={time}
           isComplete={isComplete}
-          isfinished={isfinished}
+          isFinish={isFinish}
           CompleteItem={CompleteItem}
           FinishItem={FinishItem}
           {...selected}

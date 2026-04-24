@@ -11,6 +11,7 @@ export const ListItemActions = ({
   id,
   title,
   isComplete,
+  isFinish,
   nextDate,
   date,
   score,
@@ -24,6 +25,7 @@ export const ListItemActions = ({
   id?: string;
   title: string;
   isComplete?: boolean;
+  isFinish?: boolean;
   nextDate?: string;
   date?: string | number;
   score?: number;
@@ -80,16 +82,7 @@ export const ListItemActions = ({
               }}
               className={cn(
                 "h-10 w-10 min-w-10 flex justify-center items-center flex-1 rounded-full hover:bg-card/15 cursor-pointer",
-                !isComplete
-                  ? nextDate != date ||
-                    !(
-                      date &&
-                      DayUnixFormat(+date, "YYYY-MM-DD") >
-                        DayUnixFormatNow("YYYY-MM-DD")
-                    )
-                    ? "bg-success"
-                    : "bg-primary"
-                  : "bg-success"
+                isFinish ? "bg-success" : "bg-primary"
               )}
             >
               <DoneAll />
@@ -104,7 +97,11 @@ export const ListItemActions = ({
               }}
               className={cn(
                 "h-10 w-10 min-w-10 flex justify-center items-center flex-1 rounded-full hover:bg-card/15 cursor-pointer",
-                isComplete ? "bg-success" : "bg-primary"
+                !isFinish
+                  ? isComplete
+                    ? "bg-success"
+                    : "bg-primary"
+                  : "bg-white/15"
               )}
             >
               <Done />

@@ -8,7 +8,7 @@ import GoalsItem from "@/components/Goals/GoalsItem/GoalsItem.component";
 import { TGoals } from "@/modules/goalsList/goals.slice";
 import VisitsItem from "@/components/Visits/VisitsItem/VisitsItem.component";
 import { TVisit } from "@/modules/visitsList/visit.slice";
-import ReminderItem from "@/components/Reminder/ReminderItem/Reminder.component";
+import ReminderItem from "@/components/Reminder/ReminderItem/ReminderItem.component";
 import { TReminder } from "@/modules/reminderList/reminder.slice";
 import InstallmentsItem from "@/components/Installments/InstallmentsItem/Installments.component";
 import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
