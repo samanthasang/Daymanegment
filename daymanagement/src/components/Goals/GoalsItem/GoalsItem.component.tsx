@@ -13,6 +13,7 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
   const { selectedGoal } = useGoalsList();
   useEffect(() => {
     !item.isComplete &&
+      item.score != DayUnixDiff(+item.doDate, "day") &&
       dispatch(
         updateGoalList({
           id: item.id,

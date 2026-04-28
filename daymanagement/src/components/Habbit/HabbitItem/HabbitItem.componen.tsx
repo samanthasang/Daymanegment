@@ -12,7 +12,8 @@ export const HabbitItem = ({ item }: { item: Thabbit }) => {
   const { CompleteItem, DelItem, SelectWithId } = SelectHabbitListActivities();
   const { selectedHabbit } = UseHabbitList();
   useEffect(() => {
-    DayUnixDiff(+item.lastUpdate, "day") > 2 &&
+    DayUnixDiff(item.lastUpdate, "day") < -1 &&
+      item.isComplete &&
       dispatch(
         updateHabbitList({
           id: item.id,
@@ -24,9 +25,11 @@ export const HabbitItem = ({ item }: { item: Thabbit }) => {
           score: item.score - 1,
           category: item.category,
           tag: item.tag,
+          isComplete: false,
         })
       );
   }, []);
+
   return (
     <ListItem
       drawerType="HabbitList"

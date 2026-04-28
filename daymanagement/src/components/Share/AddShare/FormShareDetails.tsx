@@ -3,6 +3,7 @@ import { Trash } from "@/components/icons";
 import PeopleSelectComponent from "@/components/People/PeopleSelect.component";
 import BasicSwitch from "@/components/ui/BasicSwitch";
 import { InputField } from "@/components/ui/inputField";
+import { cn } from "@/lib/utils";
 import { TShare } from "@/modules/share/share.slice";
 import dayjs from "dayjs";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -68,7 +69,7 @@ export default function FormShareDetails({
   return (
     <div className=" flex flex-row justify-center items-centerw-full min-w-60 gap-y-4 p-3 rounded-2xl bg-primary">
       <div className="w-full flex flex-col gap-y-4">
-        <div className="w-full flex h-8 bg-transparent  py-1 text-base shadow-sm justify-between rounded-xl ">
+        <div className="w-full flex h-8 bg-transparent items-center py-1 text-base shadow-sm justify-between rounded-xl ">
           <label className="text-white/50">
             {dayjs(dayjs.unix(Number(share.doDate))).format("YYYY-MM-DD")}
           </label>
@@ -82,7 +83,7 @@ export default function FormShareDetails({
             >
               <Trash />
             </div>
-            <BasicSwitch
+            {/* <BasicSwitch
               checked={share.income}
               handleToggle={(e) => {
                 e && e.preventDefault();
@@ -94,7 +95,7 @@ export default function FormShareDetails({
               }}
               label=""
               key={"income"}
-            />
+            /> */}
           </div>
         </div>
         <div className="flex-1">
@@ -103,7 +104,75 @@ export default function FormShareDetails({
             value={shareDetail.peopleId}
           />
         </div>
-        <div className="flex-1">
+        <div className="bg-primary p-2 rounded-2xl flex flex-col gap-y-2">
+          <div className="w-full flex justify-center items-center gap-x-2 bg-primary rounded-full">
+            <div
+              className={cn(
+                "cursor-pointer w-full text-center py-1 rounded-2xl hover:bg-card/15",
+                !share.income
+                  ? "bg-card/15 text-card"
+                  : "text-TextForeground hover:text-white"
+              )}
+              onClick={(e) => {
+                e && e.preventDefault();
+                setShareDetail({
+                  ...share,
+                  income: false,
+                });
+              }}
+            >
+              Outcome
+            </div>
+            <div
+              className={cn(
+                "cursor-pointer w-full text-center py-1 rounded-2xl hover:bg-card/15",
+                !!share.income ? "bg-card/15 text-card" : "text-TextForeground "
+              )}
+              onClick={(e) => {
+                e && e.preventDefault();
+                setShareDetail({
+                  ...share,
+                  income: true,
+                });
+              }}
+            >
+              Income
+            </div>
+          </div>
+
+          {share.income && (
+            <InputField
+              title="Title"
+              type="string"
+              disabled={!!errors.title?.message}
+              content={errors.title?.message}
+              required
+              className="text-success"
+              placeholder="Income Amount"
+              value={shareDetail.incomeAmount}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                onChageInputOutcome(e)
+              }
+            />
+          )}
+
+          {!share.income && (
+            <InputField
+              title="Title"
+              type="string"
+              disabled={!!errors.title?.message}
+              content={errors.title?.message}
+              required
+              className="text-red-500"
+              placeholder="Outcome Amount"
+              value={shareDetail.outcomeAmount}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                onChageInputOutcome(e)
+              }
+            />
+          )}
+        </div>
+        {/* <div className="flex-1">
           {share.income && (
             <InputField
               title="Title"
@@ -134,7 +203,7 @@ export default function FormShareDetails({
               }
             />
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

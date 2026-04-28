@@ -1,7 +1,7 @@
 "use client";
 import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.component";
 import { useAppDispatch } from "@/lib/hook";
-import usePeopleList from "@/lib/Hooks/Lists/Share/UsePeopleList.component";
+import usePeopleList from "@/lib/Hooks/Lists/Friends/UsePeopleList.component";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import {
   delPeopleList,
@@ -20,20 +20,22 @@ export const PeopleItem = ({
   const dispatch = useAppDispatch();
   const { selectedPeople } = usePeopleList();
 
-  const ListShare = useShareList();
+  const { ListShareAll: ListShare } = useShareList();
 
-  const total = ListShare?.filter((share) => share.peopleId == item.id).reduce(
-    (acc, obj) => {
-      if (obj.income && obj.incomeAmount) {
-        return acc + +obj.incomeAmount;
-      }
-      if (!obj.income && obj.outcomeAmount) {
-        return acc - +obj.outcomeAmount;
-      }
-      return acc;
-    },
-    0
-  );
+  const total =
+    ListShare &&
+    ListShare?.filter((share) => share.peopleId == item.id).reduce(
+      (acc, obj) => {
+        if (obj.income && obj.incomeAmount) {
+          return acc + +obj.incomeAmount;
+        }
+        if (!obj.income && obj.outcomeAmount) {
+          return acc - +obj.outcomeAmount;
+        }
+        return acc;
+      },
+      0
+    );
   const SelectList = () => {
     hasShare && dispatch(selectPeopleList(item.id));
   };

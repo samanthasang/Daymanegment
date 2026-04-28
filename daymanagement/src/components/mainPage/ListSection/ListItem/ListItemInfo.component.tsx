@@ -9,6 +9,7 @@ export const ListItemInfo = ({
   diff,
   score,
   incomeAmount,
+  outcomeAmount,
   total,
   hasShare,
   priceOfProduct,
@@ -19,6 +20,7 @@ export const ListItemInfo = ({
   diff?: duration.Duration;
   score?: number;
   incomeAmount?: string;
+  outcomeAmount?: string;
   total?: number;
   hasShare?: boolean;
   priceOfProduct?: string;
@@ -79,17 +81,18 @@ export const ListItemInfo = ({
           {total}
         </label>
       )}
-      {(incomeAmount || priceOfProduct) && (
+      {(incomeAmount || priceOfProduct || outcomeAmount) && (
         <label
           className={cn(
             `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-            incomeAmount && "bg-success",
-            priceOfProduct && "bg-error"
+            incomeAmount
+              ? "bg-success"
+              : (priceOfProduct || outcomeAmount) && "bg-error"
           )}
         >
           {date && DayUnixFormat(+date, "MM-DD")}
-          {(incomeAmount || priceOfProduct) && ` | `}
-          {`${incomeAmount || priceOfProduct}`}
+          {(incomeAmount || priceOfProduct || outcomeAmount) && ` | `}
+          {`${incomeAmount || priceOfProduct || outcomeAmount}`}
         </label>
       )}
       {drawerType == "TimerList" && !isComplete && date && (
@@ -112,6 +115,7 @@ export const ListItemInfo = ({
         drawerType !== "GoalsList" &&
         drawerType != "SpendsList" &&
         drawerType != "TimerList" &&
+        drawerType != "ShareList" &&
         date && (
           <label
             className={cn(

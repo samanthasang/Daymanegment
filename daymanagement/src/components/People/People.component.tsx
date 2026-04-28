@@ -1,7 +1,7 @@
 import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
-import PeopleList from "../Share/shareList/PeopleList.component";
+import PeopleList from "./PeopleList/PeopleList.component";
 
-function PeopleListComponent() {
+function FriendsListComponent() {
   return (
     <PageContainer>
       <PeopleList />
@@ -9,4 +9,4 @@ function PeopleListComponent() {
   );
 }
 
-export default PeopleListComponent;
+export default FriendsListComponent;

@@ -1,8 +1,8 @@
 "use client";
 
 import InstallmentsItem from "@/components/Installments/InstallmentsItem/Installments.component";
-import EmptyList from "@/components/mainPage/List/EmptyList/EmptyList.component";
-import ListTitle from "@/components/mainPage/List/ListContainer/ListTitle.component";
+import EmptyList from "@/components/mainPage/ListSection/EmptyList/EmptyList.component";
+import ListTitle from "@/components/mainPage/ListSection/ListContainer/ListTitle.component";
 import ReminderItem from "@/components/Reminder/ReminderItem/ReminderItem.component";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";

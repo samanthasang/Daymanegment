@@ -1,5 +1,6 @@
 "use client";
 import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 
 function HomeGoalsItem() {
@@ -9,7 +10,7 @@ function HomeGoalsItem() {
     <MenuItems
       href={"/goals"}
       tilte="Goals"
-      infoNumber={`${ListGoalsFiltered?.filter((todo) => todo.isComplete == true).length} / ${ListGoalsFiltered?.length}`}
+      infoNumber={`${FinishedArray(ListGoalsFiltered).length} / ${ListGoalsFiltered?.length}`}
     />
   );
 }

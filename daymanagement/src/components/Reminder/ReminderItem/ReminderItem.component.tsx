@@ -17,7 +17,8 @@ export const ReminderItem = ({ item }: { item: TReminder }) => {
     ReminderListActivities();
   const { selectedReminder } = useReminderList();
   useEffect(() => {
-    DayUnixDiff(+item.doDate, item.priodDiff as QUnitType) < 1 &&
+    item.isComplete &&
+      DayUnixDiff(item.doDate, item.priodDiff as QUnitType) < 1 &&
       dispatch(unFinishReminderList(item.id));
   }, []);
   return (

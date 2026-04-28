@@ -27,6 +27,8 @@ function VisitsList() {
         ListForgotCount={FinishedArray(ListVisitForgot).length}
         ListFiltered={ListVisitFiltered as []}
         ListForgot={ListVisitForgot as []}
+        withFinish
+        withComplateSort
       />
       <SelectedSection
         drawerType="VisitsList"

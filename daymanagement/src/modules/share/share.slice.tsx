@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TShare = {
   id: string;
+  title: string;
   peopleId: string;
   income: boolean;
   doDate: number;
@@ -12,6 +13,7 @@ export type TShare = {
   visitId?: string;
   category: string;
   tag: string;
+  description: string;
 };
 
 export interface InitialState {
@@ -31,6 +33,7 @@ export const shareListSlice = createSlice({
       state: InitialState,
       action: PayloadAction<{
         id: string;
+        title: string;
         peopleId: string;
         income: boolean;
         doDate: number;
@@ -41,13 +44,15 @@ export const shareListSlice = createSlice({
         visitId?: string;
         category: string;
         tag: string;
+        description: string;
       }>
     ) => {
       state.ListShare = state.ListShare
         ? [
             ...state.ListShare,
             {
-              id: action.payload.id,
+              id: nanoid(),
+              title: action.payload.title,
               peopleId: action.payload.peopleId,
               outcomeAmount: action.payload.outcomeAmount,
               spendsId: action.payload.spendsId,
@@ -58,11 +63,13 @@ export const shareListSlice = createSlice({
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
               income: action.payload.income,
+              description: action.payload.description,
             },
           ]
         : [
             {
-              id: action.payload.id,
+              id: nanoid(),
+              title: action.payload.title,
               peopleId: action.payload.peopleId,
               outcomeAmount: action.payload.outcomeAmount,
               spendsId: action.payload.spendsId,
@@ -73,6 +80,7 @@ export const shareListSlice = createSlice({
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
               income: action.payload.income,
+              description: action.payload.description,
             },
           ];
     },
@@ -117,6 +125,7 @@ export const shareListSlice = createSlice({
       state: InitialState,
       action: PayloadAction<{
         id: string;
+        title: string;
         peopleId: string;
         income: boolean;
         doDate: number;
@@ -127,6 +136,7 @@ export const shareListSlice = createSlice({
         visitId?: string;
         category: string;
         tag: string;
+        description: string;
       }>
     ) => {
       state.ListShare = state.ListShare.map((share) =>
@@ -134,6 +144,7 @@ export const shareListSlice = createSlice({
           ? {
               ...share,
               peopleId: action.payload.peopleId,
+              title: action.payload.title,
               outcomeAmount: action.payload.outcomeAmount,
               spendsId: action.payload.spendsId,
               incomeAmount: action.payload.incomeAmount,
@@ -143,6 +154,7 @@ export const shareListSlice = createSlice({
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
               income: action.payload.income,
+              description: action.payload.description,
             }
           : share
       );

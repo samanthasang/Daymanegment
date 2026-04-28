@@ -1,13 +1,13 @@
 "use client";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import { TShare } from "@/modules/share/share.slice";
-import ShareItem from "../ShareItem/ShareItem.component";
+import ShareItemInner from "./ShareItemInner.component";
 
 function PeopleShareList({ peopleId }: { peopleId: string }) {
-  const ListShare = useShareList();
+  const { ListShareAll } = useShareList();
 
   const peopleAcoreToId =
-    ListShare && ListShare.filter((share) => share.peopleId == peopleId);
+    ListShareAll && ListShareAll.filter((share) => share.peopleId == peopleId);
 
   return (
     <div className="flex flex-col gap-4 w-full h-auto">
@@ -17,7 +17,7 @@ function PeopleShareList({ peopleId }: { peopleId: string }) {
         </div>
       ) : (
         peopleAcoreToId?.map((li: TShare) => (
-          <ShareItem key={li.id} item={li} />
+          <ShareItemInner key={li.id} item={li} />
         ))
       )}
     </div>

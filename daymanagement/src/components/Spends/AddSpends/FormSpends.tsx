@@ -8,6 +8,7 @@ import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 import { currentUnixTimestamp, DayUnix } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
@@ -39,7 +40,7 @@ interface IFormInputs {
   incomeAmount?: string;
   numberOfProduct?: string;
   priceOfProduct?: string;
-  shareList?: TShare[];
+  shareList?: string[];
   category: string;
   tag: string;
   description?: string;
@@ -70,23 +71,7 @@ export default function FormSpends({
     doDate: z.number().min(1, { message: "date is required" }),
     createDate: z.number().optional(),
     description: z.string().optional(),
-    shareList: z
-      .array(
-        z.object({
-          id: z.string(),
-          peopleId: z.string().min(4, { message: "Name is required" }),
-          income: z.boolean(),
-          incomeAmount: z.string().optional(),
-          outcomeAmount: z.string().optional(),
-          category: z.string().min(1, { message: "Category is required" }),
-          visitId: z.string().optional(),
-          shareId: z.string().optional(),
-          tag: z.string().min(1, { message: "Tag is required" }),
-          doDate: z.number().min(1, { message: "date is required" }),
-          createDate: z.number().optional(),
-        })
-      )
-      .optional(),
+    shareList: z.array(z.string()).optional(),
   });
   type FormData = z.infer<typeof formSchema>;
 
@@ -105,18 +90,14 @@ export default function FormSpends({
   } = methods;
 
   useEffect(() => {
-    console.log(date && Math.floor(new Date(date).getTime() / 1000.0));
-    console.log(date && new Date(date).getTime() / 1000.0);
-    console.log(date && date);
-
     date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
 
-  const {
-    ListShare: ListShareAll,
-  }: {
-    ListShare: TShare[];
-  } = useAppSelector((state) => state.ShareList) || [];
+  const { ListShareAll } = useShareList();
+
+  const result = ListShareAll.filter((share) =>
+    selectedSpends.shareList.includes(share.id)
+  );
 
   const [shareList, setSharelist] = useState<TShare[]>([]);
   useEffect(() => {
@@ -134,7 +115,8 @@ export default function FormSpends({
         +selectedSpends.createDate || +selectedSpends.doDate
       );
       setDate(new Date(Number(selectedSpends.doDate) * 1000));
-      setSharelist(selectedSpends.shareList);
+      setSharelist(result || []);
+      setValue("shareList", selectedSpends.shareList);
       setSpendsIdSelected(selectedSpends.id);
       setValue("description", selectedSpends?.description);
     }
@@ -152,7 +134,7 @@ export default function FormSpends({
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const spendsId = spendsIdSelected ? spendsIdSelected : nanoid();
 
-    selectedSpends?.title
+    formType.split(" ")[0]
       ? dispatch(
           updateSpendsList({
             id: spendsId,
@@ -168,7 +150,7 @@ export default function FormSpends({
             numberOfProduct: data.numberOfProduct || "",
             priceOfProduct: data.priceOfProduct || "",
             incomeAmount: data.incomeAmount || "",
-            shareList: shareList || [],
+            shareList: shareList.map((share) => share.id) || [],
             category: data.category,
             tag: data.tag,
             description: data.description || "",
@@ -184,7 +166,7 @@ export default function FormSpends({
               : data.doDate,
             createDate: currentUnixTimestamp,
             numberOfProduct: data.numberOfProduct || "",
-            shareList: shareList || [],
+            shareList: shareList.map((share) => share.id) || [],
             priceOfProduct: data.priceOfProduct || "",
             incomeAmount: data.incomeAmount || "",
             category: data.category,
@@ -200,6 +182,7 @@ export default function FormSpends({
           ? dispatch(
               updateShareList({
                 id: share.id || "",
+                title: share.title,
                 peopleId: share.peopleId,
                 income: share.income || false,
                 doDate: date
@@ -214,11 +197,13 @@ export default function FormSpends({
                 spendsId: spendsId,
                 category: share.category,
                 tag: share.tag,
+                description: share.description,
               })
             )
           : dispatch(
               setShareList({
                 id: share.id || "",
+                title: share.title,
                 peopleId: share.peopleId,
                 income: share.income || false,
                 doDate: date
@@ -233,6 +218,7 @@ export default function FormSpends({
                 spendsId: spendsId,
                 category: share.category,
                 tag: share.tag,
+                description: share.description,
               })
             );
       });
@@ -242,7 +228,7 @@ export default function FormSpends({
     selectedSpends?.id
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
-    
+
     dispatch(selectSpendsList(""));
     reset();
     onSubmitForm();
@@ -265,6 +251,7 @@ export default function FormSpends({
             ? {
                 ...shareItem,
                 id: shareItem.id,
+                title: share.title || getValues("title"),
                 peopleId: share.peopleId,
                 income: share.income,
                 doDate: date
@@ -280,16 +267,22 @@ export default function FormSpends({
                 visitId: "",
                 category: getValues("category"),
                 tag: getValues("tag"),
+                description:
+                  share.description || getValues("description") || "",
               }
             : shareItem
         );
-      setValue("shareList", shareArray);
+      setValue(
+        "shareList",
+        shareArray.map((share) => share.id)
+      );
       setSharelist(shareArray);
     } else {
       const newShareList = [
         ...shareList,
         {
           id: share.id || nanoid(),
+          title: share.title || getValues("title"),
           peopleId: share.peopleId,
           income: share.income,
           doDate: date
@@ -305,16 +298,21 @@ export default function FormSpends({
           visitId: "",
           category: getValues("category"),
           tag: getValues("tag"),
+          description: share.description || getValues("description") || "",
         },
       ];
 
-      setValue("shareList", newShareList);
+      setValue(
+        "shareList",
+        newShareList.map((share) => share.id)
+      );
       setSharelist(newShareList);
     }
   };
   const onChangeShareSubmit = () => {
     const shareArray = shareList.map((shareItem) => ({
       id: shareItem.id,
+      title: shareItem.title || getValues("title"),
       peopleId: shareItem.peopleId,
       income: shareItem.income,
       doDate: date
@@ -327,14 +325,22 @@ export default function FormSpends({
       visitId: "",
       category: getValues("category"),
       tag: getValues("tag"),
+      description: shareItem.description || getValues("description") || "",
     }));
 
-    setValue("shareList", shareArray);
+    setValue(
+      "shareList",
+      shareArray.map((share) => share.id)
+    );
     setSharelist(shareArray);
   };
   const removeShare = (id: string) => {
     const shareArray = shareList?.filter((share) => share.id != id);
-    setValue("shareList", shareArray);
+
+    setValue(
+      "shareList",
+      shareArray.map((share) => share.id)
+    );
     setSharelist(shareArray);
     dispatch(delShareList(id));
   };
@@ -387,22 +393,6 @@ export default function FormSpends({
       </ClendarButtonGroup>
 
       <div className="bg-primary p-2 rounded-2xl flex flex-col gap-y-2">
-        {/* <Controller
-                name="income"
-                control={control}
-                render={({ field }) => (
-                  <div className="w-full flex h-8 border border-input bg-transparent px-3 py-1 text-base shadow-sm  justify-between rounded-xl ">
-                    <label className="text-white/50">
-                      {!field.value ? "Buy" : "Recive"}
-                    </label>
-                    <BasicSwitch
-                      checked={!!field.value}
-                      handleToggle={() => setValue("income", !field.value)}
-                      label=""
-                      key={"income"}
-                    />
-                  </div>
-                )}  />*/}
         <div className="w-full flex justify-center items-center gap-x-2 bg-primary rounded-full">
           <div
             className={cn(
@@ -556,7 +546,7 @@ export default function FormSpends({
       </DrawerDialogDemo>
 
       <div className="flex gap-4">
-        {selectedSpends?.title && (
+        {formType.split(" ")[0] && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

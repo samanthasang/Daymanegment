@@ -25,10 +25,12 @@ function SpendsList() {
         ListForgotTilte="Old Spends"
         ListFiltered={ListSpendsFiltered as []}
         ListForgot={ListSpendsForgot as []}
+        withBalance
+        withShop
       />
       <SelectedSection
         drawerType="SpendsList"
-        formType="Add Spends"
+        formType="Edit Spends"
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
         selected={selectedSpends}

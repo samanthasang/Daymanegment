@@ -11,6 +11,9 @@ import SelectedItemPeopleList from "./SelectedItemPeopleList.component";
 import { SelectedItemProggress } from "./SelectedItemReminder.component";
 import SelectedItemTimerList from "./SelectedItemTimerList.component";
 import SelectedShareItem from "./SelectedShareItem.component";
+import ShareItemVisit from "@/components/Share/ShareItem/ShareItemVisit.componen";
+import ShareItemSpends from "@/components/Share/ShareItem/ShareItemSpends.component";
+import SelectedPeopleItem from "./SelectedPeopleItem.component";
 
 export const SelectedItem = ({
   CompleteItem,
@@ -23,6 +26,9 @@ export const SelectedItem = ({
   isComplete,
   isFinish,
   doDate,
+  peopleId,
+  spendsId,
+  visitId,
   createDate,
   score,
   highest,
@@ -31,6 +37,7 @@ export const SelectedItem = ({
   totalIncome,
   totalOuCome,
   incomeAmount,
+  outcomeAmount,
   numberOfProduct,
   priceOfProduct,
   paymentNumber,
@@ -51,8 +58,12 @@ export const SelectedItem = ({
   id: string;
   priority?: string;
   title: string;
+  peopleId: string;
+  spendsId?: string;
+  visitId?: string;
   category?: string;
   incomeAmount?: string;
+  outcomeAmount?: string;
   numberOfProduct?: string;
   priceOfProduct?: string;
   advancePayment?: string;
@@ -68,7 +79,7 @@ export const SelectedItem = ({
   total?: number;
   totalIncome?: number;
   totalOuCome?: number;
-  shareList?: TShare[];
+  shareList?: string[];
   installmentstList?: TInstallmentst[];
   startDate?: number;
   endDate?: number;
@@ -84,14 +95,13 @@ export const SelectedItem = ({
   FinishItem?: () => void;
 }) => {
   return (
-    id &&
-    title && (
+    id && (
       <div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-3 scroll-m-0 overflow-y-scroll">
         <SelectedItemMainInfocomponen
           title={title}
           priority={priority}
           incomeAmount={incomeAmount}
-          priceOfProduct={priceOfProduct}
+          priceOfProduct={priceOfProduct ?? outcomeAmount}
         />
         {(category || tag) && (
           <div className="w-full flex flex-row justify-between gap-x-3">
@@ -114,6 +124,13 @@ export const SelectedItem = ({
           time={time}
           timeDiff={timeDiff}
         />
+        {peopleId && (
+          <SelectedItemContainer title="People">
+            <SelectedPeopleItem id={peopleId} />
+          </SelectedItemContainer>
+        )}
+        {visitId && <ShareItemVisit id={id} visitId={visitId} />}
+        {spendsId && <ShareItemSpends id={id} spendsId={spendsId} />}
         {(total || total == 0) && (
           <SelectedItemContainer
             title="Total Amount"
@@ -253,15 +270,17 @@ export const SelectedItem = ({
             description={incomeAmount}
           />
         )}
+        {outcomeAmount && (
+          <SelectedItemContainer
+            title="Outcome Amount"
+            className="text-error"
+            description={outcomeAmount}
+          />
+        )}
         {shareList && shareList.length > 0 && (
           <SelectedItemContainer title="Shares">
             {shareList.map((share) => (
-              <SelectedShareItem
-                key={share.id}
-                peopleId={share.peopleId}
-                incomeAmount={share.incomeAmount}
-                outcomeAmount={share.outcomeAmount}
-              />
+              <SelectedShareItem key={share} id={share} />
             ))}
           </SelectedItemContainer>
         )}

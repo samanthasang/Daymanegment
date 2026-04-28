@@ -2,7 +2,6 @@ import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import { Done, DoneAll, Edit, Trash } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
-import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 import { useAppDispatch } from "@/lib/hook";
 import { cn } from "@/lib/utils";
 import { selectPeopleList } from "@/modules/people/PeopleList.slice";

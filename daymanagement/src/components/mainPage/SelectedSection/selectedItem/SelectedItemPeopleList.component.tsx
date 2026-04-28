@@ -1,5 +1,5 @@
 "use client";
-import PeopleShareList from "@/components/Share/[peopleId]/ShareList/ShareList.component";
+import PeopleShareList from "@/components/Share/ShareItem/ShareInner.component";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 
 export const SelectedItemPeopleList = ({

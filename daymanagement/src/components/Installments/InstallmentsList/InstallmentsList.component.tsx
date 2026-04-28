@@ -31,6 +31,8 @@ function InstallmentsList() {
         ListForgotCount={FinishedArray(ListInstallmentsForgot).length}
         ListFiltered={ListInstallmentsFiltered as []}
         ListForgot={ListInstallmentsForgot as []}
+        withFinish
+        withComplateSort
       />
       <SelectedSection
         CompleteItem={() =>

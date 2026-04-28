@@ -1,21 +1,16 @@
 "use client";
 import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 
 function HomeHabbitItem() {
-  const { ListMyHabbit } = UseHabbitList();
+  const { ListHabbitAll } = UseHabbitList();
 
   return (
     <MenuItems
       href={"/habbit"}
       tilte="Habbit"
-      infoNumber={`${
-        ListMyHabbit?.filter(
-          (todo) =>
-            DayUnixFormat(+todo.completeUpdate, "DD") == DayUnixFormatNow("DD")
-        ).length
-      } / ${ListMyHabbit?.length}`}
+      infoNumber={`${FinishedArray(ListHabbitAll).length} / ${ListHabbitAll?.length}`}
     />
   );
 }

@@ -27,6 +27,9 @@ function TodoList() {
         ListForgotCount={FinishedArray(ListToDoForgot).length}
         ListFiltered={ListToDoFiltered as []}
         ListForgot={ListToDoForgot as []}
+        withpriority
+        withFinish
+        withComplateSort
       />
       <SelectedSection
         drawerType="TodoList"

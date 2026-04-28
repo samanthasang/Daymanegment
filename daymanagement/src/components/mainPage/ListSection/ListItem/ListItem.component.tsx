@@ -20,6 +20,7 @@ export const ListItem = ({
   diff,
   score,
   incomeAmount,
+  outcomeAmount,
   total,
   hasShare,
   priceOfProduct,
@@ -37,6 +38,7 @@ export const ListItem = ({
   title: string;
   category?: string;
   incomeAmount?: string;
+  outcomeAmount?: string;
   priceOfProduct?: string;
   tag?: string;
   isComplete?: boolean;
@@ -103,6 +105,7 @@ export const ListItem = ({
           withDel={withDel}
           diff={diff}
           incomeAmount={incomeAmount}
+          outcomeAmount={outcomeAmount}
           total={total}
           priceOfProduct={priceOfProduct}
           DelItem={DelItem}

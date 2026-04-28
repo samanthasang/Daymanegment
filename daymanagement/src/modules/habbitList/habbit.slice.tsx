@@ -113,6 +113,7 @@ export const habbitListSlice = createSlice({
         lastUpdate: number;
         category: string;
         tag: string;
+        isComplete: boolean;
       }>
     ) => {
       state.ListHabbit = state.ListHabbit.map((Habbit) =>
@@ -129,6 +130,7 @@ export const habbitListSlice = createSlice({
               tag: action.payload.tag,
               createDate: action.payload.createDate,
               lastUpdate: action.payload.lastUpdate,
+              isComplete: action.payload.isComplete ?? Habbit.isComplete,
             }
           : Habbit
       );

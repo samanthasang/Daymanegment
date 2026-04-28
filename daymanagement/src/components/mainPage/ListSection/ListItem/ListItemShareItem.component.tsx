@@ -1,7 +1,7 @@
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 
 export const ListItemShare = ({ peopleId }: { peopleId?: string }) => {
-  const ListShare = useShareList();
+  const { ListShareAll: ListShare } = useShareList();
 
   const peopleAcoreToId =
     ListShare && ListShare.filter((share) => share.peopleId == peopleId);

@@ -1,29 +1,22 @@
-import { useAppSelector } from "@/lib/hook";
-import { TPeople } from "@/modules/people/PeopleList.slice";
+import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
+import SelectedPeopleItem from "./SelectedPeopleItem.component";
 
-export const SelectedShareItem = ({
-  peopleId,
-  incomeAmount,
-  outcomeAmount,
-}: {
-  peopleId: string;
-  incomeAmount?: string;
-  outcomeAmount?: string;
-}) => {
-  const {
-    ListPeople,
-  }: {
-    ListPeople: TPeople[];
-    selectedPeople: {};
-  } = useAppSelector((state) => state.PeopleList) || {};
+export const SelectedShareItem = ({ id }: { id: string }) => {
+  const { ListShareAll } = useShareList();
 
-  const peopleAcoreToId = ListPeople.filter((share) => share.id == peopleId)[0];
+  const share = ListShareAll.filter((share) => share.id == id)[0];
 
   return (
     <div className="flex justify-between w-full">
-      <label>{peopleAcoreToId && peopleAcoreToId.title}</label>
-      <label className={`${incomeAmount ? "text-success" : "text-red-500"}`}>
-        {incomeAmount || outcomeAmount}
+      <div className="flex items-start flex-1 gap-x-0.5 w-fit">
+        <label className="text-nowrap">{share && share.title}</label>
+        {`/`}
+        {share && <SelectedPeopleItem id={share.peopleId} />}
+      </div>
+      <label
+        className={`${share && share.incomeAmount ? "text-success" : "text-red-500"}`}
+      >
+        {(share && share.incomeAmount) || (share && share.outcomeAmount)}
       </label>
     </div>
   );

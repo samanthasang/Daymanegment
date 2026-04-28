@@ -1,5 +1,6 @@
 "use client";
 import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 
 function HomeReminderItem() {
@@ -9,7 +10,7 @@ function HomeReminderItem() {
     <MenuItems
       href={"/reminder"}
       tilte="Reminder"
-      infoNumber={`${ListReminderFiltered?.filter((reminder) => reminder.isComplete == true).length} / ${ListReminderFiltered?.length}`}
+      infoNumber={`${FinishedArray(ListReminderFiltered).length} / ${ListReminderFiltered?.length}`}
     />
   );
 }

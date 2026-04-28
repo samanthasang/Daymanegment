@@ -27,6 +27,9 @@ function TimerList() {
         ListForgotCount={FinishedArray(ListTimerForgot).length}
         ListFiltered={ListTimerFiltered as []}
         ListForgot={ListTimerForgot as []}
+        withpriority
+        withFinish
+        withComplateSort
       />
       <SelectedSection
         drawerType="TimerList"

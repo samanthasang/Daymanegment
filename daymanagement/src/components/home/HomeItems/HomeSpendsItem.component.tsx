@@ -1,5 +1,7 @@
 "use client";
 import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
+import IncomeArray from "@/lib/Hooks/ListInfo/IncomeArray.componen";
+import OutcomeArray from "@/lib/Hooks/ListInfo/outcomeArray.componet";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 
 function HomeSpendsItem() {
@@ -9,7 +11,7 @@ function HomeSpendsItem() {
     <MenuItems
       href={"/spends"}
       tilte="Spends"
-      infoNumber={`${ListSpendsFiltered?.filter((spends) => spends.income == true).length} | ${ListSpendsFiltered?.filter((spends) => spends.income != true).length}`}
+      infoNumber={`${IncomeArray(ListSpendsFiltered).length} | ${OutcomeArray(ListSpendsFiltered).length}`}
     />
   );
 }

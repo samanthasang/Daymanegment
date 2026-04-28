@@ -1,8 +1,8 @@
 "use client";
 
 import GoalsItem from "@/components/Goals/GoalsItem/GoalsItem.component";
-import EmptyList from "@/components/mainPage/List/EmptyList/EmptyList.component";
-import ListTitle from "@/components/mainPage/List/ListContainer/ListTitle.component";
+import EmptyList from "@/components/mainPage/ListSection/EmptyList/EmptyList.component";
+import ListTitle from "@/components/mainPage/ListSection/ListContainer/ListTitle.component";
 import TodoItem from "@/components/Todo/TodoItem/TodoItem.component";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";

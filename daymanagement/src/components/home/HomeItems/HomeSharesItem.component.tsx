@@ -1,17 +1,17 @@
 "use client";
 import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
-import usePeopleList from "@/lib/Hooks/Lists/Share/UsePeopleList.component";
+import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 
-function HomeShareItem() {
-  const { ListPeople } = usePeopleList();
+function HomeFriendsItem() {
+  const { ListShareFriends } = useShareList();
 
   return (
     <MenuItems
-      href={"/friends"}
-      tilte="Friends"
-      infoNumber={`${ListPeople && ListPeople.length}`}
+      href={"/share"}
+      tilte="Share"
+      infoNumber={`${ListShareFriends && ListShareFriends.length}`}
     />
   );
 }
 
-export default HomeShareItem;
+export default HomeFriendsItem;

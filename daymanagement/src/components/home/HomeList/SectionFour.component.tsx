@@ -1,8 +1,8 @@
 "use client";
 
 import HabbitItem from "@/components/Habbit/HabbitItem/HabbitItem.componen";
-import EmptyList from "@/components/mainPage/List/EmptyList/EmptyList.component";
-import ListTitle from "@/components/mainPage/List/ListContainer/ListTitle.component";
+import EmptyList from "@/components/mainPage/ListSection/EmptyList/EmptyList.component";
+import ListTitle from "@/components/mainPage/ListSection/ListContainer/ListTitle.component";
 import SpendsItem from "@/components/Spends/SpendsItem/SpendsItem.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
@@ -28,7 +28,7 @@ function SectionFour() {
           ListHabbitAll.length > 0
             ? ListHabbitAll?.filter(
                 (todo) =>
-                  DayUnixFormat(+todo.completeUpdate, "DD") ==
+                  DayUnixFormat(+todo.lastUpdate, "DD") ==
                   DayUnixFormatNow("DD")
               ).length
             : undefined

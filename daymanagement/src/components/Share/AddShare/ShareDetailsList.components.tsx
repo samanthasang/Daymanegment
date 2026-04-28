@@ -38,6 +38,7 @@ export default function ShareDetailsList({
   const onChageAddPeople = () => {
     onChangeShare({
       id: nanoid(),
+      title: "",
       peopleId: "",
       income: false,
       doDate: 0,
@@ -47,6 +48,7 @@ export default function ShareDetailsList({
       visitId: "",
       category: "",
       tag: "",
+      description: "",
     });
   };
 

@@ -12,8 +12,8 @@ function ListMenuButtons({
   withpriority,
   withShop,
   withBalance,
-  withdate,
-  withcomplate,
+  withFinish,
+  withComplateSort,
   shopFilter,
   balanceFilter,
   priorityFilter,
@@ -28,8 +28,8 @@ function ListMenuButtons({
   withpriority?: boolean;
   withShop?: boolean;
   withBalance?: boolean;
-  withdate?: boolean;
-  withcomplate?: boolean;
+  withFinish?: boolean;
+  withComplateSort?: boolean;
   shopFilter?: boolean;
   balanceFilter?: boolean;
   priorityFilter?: boolean;
@@ -43,7 +43,7 @@ function ListMenuButtons({
 }) {
   return (
     <>
-      {withdate && (
+      {withFinish && (
         <SwitchComponent
           ChangeStatus={ChangeDate && ChangeDate}
           checkStatus={dateFIlter}
@@ -51,7 +51,7 @@ function ListMenuButtons({
           <DoneAll />
         </SwitchComponent>
       )}
-      {withcomplate && (
+      {withComplateSort && (
         <SwitchComponent
           ChangeStatus={ChangeComplate && ChangeComplate}
           checkStatus={complateFIlter}

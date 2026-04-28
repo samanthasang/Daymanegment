@@ -9,7 +9,7 @@ export type TVisit = {
   doDate: number;
   createDate: number;
   description: string;
-  shareList: TShare[];
+  shareList: string[];
   advancePayment?: string;
   paymentCompleteValue: string;
   category: string;
@@ -38,7 +38,7 @@ export const visitSlice = createSlice({
         doDate: number;
         createDate: number;
         description: string;
-        shareList: TShare[];
+        shareList: string[];
         advancePayment?: string;
         paymentCompleteValue: string;
         category: string;
@@ -104,7 +104,7 @@ export const visitSlice = createSlice({
         doDate: number;
         createDate: number;
         description: string;
-        shareList: TShare[];
+        shareList: string[];
         advancePayment?: string;
         paymentCompleteValue: string;
         category: string;
@@ -130,47 +130,47 @@ export const visitSlice = createSlice({
           : visit
       );
     },
-    updateVisitListShare: (
-      state: InitialState,
-      action: PayloadAction<{
-        id: string;
-        peopleId: string;
-        income: boolean;
-        doDate: number;
-        createDate: number;
-        incomeAmount?: string;
-        outcomeAmount?: string;
-        shareId?: string;
-        visitId?: string;
-        category: string;
-        tag: string;
-      }>
-    ) => {
-      state.ListVisit = state.ListVisit.map((visit) =>
-        visit.id == action.payload.visitId
-          ? {
-              ...visit,
-              shareList: visit.shareList.map((share) =>
-                share.id == action.payload.id
-                  ? {
-                      ...share,
-                      peopleId: action.payload.peopleId,
-                      outcomeAmount: action.payload.outcomeAmount,
-                      shareId: action.payload.shareId,
-                      incomeAmount: action.payload.incomeAmount,
-                      visitId: action.payload.visitId,
-                      category: action.payload.category,
-                      tag: action.payload.tag,
-                      doDate: action.payload.doDate,
-                      createDate: action.payload.createDate,
-                      income: action.payload.income,
-                    }
-                  : share
-              ),
-            }
-          : visit
-      );
-    },
+    // updateVisitListShare: (
+    //   state: InitialState,
+    //   action: PayloadAction<{
+    //     id: string;
+    //     peopleId: string;
+    //     income: boolean;
+    //     doDate: number;
+    //     createDate: number;
+    //     incomeAmount?: string;
+    //     outcomeAmount?: string;
+    //     shareId?: string;
+    //     visitId?: string;
+    //     category: string;
+    //     tag: string;
+    //   }>
+    // ) => {
+    //   state.ListVisit = state.ListVisit.map((visit) =>
+    //     visit.id == action.payload.visitId
+    //       ? {
+    //           ...visit,
+    //           shareList: visit.shareList.map((share) =>
+    //             share.id == action.payload.id
+    //               ? {
+    //                   ...share,
+    //                   peopleId: action.payload.peopleId,
+    //                   outcomeAmount: action.payload.outcomeAmount,
+    //                   shareId: action.payload.shareId,
+    //                   incomeAmount: action.payload.incomeAmount,
+    //                   visitId: action.payload.visitId,
+    //                   category: action.payload.category,
+    //                   tag: action.payload.tag,
+    //                   doDate: action.payload.doDate,
+    //                   createDate: action.payload.createDate,
+    //                   income: action.payload.income,
+    //                 }
+    //               : share
+    //           ),
+    //         }
+    //       : visit
+    //   );
+    // },
     delVisitListShare: (
       state: InitialState,
       action: PayloadAction<{
@@ -183,7 +183,7 @@ export const visitSlice = createSlice({
           ? {
               ...visit,
               shareList: visit.shareList.filter(
-                (share) => share.id == action.payload.id
+                (share) => share == action.payload.id
               ),
             }
           : visit
@@ -206,6 +206,6 @@ export const {
   delVisitList,
   delVisitListShare,
   updateVisitList,
-  updateVisitListShare,
+  // updateVisitListShare,
   selectVisitList,
 } = visitSlice.actions;

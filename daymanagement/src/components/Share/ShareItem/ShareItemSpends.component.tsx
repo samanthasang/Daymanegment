@@ -2,21 +2,18 @@
 import { Eye, Trash } from "@/components/icons";
 import SelectedItemContainer from "@/components/mainPage/SelectedSection/selectedItem/SelectedItemContainer.component";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { delSpendsShareList, TShare } from "@/modules/share/share.slice";
+import { delSpendsShareList } from "@/modules/share/share.slice";
 import { delSpendsListShare, TSpends } from "@/modules/spends/spends.slice";
 import { selectVisitList } from "@/modules/visitsList/visit.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import { useRouter } from "next/navigation";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
-export const ShareItemSpends = ({ item }: { item: TShare }) => {
+export const ShareItemSpends = ({
+  id,
+  spendsId,
+}: {
+  id: string;
+  spendsId: string;
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -26,7 +23,7 @@ export const ShareItemSpends = ({ item }: { item: TShare }) => {
     ListSpends: TSpends[];
   } = useAppSelector((state) => state.SpendsList) || [];
   const SpendsSelected =
-    ListSpends && ListSpends.filter((visit) => visit.id == item.spendsId)[0];
+    ListSpends && ListSpends.filter((visit) => visit.id == spendsId)[0];
 
   return (
     <SelectedItemContainer title="Spends">
@@ -40,15 +37,13 @@ export const ShareItemSpends = ({ item }: { item: TShare }) => {
               e && e.preventDefault();
               dispatch(
                 delSpendsShareList({
-                  id: item.id,
-                  spendsId: item.spendsId,
+                  id: id,
+                  spendsId: spendsId,
                 })
               );
-              item.id &&
-                item.visitId &&
-                dispatch(
-                  delSpendsListShare({ id: item.id, spendsId: item.spendsId })
-                );
+              id &&
+                spendsId &&
+                dispatch(delSpendsListShare({ id: id, spendsId: spendsId }));
             }}
             className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
           >
@@ -57,10 +52,10 @@ export const ShareItemSpends = ({ item }: { item: TShare }) => {
           <div
             onClick={(e) => {
               e && e.preventDefault();
-              item.id &&
-                item.visitId &&
+              id &&
+                spendsId &&
                 dispatch(
-                  selectVisitList(item.visitId),
+                  selectVisitList(spendsId),
                   router.push(`/spends?dateFrom=${SpendsSelected.doDate}`)
                 );
             }}

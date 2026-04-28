@@ -6,21 +6,22 @@ import { Button } from "@/components/ui/button";
 import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
+import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   selectShareList,
   setShareList,
   updateShareList,
 } from "@/modules/share/share.slice";
-import { updateVisitListShare } from "@/modules/visitsList/visit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { z } from "zod";
 
 interface IFormInputs {
+  title: string;
   peopleId: string;
   income?: boolean;
   doDate: number;
@@ -31,6 +32,7 @@ interface IFormInputs {
   visitId?: string;
   category: string;
   tag: string;
+  description?: string;
 }
 
 export default function FormShare({
@@ -44,6 +46,7 @@ export default function FormShare({
 
   // creating a schema for strings
   const formSchema = z.object({
+    title: z.string().min(4, { message: "Title is required" }),
     peopleId: z.string().min(4, { message: "Name is required" }),
     income: z.boolean().optional(),
     incomeAmount: z.string().optional(),
@@ -52,6 +55,7 @@ export default function FormShare({
     tag: z.string().min(1, { message: "Tag is required" }),
     doDate: z.number().min(1, { message: "date is required" }),
     createDate: z.number().optional(),
+    description: z.string().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
 
@@ -79,14 +83,21 @@ export default function FormShare({
 
   useEffect(() => {
     if (formType.split(" ")[0] == "Edit" && selectedShare) {
+      setValue("title", selectedShare?.title);
       setValue("peopleId", selectedShare?.peopleId);
       setValue("income", selectedShare.income);
       setValue("incomeAmount", selectedShare.incomeAmount);
       setValue("outcomeAmount", selectedShare.outcomeAmount);
       setValue("category", selectedShare.category);
       setValue("tag", selectedShare.tag);
+      setValue("description", selectedShare?.description);
       setValue("doDate", selectedShare.doDate);
-      setValue("createDate", selectedShare.createDate ?? +selectedShare.doDate);
+      setValue(
+        "createDate",
+        selectedShare.createDate
+          ? +selectedShare.createDate
+          : +selectedShare.doDate
+      );
       setDate(new Date(Number(selectedShare.doDate) * 1000));
     }
   }, [selectedShare, setValue]);
@@ -101,64 +112,63 @@ export default function FormShare({
     setValue("peopleId", data);
   };
 
+  console.log(errors);
+  console.log(getValues());
+
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    selectedShare?.peopleId
+    formType.split(" ")[0] == "Edit" && selectedShare
       ? dispatch(
           updateShareList({
             id: selectedShare.id,
+            title: data.title,
             peopleId: data.peopleId,
             income: data.income || false,
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
-            incomeAmount: data.incomeAmount || "",
-            outcomeAmount: data.outcomeAmount || "",
+            createDate: data.createDate ? +data.createDate : data.doDate,
+            incomeAmount: data.income ? data.incomeAmount : "",
+            outcomeAmount: !data.income ? data.outcomeAmount : "",
             category: data.category,
             tag: data.tag,
+            description: data.description || "",
           })
         )
       : dispatch(
           setShareList({
             id: "",
+            title: data.title,
             peopleId: data.peopleId,
             income: data.income || false,
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
-            incomeAmount: data.incomeAmount || "",
-            outcomeAmount: data.outcomeAmount || "",
+            createDate: currentUnixTimestamp,
+            incomeAmount: data.income ? data.incomeAmount : "",
+            outcomeAmount: !data.income ? data.outcomeAmount : "",
             category: data.category,
             tag: data.tag,
+            description: data.description || "",
           })
         );
-    selectedShare.visitId &&
-      dispatch(
-        updateVisitListShare({
-          id: selectedShare.id,
-          peopleId: data.peopleId,
-          income: data.income || false,
-          doDate: date
-            ? Math.floor(new Date(date).getTime() / 1000.0)
-            : data.doDate,
-          createDate:
-            data.createDate && data.createDate > 0
-              ? data.createDate
-              : data.doDate,
-          visitId: selectedShare.visitId,
-          incomeAmount: data.incomeAmount || "",
-          outcomeAmount: data.outcomeAmount || "",
-          category: data.category,
-          tag: data.tag,
-        })
-      );
+    // selectedShare &&
+    //   selectedShare.visitId &&
+    //   dispatch(
+    //     updateVisitListShare({
+    //       id: selectedShare.id,
+    //       peopleId: data.peopleId,
+    //       income: data.income || false,
+    //       doDate: date
+    //         ? Math.floor(new Date(date).getTime() / 1000.0)
+    //         : data.doDate,
+    //       createDate: data.createDate ?? data.doDate,
+    //       visitId: selectedShare.visitId,
+    //       incomeAmount: data.income ? data.incomeAmount : "",
+    //       outcomeAmount: !data.income ? data.outcomeAmount : "",
+    //       category: data.category,
+    //       tag: data.tag,
+    //     })
+    //   );
     dispatch(selectShareList(""));
     setValue("doDate", 0);
     reset();
@@ -176,6 +186,22 @@ export default function FormShare({
       onSubmit={handleSubmit(onSubmit)}
       className="w-full min-w-60 flex flex-col gap-y-3"
     >
+      <Controller
+        defaultValue={""}
+        name="title"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <InputField
+            title="Title"
+            type="string"
+            placeholder="Enter Share Name"
+            disabled={!!errors.title?.message}
+            required
+            {...field}
+          />
+        )}
+      />
       <Controller
         defaultValue={""}
         name="peopleId"
@@ -216,26 +242,6 @@ export default function FormShare({
         />
       </ClendarButtonGroup>
       <div className="bg-primary p-2 rounded-2xl flex flex-col gap-y-2">
-        {/* <Controller
-        name="income"
-        control={control}
-        render={({ field }) => (
-          <div className="w-full flex h-8 border border-input bg-transparent px-3 py-1 text-base shadow-sm  justify-between rounded-xl ">
-            <label className="text-white/50">
-              {!field.value ? "Send" : "Recive"}
-            </label>
-            <BasicSwitch
-              checked={!!field.value}
-              handleToggle={() => {
-                // field.onChange(!field.value as boolean)
-                setValue("income", !field.value);
-              }}
-              label=""
-              key={"income"}
-            />
-          </div>
-        )}
-      /> */}
         <div className="w-full flex justify-center items-center gap-x-2 bg-primary rounded-full">
           <div
             className={cn(
@@ -246,7 +252,7 @@ export default function FormShare({
             )}
             onClick={() => setValue("income", false)}
           >
-            Income
+            Outcome
           </div>
           <div
             className={cn(
@@ -257,7 +263,7 @@ export default function FormShare({
             )}
             onClick={() => setValue("income", true)}
           >
-            Outcome
+            Income
           </div>
         </div>
         {!watch("income") && (
@@ -333,8 +339,22 @@ export default function FormShare({
           />
         )}
       />
+      <Controller
+        defaultValue={""}
+        name="description"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextAreaField
+            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            placeholder="Description"
+            {...field}
+          />
+        )}
+      />
+
       <div className="flex gap-4">
-        {selectedShare?.id && (
+        {formType.split(" ")[0] == "Edit" && selectedShare?.title && (
           <Button onClick={() => onReset()} type="button">
             reset
           </Button>

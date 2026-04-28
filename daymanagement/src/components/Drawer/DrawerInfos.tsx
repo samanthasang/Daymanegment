@@ -10,6 +10,8 @@ import GoalsInfo from "../Goals/GoalsInfo/GoalsInfo.component";
 import VisitsInfo from "../Visits/VisitsInfo/VisitsInfo.component";
 import InstallmentsInfo from "../Installments/InstallmentsInfo/InstallmentsInfo.component";
 import RemindersInfo from "../Reminder/RemindersInfo/InstallmentsInfo.component";
+import TimerInfo from "../Timer/TimerInfo/TimerInfo.component";
+import PeopleInfo from "../People/PeopleInfo/PeopleInfo.component";
 
 export function DrawerInfos({
   drawerType,
@@ -33,7 +35,9 @@ export function DrawerInfos({
     case "ReminderList":
       return <RemindersInfo />;
     case "TimerList":
-      return <RemindersInfo />;
+      return <TimerInfo />;
+    case "PeopleList":
+      return <PeopleInfo />;
     case "BootomList":
       return <ListMenuButtons />;
     case "MenuList":

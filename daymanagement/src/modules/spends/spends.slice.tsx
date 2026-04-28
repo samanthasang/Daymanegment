@@ -8,7 +8,7 @@ export type TSpends = {
   doDate: number;
   createDate: number;
   incomeAmount?: string;
-  shareList: TShare[];
+  shareList: string[];
   numberOfProduct?: string;
   priceOfProduct?: string;
   category: string;
@@ -37,7 +37,7 @@ export const spendsListSlice = createSlice({
         income: boolean;
         doDate: number;
         createDate: number;
-        shareList: TShare[];
+        shareList: string[];
         numberOfProduct: string;
         priceOfProduct: string;
         incomeAmount: string;
@@ -94,7 +94,7 @@ export const spendsListSlice = createSlice({
         income: boolean;
         doDate: number;
         createDate: number;
-        shareList: TShare[];
+        shareList: string[];
         numberOfProduct: string;
         priceOfProduct: string;
         incomeAmount: string;
@@ -122,47 +122,37 @@ export const spendsListSlice = createSlice({
           : spends
       );
     },
-    updateSpendsListShare: (
-      state: InitialState,
-      action: PayloadAction<{
-        id: string;
-        peopleId: string;
-        income: boolean;
-        doDate: number;
-        createDate: number;
-        incomeAmount?: string;
-        outcomeAmount?: string;
-        shareId?: string;
-        spendsId?: string;
-        category: string;
-        tag: string;
-      }>
-    ) => {
-      state.ListSpends = state.ListSpends.map((spends) =>
-        spends.id == action.payload.spendsId
-          ? {
-              ...spends,
-              shareList: spends.shareList.map((share) =>
-                share.id == action.payload.id
-                  ? {
-                      ...share,
-                      peopleId: action.payload.peopleId,
-                      outcomeAmount: action.payload.outcomeAmount,
-                      shareId: action.payload.shareId,
-                      incomeAmount: action.payload.incomeAmount,
-                      spendsId: action.payload.spendsId,
-                      category: action.payload.category,
-                      tag: action.payload.tag,
-                      doDate: action.payload.doDate,
-                      createDate: action.payload.createDate,
-                      income: action.payload.income,
-                    }
-                  : share
-              ),
-            }
-          : spends
-      );
-    },
+    // updateSpendsListShare: (
+    //   state: InitialState,
+    //   action: PayloadAction<{
+    //     id: string;
+    //     peopleId: string;
+    //     income: boolean;
+    //     doDate: number;
+    //     createDate: number;
+    //     incomeAmount?: string;
+    //     outcomeAmount?: string;
+    //     shareId?: string;
+    //     spendsId?: string;
+    //     category: string;
+    //     tag: string;
+    //   }>
+    // ) => {
+    //   state.ListSpends = state.ListSpends.map((spends) =>
+    //     spends.id == action.payload.spendsId
+    //       ? {
+    //           ...spends,
+    //           shareList: spends.shareList.map((share) =>
+    //             share == action.payload.id
+    //               ? {
+    //                   share,
+    //                 }
+    //               : share
+    //           ),
+    //         }
+    //       : spends
+    //   );
+    // },
     delSpendsListShare: (
       state: InitialState,
       action: PayloadAction<{
@@ -175,7 +165,7 @@ export const spendsListSlice = createSlice({
           ? {
               ...spends,
               shareList: spends.shareList.filter(
-                (share) => share.id == action.payload.id
+                (share) => share == action.payload.id
               ),
             }
           : spends
@@ -195,7 +185,7 @@ export const spendsReducerPath = spendsListSlice.reducerPath;
 export const {
   setSpendsList,
   delSpendsList,
-  updateSpendsListShare,
+  // updateSpendsListShare,
   updateSpendsList,
   delSpendsListShare,
   selectSpendsList,

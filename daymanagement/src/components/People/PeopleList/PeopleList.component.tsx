@@ -1,7 +1,7 @@
 "use client";
 import ListSection from "@/components/mainPage/ListSection/ListSection.component";
 import { useAppDispatch } from "@/lib/hook";
-import usePeopleList from "@/lib/Hooks/Lists/Share/UsePeopleList.component";
+import usePeopleList from "@/lib/Hooks/Lists/Friends/UsePeopleList.component";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import { selectPeopleList } from "@/modules/people/PeopleList.slice";
 import dynamic from "next/dynamic";
@@ -15,7 +15,7 @@ const SelectedSection = dynamic(
 function PeopleList() {
   const dispatch = useAppDispatch();
   const { listHasNoShare, listHasShare, selectedPeople } = usePeopleList();
-  const ListShare = useShareList();
+  const { ListShareAll: ListShare } = useShareList();
 
   const SelectItem = () => {
     dispatch(selectPeopleList(""));
@@ -23,6 +23,7 @@ function PeopleList() {
 
   const incomeArray =
     selectedPeople &&
+    ListShare &&
     ListShare?.filter(
       (share) => share.peopleId == selectedPeople.id && share.income
     ).reduce((acc, obj) => {
@@ -33,6 +34,7 @@ function PeopleList() {
     }, 0);
   const outComeArray =
     selectedPeople &&
+    ListShare &&
     ListShare?.filter(
       (share) => share.peopleId == selectedPeople.id && !share.income
     ).reduce((acc, obj) => {
@@ -44,6 +46,7 @@ function PeopleList() {
 
   const total =
     selectedPeople &&
+    ListShare &&
     ListShare?.filter((share) => share.peopleId == selectedPeople.id).reduce(
       (acc, obj) => {
         if (obj.income && obj.incomeAmount) {

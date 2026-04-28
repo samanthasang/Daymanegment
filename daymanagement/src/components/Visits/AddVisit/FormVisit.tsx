@@ -7,6 +7,7 @@ import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
@@ -36,7 +37,7 @@ interface IFormInputs {
   doDate: number;
   createDate?: number;
   description?: string;
-  shareList?: TShare[];
+  shareList?: string[];
   advancePayment?: string;
   paymentCompleteValue?: string;
   category: string;
@@ -61,23 +62,7 @@ export default function FormVisits({
     title: z.string().min(4, { message: "Name is required" }),
     description: z.string().optional(),
     income: z.boolean().optional(),
-    shareList: z
-      .array(
-        z.object({
-          id: z.string(),
-          peopleId: z.string().min(4, { message: "Name is required" }),
-          income: z.boolean(),
-          incomeAmount: z.string().optional(),
-          outcomeAmount: z.string().optional(),
-          category: z.string().min(1, { message: "Category is required" }),
-          visitId: z.string().optional(),
-          shareId: z.string().optional(),
-          tag: z.string().min(1, { message: "Tag is required" }),
-          doDate: z.number().min(1, { message: "date is required" }),
-          createDate: z.number().optional(),
-        })
-      )
-      .optional(),
+    shareList: z.array(z.string()).optional(),
     advancePayment: z.string().optional(),
     paymentCompleteValue: z.string().optional(),
     category: z.string().min(1, { message: "Category is required" }),
@@ -105,12 +90,11 @@ export default function FormVisits({
     date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
 
-  const {
-    ListShare: ListShareAll,
-  }: {
-    ListShare: TShare[];
-  } = useAppSelector((state) => state.ShareList) || [];
+  const { ListShareAll } = useShareList();
 
+  const result = ListShareAll.filter((share) =>
+    selectedVisit.shareList.includes(share.id)
+  );
   const [shareList, setSharelist] = useState<TShare[]>([]);
 
   useEffect(() => {
@@ -126,7 +110,7 @@ export default function FormVisits({
       setValue("doDate", selectedVisit.doDate);
       setValue("createDate", selectedVisit.createDate ?? +selectedVisit.doDate);
       setDate(new Date(Number(selectedVisit.doDate) * 1000));
-      setSharelist(selectedVisit.shareList);
+      setSharelist(result || []);
       setVisitIdSelected(selectedVisit.id);
     }
   }, [selectedVisit, setValue]);
@@ -156,7 +140,7 @@ export default function FormVisits({
               data.createDate && data.createDate > 0
                 ? data.createDate
                 : data.doDate,
-            shareList: shareList || [],
+            shareList: shareList.map((share) => share.id) || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
             category: data.category,
@@ -173,7 +157,7 @@ export default function FormVisits({
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
             createDate: currentUnixTimestamp,
-            shareList: shareList || [],
+            shareList: shareList.map((share) => share.id) || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
             category: data.category,
@@ -188,6 +172,7 @@ export default function FormVisits({
           ? dispatch(
               updateShareList({
                 id: share.id || "",
+                title: share.title,
                 peopleId: share.peopleId,
                 income: share.income || false,
                 doDate: date
@@ -202,11 +187,13 @@ export default function FormVisits({
                 visitId: visitId,
                 category: share.category,
                 tag: share.tag,
+                description: share.description,
               })
             )
           : dispatch(
               setShareList({
                 id: share.id || "",
+                title: share.title,
                 peopleId: share.peopleId,
                 income: share.income || false,
                 doDate: date
@@ -221,6 +208,7 @@ export default function FormVisits({
                 visitId: visitId,
                 category: share.category,
                 tag: share.tag,
+                description: share.description,
               })
             );
       });
@@ -272,7 +260,10 @@ export default function FormVisits({
             : shareItem
         );
 
-      setValue("shareList", shareArray);
+      setValue(
+        "shareList",
+        shareArray.map((share) => share.id)
+      );
       setSharelist(shareArray);
     } else {
       const newShareList = [
@@ -280,6 +271,7 @@ export default function FormVisits({
         {
           id: share.id || nanoid(),
           peopleId: share.peopleId,
+          title: share.title || getValues("title"),
           income: share.income,
           doDate: date
             ? Math.floor(new Date(date).getTime() / 1000.0)
@@ -294,16 +286,21 @@ export default function FormVisits({
           visitId: "",
           category: getValues("category"),
           tag: getValues("tag"),
+          description: share.description || getValues("description") || "",
         },
       ];
 
-      setValue("shareList", newShareList);
+      setValue(
+        "shareList",
+        newShareList.map((share) => share.id)
+      );
       setSharelist(newShareList);
     }
   };
   const onChangeShareSubmit = () => {
     const shareArray = shareList.map((shareItem) => ({
       id: shareItem.id,
+      title: shareItem.title || getValues("title"),
       peopleId: shareItem.peopleId,
       income: shareItem.income,
       doDate: date
@@ -316,15 +313,23 @@ export default function FormVisits({
       visitId: "",
       category: getValues("category"),
       tag: getValues("tag"),
+      description: shareItem.description || getValues("description") || "",
     }));
 
-    setValue("shareList", shareArray);
+    setValue(
+      "shareList",
+      shareArray.map((share) => share.id)
+    );
     setSharelist(shareArray);
   };
 
   const removeShare = (id: string) => {
     const shareArray = shareList?.filter((share) => share.id != id);
-    setValue("shareList", shareArray);
+
+    setValue(
+      "shareList",
+      shareArray.map((share) => share.id)
+    );
     setSharelist(shareArray);
     dispatch(delShareList(id));
   };

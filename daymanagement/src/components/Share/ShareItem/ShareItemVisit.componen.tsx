@@ -8,18 +8,15 @@ import {
   selectVisitList,
   TVisit,
 } from "@/modules/visitsList/visit.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import { useRouter } from "next/navigation";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
-export const ShareItemVisit = ({ item }: { item: TShare }) => {
+export const ShareItemVisit = ({
+  id,
+  visitId,
+}: {
+  id: string;
+  visitId: string;
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -29,7 +26,7 @@ export const ShareItemVisit = ({ item }: { item: TShare }) => {
     ListVisit: TVisit[];
   } = useAppSelector((state) => state.visit) || [];
   const VisitSelected =
-    ListVisit && ListVisit.filter((visit) => visit.id == item.visitId)[0];
+    ListVisit && ListVisit.filter((visit) => visit.id == visitId)[0];
 
   return (
     <SelectedItemContainer title="Visit">
@@ -43,15 +40,13 @@ export const ShareItemVisit = ({ item }: { item: TShare }) => {
               e && e.preventDefault();
               dispatch(
                 delVisitShareList({
-                  id: item.id,
-                  visitId: item.visitId,
+                  id: id,
+                  visitId: visitId,
                 })
               );
-              item.id &&
-                item.visitId &&
-                dispatch(
-                  delVisitListShare({ id: item.id, visitId: item.visitId })
-                );
+              id &&
+                visitId &&
+                dispatch(delVisitListShare({ id: id, visitId: visitId }));
             }}
             className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
           >
@@ -60,10 +55,10 @@ export const ShareItemVisit = ({ item }: { item: TShare }) => {
           <div
             onClick={(e) => {
               e && e.preventDefault();
-              item.id &&
-                item.visitId &&
+              id &&
+                visitId &&
                 dispatch(
-                  selectVisitList(item.visitId),
+                  selectVisitList(visitId),
                   router.push(`/visits?dateFrom=${VisitSelected.doDate}`)
                 );
             }}

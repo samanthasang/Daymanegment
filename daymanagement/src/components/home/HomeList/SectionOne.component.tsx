@@ -1,7 +1,7 @@
 "use client";
-
-import EmptyList from "@/components/mainPage/List/EmptyList/EmptyList.component";
-import ListTitle from "@/components/mainPage/List/ListContainer/ListTitle.component";
+import EmptyList from "@/components/mainPage/ListSection/EmptyList/EmptyList.component";
+import ListTitle from "@/components/mainPage/ListSection/ListContainer/ListTitle.component";
+import ListSection from "@/components/mainPage/ListSection/ListSection.component";
 import Timeritem from "@/components/Timer/TimerItem/TimerItem.component";
 import VisitsItem from "@/components/Visits/VisitsItem/VisitsItem.component";
 import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
@@ -18,21 +18,13 @@ function SectionOne() {
 
   return (
     <>
-      <ListTitle
-        forgot={forgot}
-        setForgot={(f) => setForgot(f)}
-        title="Timers"
-        titleSec="Visits"
-        listCount={
-          ListTimerFiltered.length > 0
-            ? ListTimerFiltered?.filter((item) => !item.isComplete).length
-            : undefined
-        }
-        secListCount={
-          ListVisitFiltered.length > 0
-            ? ListVisitFiltered?.filter((item) => !item.isComplete).length
-            : undefined
-        }
+      <ListSection
+        ListFilteredTilte="Timers"
+        ListForgotTilte="Visits"
+        ListFilteredCount={ListTimerFiltered.length}
+        ListForgotCount={ListVisitFiltered.length}
+        ListFiltered={ListTimerFiltered as []}
+        ListForgot={ListVisitFiltered as []}
       />
       {!forgot ? (
         <div

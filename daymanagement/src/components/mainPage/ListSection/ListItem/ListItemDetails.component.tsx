@@ -13,6 +13,7 @@ export const ListItemDetails = ({
   score,
   highest,
   incomeAmount,
+  outcomeAmount,
   total,
   hasShare,
   priceOfProduct,
@@ -25,6 +26,7 @@ export const ListItemDetails = ({
   id?: string;
   title: string;
   incomeAmount?: string;
+  outcomeAmount?: string;
   priceOfProduct?: string;
   isComplete?: boolean;
   isFinish?: boolean;
@@ -64,6 +66,7 @@ export const ListItemDetails = ({
         diff={diff}
         score={score}
         incomeAmount={incomeAmount}
+        outcomeAmount={outcomeAmount}
         total={total}
         hasShare={hasShare}
         priceOfProduct={priceOfProduct}

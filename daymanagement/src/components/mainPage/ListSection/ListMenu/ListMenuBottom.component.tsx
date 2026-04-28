@@ -34,8 +34,8 @@ function ListMenuBottom({
   drawerType,
   formType,
   withpriority,
-  withdate,
-  withcomplate,
+  withFinish,
+  withComplateSort,
 }: {
   withpriority?: boolean;
   withShop?: boolean;
@@ -44,8 +44,8 @@ function ListMenuBottom({
   balanceFilter?: boolean;
   ChangeShop?: () => void;
   ChangeBalance?: () => void;
-  withdate?: boolean;
-  withcomplate?: boolean;
+  withFinish?: boolean;
+  withComplateSort?: boolean;
   priorityFilter?: boolean;
   dateFIlter?: boolean;
   complateFIlter?: boolean;
@@ -110,8 +110,8 @@ function ListMenuBottom({
                 priorityFilter={priorityFilter}
                 shopFilter={shopFilter}
                 balanceFilter={balanceFilter}
-                withcomplate={withcomplate}
-                withdate={withdate}
+                withComplateSort={withComplateSort}
+                withFinish={withFinish}
                 withpriority={withpriority}
                 withShop={withShop}
                 withBalance={withBalance}
@@ -131,18 +131,18 @@ function ListMenuBottom({
           priorityFilter={priorityFilter}
           shopFilter={shopFilter}
           balanceFilter={balanceFilter}
-          withcomplate={withcomplate}
-          withdate={withdate}
+          withComplateSort={withComplateSort}
+          withFinish={withFinish}
           withpriority={withpriority}
           withShop={withShop}
           withBalance={withBalance}
         />
       )}
-      {drawerType == "PeopleList" && (
+      {/* {drawerType == "PeopleList" && (
         <DrawerButton drawerType="ShareList" formType="Add Share">
           <AddTask />
         </DrawerButton>
-      )}
+      )} */}
       {drawerType != "TimerList" ? (
         <DrawerButton drawerType={drawerType} formType={formType}>
           <AddTask />

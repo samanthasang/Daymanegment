@@ -14,8 +14,10 @@ import InstallmentsItem from "@/components/Installments/InstallmentsItem/Install
 import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
 import { TTimer } from "@/modules/timerList/timer.slice";
 import Timeritem from "@/components/Timer/TimerItem/TimerItem.component";
-import PeopleItem from "@/components/Share/peopleItem/PeopleItem.component";
+import PeopleItem from "@/components/People/PeopleItem/PeopleItem.component";
 import { TPeople } from "@/modules/people/PeopleList.slice";
+import ShareItem from "@/components/Share/ShareItem/ShareItem.component";
+import { TShare } from "@/modules/share/share.slice";
 
 function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
   switch (drawerType) {
@@ -40,7 +42,10 @@ function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
     case "TimerList":
       return List?.map((li: TTimer) => <Timeritem key={li.id} item={li} />);
     case "PeopleList":
+    case "PeopleList":
       return List?.map((li: TPeople) => <PeopleItem key={li.id} item={li} />);
+    case "ShareList":
+      return List?.map((li: TShare) => <ShareItem key={li.id} item={li} />);
     default:
       return <>nothing to show</>;
   }

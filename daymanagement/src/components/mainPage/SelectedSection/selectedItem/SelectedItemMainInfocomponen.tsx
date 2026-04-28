@@ -34,13 +34,12 @@ export const SelectedItemMainInfocomponen = ({
           {priceOfProduct && <ShoppingCart />}
         </SelectedItemContainer>
       )}
-      {title && (
-        <SelectedItemContainer
-          className="flex-1"
-          title="Title"
-          description={title}
-        />
-      )}
+
+      <SelectedItemContainer
+        className="flex-1"
+        title="Title"
+        description={title}
+      />
     </div>
   );
 };

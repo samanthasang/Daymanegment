@@ -30,6 +30,9 @@ function ReminderList() {
         ListForgotCount={FinishedArray(ListReminderForgot).length}
         ListFiltered={ListReminderFiltered as []}
         ListForgot={ListReminderForgot as []}
+        withpriority
+        withFinish
+        withComplateSort
       />
       <SelectedSection
         drawerType="ReminderList"

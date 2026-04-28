@@ -1,5 +1,6 @@
 "use client";
 import MenuItems from "@/components/mainPage/Page/MenuItems/MenuItems.component";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
 
 function HomeTimerItem() {
@@ -9,7 +10,7 @@ function HomeTimerItem() {
     <MenuItems
       href={"/timer"}
       tilte="Timer"
-      infoNumber={`${ListTimerFiltered?.filter((todo) => todo.isComplete == true).length} / ${ListTimerFiltered?.length}`}
+      infoNumber={`${FinishedArray(ListTimerFiltered).length} / ${ListTimerFiltered?.length}`}
     />
   );
 }

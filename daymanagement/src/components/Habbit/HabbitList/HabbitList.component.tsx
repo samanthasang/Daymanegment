@@ -26,6 +26,9 @@ function HabbitList() {
         ListForgotCount={FinishedArray(ListHabbitNew).length}
         ListFiltered={ListMyHabbit as []}
         ListForgot={ListHabbitNew as []}
+        withpriority
+        withFinish
+        withComplateSort
       />
       <SelectedSection
         drawerType="HabbitList"

@@ -26,7 +26,7 @@ dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const ShareItem = ({ item }: { item: TShare }) => {
+export const ShareItemInner = ({ item }: { item: TShare }) => {
   const dispatch = useAppDispatch();
 
   const {
@@ -147,10 +147,12 @@ export const ShareItem = ({ item }: { item: TShare }) => {
           </label>
         </div>
       </div>
-      {item.visitId && <ShareItemVisit item={item} />}
-      {item.spendsId && <ShareItemSpends item={item} />}
+      {item.visitId && <ShareItemVisit id={item.id} visitId={item.visitId} />}
+      {item.spendsId && (
+        <ShareItemSpends id={item.id} spendsId={item.spendsId} />
+      )}
     </div>
   );
 };
 
-export default ShareItem;
+export default ShareItemInner;

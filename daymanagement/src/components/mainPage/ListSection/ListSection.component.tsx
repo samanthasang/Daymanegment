@@ -4,7 +4,6 @@ import ListTitle from "@/components/mainPage/ListSection/ListContainer/ListTitle
 import ListTitleContainer from "@/components/mainPage/ListSection/ListContainer/ListTitleContainer.component";
 import { useState } from "react";
 import CurrentList from "./CurrentList.component";
-import ListCurrentSpends from "./CurrentListSpends.component";
 
 function ListSection({
   drawerType,
@@ -16,6 +15,11 @@ function ListSection({
   ListForgotCount,
   ListFiltered,
   ListForgot,
+  withpriority,
+  withShop,
+  withBalance,
+  withFinish,
+  withComplateSort,
 }: {
   drawerType: string;
   formType: string;
@@ -26,6 +30,11 @@ function ListSection({
   ListForgotCount?: number;
   ListFiltered: [];
   ListForgot: [];
+  withpriority?: boolean;
+  withShop?: boolean;
+  withBalance?: boolean;
+  withFinish?: boolean;
+  withComplateSort?: boolean;
 }) {
   const [forgot, setForgot] = useState(false);
 
@@ -45,21 +54,17 @@ function ListSection({
           listCount={ListForgotCount}
         />
       </ListTitleContainer>
-      {drawerType != "SpendsList" ? (
-        <CurrentList
-          listTitle={!forgot ? ListFilteredTilte : ListForgotTilte}
-          drawerType={drawerType}
-          formType={formType}
-          List={!forgot ? ListFiltered : ListForgot}
-        />
-      ) : (
-        <ListCurrentSpends
-          listTitle={!forgot ? ListFilteredTilte : ListForgotTilte}
-          drawerType={drawerType}
-          formType={formType}
-          List={!forgot ? ListFiltered : ListForgot}
-        />
-      )}
+      <CurrentList
+        listTitle={!forgot ? ListFilteredTilte : ListForgotTilte}
+        drawerType={drawerType}
+        formType={formType}
+        List={!forgot ? ListFiltered : ListForgot}
+        withpriority={withpriority}
+        withShop={withShop}
+        withBalance={withBalance}
+        withComplateSort={withComplateSort}
+        withFinish={withFinish}
+      />
     </ListContainer>
   );
 }

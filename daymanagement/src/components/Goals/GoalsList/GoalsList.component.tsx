@@ -28,6 +28,9 @@ function GoalsList() {
         ListForgotCount={FinishedArray(ListGoalsForgot).length}
         ListFiltered={ListGoalsFiltered as []}
         ListForgot={ListGoalsForgot as []}
+        withpriority
+        withFinish
+        withComplateSort
       />
       <SelectedSection
         drawerType="GoalsList"
