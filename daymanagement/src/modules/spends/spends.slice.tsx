@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { TShare } from "../share/share.slice";
 
 export type TSpends = {
@@ -50,7 +50,7 @@ export const spendsListSlice = createSlice({
         ? [
             ...state.ListSpends,
             {
-              id: action.payload.id,
+              id: nanoid(),
               title: action.payload.title,
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
@@ -66,7 +66,7 @@ export const spendsListSlice = createSlice({
           ]
         : [
             {
-              id: action.payload.id,
+              id: nanoid(),
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
               doDate: action.payload.doDate,

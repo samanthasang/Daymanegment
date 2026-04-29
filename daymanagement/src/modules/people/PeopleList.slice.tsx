@@ -3,6 +3,13 @@ import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 export type TPeople = {
   id: string;
   title: string;
+  firstName?: string;
+  lastName?: string;
+  shareList: string[];
+  phoneNumber: string;
+  birthDate: number;
+  createDate: number;
+  description: string;
 };
 
 export interface InitialState {
@@ -23,6 +30,12 @@ export const PeopleListSlice = createSlice({
       action: PayloadAction<{
         id: string;
         title: string;
+        firstName: string;
+        lastName: string;
+        phoneNumber: string;
+        birthDate: number;
+        createDate: number;
+        description: string;
       }>
     ) => {
       state.ListPeople = state.ListPeople
@@ -31,12 +44,26 @@ export const PeopleListSlice = createSlice({
             {
               id: nanoid(),
               title: action.payload.title,
+              firstName: action.payload.firstName,
+              lastName: action.payload.lastName,
+              phoneNumber: action.payload.phoneNumber,
+              birthDate: action.payload.birthDate,
+              createDate: action.payload.createDate,
+              description: action.payload.description,
+              shareList: [],
             },
           ]
         : [
             {
               id: nanoid(),
               title: action.payload.title,
+              firstName: action.payload.firstName,
+              lastName: action.payload.lastName,
+              phoneNumber: action.payload.phoneNumber,
+              birthDate: action.payload.birthDate,
+              createDate: action.payload.createDate,
+              description: action.payload.description,
+              shareList: [],
             },
           ];
     },
@@ -50,6 +77,11 @@ export const PeopleListSlice = createSlice({
       action: PayloadAction<{
         id: any;
         title: string;
+        firstName: string;
+        lastName: string;
+        phoneNumber: string;
+        birthDate: number;
+        description: string;
       }>
     ) => {
       state.ListPeople = state.ListPeople.map((people) =>
@@ -57,6 +89,49 @@ export const PeopleListSlice = createSlice({
           ? {
               ...people,
               title: action.payload.title,
+              firstName: action.payload.firstName,
+              lastName: action.payload.lastName,
+              phoneNumber: action.payload.phoneNumber,
+              birthDate: action.payload.birthDate,
+              description: action.payload.description,
+            }
+          : people
+      );
+    },
+    addFriendsListShare: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        peopleId?: string;
+      }>
+    ) => {
+      state.ListPeople = state.ListPeople.map((people) =>
+        people.id == action.payload.peopleId
+          ? {
+              ...people,
+              shareList: people.shareList
+                ? !people.shareList.includes(action.payload.id)
+                  ? [...people.shareList, action.payload.id]
+                  : [...people.shareList]
+                : [action.payload.id],
+            }
+          : people
+      );
+    },
+    delFriendsListShare: (
+      state: InitialState,
+      action: PayloadAction<{
+        id: string;
+        peopleId?: string;
+      }>
+    ) => {
+      state.ListPeople = state.ListPeople.map((people) =>
+        people.id == action.payload.peopleId
+          ? {
+              ...people,
+              shareList: people.shareList.filter(
+                (share) => share == action.payload.id
+              ),
             }
           : people
       );
@@ -77,4 +152,6 @@ export const {
   delPeopleList,
   updatePeopleList,
   selectPeopleList,
+  addFriendsListShare,
+  delFriendsListShare,
 } = PeopleListSlice.actions;

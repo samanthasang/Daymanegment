@@ -2,6 +2,7 @@
 import { Eye, Trash } from "@/components/icons";
 import SelectedItemContainer from "@/components/mainPage/SelectedSection/selectedItem/SelectedItemContainer.component";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import { delVisitShareList, TShare } from "@/modules/share/share.slice";
 import {
   delVisitListShare,
@@ -20,13 +21,9 @@ export const ShareItemVisit = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const {
-    ListVisit,
-  }: {
-    ListVisit: TVisit[];
-  } = useAppSelector((state) => state.visit) || [];
+  const { ListVisitAll } = useVisitList();
   const VisitSelected =
-    ListVisit && ListVisit.filter((visit) => visit.id == visitId)[0];
+    ListVisitAll && ListVisitAll.filter((visit) => visit.id == visitId)[0];
 
   return (
     <SelectedItemContainer title="Visit">

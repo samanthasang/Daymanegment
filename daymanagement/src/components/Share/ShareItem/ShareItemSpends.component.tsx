@@ -2,6 +2,7 @@
 import { Eye, Trash } from "@/components/icons";
 import SelectedItemContainer from "@/components/mainPage/SelectedSection/selectedItem/SelectedItemContainer.component";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 import { delSpendsShareList } from "@/modules/share/share.slice";
 import { delSpendsListShare, TSpends } from "@/modules/spends/spends.slice";
 import { selectVisitList } from "@/modules/visitsList/visit.slice";
@@ -17,13 +18,12 @@ export const ShareItemSpends = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const {
-    ListSpends,
-  }: {
-    ListSpends: TSpends[];
-  } = useAppSelector((state) => state.SpendsList) || [];
+  const { ListSpendsAll } = useSpendsList();
   const SpendsSelected =
-    ListSpends && ListSpends.filter((visit) => visit.id == spendsId)[0];
+    ListSpendsAll && ListSpendsAll.filter((spends) => spends.id == spendsId)[0];
+  console.log(spendsId);
+  console.log(ListSpendsAll);
+  console.log(SpendsSelected);
 
   return (
     <SelectedItemContainer title="Spends">

@@ -75,7 +75,7 @@ function PeopleList() {
       />
       <SelectedSection
         drawerType="PeopleList"
-        formType="Add Share"
+        formType="Edit Share"
         total={total}
         totalIncome={incomeArray}
         totalOuCome={outComeArray}

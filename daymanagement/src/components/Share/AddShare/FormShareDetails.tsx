@@ -151,7 +151,7 @@ export default function FormShareDetails({
               placeholder="Income Amount"
               value={shareDetail.incomeAmount}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                onChageInputOutcome(e)
+                onChageInputIncome(e)
               }
             />
           )}

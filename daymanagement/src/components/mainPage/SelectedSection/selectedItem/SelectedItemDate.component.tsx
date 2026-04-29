@@ -11,6 +11,7 @@ export const SelectedItemDate = ({
   completeUpdate,
   startDate,
   endDate,
+  birthDate,
 }: {
   doDate?: number;
   createDate?: number;
@@ -21,6 +22,7 @@ export const SelectedItemDate = ({
   completeUpdate?: number;
   startDate?: number;
   endDate?: number;
+  birthDate?: number;
 }) => {
   return (
     <>
@@ -40,7 +42,11 @@ export const SelectedItemDate = ({
           )}
         </div>
       )}
-      {(!!startDate || !!lastUpdate || !!completeUpdate) && (
+      {(!!startDate ||
+        !!lastUpdate ||
+        !!completeUpdate ||
+        !!birthDate ||
+        !!endDate) && (
         <div className="w-full flex flex-row justify-between gap-x-3">
           {startDate && (
             <SelectedItemContainer
@@ -64,6 +70,12 @@ export const SelectedItemDate = ({
             <SelectedItemContainer
               title="Complete"
               description={DayUnixFormat(completeUpdate, "YYYY-MM-DD")}
+            />
+          )}
+          {birthDate && (
+            <SelectedItemContainer
+              title="BirthDate"
+              description={DayUnixFormat(birthDate, "YYYY-MM-DD")}
             />
           )}
         </div>

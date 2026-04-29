@@ -43,6 +43,8 @@ export const SelectedItem = ({
   paymentNumber,
   installmentstList,
   shareList,
+  phoneNumber,
+  birthDate,
   lastUpdate,
   timeDiff,
   priodDiff,
@@ -80,6 +82,8 @@ export const SelectedItem = ({
   totalIncome?: number;
   totalOuCome?: number;
   shareList?: string[];
+  phoneNumber: string;
+  birthDate: number;
   installmentstList?: TInstallmentst[];
   startDate?: number;
   endDate?: number;
@@ -121,6 +125,7 @@ export const SelectedItem = ({
           priodDiff={priodDiff}
           startDate={startDate}
           endDate={endDate}
+          birthDate={birthDate}
           time={time}
           timeDiff={timeDiff}
         />
@@ -128,6 +133,12 @@ export const SelectedItem = ({
           <SelectedItemContainer title="People">
             <SelectedPeopleItem id={peopleId} />
           </SelectedItemContainer>
+        )}
+        {phoneNumber && (
+          <SelectedItemContainer
+            title="Phone Number"
+            description={phoneNumber}
+          />
         )}
         {visitId && <ShareItemVisit id={id} visitId={visitId} />}
         {spendsId && <ShareItemSpends id={id} spendsId={spendsId} />}
@@ -277,7 +288,7 @@ export const SelectedItem = ({
             description={outcomeAmount}
           />
         )}
-        {shareList && shareList.length > 0 && (
+        {drawerType != "PeopleList" && shareList && shareList.length > 0 && (
           <SelectedItemContainer title="Shares">
             {shareList.map((share) => (
               <SelectedShareItem key={share} id={share} />

@@ -11,6 +11,7 @@ import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
+import { addFriendsListShare } from "@/modules/people/PeopleList.slice";
 import {
   delShareList,
   setShareList,
@@ -92,15 +93,19 @@ export default function FormVisits({
 
   const { ListShareAll } = useShareList();
 
-  const result = ListShareAll.filter((share) =>
-    selectedVisit.shareList.includes(share.id)
-  );
+  const result =
+    selectedVisit &&
+    selectedVisit.shareList &&
+    ListShareAll &&
+    ListShareAll.filter(
+      (share) => selectedVisit.shareList.includes(share.id) && share
+    );
   const [shareList, setSharelist] = useState<TShare[]>([]);
 
   useEffect(() => {
     if (formType.split(" ")[0] == "Edit" && selectedVisit) {
       setValue("title", selectedVisit?.title);
-      setValue("description", selectedVisit.description);
+      setValue("description", selectedVisit?.description);
       setValue("income", selectedVisit.income);
       setValue("shareList", selectedVisit.shareList);
       setValue("advancePayment", selectedVisit.advancePayment);
@@ -121,9 +126,6 @@ export default function FormVisits({
   const handleTag = (data: string) => {
     setValue("tag", data);
   };
-  console.log(getValues());
-  console.log(errors);
-
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const visitId = visitIdSelected ? visitIdSelected : nanoid();
     formType.split(" ")[0] == "Edit"
@@ -211,6 +213,14 @@ export default function FormVisits({
                 description: share.description,
               })
             );
+      });
+      shareList.map((share) => {
+        dispatch(
+          addFriendsListShare({
+            id: share.id,
+            peopleId: share.peopleId,
+          })
+        );
       });
     }
     setValue("doDate", 0);

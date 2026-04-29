@@ -7,11 +7,12 @@ import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
-import { currentUnixTimestamp, DayUnix } from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
+import { addFriendsListShare } from "@/modules/people/PeopleList.slice";
 import {
   delShareList,
   setShareList,
@@ -95,9 +96,11 @@ export default function FormSpends({
 
   const { ListShareAll } = useShareList();
 
-  const result = ListShareAll.filter((share) =>
-    selectedSpends.shareList.includes(share.id)
-  );
+  const result =
+    selectedSpends &&
+    selectedSpends.shareList &&
+    ListShareAll &&
+    ListShareAll.filter((share) => selectedSpends.shareList.includes(share.id));
 
   const [shareList, setSharelist] = useState<TShare[]>([]);
   useEffect(() => {
@@ -129,12 +132,10 @@ export default function FormSpends({
     setValue("tag", data);
   };
 
-  console.log(getValues());
-  console.log(errors);
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const spendsId = spendsIdSelected ? spendsIdSelected : nanoid();
 
-    formType.split(" ")[0]
+    formType.split(" ")[0] == "Edit"
       ? dispatch(
           updateSpendsList({
             id: spendsId,
@@ -190,7 +191,7 @@ export default function FormSpends({
                   : share.doDate,
                 createDate:
                   share.createDate && share.createDate > 0
-                    ? share.createDate
+                    ? +share.createDate
                     : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
@@ -211,7 +212,7 @@ export default function FormSpends({
                   : share.doDate,
                 createDate:
                   share.createDate && share.createDate > 0
-                    ? share.createDate
+                    ? +share.createDate
                     : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
@@ -221,6 +222,14 @@ export default function FormSpends({
                 description: share.description,
               })
             );
+      });
+      shareList.map((share) => {
+        dispatch(
+          addFriendsListShare({
+            id: share.id,
+            peopleId: share.peopleId,
+          })
+        );
       });
     }
     setValue("doDate", 0);
