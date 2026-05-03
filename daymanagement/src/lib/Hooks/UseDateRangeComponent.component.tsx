@@ -1,20 +1,15 @@
 "use client";
 import { Calendar } from "@/components/ui/calendar";
 import dayjs from "dayjs";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import useFilters from "./useFilters";
+import UseSearchParams from "./UseSearchParams";
 
 function UseDateRangeComponent() {
   const { applyFilter } = useFilters();
 
-  const searchParams = useSearchParams();
-
-  const dateFrom = searchParams.get("dateFrom");
-  const hasdateFrom = searchParams.has("dateFrom");
-  const dateTo = searchParams.get("dateTo");
-  const hasdateTo = searchParams.has("dateTo");
+  const { hasdateFrom, dateFrom, hasdateTo, dateTo } = UseSearchParams();
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: new Date(),
@@ -62,7 +57,7 @@ function UseDateRangeComponent() {
             to: new Date(),
           })
       : setDateRange({
-          from: new Date(),
+          from: new Date(dayjs(dayjs.unix(Number(dateFrom))).toDate()),
           to: new Date(),
         });
   }, [dateFrom, dateTo]);

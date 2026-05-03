@@ -3,7 +3,7 @@ import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.compon
 import { useAppDispatch } from "@/lib/hook";
 import SelectHabbitListActivities from "@/lib/Hooks/Lists/Habbit/HabbitListActivities.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp, DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import { Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import { useEffect } from "react";
 
@@ -13,7 +13,6 @@ export const HabbitItem = ({ item }: { item: Thabbit }) => {
   const { selectedHabbit } = UseHabbitList();
   useEffect(() => {
     DayUnixDiff(item.lastUpdate, "day") < -1 &&
-      item.isComplete &&
       dispatch(
         updateHabbitList({
           id: item.id,
@@ -21,8 +20,8 @@ export const HabbitItem = ({ item }: { item: Thabbit }) => {
           description: item.description || "",
           priority: item.priority,
           createDate: item.createDate,
-          lastUpdate: item.lastUpdate,
-          score: item.score - 1,
+          lastUpdate: currentUnixTimestamp,
+          score: item.score + DayUnixDiff(item.lastUpdate, "day"),
           category: item.category,
           tag: item.tag,
           isComplete: false,

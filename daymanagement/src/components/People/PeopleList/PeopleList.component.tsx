@@ -64,7 +64,7 @@ function PeopleList() {
     <>
       <ListSection
         drawerType="PeopleList"
-        formType="Add PeopleList"
+        formType="Add"
         selectedID={selectedPeople && !!selectedPeople.id}
         ListFilteredTilte="Friends"
         ListForgotTilte="New Friends"
@@ -75,7 +75,7 @@ function PeopleList() {
       />
       <SelectedSection
         drawerType="PeopleList"
-        formType="Edit Share"
+        formType="Edit"
         total={total}
         totalIncome={incomeArray}
         totalOuCome={outComeArray}

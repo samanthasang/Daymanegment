@@ -84,7 +84,7 @@ export default function FormTimer({
   };
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedTimer) {
+    if (formType != "Add" && selectedTimer) {
       setValue("title", selectedTimer?.title);
       setValue("category", selectedTimer.category);
       setValue("tag", selectedTimer.tag);
@@ -243,11 +243,11 @@ export default function FormTimer({
       />
       <div className="flex gap-4">
         {selectedTimer?.title && (
-          <Button onClick={() => onReset()} type="button">
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

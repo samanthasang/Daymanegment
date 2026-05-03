@@ -28,15 +28,6 @@ function SwitchComponent({
       )}
     >
       {children}
-      {/* <BasicSwitch
-        checked={checkStatus || false}
-        handleToggle={(e) => {
-          e && e.preventDefault();
-          ChangeStatus && ChangeStatus();
-        }}
-        label=""
-        key={"isComplete"}
-      /> */}
     </div>
   );
 }

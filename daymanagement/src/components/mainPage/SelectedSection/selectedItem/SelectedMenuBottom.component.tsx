@@ -1,71 +1,71 @@
 "use client";
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
-import { Ballot, Done, Edit, Trash } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Edit, List, Trash, CheckCircle } from "lucide-react";
 
 export const SelectedMenuBottom = ({
-  selectedIsComplete = false,
   drawerType,
   formType,
+  isFinish,
+  isComplete,
+  isPause,
   SelectItem,
   DelItem,
   CompleteItem,
+  FinishItem,
 }: {
-  selectedIsComplete?: boolean;
+  isFinish?: boolean;
+  isComplete?: boolean;
+  isPause?: boolean;
   drawerType: string;
   formType: string;
   SelectItem: () => void;
   DelItem?: () => void;
   CompleteItem?: () => void;
+  FinishItem?: () => void;
 }) => {
   return (
     <div className="flex justify-around w-full mx-auto gap-x-0.5">
-      <div
+      <Button
+        className="flex-1"
         onClick={(e) => {
           e && e.preventDefault();
           SelectItem();
         }}
-        className="flex justify-center items-center h-10 flex-1 rounded-full bg-primary hover:bg-button/15 w-full cursor-pointer"
+        variant="default"
       >
-        <Ballot />
-      </div>
+        <List />
+      </Button>
       {drawerType != "SpendsList" && DelItem && CompleteItem && (
-        <div
+        <Button
+          disabled={isComplete && isPause && isFinish}
           onClick={(e) => {
             e && e.preventDefault();
-            CompleteItem();
+            e && !isComplete && !isPause && !isFinish && CompleteItem();
           }}
-          className={cn(
-            "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-card/15 w-full cursor-pointer",
-            selectedIsComplete ? "bg-success" : "bg-primary"
-          )}
+          className={cn("flex-1", isComplete ? "bg-success" : "bg-primary")}
         >
-          <Done />
-          {/* <BasicSwitch
-            checked={selectedIsComplete}
-            handleToggle={(e) => {
-              e && e.preventDefault();
-              e && e.stopPropagation();
-              CompleteItem();
-            }}
-            label=""
-            key={"isComplete"}
-          /> */}
-        </div>
+          <CheckCircle width={16} height={16} />
+        </Button>
       )}
       {DelItem && (
-        <div
+        <Button
           onClick={(e) => {
             e && e.preventDefault();
             e && e.stopPropagation();
             e && DelItem();
           }}
-          className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
+          className="hover:bg-errorRed flex-1"
         >
-          <Trash />
-        </div>
+          <Trash width={16} height={16} className="text-errorRed" />
+        </Button>
       )}
-      <DrawerButton drawerType={drawerType} formType={formType}>
+      <DrawerButton
+        drawerType={drawerType}
+        formType={formType}
+        className="flex-1"
+      >
         <Edit />
       </DrawerButton>
     </div>

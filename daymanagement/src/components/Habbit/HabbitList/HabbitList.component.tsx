@@ -18,7 +18,7 @@ function HabbitList() {
     <>
       <ListSection
         drawerType="HabbitList"
-        formType="Add Habbit"
+        formType="Add"
         selectedID={selectedHabbit && !!selectedHabbit.id}
         ListFilteredTilte="Habbit"
         ListForgotTilte="New Habbit"
@@ -32,7 +32,7 @@ function HabbitList() {
       />
       <SelectedSection
         drawerType="HabbitList"
-        formType="Edit Habbit"
+        formType="Edit"
         CompleteItem={() =>
           CompleteItem(selectedHabbit.id, selectedHabbit.title)
         }

@@ -1,5 +1,6 @@
 import { AccountBalance, ShoppingCart } from "@/components/icons";
 import ListPriority from "../ListPriority/ListPriority.component";
+import { DollarSign, ShoppingBag } from "lucide-react";
 
 export const ListItemTitle = ({
   priority,
@@ -13,11 +14,11 @@ export const ListItemTitle = ({
   priceOfProduct?: string;
 }) => {
   return (
-    <div className="select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
-      <label className="h-8 flex justify-center items-center gap-2">
+    <div className="flex col-span-4 justify-start items-start">
+      <label className="h-8 flex justify-center items-center cursor-pointer gap-x-1">
         {priority && <ListPriority priority={priority} />}
-        {incomeAmount && <AccountBalance />}
-        {priceOfProduct && <ShoppingCart />}
+        {incomeAmount && <DollarSign width={16} height={16} />}
+        {priceOfProduct && <ShoppingBag width={16} height={16} />}
         {title || ""}
       </label>
     </div>

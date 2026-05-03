@@ -5,19 +5,18 @@ import { DialogTrigger } from "@/components/ui/dialog";
 function DrawerButton({
   drawerType,
   formType,
+  className,
   children,
 }: {
   drawerType: string;
   formType: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
     <DrawerDialogDemo drawerType={drawerType} formType={formType}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer"
-        >
+        <Button variant="default" className={className}>
           {children}
         </Button>
       </DialogTrigger>

@@ -1,5 +1,5 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
-import { AddTask, More } from "@/components/icons";
+import { More } from "@/components/icons";
 import Earth from "@/components/icons/Earth";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
@@ -10,11 +10,21 @@ import {
   DrawerTitle,
 } from "@/components/ui/Drawer";
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
+import {
+  Activity,
+  FilePlus,
+  ListPlus,
+  Menu,
+  Option,
+  Settings,
+  TimerIcon,
+} from "lucide-react";
 import { useState } from "react";
 import MenuFilter from "../../Page/MenuSideBar/MenuFilter.component";
 import MenuToday from "../../Page/MenuSideBar/MenuToday.component";
 import ListMenuButtons from "./ListMenuButtons.component";
 import TimerListMenuBottom from "./TimerListMenuBottom.component";
+import { DrawerInfos } from "@/components/Drawer/DrawerInfos";
 
 function ListMenuBottom({
   listTitle,
@@ -66,15 +76,23 @@ function ListMenuBottom({
   return (
     <div className="flex justify-around w-full mx-auto gap-x-0.5">
       {isSMMax && (
-        <DrawerButton drawerType="MenuList" formType={"Info"}>
-          <Earth />
+        <DrawerButton
+          drawerType="MenuList"
+          formType={"Info"}
+          className="flex-1"
+        >
+          <Menu />
         </DrawerButton>
       )}
       {isSMMax && <MenuFilter />}
       {isSMMax && <MenuToday />}
       {!isMDMax && (
         <div className="w-full mx-auto h-10 ">
-          <DrawerButton drawerType={drawerType} formType="Info">
+          <DrawerButton
+            drawerType={drawerType}
+            formType="Info"
+            className="w-full"
+          >
             <div className="flex justify-between items-center w-full mx-auto h-10 px-3 cursor-pointer">
               <span>{listTitle}</span>
               <span>{ListInfo}</span>
@@ -85,37 +103,36 @@ function ListMenuBottom({
       {isSMMax ? (
         <Drawer open={open} onOpenChange={(e) => openDrawer(e)}>
           <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              className={
-                "flex justify-center items-center h-10 flex-1 rounded-full min-w-10 hover:bg-button/15 w-full cursor-pointer"
-              }
-            >
-              <More />
+            <Button variant="default" className="flex-1">
+              <Settings />
             </Button>
           </DialogTrigger>
           <DrawerContent>
             <DrawerHeader className="text-left">
               <DrawerTitle>Custom</DrawerTitle>
             </DrawerHeader>
-            <div className="flex flex-col gap-y-3">
-              <ListMenuButtons
-                ChangeComplate={ChangeComplate}
-                ChangeDate={ChangeDate}
-                ChangeShop={ChangeShop}
-                ChangePriority={ChangePriority}
-                ChangeBalance={ChangeBalance}
-                complateFIlter={complateFIlter}
-                dateFIlter={dateFIlter}
-                priorityFilter={priorityFilter}
-                shopFilter={shopFilter}
-                balanceFilter={balanceFilter}
-                withComplateSort={withComplateSort}
-                withFinish={withFinish}
-                withpriority={withpriority}
-                withShop={withShop}
-                withBalance={withBalance}
-              />
+            <div className="flex flex-col gap-y-3 p-2">
+              <DrawerInfos drawerType={drawerType} />
+
+              <div className="flex flex-row gap-x-1">
+                <ListMenuButtons
+                  ChangeComplate={ChangeComplate}
+                  ChangeDate={ChangeDate}
+                  ChangeShop={ChangeShop}
+                  ChangePriority={ChangePriority}
+                  ChangeBalance={ChangeBalance}
+                  complateFIlter={complateFIlter}
+                  dateFIlter={dateFIlter}
+                  priorityFilter={priorityFilter}
+                  shopFilter={shopFilter}
+                  balanceFilter={balanceFilter}
+                  withComplateSort={withComplateSort}
+                  withFinish={withFinish}
+                  withpriority={withpriority}
+                  withShop={withShop}
+                  withBalance={withBalance}
+                />
+              </div>
             </div>
           </DrawerContent>
         </Drawer>
@@ -138,14 +155,13 @@ function ListMenuBottom({
           withBalance={withBalance}
         />
       )}
-      {/* {drawerType == "PeopleList" && (
-        <DrawerButton drawerType="ShareList" formType="Add Share">
-          <AddTask />
-        </DrawerButton>
-      )} */}
       {drawerType != "TimerList" ? (
-        <DrawerButton drawerType={drawerType} formType={formType}>
-          <AddTask />
+        <DrawerButton
+          drawerType={drawerType}
+          formType={formType}
+          className="flex-1"
+        >
+          <FilePlus />
         </DrawerButton>
       ) : (
         <TimerListMenuBottom />

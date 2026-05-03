@@ -74,7 +74,7 @@ export default function FormGoals({
   }, [date]);
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedGoal) {
+    if (formType != "Add" && selectedGoal) {
       setValue("title", selectedGoal?.title);
       setValue("priority", selectedGoal.priority);
       setValue("category", selectedGoal.category);
@@ -97,7 +97,7 @@ export default function FormGoals({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? dispatch(
           updateGoalList({
             id: selectedGoal.id,
@@ -134,7 +134,7 @@ export default function FormGoals({
 
     setValue("doDate", 0);
 
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 
@@ -267,11 +267,11 @@ export default function FormGoals({
       />
       <div className="flex gap-4">
         {selectedGoal?.title && (
-          <Button onClick={() => onReset()} type="button">
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

@@ -1,6 +1,7 @@
 import duration from "dayjs/plugin/duration";
 import ListItemActions from "./ListItemActions.component";
 import ListItemInfo from "./ListItemInfo.component";
+import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 
 export const ListItemDetails = ({
   id,
@@ -21,6 +22,7 @@ export const ListItemDetails = ({
   withDel = true,
   DelItem,
   CompleteItem,
+  BringToday,
   UpdateItem,
 }: {
   id?: string;
@@ -41,6 +43,7 @@ export const ListItemDetails = ({
   drawerType: string;
   DelItem?: () => void;
   CompleteItem?: () => void;
+  BringToday?: () => void;
   UpdateItem?: () => void;
 }) => {
   return (
@@ -56,8 +59,10 @@ export const ListItemDetails = ({
         hasShare={hasShare}
         drawerType={drawerType}
         withDel={withDel}
+        isToday={(date && DayUnixDiff(+date, "day") == 0) || false}
         DelItem={DelItem}
         CompleteItem={CompleteItem}
+        BringToday={BringToday}
         UpdateItem={UpdateItem}
       />
       <ListItemInfo

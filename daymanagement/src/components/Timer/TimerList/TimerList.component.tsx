@@ -19,7 +19,7 @@ function TimerList() {
     <>
       <ListSection
         drawerType="TimerList"
-        formType="Add Timer"
+        formType="Add"
         selectedID={selectedTimer && !!selectedTimer.id}
         ListFilteredTilte="Timers"
         ListForgotTilte="Old Timers"
@@ -33,7 +33,7 @@ function TimerList() {
       />
       <SelectedSection
         drawerType="TimerList"
-        formType="Edit Timer"
+        formType="Edit"
         selectedIsComplete={
           (selectedTimer && selectedTimer.isComplete) || false
         }

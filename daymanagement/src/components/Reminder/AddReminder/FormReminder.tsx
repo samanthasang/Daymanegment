@@ -77,11 +77,7 @@ export default function FormReminder({
   }, [date]);
 
   useEffect(() => {
-    if (
-      formType.split(" ")[0] == "Edit" &&
-      selectedReminder &&
-      selectedReminder.id
-    ) {
+    if (formType != "Add" && selectedReminder && selectedReminder.id) {
       setValue("title", selectedReminder?.title);
       setValue("priority", selectedReminder.priority);
       setValue("timeDiff", selectedReminder?.timeDiff);
@@ -116,7 +112,7 @@ export default function FormReminder({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? dispatch(
           updateReminderList({
             id: selectedReminder.id,
@@ -153,7 +149,7 @@ export default function FormReminder({
         );
     setValue("doDate", 0);
 
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 
@@ -321,12 +317,12 @@ export default function FormReminder({
         )}
       />
       <div className="flex gap-4">
-        {formType.split(" ")[0] == "Edit" && (
-          <Button onClick={() => onReset()} type="button">
+        {formType != "Add" && (
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

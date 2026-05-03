@@ -1,20 +1,18 @@
 "use client";
-import { Ballot, Calender, EventAvailable } from "@/components/icons";
-import { useSearchParams } from "next/navigation";
+import { CalendarOff, Folder, Tag } from "lucide-react";
 import { cn } from "../utils";
+import { DayUnixDiff } from "./UseDayJS";
 import useFilters from "./useFilters";
 import useMediaQueryValues from "./useMediaQuery";
+import UseSearchParams from "./UseSearchParams";
 
 function UseResetFilterComponent() {
   const { applyFilter } = useFilters();
 
   const { isMDMax } = useMediaQueryValues();
 
-  const searchParams = useSearchParams();
-
-  const hasdateTo = searchParams.has("dateTo");
-  const hasCategory = searchParams.has("category");
-  const hasTag = searchParams.has("tag");
+  const { hasdateFrom, dateFrom, hasdateTo, hasCategorySearch, hasTagSearch } =
+    UseSearchParams();
 
   const handleCatFilter = () => {
     applyFilter("category", "");
@@ -22,6 +20,11 @@ function UseResetFilterComponent() {
   const handleTagFilter = () => {
     applyFilter("tag", "");
   };
+  const fromTodayNow = new Date().setHours(0, 0, 0, 0);
+
+  const toDaUnix = Math.floor(
+    new Date(fromTodayNow).getTime() / 1000.0
+  ).toString();
   const handleDateFilter = () => {
     applyFilter("dateFrom", "");
     applyFilter("dateTo", "");
@@ -37,38 +40,51 @@ function UseResetFilterComponent() {
       <div
         onClick={(e) => {
           e && e.preventDefault();
-          hasdateTo && handleDateFilter();
+          ((hasdateFrom && dateFrom && DayUnixDiff(+dateFrom, "day") != 0) ||
+            hasdateTo) &&
+            handleDateFilter();
         }}
         className={cn(
           "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
-          hasdateTo ? "bg-button" : "bg-primary"
+
+          (dateFrom && DayUnixDiff(+dateFrom, "day") != 0) || hasdateTo
+            ? "bg-button"
+            : "bg-primary"
         )}
       >
-        <Calender />
+        <CalendarOff
+          className={
+            (dateFrom && DayUnixDiff(+dateFrom, "day") != 0) || hasdateTo
+              ? "fill-red-500"
+              : "bg-transparent"
+          }
+        />
       </div>
       <div
         onClick={(e) => {
           e && e.preventDefault();
-          hasCategory && handleCatFilter();
+          hasCategorySearch && handleCatFilter();
         }}
         className={cn(
           "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
-          hasCategory ? "bg-button" : "bg-primary"
+          hasCategorySearch ? "bg-button" : "bg-primary"
         )}
       >
-        <Ballot className="fill-red-500" />
+        <Folder
+          className={hasCategorySearch ? "fill-red-500" : "bg-transparent"}
+        />
       </div>
       <div
         onClick={(e) => {
           e && e.preventDefault();
-          hasTag && handleTagFilter();
+          hasTagSearch && handleTagFilter();
         }}
         className={cn(
           "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
-          hasTag ? "bg-button" : "bg-primary"
+          hasTagSearch ? "bg-button" : "bg-primary"
         )}
       >
-        <EventAvailable className="fill-red-500" />
+        <Tag className={hasTagSearch ? "fill-red-500" : "bg-transparent"} />
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ function VisitsList() {
     <>
       <ListSection
         drawerType="VisitsList"
-        formType="Add Visit"
+        formType="Add"
         selectedID={selectedVisit && !!selectedVisit.id}
         ListFilteredTilte="Visits"
         ListForgotTilte="Old Visits"
@@ -32,7 +32,7 @@ function VisitsList() {
       />
       <SelectedSection
         drawerType="VisitsList"
-        formType="Edit Visit"
+        formType="Edit"
         selectedIsComplete={
           (selectedVisit && selectedVisit.isComplete) || false
         }

@@ -1,7 +1,8 @@
-import { AddTask } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { setTimerList } from "@/modules/timerList/timer.slice";
+import { TimerIcon } from "lucide-react";
 
 function TimerListMenuBottom() {
   const dispatch = useAppDispatch();
@@ -10,9 +11,11 @@ function TimerListMenuBottom() {
     dispatch(
       setTimerList({
         id: "",
-        title: `timer-${Math.floor(new Date().getTime() / 1000).toString()}`,
-        startDate: Math.floor(new Date().getTime() / 1000).toString(),
-        endDate: Math.floor(new Date().getTime() / 1000).toString(),
+        title: `timer-${currentUnixTimestamp.toString()}`,
+        startDate: currentUnixTimestamp,
+        endDate: currentUnixTimestamp,
+        createDate: currentUnixTimestamp,
+        description: "",
         isComplete: false,
         category: "",
         tag: "",
@@ -21,12 +24,8 @@ function TimerListMenuBottom() {
   };
 
   return (
-    <Button
-      variant="outline"
-      onClick={() => StartTimer()}
-      className="flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer"
-    >
-      <AddTask />
+    <Button variant="default" onClick={() => StartTimer()} className="flex-1">
+      <TimerIcon />
     </Button>
   );
 }

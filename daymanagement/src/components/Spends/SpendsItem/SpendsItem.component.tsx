@@ -14,7 +14,6 @@ export const SpendsItem = ({ item }: { item: TSpends }) => {
       incomeAmount={item.incomeAmount}
       priceOfProduct={item.priceOfProduct}
       drawerType="SpendsList"
-      
       selectedID={selectedSpends && selectedSpends.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

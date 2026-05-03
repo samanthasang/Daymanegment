@@ -82,7 +82,7 @@ export default function FormShare({
     useAppSelector((state) => state.ShareList) || {};
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedShare) {
+    if (formType != "Add" && selectedShare) {
       setValue("title", selectedShare?.title);
       setValue("peopleId", selectedShare?.peopleId);
       setValue("income", selectedShare.income);
@@ -116,7 +116,7 @@ export default function FormShare({
   console.log(getValues());
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType.split(" ")[0] == "Edit" && selectedShare
+    formType != "Add" && selectedShare
       ? dispatch(
           updateShareList({
             id: selectedShare.id,
@@ -354,12 +354,12 @@ export default function FormShare({
       />
 
       <div className="flex gap-4">
-        {formType.split(" ")[0] == "Edit" && selectedShare?.title && (
-          <Button onClick={() => onReset()} type="button">
+        {formType != "Add" && selectedShare?.title && (
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

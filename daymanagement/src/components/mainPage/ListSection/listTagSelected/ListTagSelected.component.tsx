@@ -4,6 +4,7 @@ import useFilters from "@/lib/Hooks/useFilters";
 import UseSearchParams from "@/lib/Hooks/UseSearchParams";
 import { cn } from "@/lib/utils";
 import { TTag } from "@/modules/tag/TagList.slice";
+import { Tag } from "lucide-react";
 
 export const ListTagSelected = ({ tag }: { tag?: string }) => {
   const { applyFilter } = useFilters();
@@ -30,9 +31,9 @@ export const ListTagSelected = ({ tag }: { tag?: string }) => {
   };
   return (
     tagSelected && (
-      <label
+      <div
         className={cn(
-          "cursor-pointer px-2 py-1 rounded-2xl",
+          "cursor-pointer px-2 py-1 rounded-2xl hover:bg-card/15",
           hasTagSearch && tagSearch == tagSelected.id ? "bg-card" : "bg-primary"
         )}
         onClick={(e) => {
@@ -41,8 +42,11 @@ export const ListTagSelected = ({ tag }: { tag?: string }) => {
           ChangeTag();
         }}
       >
-        {tagSelected.title || ""}
-      </label>
+        <div className="flex flex-row items-center gap-x-0.5">
+          <Tag width={16} height={16} />
+          {tagSelected.title || ""}
+        </div>
+      </div>
     )
   );
 };

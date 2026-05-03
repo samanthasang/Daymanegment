@@ -124,7 +124,7 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
             >
               <Trash />
             </div>
-            <DrawerDialogDemo drawerType={"ShareList"} formType="Edit Share">
+            <DrawerDialogDemo drawerType={"ShareList"} formType="Edit">
               <DialogTrigger asChild>
                 <Button
                   onClick={(e) => {

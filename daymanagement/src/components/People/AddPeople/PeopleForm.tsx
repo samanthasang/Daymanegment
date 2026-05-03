@@ -66,7 +66,7 @@ export default function PeopleForm({
   }, [date]);
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedPeople) {
+    if (formType != "Add" && selectedPeople) {
       setValue("title", selectedPeople?.title);
       setValue("firstName", selectedPeople.firstName);
       setValue("lastName", selectedPeople.lastName);
@@ -82,7 +82,7 @@ export default function PeopleForm({
   }, [selectedPeople, setValue]);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? dispatch(
           updatePeopleList({
             id: selectedPeople.id,
@@ -228,11 +228,11 @@ export default function PeopleForm({
       />
       <div className="flex gap-4">
         {formType.split(" ")[0] && (
-          <Button onClick={() => onReset()} type="button">
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

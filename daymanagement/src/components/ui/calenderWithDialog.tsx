@@ -35,7 +35,7 @@ export function CalendarDialog({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <div className="text-red-400 w-8 h-8 flex justify-center items-center rounded-r-xl border border-input bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
+        <div className="text-red-400 w-8 h-8 flex justify-center items-center rounded-r-xl border border-border bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
           <Calender />
         </div>
       </DialogTrigger>
@@ -49,7 +49,9 @@ export function CalendarDialog({
           placeholder="Selected Date"
         />
         <Calendar mode="single" selected={dateValue} onSelect={setDate} />
-        <Button onClick={() => setIsOpen(false)}>Close</Button>
+        <Button onClick={() => setIsOpen(false)} className="w-full">
+          Close
+        </Button>
       </DialogContent>
     </Dialog>
   );

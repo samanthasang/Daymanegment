@@ -8,7 +8,7 @@ import {
 } from "@/modules/tag/TagList.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { InputField } from "../ui/inputField";
@@ -72,7 +72,7 @@ export default function TagForm({
     reset();
   };
   return (
-    <div className="flex flex-col gap-2 ">
+    <div className="flex flex-col gap-2 min-w-96">
       <form className="flex flex-col w-full gap-4">
         <Controller
           defaultValue={""}
@@ -92,11 +92,14 @@ export default function TagForm({
         />
         <div className="flex gap-4">
           {selectedTag?.title && (
-            <Button onClick={() => onReset()} type="button" variant="secondary">
+            <Button
+              type="submit"
+              className="flex-1"
+            >
               reset
             </Button>
           )}
-          <Button type="button" variant="default" onClick={() => onSubmit()}>
+          <Button type="button" variant="default" className="flex-1" onClick={() => onSubmit()}>
             submit
           </Button>
         </div>

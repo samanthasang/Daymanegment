@@ -9,7 +9,8 @@ import { useEffect } from "react";
 
 export const GoalsItem = ({ item }: { item: TGoals }) => {
   const dispatch = useAppDispatch();
-  const { CompleteItem, DelItem, SelectWithId } = GoalListActivities();
+  const { CompleteItem, DelItem, SelectWithId, BringTodayItem } =
+    GoalListActivities();
   const { selectedGoal } = useGoalsList();
   useEffect(() => {
     !item.isComplete &&
@@ -31,17 +32,18 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
   return (
     <ListItem
       date={item.doDate}
-      score={
-        item.isComplete && item.score
-          ? item.score + 1
-          : DayUnixDiff(+item.doDate, "day") + 1
-      }
       drawerType="GoalsList"
       selectedID={selectedGoal && selectedGoal.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
       CompleteItem={() => CompleteItem(item.id, item.title, item?.score || 0)}
+      BringToday={() => BringTodayItem(item)}
       {...item}
+      score={
+        item.isComplete && item.score
+          ? item.score + 1
+          : DayUnixDiff(+item.doDate, "day") + 1
+      }
     />
   );
 };

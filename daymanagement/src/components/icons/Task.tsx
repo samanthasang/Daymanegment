@@ -5,9 +5,9 @@ const Task: FC<React.SVGProps<SVGSVGElement>> = (props) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       enableBackground="new 0 0 24 24"
-      height="24px"
+      height={props.height ?? "24px"}
+      width={props.width ?? "24px"}
       viewBox="0 0 24 24"
-      width="24px"
       fill="#e3e3e3"
     >
       <g>

@@ -3,6 +3,7 @@ import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import MenuItemsIcon from "./MenuItemsIcon.component";
 
 function MenuItems({
   href,
@@ -24,7 +25,10 @@ function MenuItems({
         pathname && pathname.startsWith(href) ? "bg-card/15 text-card" : ""
       )}
     >
-      <span>{tilte}</span>
+      <div className="flex items-center gap-x-1">
+        {tilte && MenuItemsIcon(tilte)}
+        <span>{tilte}</span>
+      </div>
       {(isSX || OpenMenu) && infoNumber && <span>{infoNumber}</span>}
     </Link>
   );

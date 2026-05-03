@@ -103,7 +103,7 @@ export default function FormVisits({
   const [shareList, setSharelist] = useState<TShare[]>([]);
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedVisit) {
+    if (formType != "Add" && selectedVisit) {
       setValue("title", selectedVisit?.title);
       setValue("description", selectedVisit?.description);
       setValue("income", selectedVisit.income);
@@ -128,7 +128,7 @@ export default function FormVisits({
   };
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const visitId = visitIdSelected ? visitIdSelected : nanoid();
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? dispatch(
           updateVisitList({
             id: visitId,
@@ -409,7 +409,7 @@ export default function FormVisits({
               removeShare={removeShare}
             >
               <DialogTrigger asChild>
-                <Button variant="default">
+                <Button variant="default" disabled={!date} className="w-full">
                   <div className="w-full flex flex-row justify-between px-2">
                     <span>add people</span>
                     <span>
@@ -508,11 +508,11 @@ export default function FormVisits({
 
       <div className="flex gap-4">
         {selectedVisit?.id && (
-          <Button onClick={() => onReset()} type="button">
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

@@ -4,6 +4,7 @@ import useFilters from "@/lib/Hooks/useFilters";
 import UseSearchParams from "@/lib/Hooks/UseSearchParams";
 import { cn } from "@/lib/utils";
 import { TCategory } from "@/modules/category/categoryList.slice";
+import { Folder } from "lucide-react";
 
 export const ListCategorySelected = ({ category }: { category?: string }) => {
   const { applyFilter } = useFilters();
@@ -31,9 +32,9 @@ export const ListCategorySelected = ({ category }: { category?: string }) => {
   };
   return (
     categorySelected && (
-      <label
+      <div
         className={cn(
-          "cursor-pointer px-2 py-1 rounded-2xl",
+          "cursor-pointer px-2 py-1 rounded-2xl hover:bg-card/15",
           hasCategorySearch && categorySearch == categorySelected.id
             ? "bg-card"
             : "bg-primary"
@@ -44,8 +45,11 @@ export const ListCategorySelected = ({ category }: { category?: string }) => {
           ChangeCategory();
         }}
       >
-        {categorySelected.title || ""}
-      </label>
+        <div className="flex flex-row items-center gap-x-0.5">
+          <Folder width={16} height={16} />
+          {categorySelected.title || ""}
+        </div>
+      </div>
     )
   );
 };

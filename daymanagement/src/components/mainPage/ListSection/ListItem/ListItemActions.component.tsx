@@ -1,16 +1,22 @@
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Done, DoneAll, Edit, Trash } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch } from "@/lib/hook";
-import { cn } from "@/lib/utils";
 import { selectPeopleList } from "@/modules/people/PeopleList.slice";
+import {
+  BadgeCheck,
+  CheckCircle,
+  Edit,
+  LucideCalendarSync,
+  Trash,
+} from "lucide-react";
 
 export const ListItemActions = ({
   id,
   title,
   isComplete,
   isFinish,
+  isToday,
   nextDate,
   date,
   score,
@@ -19,12 +25,14 @@ export const ListItemActions = ({
   withDel = true,
   DelItem,
   CompleteItem,
+  BringToday,
   UpdateItem,
 }: {
   id?: string;
   title: string;
   isComplete?: boolean;
   isFinish?: boolean;
+  isToday?: boolean;
   nextDate?: string;
   date?: string | number;
   score?: number;
@@ -33,26 +41,37 @@ export const ListItemActions = ({
   withDel?: boolean;
   DelItem?: () => void;
   CompleteItem?: () => void;
+  BringToday?: () => void;
   UpdateItem?: () => void;
 }) => {
   const dispatch = useAppDispatch();
 
   return (
     <div className="flex flex-row gap-x-2 items-center">
-      {withDel && DelItem && (
-        <div
+      {!isToday && BringToday && (
+        <Button
           onClick={(e) => {
             e && e.preventDefault();
             e && e.stopPropagation();
-            e &&
-              !(hasShare || (score == 0 && score)) &&
-              !isComplete &&
-              DelItem();
+            e && BringToday();
           }}
-          className="flex justify-center items-center h-10 w-10 min-w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
+          variant="default"
         >
-          <Trash />
-        </div>
+          <LucideCalendarSync />
+        </Button>
+      )}
+      {withDel && DelItem && (
+        <Button
+          onClick={(e) => {
+            e && e.preventDefault();
+            e && e.stopPropagation();
+            e && !(hasShare || (score == 0 && score)) && DelItem();
+          }}
+          className="hover:bg-errorRed"
+          variant="default"
+        >
+          <Trash width="16px" height="16px" className="text-errorRed" />
+        </Button>
       )}
       {drawerType == "PeopleList" && id && (
         <DrawerDialogDemo drawerType="PeopleList" formType={`Edit ${title}`}>
@@ -62,8 +81,7 @@ export const ListItemActions = ({
                 e && e.stopPropagation();
                 e && dispatch(selectPeopleList(id));
               }}
-              variant="outline"
-              className="flex justify-center items-center h-10 w-10 min-w-10 flex-1 rounded-full bg-primary hover:bg-button/15 cursor-pointer"
+              variant="default"
             >
               <Edit />
             </Button>
@@ -73,38 +91,35 @@ export const ListItemActions = ({
       {drawerType != "SpendsList" && (
         <>
           {UpdateItem && (
-            <div
+            <Button
               onClick={(e) => {
                 e && e.preventDefault();
                 e && e.stopPropagation();
                 e && UpdateItem();
               }}
-              className={cn(
-                "h-10 w-10 min-w-10 flex justify-center items-center flex-1 rounded-full hover:bg-card/15 cursor-pointer",
-                isFinish ? "bg-success" : "bg-primary"
-              )}
+              className={isFinish ? "bg-success" : "bg-primary"}
             >
-              <DoneAll />
-            </div>
+              <BadgeCheck />
+            </Button>
           )}
           {CompleteItem && (
-            <div
+            <Button
               onClick={(e) => {
                 e && e.preventDefault();
                 e && e.stopPropagation();
                 e && !isComplete && CompleteItem();
               }}
-              className={cn(
-                "h-10 w-10 min-w-10 flex justify-center items-center flex-1 rounded-full hover:bg-card/15 cursor-pointer",
+              className={
                 !isFinish
                   ? isComplete
                     ? "bg-success"
                     : "bg-primary"
                   : "bg-white/15"
-              )}
+              }
+              variant="default"
             >
-              <Done />
-            </div>
+              <CheckCircle width={16} height={16} />
+            </Button>
           )}
         </>
         // : (

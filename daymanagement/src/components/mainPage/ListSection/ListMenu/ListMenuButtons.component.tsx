@@ -1,12 +1,14 @@
 "use client";
 import SwitchComponent from "@/components/FormItem/SwitchComponent";
 import {
-  AccountBalance,
-  ChevronSmallTripleUp,
-  Done,
-  DoneAll,
-  ShoppingCart,
+  ChevronSmallTripleUp
 } from "@/components/icons";
+import {
+  CheckCircle,
+  DollarSign,
+  SeparatorVertical,
+  ShoppingBag
+} from "lucide-react";
 
 function ListMenuButtons({
   withpriority,
@@ -48,7 +50,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeDate && ChangeDate}
           checkStatus={dateFIlter}
         >
-          <DoneAll />
+          <CheckCircle />
         </SwitchComponent>
       )}
       {withComplateSort && (
@@ -56,7 +58,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeComplate && ChangeComplate}
           checkStatus={complateFIlter}
         >
-          <Done />
+          <SeparatorVertical />
         </SwitchComponent>
       )}
       {withpriority && (
@@ -72,7 +74,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeShop && ChangeShop}
           checkStatus={shopFilter}
         >
-          <ShoppingCart className="fill-red-500" />
+          <ShoppingBag width={16} height={16} />
         </SwitchComponent>
       )}
       {withBalance && (
@@ -80,7 +82,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeBalance && ChangeBalance}
           checkStatus={balanceFilter}
         >
-          <AccountBalance className="fill-red-500" />
+          <DollarSign width={16} height={16} />
         </SwitchComponent>
       )}
     </>

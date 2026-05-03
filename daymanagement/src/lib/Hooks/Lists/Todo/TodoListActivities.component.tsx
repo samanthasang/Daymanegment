@@ -3,9 +3,12 @@ import { useAppDispatch } from "@/lib/hook";
 import {
   completeToDoList,
   delToDoList,
-  selectToDoList
+  selectToDoList,
+  TToDo,
+  updateToDoList,
 } from "@/modules/toDoList/todo.slice";
 import { toast } from "react-toastify";
+import { currentUnixTimestamp } from "../../UseDayJS";
 import useTodoList from "./UseTodoList.component";
 
 function TodoListActivities() {
@@ -29,7 +32,12 @@ function TodoListActivities() {
     id && selectedToDo && dispatch(selectToDoList(id));
     toast(`${title} is updated`);
   };
-  return { CompleteItem, DelItem, SelectWithId, SelectItem };
+  const BringTodayItem = (item: TToDo) => {
+    dispatch(updateToDoList({ ...item, doDate: currentUnixTimestamp }));
+    item.id && selectedToDo && dispatch(selectToDoList(item.id));
+    toast(`${item.title} is updated`);
+  };
+  return { CompleteItem, DelItem, SelectWithId, SelectItem, BringTodayItem };
 }
 
 export default TodoListActivities;

@@ -19,7 +19,7 @@ function SpendsList() {
     <>
       <ListSection
         drawerType="SpendsList"
-        formType="Add Spends"
+        formType="Add"
         selectedID={selectedSpends && !!selectedSpends.id}
         ListFilteredTilte="Spends"
         ListForgotTilte="Old Spends"
@@ -30,9 +30,10 @@ function SpendsList() {
       />
       <SelectedSection
         drawerType="SpendsList"
-        formType="Edit Spends"
+        formType="Edit"
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
+        DuplicateItem
         selected={selectedSpends}
       />
     </>

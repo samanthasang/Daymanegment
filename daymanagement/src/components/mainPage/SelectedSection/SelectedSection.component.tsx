@@ -4,36 +4,38 @@ import SelectedMenuBottom from "./selectedItem/SelectedMenuBottom.component";
 
 function SelectedSection({
   selected,
-  selectedIsComplete = false,
   drawerType,
   formType,
   time,
   score,
-  total,
-  totalIncome,
-  totalOuCome,
   isFinish,
   isComplete,
+  isPause,
   SelectItem,
-  DelItem,
-  CompleteItem,
   FinishItem,
+  CompleteItem,
+  DelItem,
+  PauseItem,
+  UndoneItem,
+  DuplicateItem,
+  BringTodayItem,
 }: {
   selected: any;
   score?: number;
   time?: number;
-  selectedIsComplete?: boolean;
   drawerType: string;
   formType: string;
-  total?: number;
-  totalIncome?: number;
-  totalOuCome?: number;
   isComplete?: boolean;
   isFinish?: boolean;
+  isPause?: boolean;
   SelectItem: () => void;
-  DelItem?: () => void;
-  CompleteItem?: () => void;
   FinishItem?: () => void;
+  CompleteItem?: () => void;
+  DelItem?: () => void;
+  PauseItem?: () => void;
+  UndoneItem?: () => void;
+  DuplicateItem?: boolean;
+  BringTodayItem?: () => void;
 }) {
   return (
     selected && (
@@ -44,14 +46,23 @@ function SelectedSection({
           time={time}
           isComplete={isComplete}
           isFinish={isFinish}
-          CompleteItem={CompleteItem}
+          isPause={isPause}
           FinishItem={FinishItem}
+          CompleteItem={CompleteItem}
+          BringTodayItem={BringTodayItem}
+          DelItem={DelItem}
+          DuplicateItem={DuplicateItem}
+          PauseItem={PauseItem}
+          UndoneItem={UndoneItem}
           {...selected}
         />
         <SelectedMenuBottom
           drawerType={drawerType}
           formType={formType}
-          selectedIsComplete={selectedIsComplete}
+          isComplete={isComplete}
+          isFinish={isFinish}
+          isPause={isPause}
+          FinishItem={FinishItem}
           CompleteItem={CompleteItem}
           DelItem={DelItem}
           SelectItem={SelectItem}

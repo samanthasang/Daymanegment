@@ -71,7 +71,7 @@ export default function FormHabbit({
   }, [date]);
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedHabbit) {
+    if (formType != "Add" && selectedHabbit) {
       setValue("title", selectedHabbit?.title);
       setValue("description", selectedHabbit?.description);
       setValue("priority", selectedHabbit?.priority);
@@ -99,7 +99,7 @@ export default function FormHabbit({
   console.log(errors);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? dispatch(
           updateHabbitList({
             id: selectedHabbit.id,
@@ -130,7 +130,7 @@ export default function FormHabbit({
           })
         );
 
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 
@@ -237,12 +237,12 @@ export default function FormHabbit({
       />
 
       <div className="flex gap-4">
-        {formType.split(" ")[0] == "Edit" && (
-          <Button onClick={() => onReset()} type="button">
+        {formType != "Add" && (
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

@@ -6,6 +6,7 @@ import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import dayjs from "dayjs";
+import { Timer } from "lucide-react";
 import { useState } from "react";
 
 function PeopleInfo() {
@@ -93,16 +94,18 @@ function PeopleInfo() {
         <span>Done Timers :</span>
         <label>
           {!forgot ? (
-            <>
+            <div className="flex flex-row items-center gap-x-1">
+              <Timer width={12} height={12} />
               {diff.years() > 0 && `${diff.years()} : `}
               {diff.months() > 0 && `${diff.months()} : `}
               {diff.days() > 0 && `${diff.days()} : `}
               {diff.hours() > 0 && `${diff.hours()} : `}
               {diff.minutes() > 0 && `${diff.minutes()} : `}
               {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex flex-row items-center gap-x-1">
+              <Timer width={12} height={12} />
               {oldDiff.years() > 0 && `${oldDiff.years()} : `}
               {oldDiff.months() > 0 && `${oldDiff.months()} : `}
               {oldDiff.days() > 0 && `${oldDiff.days()} : `}
@@ -111,7 +114,7 @@ function PeopleInfo() {
               {oldDiff.seconds() < 10
                 ? `0${oldDiff.seconds()}`
                 : `${oldDiff.seconds()}`}
-            </>
+            </div>
           )}
         </label>
       </div>

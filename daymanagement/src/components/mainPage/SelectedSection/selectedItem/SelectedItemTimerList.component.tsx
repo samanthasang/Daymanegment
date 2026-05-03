@@ -3,6 +3,7 @@ import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import dayjs from "dayjs";
 import ListItemTimeDiff from "../../ListSection/ListItem/ListItemTimeDiff.component";
 import SelectedItemContainer from "./SelectedItemContainer.component";
+import { Clock, Timer } from "lucide-react";
 
 export const SelectedItemTimerList = ({
   isComplete,
@@ -20,27 +21,34 @@ export const SelectedItemTimerList = ({
   return (
     <div className="w-full flex flex-row justify-between gap-x-3">
       {startDate && (
-        <SelectedItemContainer
-          title="Start Time"
-          description={DayUnixFormat(startDate, "hh:MM")}
-        />
+        <SelectedItemContainer title="Start Time">
+          <div className="flex flex-row items-center gap-x-1">
+            <Clock width={12} height={12} />
+            {DayUnixFormat(startDate, "hh:MM")}
+          </div>
+        </SelectedItemContainer>
       )}
       {isComplete && endDate && (
-        <SelectedItemContainer
-          title="End Time"
-          description={DayUnixFormat(endDate, "hh:MM")}
-        />
+        <SelectedItemContainer title="End Time">
+          <div className="flex flex-row items-center gap-x-1">
+            <Clock width={12} height={12} />
+            {DayUnixFormat(endDate, "hh:MM")}
+          </div>
+        </SelectedItemContainer>
       )}
       {isComplete && diff ? (
         <SelectedItemContainer title="Timer">
-          <label>
-            {diff.years() > 0 && `${diff.years()} : `}
-            {diff.months() > 0 && `${diff.months()} : `}
-            {diff.days() > 0 && `${diff.days()} : `}
-            {diff.hours() > 0 && `${diff.hours()} : `}
-            {diff.minutes() > 0 && `${diff.minutes()} : `}
-            {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
-          </label>
+          <div className="flex flex-row items-center gap-x-1">
+            <Timer width={12} height={12} />
+            <label>
+              {diff.years() > 0 && `${diff.years()} : `}
+              {diff.months() > 0 && `${diff.months()} : `}
+              {diff.days() > 0 && `${diff.days()} : `}
+              {diff.hours() > 0 && `${diff.hours()} : `}
+              {diff.minutes() > 0 && `${diff.minutes()} : `}
+              {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
+            </label>
+          </div>
         </SelectedItemContainer>
       ) : (
         <SelectedItemContainer title="Timer">

@@ -13,13 +13,14 @@ const SelectedSection = dynamic(
 
 function TodoList() {
   const { ListToDoFiltered, ListToDoForgot, selectedToDo } = useTodoList();
-  const { CompleteItem, DelItem, SelectItem } = TodoListActivities();
+  const { CompleteItem, DelItem, SelectItem, BringTodayItem } =
+    TodoListActivities();
 
   return (
     <>
       <ListSection
         drawerType="TodoList"
-        formType="Add Todo"
+        formType="Add"
         selectedID={selectedToDo && !!selectedToDo.id}
         ListFilteredTilte="Todos"
         ListForgotTilte="Old Todos"
@@ -33,11 +34,14 @@ function TodoList() {
       />
       <SelectedSection
         drawerType="TodoList"
-        formType="Edit Todo"
-        selectedIsComplete={(selectedToDo && selectedToDo.isComplete) || false}
+        formType="Edit"
+        isComplete={selectedToDo && selectedToDo.isComplete}
         CompleteItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
+        UndoneItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
+        BringTodayItem={() => BringTodayItem({ ...selectedToDo })}
+        DuplicateItem
         selected={selectedToDo}
       />
     </>

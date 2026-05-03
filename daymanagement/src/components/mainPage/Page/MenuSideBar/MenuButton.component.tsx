@@ -1,6 +1,4 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
-import { AccountBalance } from "@/components/icons";
-import Earth from "@/components/icons/Earth";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
@@ -8,6 +6,7 @@ import {
   changeFilterStatuse,
   changeMenuStatuse,
 } from "@/modules/menu/menu.slice";
+import { Menu } from "lucide-react";
 
 function MenuButton() {
   const { OpenFilter, OpenMenu } = useAppSelector((state) => state.Menu);
@@ -17,7 +16,7 @@ function MenuButton() {
 
   return isSMMax ? (
     <DrawerButton drawerType="MenuList" formType={"Info"}>
-      <Earth />
+      <Menu />
     </DrawerButton>
   ) : (
     <div
@@ -30,7 +29,7 @@ function MenuButton() {
         OpenMenu ? "bg-button" : "bg-primary"
       )}
     >
-      <AccountBalance />
+      <Menu className={OpenMenu ? "text-errorRed" : "text-white"} />
     </div>
   );
 }

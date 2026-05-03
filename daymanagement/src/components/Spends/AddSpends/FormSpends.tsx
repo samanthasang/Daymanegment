@@ -104,7 +104,7 @@ export default function FormSpends({
 
   const [shareList, setSharelist] = useState<TShare[]>([]);
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedSpends) {
+    if (formType != "Add" && selectedSpends) {
       setValue("title", selectedSpends?.title);
       setValue("income", selectedSpends.income);
       setValue("numberOfProduct", selectedSpends.numberOfProduct);
@@ -135,7 +135,7 @@ export default function FormSpends({
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     const spendsId = spendsIdSelected ? spendsIdSelected : nanoid();
 
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? dispatch(
           updateSpendsList({
             id: spendsId,
@@ -543,7 +543,7 @@ export default function FormSpends({
         removeShare={removeShare}
       >
         <DialogTrigger asChild>
-          <Button variant="default" disabled={!date}>
+          <Button variant="default" disabled={!date} className="w-full">
             <div className="w-full flex flex-row justify-between px-2">
               <span>add people</span>
               <span>
@@ -556,11 +556,11 @@ export default function FormSpends({
 
       <div className="flex gap-4">
         {formType.split(" ")[0] && (
-          <Button onClick={() => onReset()} type="button">
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

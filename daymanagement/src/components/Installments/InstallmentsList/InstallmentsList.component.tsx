@@ -23,7 +23,7 @@ function InstallmentsList() {
     <>
       <ListSection
         drawerType="InstallmentsList"
-        formType="Add Installment"
+        formType="Add"
         selectedID={selectedInstallmentstList && !!selectedInstallmentstList.id}
         ListFilteredTilte="Installments"
         ListForgotTilte="Old Installments"
@@ -46,7 +46,7 @@ function InstallmentsList() {
         DelItem={DelItem}
         SelectItem={SelectItem}
         drawerType="InstallmentsList"
-        formType="Edit Installment"
+        formType="Edit"
         selectedIsComplete={selectedInstallmentstList.isComplete}
         selected={selectedInstallmentstList}
       />

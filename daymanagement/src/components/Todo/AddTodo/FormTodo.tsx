@@ -74,7 +74,7 @@ export default function FormTodo({
   }, [date]);
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedToDo) {
+    if (formType != "Add" && selectedToDo) {
       setValue("title", selectedToDo?.title);
       setValue("priority", selectedToDo.priority);
       setValue("category", selectedToDo.category);
@@ -97,7 +97,7 @@ export default function FormTodo({
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? dispatch(
           updateToDoList({
             id: selectedToDo.id,
@@ -129,7 +129,7 @@ export default function FormTodo({
 
     setValue("doDate", 0);
 
-    formType.split(" ")[0] == "Edit"
+    formType == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 
@@ -262,12 +262,12 @@ export default function FormTodo({
       />
 
       <div className="flex gap-4">
-        {formType.split(" ")[0] == "Edit" && selectedToDo?.title && (
-          <Button onClick={() => onReset()} type="button">
+        {formType != "Add" && selectedToDo?.title && (
+          <Button type="submit" className="flex-1">
             reset
           </Button>
         )}
-        <Button type="submit" variant="default">
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

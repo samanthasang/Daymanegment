@@ -96,7 +96,11 @@ export default function CategoryForm({
         />
         <div className="flex gap-4">
           {selectedCategory?.title && (
-            <Button onClick={() => onReset()} type="button" variant="secondary">
+            <Button
+              type="submit"
+              className="flex-1"
+              variant="secondary"
+            >
               reset
             </Button>
           )}

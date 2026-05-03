@@ -22,7 +22,7 @@ function ReminderList() {
     <>
       <ListSection
         drawerType="ReminderList"
-        formType="Add Reminder"
+        formType="Add"
         selectedID={selectedReminder && !!selectedReminder.id}
         ListFilteredTilte="Reminder"
         ListForgotTilte="Old Reminder"
@@ -36,7 +36,7 @@ function ReminderList() {
       />
       <SelectedSection
         drawerType="ReminderList"
-        formType="Edit Reminder"
+        formType="Edit"
         selectedIsComplete={
           (selectedReminder && selectedReminder.isComplete) || false
         }

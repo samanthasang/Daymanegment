@@ -1,5 +1,4 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
-import { Filter } from "@/components/icons";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
@@ -7,6 +6,7 @@ import {
   changeFilterStatuse,
   changeMenuStatuse,
 } from "@/modules/menu/menu.slice";
+import { FilterIcon } from "lucide-react";
 
 function MenuFilter() {
   const { OpenMenu, OpenFilter } = useAppSelector((state) => state.Menu);
@@ -15,8 +15,8 @@ function MenuFilter() {
   const dispatch = useAppDispatch();
 
   return isMDMax ? (
-    <DrawerButton drawerType="FilterList" formType="Info">
-      <Filter />
+    <DrawerButton drawerType="FilterList" formType="Info" className="flex-1">
+      <FilterIcon />
     </DrawerButton>
   ) : (
     <div
@@ -29,7 +29,7 @@ function MenuFilter() {
         OpenFilter ? "bg-button" : "bg-primary"
       )}
     >
-      <Filter />
+      <FilterIcon className={OpenFilter ? "fill-errorRed" : "bg-transparent"} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ export type TGoals = {
   doDate: number;
   createDate: number;
   completeUpdate?: number;
-  score?: number;
+  score: number;
   priority: string;
   category: string;
   tag: string;

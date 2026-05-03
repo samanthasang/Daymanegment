@@ -5,7 +5,8 @@ import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
 import { TToDo } from "@/modules/toDoList/todo.slice";
 
 export const TodoItem = ({ item }: { item: TToDo }) => {
-  const { CompleteItem, DelItem, SelectWithId } = TodoListActivities();
+  const { CompleteItem, DelItem, SelectWithId, BringTodayItem } =
+    TodoListActivities();
   const { selectedToDo } = useTodoList();
 
   return (
@@ -16,6 +17,7 @@ export const TodoItem = ({ item }: { item: TToDo }) => {
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
       CompleteItem={() => CompleteItem(item.id, item.title)}
+      BringToday={() => BringTodayItem(item)}
       {...item}
     />
   );

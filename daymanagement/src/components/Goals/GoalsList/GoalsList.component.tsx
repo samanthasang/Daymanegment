@@ -14,13 +14,14 @@ const SelectedSection = dynamic(
 
 function GoalsList() {
   const { ListGoalsFiltered, ListGoalsForgot, selectedGoal } = useGoalsList();
-  const { CompleteItem, DelItem, SelectItem } = GoalListActivities();
+  const { CompleteItem, DelItem, SelectItem, BringTodayItem } =
+    GoalListActivities();
 
   return (
     <>
       <ListSection
         drawerType="GoalsList"
-        formType="Add Goals"
+        formType="Add"
         selectedID={selectedGoal && !!selectedGoal.id}
         ListFilteredTilte="Goals"
         ListForgotTilte="Old Goals"
@@ -34,9 +35,16 @@ function GoalsList() {
       />
       <SelectedSection
         drawerType="GoalsList"
-        formType="Edit Goals"
-        selectedIsComplete={(selectedGoal && selectedGoal.isComplete) || false}
+        formType="Edit"
+        isComplete={(selectedGoal && selectedGoal.isComplete) || false}
         CompleteItem={() =>
+          CompleteItem(
+            selectedGoal.id,
+            selectedGoal.title,
+            selectedGoal.score || 0
+          )
+        }
+        UndoneItem={() =>
           CompleteItem(
             selectedGoal.id,
             selectedGoal.title,
@@ -51,6 +59,8 @@ function GoalsList() {
         }
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
+        BringTodayItem={() => BringTodayItem({ ...selectedGoal })}
+        DuplicateItem
         selected={selectedGoal}
       />
     </>

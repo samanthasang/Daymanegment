@@ -141,7 +141,7 @@ export default function FormInstallments({
   ]);
 
   useEffect(() => {
-    if (formType.split(" ")[0] == "Edit" && selectedInstallmentstList) {
+    if (formType != "Add" && selectedInstallmentstList) {
       setValue("title", selectedInstallmentstList?.title);
       setValue("description", selectedInstallmentstList?.description);
       setValue("paymentNumber", selectedInstallmentstList.paymentNumber);
@@ -469,7 +469,7 @@ export default function FormInstallments({
 
       {/* <div className="flex gap-4">
         {selectedInstallmentstList?.title && (
-          <Button onClick={() => onReset()} type="button" variant="secondary">
+          <Button type="submit" className="flex-1" type="button" variant="secondary">
             reset
           </Button>
         )}
@@ -487,13 +487,12 @@ export default function FormInstallments({
         </DrawerDialogDemo>
       </div> */}
       <div className="flex gap-4">
-        {formType.split(" ")[0] == "Edit" &&
-          selectedInstallmentstList?.title && (
-            <Button onClick={() => onReset()} type="button">
-              reset
-            </Button>
-          )}
-        <Button type="submit" variant="default">
+        {formType != "Add" && selectedInstallmentstList?.title && (
+          <Button type="submit" className="flex-1">
+            reset
+          </Button>
+        )}
+        <Button type="submit" className="flex-1" variant="default">
           submit
         </Button>
       </div>

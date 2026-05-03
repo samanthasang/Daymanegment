@@ -1,19 +1,20 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import {
   completeGoalList,
   delGoalList,
   selectGoalList,
   TGoals,
+  updateGoalList,
 } from "@/modules/goalsList/goals.slice";
 import { toast } from "react-toastify";
+import { currentUnixTimestamp } from "../../UseDayJS";
+import useGoalsList from "./UseGoalsList.component";
 
 function GoalListActivities() {
   const dispatch = useAppDispatch();
 
-  const Goal = useAppSelector((state) => state.Goals);
-
-  const selectedhabbit = Goal?.selectedGoal as TGoals;
+  const { selectedGoal } = useGoalsList();
 
   const SelectItem = () => {
     dispatch(selectGoalList(""));
@@ -22,16 +23,21 @@ function GoalListActivities() {
     dispatch(selectGoalList(id));
   };
   const DelItem = () => {
-    dispatch(delGoalList(selectedhabbit.id));
+    dispatch(delGoalList(selectedGoal.id));
     SelectItem();
-    toast(`${selectedhabbit.title} is deleted`);
+    toast(`${selectedGoal.title} is deleted`);
   };
   const CompleteItem = (id: string, title: string, score: number) => {
     dispatch(completeGoalList({ id, score }));
-    id && selectedhabbit && dispatch(selectGoalList(id));
+    id && selectedGoal && dispatch(selectGoalList(id));
     toast(`${title} is updated`);
   };
-  return { CompleteItem, DelItem, SelectWithId, SelectItem };
+  const BringTodayItem = (item: TGoals) => {
+    dispatch(updateGoalList({ ...item, doDate: currentUnixTimestamp }));
+    item.id && selectedGoal && dispatch(selectGoalList(item.id));
+    toast(`${item.title} is updated`);
+  };
+  return { CompleteItem, DelItem, SelectWithId, SelectItem, BringTodayItem };
 }
 
 export default GoalListActivities;

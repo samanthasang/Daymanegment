@@ -1,3 +1,4 @@
+import { Task } from "@/components/icons";
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";
@@ -6,6 +7,7 @@ import duration from "dayjs/plugin/duration";
 import ListItemCatTag from "./ListItemCatTag.component";
 import ListItemDetails from "./ListItemDetails.component";
 import ListItemTitle from "./ListItemTitle.component";
+import ListItemsIcon from "./ListItemsIcon.component";
 
 export const ListItem = ({
   id,
@@ -30,6 +32,7 @@ export const ListItem = ({
   SelectItem,
   DelItem,
   CompleteItem,
+  BringToday,
   UpdateItem,
 }: {
   selectedID?: string;
@@ -54,6 +57,7 @@ export const ListItem = ({
   SelectItem?: () => void;
   DelItem?: () => void;
   CompleteItem?: () => void;
+  BringToday?: () => void;
   UpdateItem?: () => void;
 }) => {
   const dispatch = useAppDispatch();
@@ -73,46 +77,50 @@ export const ListItem = ({
         id && SelectItem && SelectItem();
       }}
       className={cn(
-        "w-full h-fit cursor-pointer flex flex-row gap-y-2 justify-center items-center p-3 rounded-3xl hover:bg-card/15",
+        "w-full h-fit cursor-pointer flex flex-rowjustify-start items-center gap-x-2 p-2 rounded-3xl hover:bg-card/15",
         selectedID == id ? "bg-card/15" : "bg-secondary"
       )}
     >
-      <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
-        <ListItemTitle
-          title={title}
-          incomeAmount={incomeAmount}
-          priceOfProduct={priceOfProduct}
-          priority={priority}
-        />
-        <ListItemCatTag
-          id={id}
-          tag={tag}
-          category={category}
-          hasShare={drawerType == "PeopleList" && hasShare}
-        />
+      {drawerType && ListItemsIcon(drawerType)}
+      <div className="flex flex-row items-center gap-x-1 flex-1">
+        <div className="select-none cursor-pointer flex flex-col flex-1 gap-2 justify-start items-start">
+          <ListItemTitle
+            title={title}
+            incomeAmount={incomeAmount}
+            priceOfProduct={priceOfProduct}
+            priority={priority}
+          />
+          <ListItemCatTag
+            id={id}
+            tag={tag}
+            category={category}
+            hasShare={drawerType == "PeopleList" && hasShare}
+          />
+        </div>
+        {showDetails && (
+          <ListItemDetails
+            id={id}
+            title={title}
+            isComplete={isComplete}
+            isFinish={isFinish}
+            nextDate={nextDate}
+            date={date}
+            score={score}
+            hasShare={hasShare}
+            drawerType={drawerType}
+            withDel={withDel}
+            diff={diff}
+            incomeAmount={incomeAmount}
+            outcomeAmount={outcomeAmount}
+            total={total}
+            priceOfProduct={priceOfProduct}
+            DelItem={DelItem}
+            CompleteItem={CompleteItem}
+            BringToday={BringToday}
+            UpdateItem={UpdateItem}
+          />
+        )}
       </div>
-      {showDetails && (
-        <ListItemDetails
-          id={id}
-          title={title}
-          isComplete={isComplete}
-          isFinish={isFinish}
-          nextDate={nextDate}
-          date={date}
-          score={score}
-          hasShare={hasShare}
-          drawerType={drawerType}
-          withDel={withDel}
-          diff={diff}
-          incomeAmount={incomeAmount}
-          outcomeAmount={outcomeAmount}
-          total={total}
-          priceOfProduct={priceOfProduct}
-          DelItem={DelItem}
-          CompleteItem={CompleteItem}
-          UpdateItem={UpdateItem}
-        />
-      )}
     </div>
   );
 };
