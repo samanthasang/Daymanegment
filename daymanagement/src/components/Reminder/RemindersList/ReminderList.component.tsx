@@ -14,7 +14,7 @@ const SelectedSection = dynamic(
 function ReminderList() {
   const { ListReminderFiltered, ListReminderForgot, selectedReminder } =
     useReminderList();
-  const { CompleteItem, DelItem, SelectItem, FinishItem } =
+  const { CompleteItem, DelItem, SelectItem, FinishItem, UndoItem } =
     ReminderListActivities();
 
   return (
@@ -37,7 +37,7 @@ function ReminderList() {
       <SelectedSection
         drawerType="Reminders"
         formType="Edit"
-        drawerTitle={selectedReminder.title}
+        drawerTitle="Reminder"
         isComplete={(selectedReminder && selectedReminder.isComplete) || false}
         FinishItem={() =>
           FinishItem(selectedReminder.id, selectedReminder.title)
@@ -45,6 +45,7 @@ function ReminderList() {
         CompleteItem={() =>
           CompleteItem(selectedReminder.id, selectedReminder.title)
         }
+        UndoneItem={() => UndoItem(selectedReminder)}
         DuplicateItem
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}

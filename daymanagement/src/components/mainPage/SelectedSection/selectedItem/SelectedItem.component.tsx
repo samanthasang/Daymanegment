@@ -123,16 +123,14 @@ export const SelectedItem = ({
           incomeAmount={incomeAmount}
           priceOfProduct={priceOfProduct ?? outcomeAmount}
         />
-        {(category || tag) && (
-          <div className="w-full flex flex-row justify-between gap-x-3">
-            <SelectedItemContainer title="Category">
-              <ListCategorySelected category={category} />
-            </SelectedItemContainer>
-            <SelectedItemContainer title="Tag">
-              <ListTagSelected tag={tag} />
-            </SelectedItemContainer>
-          </div>
-        )}
+        <div className="w-full flex flex-row justify-between gap-x-3">
+          <SelectedItemContainer title="Category">
+            {category && <ListCategorySelected category={category} />}
+          </SelectedItemContainer>
+          <SelectedItemContainer title="Tag">
+            {tag && <ListTagSelected tag={tag} />}
+          </SelectedItemContainer>
+        </div>
         <SelectedItemDate
           completeUpdate={completeUpdate}
           createDate={createDate || startDate || doDate || 0}

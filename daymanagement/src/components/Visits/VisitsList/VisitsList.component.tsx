@@ -34,7 +34,7 @@ function VisitsList() {
       <SelectedSection
         drawerType="Visits"
         formType="Edit"
-        drawerTitle={selectedVisit.title}
+        drawerTitle="Visit"
         isComplete={(selectedVisit && selectedVisit.isComplete) || false}
         time={selectedVisit && selectedVisit.doDate}
         CompleteItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}

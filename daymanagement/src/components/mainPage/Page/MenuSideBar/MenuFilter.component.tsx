@@ -16,7 +16,12 @@ function MenuFilter() {
   const dispatch = useAppDispatch();
 
   return isMDMax ? (
-    <DrawerButton drawerType="FilterList" formType="Info" className="flex-1">
+    <DrawerButton
+      drawerType="FilterList"
+      formType="Info"
+      className="flex-1"
+      drawerTitle="Filter"
+    >
       <FilterIcon />
     </DrawerButton>
   ) : (
@@ -26,7 +31,7 @@ function MenuFilter() {
         dispatch(changeFilterStatuse());
       }}
       variant="default"
-      className={cn("flex-1",OpenFilter ? "bg-button" : "bg-primary")}
+      className={cn("flex-1", OpenFilter ? "bg-button" : "bg-primary")}
     >
       <FilterIcon
         width={16}

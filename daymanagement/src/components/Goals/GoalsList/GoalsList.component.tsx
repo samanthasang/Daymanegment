@@ -37,7 +37,7 @@ function GoalsList() {
       <SelectedSection
         drawerType="Goals"
         formType="Edit"
-        drawerTitle={selectedGoal.title}
+        drawerTitle="Goal"
         isComplete={(selectedGoal && selectedGoal.isComplete) || false}
         CompleteItem={() =>
           CompleteItem(

@@ -35,7 +35,7 @@ function TimerList() {
       <SelectedSection
         drawerType="Timers"
         formType="Edit"
-        drawerTitle={selectedTimer.title}
+        drawerTitle="Timer"
         isComplete={(selectedTimer && selectedTimer.isComplete) || false}
         CompleteItem={() => CompleteItem(selectedTimer.id, selectedTimer.title)}
         DelItem={DelItem}

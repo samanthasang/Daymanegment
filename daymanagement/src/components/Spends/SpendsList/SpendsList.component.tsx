@@ -32,7 +32,7 @@ function SpendsList() {
       <SelectedSection
         drawerType="Spends"
         formType="Edit"
-        drawerTitle={selectedSpends.title}
+        drawerTitle="Spend"
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
         DuplicateItem

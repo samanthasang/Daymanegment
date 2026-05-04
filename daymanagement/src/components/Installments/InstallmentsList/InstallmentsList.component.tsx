@@ -38,7 +38,7 @@ function InstallmentsList() {
       <SelectedSection
         drawerType="Installments"
         formType="Edit"
-        drawerTitle={selectedInstallmentstList.title}
+        drawerTitle="Installment"
         CompleteItem={() =>
           CompleteItem(
             selectedInstallmentstList.id,

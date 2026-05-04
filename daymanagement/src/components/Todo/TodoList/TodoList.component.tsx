@@ -39,7 +39,7 @@ function TodoList() {
       <SelectedSection
         drawerType="Todos"
         formType="Edit"
-        drawerTitle={selectedToDo.title}
+        drawerTitle="Todo"
         isComplete={selectedToDo && selectedToDo.isComplete}
         CompleteItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         UndoneItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}

@@ -77,7 +77,7 @@ function PeopleList() {
       <SelectedSection
         drawerType="Friends"
         formType="Edit"
-        drawerTitle={selectedPeople.title}
+        drawerTitle="Friend"
         // total={total}
         // totalIncome={incomeArray}
         // totalOuCome={outComeArray}

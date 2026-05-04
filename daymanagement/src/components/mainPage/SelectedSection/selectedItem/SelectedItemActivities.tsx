@@ -1,9 +1,13 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
-import { DoneAll } from "@/components/icons";
+import { CheckMark, DoneAll } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   CalendarSync,
   CheckCircle,
+  CheckCircle2,
+  CheckSquare,
+  CheckSquare2,
+  CircleOff,
   Copy,
   Pause,
   Trash,
@@ -43,7 +47,7 @@ export const SelectedItemActivities = ({
     <>
       {FinishItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Finish Item</label>
+          <label>Finish</label>
           <Button
             onClick={(e) => {
               e && e.preventDefault();
@@ -51,7 +55,7 @@ export const SelectedItemActivities = ({
               e && !isPause && FinishItem();
             }}
           >
-            <DoneAll width={16} height={16} />
+            <CheckSquare width={16} height={16} />
           </Button>
         </div>
       )}

@@ -3,7 +3,7 @@
 import InstallmentsItem from "@/components/Installments/InstallmentsItem/Installments.component";
 import EmptyList from "@/components/mainPage/ListSection/EmptyList/EmptyList.component";
 import ListTitle from "@/components/mainPage/ListSection/ListContainer/ListTitle.component";
-import ReminderItem from "@/components/Reminder/ReminderItem/ReminderItem.component";
+import ReminderItem from "@/components/Reminder/RemindersItem/ReminderItem.component";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 import { cn } from "@/lib/utils";

@@ -34,7 +34,7 @@ function HabbitList() {
       <SelectedSection
         drawerType="Habbits"
         formType="Edit"
-        drawerTitle={selectedHabbit.title}
+        drawerTitle="Habbit"
         CompleteItem={() =>
           CompleteItem(selectedHabbit.id, selectedHabbit.title)
         }

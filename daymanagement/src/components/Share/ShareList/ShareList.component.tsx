@@ -41,7 +41,7 @@ function ShareListList({ peopleId }: { peopleId?: string }) {
       <SelectedSection
         drawerType="Shares"
         formType="Edit"
-        drawerTitle={selectedShare.title}
+        drawerTitle="Share"
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
         selected={selectedShare}

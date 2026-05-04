@@ -142,6 +142,7 @@ export const reminderListSlice = createSlice({
         doDate: number;
         createDate: number;
         lastUpdate: number;
+        isComplete?: boolean;
         timeDiff: string;
         priodDiff: string;
         priority: string;
@@ -155,7 +156,7 @@ export const reminderListSlice = createSlice({
           ? {
               ...reminder,
               title: action.payload.title,
-              isComplete: reminder.isComplete,
+              isComplete: action.payload.isComplete ?? reminder.isComplete,
               priority: action.payload.priority,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,

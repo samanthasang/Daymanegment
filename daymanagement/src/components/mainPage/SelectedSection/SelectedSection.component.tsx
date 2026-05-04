@@ -43,17 +43,12 @@ function SelectedSection({
   return (
     selected && (
       <SelectedContainer>
-        <ListTitle
-          forgot
-          // title={drawerType.split("s")[0]}
-          title={drawerType}
-          drawerType={drawerType}
-        />
+        <ListTitle forgot title={drawerTitle} drawerType={drawerType} />
         <SelectedItem
           drawerType={drawerType}
           score={score}
           time={time}
-          drawerTitle={drawerType}
+          drawerTitle={drawerTitle}
           isComplete={isComplete}
           isFinish={isFinish}
           isPause={isPause}
@@ -61,7 +56,7 @@ function SelectedSection({
           CompleteItem={CompleteItem}
           BringTodayItem={BringTodayItem}
           DelItem={DelItem}
-          DuplicateItem={DuplicateItem}
+          DuplicateItem
           PauseItem={PauseItem}
           UndoneItem={UndoneItem}
           {...selected}
@@ -69,7 +64,7 @@ function SelectedSection({
         <SelectedMenuBottom
           drawerType={drawerType}
           formType={formType}
-          drawerTitle={drawerTitle}
+          drawerTitle={selected.title}
           isComplete={isComplete}
           isFinish={isFinish}
           isPause={isPause}

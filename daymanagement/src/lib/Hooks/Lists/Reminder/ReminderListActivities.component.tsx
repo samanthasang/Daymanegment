@@ -5,10 +5,12 @@ import {
   delReminderList,
   finishReminderList,
   selectReminderList,
-  unFinishReminderList
+  TReminder,
+  updateReminderList,
 } from "@/modules/reminderList/reminder.slice";
 
 import { toast } from "react-toastify";
+import { DayUnixAdd } from "../../UseDayJS";
 import useReminderList from "./UseReminderList.component";
 
 function ReminderListActivities() {
@@ -37,13 +39,20 @@ function ReminderListActivities() {
     id && selectedReminder && dispatch(selectReminderList(id));
     toast(`${title} is updated`);
   };
-  const UnFinishItem = (id: string, title: string) => {
-    dispatch(unFinishReminderList(id));
-    SelectItem();
-    toast(`${title} is updated`);
+  const UndoItem = (item: TReminder) => {
+    dispatch(
+      updateReminderList({
+        ...item,
+        doDate: item.lastUpdate,
+        lastUpdate: DayUnixAdd(item.lastUpdate, "day", -Number(item.timeDiff)),
+        isComplete: false,
+      })
+    );
+    item.id && selectedReminder && dispatch(selectReminderList(item.id));
+    toast(`${item.title} is updated`);
   };
   return {
-    UnFinishItem,
+    UndoItem,
     CompleteItem,
     DelItem,
     SelectWithId,

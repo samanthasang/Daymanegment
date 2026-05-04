@@ -13,7 +13,7 @@ function SideBarMenu() {
   return (
     <div
       className={cn(
-        "relative bg-secondary flex flex-col justify-start items-start h-full rounded-3xl w-fit p-1.5",
+        "bg-secondary flex flex-col justify-start items-start h-full rounded-3xl w-fit p-1.5",
         isSX || OpenMenu ? "w-[250px]" : "w-[150px]"
       )}
     >

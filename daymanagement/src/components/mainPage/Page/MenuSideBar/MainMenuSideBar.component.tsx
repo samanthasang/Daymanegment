@@ -11,7 +11,7 @@ import HomeVisitItem from "@/components/home/HomeItems/HomeVisitItem.component";
 
 function MenuMainSideBarComponent() {
   return (
-    <div className="bg-secondary w-full flex flex-col justify-start items-start h-full rounded-2xl py-1 gap-y-0.5">
+    <div className="bg-secondary w-full flex flex-col justify-start items-start h-full flex-1 rounded-2xl py-1 gap-y-0.5">
       <HomeTodoList />
       <HomeGoalsItem />
       <HomeHabbitItem />
