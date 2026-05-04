@@ -8,7 +8,7 @@ function HasShareFilter(id: string) {
   }: {
     ListShare: TShare[];
     selectedShare: {};
-  } = useAppSelector((state) => state.ShareList) || [];
+  } = useAppSelector((state) => state.Shares) || [];
 
   const hasShareArray =
     ListShare && ListShare.filter((share) => share.peopleId == id).length;

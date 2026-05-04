@@ -1,6 +1,5 @@
 "use client";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
-import { Edit, Trash } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
@@ -21,6 +20,7 @@ import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import ShareItemSpends from "./ShareItemSpends.component";
 import ShareItemVisit from "./ShareItemVisit.componen";
+import { Edit, Trash } from "lucide-react";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -103,7 +103,7 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
         </div>
         <div className="flex flex-col w-fit gap-2 justify-end items-end">
           <div className="flex flex-row gap-x-2">
-            <div
+            <Button
               onClick={(e) => {
                 e && e.preventDefault();
                 item.id && dispatch(delShareList(item.id));
@@ -120,10 +120,10 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
                       })
                     ));
               }}
-              className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
+              size="sm"
             >
-              <Trash />
-            </div>
+              <Trash width={16} height={16} className="text-errorRed" />
+            </Button>
             <DrawerDialogDemo
               drawerType="Shares"
               formType="Edit"
@@ -134,10 +134,9 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
                   onClick={(e) => {
                     item.id && dispatch(selectShareList(item.id));
                   }}
-                  variant="outline"
-                  className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-button/15 cursor-pointer"
+                  size="sm"
                 >
-                  <Edit />
+                  <Edit width={16} height={16} />
                 </Button>
               </DialogTrigger>
             </DrawerDialogDemo>

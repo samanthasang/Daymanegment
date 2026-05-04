@@ -1,7 +1,7 @@
 "use client";
-import { AccountBalance, ShoppingCart } from "@/components/icons";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import ListPriority from "../../ListSection/ListPriority/ListPriority.component";
+import { CircleDollarSign, ShoppingCart } from "lucide-react";
 
 export const SelectedItemMainInfocomponen = ({
   priority,
@@ -30,8 +30,22 @@ export const SelectedItemMainInfocomponen = ({
           classContainer="w-fit items-center p-3"
           title="Type"
         >
-          {incomeAmount && <AccountBalance />}
-          {priceOfProduct && <ShoppingCart />}
+          {incomeAmount && (
+            <div className="flex items-center gap-x-1">
+              <CircleDollarSign
+                width={16}
+                height={16}
+                className="text-successGreen"
+              />
+              Earn
+            </div>
+          )}
+          {priceOfProduct && (
+            <div className="flex items-center gap-x-1">
+              <ShoppingCart width={16} height={16} className="text-errorRed" />
+              Buy
+            </div>
+          )}
         </SelectedItemContainer>
       )}
 

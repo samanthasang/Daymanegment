@@ -1,11 +1,12 @@
 "use client";
-import { Eye, Trash } from "@/components/icons";
 import SelectedItemContainer from "@/components/mainPage/SelectedSection/selectedItem/SelectedItemContainer.component";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 import { delSpendsShareList } from "@/modules/share/share.slice";
 import { delSpendsListShare } from "@/modules/spends/spends.slice";
 import { selectVisitList } from "@/modules/visitsList/visit.slice";
+import { Eye, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const ShareItemSpends = ({
@@ -21,18 +22,13 @@ export const ShareItemSpends = ({
   const { ListSpendsAll } = useSpendsList();
   const SpendsSelected =
     ListSpendsAll && ListSpendsAll.filter((spends) => spends.id == spendsId)[0];
-  console.log(spendsId);
-  console.log(ListSpendsAll);
-  console.log(SpendsSelected);
 
   return (
     <SelectedItemContainer title="Spends">
-      <div className="w-full h-fit flex flex-row items-center justify-between rounded-2xl bg-primary">
-        <label className={`cursor-pointer px-2 py-1 rounded-2x`}>
-          {`${SpendsSelected && SpendsSelected.title}`}
-        </label>
+      <div className="w-full h-10 flex flex-row items-center justify-between rounded-3xl p-1">
+        <label>{`${SpendsSelected && SpendsSelected.title}`}</label>
         <div className="flex gap-x-1">
-          <div
+          <Button
             onClick={(e) => {
               e && e.preventDefault();
               dispatch(
@@ -45,11 +41,11 @@ export const ShareItemSpends = ({
                 spendsId &&
                 dispatch(delSpendsListShare({ id: id, spendsId: spendsId }));
             }}
-            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
+            size="sm"
           >
-            <Trash />
-          </div>
-          <div
+            <Trash width={16} height={16} className="text-errorRed" />
+          </Button>
+          <Button
             onClick={(e) => {
               e && e.preventDefault();
               id &&
@@ -59,10 +55,10 @@ export const ShareItemSpends = ({
                   router.push(`/spends?dateFrom=${SpendsSelected.doDate}`)
                 );
             }}
-            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-card/15 cursor-pointer"
+            size="sm"
           >
-            <Eye />
-          </div>
+            <Eye width={16} height={16} />
+          </Button>
         </div>
       </div>
     </SelectedItemContainer>

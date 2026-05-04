@@ -344,7 +344,7 @@ export const SelectedItem = ({
             </label>
           </SelectedItemContainer>
         )}
-        {drawerType != "Peoples" && shareList && shareList.length > 0 && (
+        {drawerType != "Friends" && shareList && shareList.length > 0 && (
           <SelectedItemContainer title="Shares">
             {shareList.map((share) => (
               <SelectedShareItem key={share} id={share} />

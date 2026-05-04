@@ -78,8 +78,7 @@ export default function FormShare({
   }, [date]);
 
   const dispatch = useAppDispatch();
-  const { selectedShare }: any =
-    useAppSelector((state) => state.ShareList) || {};
+  const { selectedShare }: any = useAppSelector((state) => state.Shares) || {};
 
   useEffect(() => {
     if (formType != "Add" && selectedShare) {
@@ -112,11 +111,8 @@ export default function FormShare({
     setValue("peopleId", data);
   };
 
-  console.log(errors);
-  console.log(getValues());
-
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType != "Add" && selectedShare
+    formType == "Edit"
       ? dispatch(
           updateShareList({
             id: selectedShare.id,
