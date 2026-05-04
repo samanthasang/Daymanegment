@@ -22,8 +22,8 @@ export interface InitialState {
 }
 
 export const habbitListSlice = createSlice({
-  reducerPath: "habbitList",
-  name: "@habbitList",
+  reducerPath: "Habbits",
+  name: "@Habbits",
   initialState: {
     ListHabbit: [],
     selectedhabbit: {},

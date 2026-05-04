@@ -18,8 +18,8 @@ export interface InitialState {
 }
 
 export const todoListSlice = createSlice({
-  reducerPath: "todoList",
-  name: "@todoList",
+  reducerPath: "Todos",
+  name: "@Todos",
   initialState: {
     ListToDo: [],
     selectedToDo: {},

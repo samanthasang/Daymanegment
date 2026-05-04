@@ -33,7 +33,9 @@ function GoalListActivities() {
     toast(`${title} is updated`);
   };
   const BringTodayItem = (item: TGoals) => {
-    dispatch(updateGoalList({ ...item, doDate: currentUnixTimestamp }));
+    dispatch(
+      updateGoalList({ ...item, doDate: currentUnixTimestamp, score: 0 })
+    );
     item.id && selectedGoal && dispatch(selectGoalList(item.id));
     toast(`${item.title} is updated`);
   };

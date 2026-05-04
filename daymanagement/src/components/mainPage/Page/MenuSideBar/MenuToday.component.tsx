@@ -19,7 +19,7 @@ function MenuToday() {
           pathname && pathname.startsWith("/") ? "bg-button" : "bg-primary"
         )}
       >
-        <CalendarCheck />
+        <CalendarCheck width={16} height={16} />
       </Link>
     )
   );

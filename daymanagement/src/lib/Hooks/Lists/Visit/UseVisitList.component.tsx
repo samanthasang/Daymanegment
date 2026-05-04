@@ -10,7 +10,7 @@ import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component"
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
 function useVisitList() {
-  const Visit = useAppSelector((state) => state.visit);
+  const Visit = useAppSelector((state) => state.Visits);
 
   const selectedVisit = Visit?.selectedVisit as TVisit;
   const ListVisit = Visit.ListVisit as TVisit[];
@@ -26,9 +26,12 @@ function useVisitList() {
   const ListVisitForgot = ListVisit.filter(
     (a) => +a.doDate < currentUnixTimestampZero
   );
+  const oldCategoryArray = CategoryFilter([...ListVisitForgot]);
+
+  const oldListVisitFiltered = TagFilter([...oldCategoryArray]);
 
   const dateUpOrderArray: TVisit[] = DatePlusOrderFilter(ListVisitFiltered);
-  const dateDOwnOrderArray: TVisit[] = DateMinusOrderFilter(ListVisitForgot);
+  const dateDOwnOrderArray: TVisit[] = DateMinusOrderFilter(oldListVisitFiltered);
 
   return {
     ListVisitFiltered: dateUpOrderArray,

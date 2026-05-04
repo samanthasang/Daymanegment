@@ -18,8 +18,8 @@ export interface InitialState {
 }
 
 export const timerListSlice = createSlice({
-  reducerPath: "timerList",
-  name: "@timerList",
+  reducerPath: "Timers",
+  name: "@Timers",
   initialState: {
     ListTimer: [],
     selectedTimer: {},

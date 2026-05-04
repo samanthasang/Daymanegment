@@ -73,29 +73,29 @@ export function DrawerForms({
       return <MenuMainSideBarComponent />;
     case "FilterList":
       return <FilterComponent witDate />;
-    case "ReminderList":
+    case "Reminders":
       return <FormReminder formType={formType} onSubmitForm={onSubmit} />;
-    case "TodoList":
+    case "Todos":
       return <FormTodo formType={formType} onSubmitForm={onSubmit} />;
-    case "HabbitList":
+    case "Habbits":
       return <FormHabbit formType={formType} onSubmitForm={onSubmit} />;
     case "CategoryList":
       return <CategoryForm onSubmitForm={onSubmit} />;
     case "TagList":
       return <TagForm onSubmitForm={onSubmit} />;
-    case "PeopleList":
+    case "Peoples":
       return <PeopleForm formType={formType} onSubmitForm={onSubmit} />;
-    case "TimerList":
+    case "Timers":
       return <FormTimer formType={formType} onSubmitForm={onSubmit} />;
-    case "SpendsList":
+    case "Spendss":
       return <FormSpends formType={formType} onSubmitForm={onSubmit} />;
-    case "InstallmentsList":
+    case "Installments":
       return <FormInstallments formType={formType} onSubmitForm={onSubmit} />;
-    case "VisitsList":
+    case "Visitss":
       return <FormVisits formType={formType} onSubmitForm={onSubmit} />;
-    case "GoalsList":
+    case "Goals":
       return <FormGoals formType={formType} onSubmitForm={onSubmit} />;
-    case "ShareList":
+    case "Shares":
       return <FormShare formType={formType} onSubmitForm={onSubmit} />;
     case "InstallmentsListDetails":
       return (

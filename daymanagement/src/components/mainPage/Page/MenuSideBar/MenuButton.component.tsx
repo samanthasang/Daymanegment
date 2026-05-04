@@ -1,4 +1,5 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
@@ -19,18 +20,20 @@ function MenuButton() {
       <Menu />
     </DrawerButton>
   ) : (
-    <div
+    <Button
       onClick={() => {
         isSMMax && isLGMax && OpenFilter && dispatch(changeFilterStatuse());
         dispatch(changeMenuStatuse());
       }}
-      className={cn(
-        "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
-        OpenMenu ? "bg-button" : "bg-primary"
-      )}
+      variant="default"
+      className={cn("flex-1", OpenMenu ? "bg-button" : "bg-primary")}
     >
-      <Menu className={OpenMenu ? "text-errorRed" : "text-white"} />
-    </div>
+      <Menu
+        width={16}
+        height={16}
+        className={OpenMenu ? "text-errorRed" : "text-white"}
+      />
+    </Button>
   );
 }
 

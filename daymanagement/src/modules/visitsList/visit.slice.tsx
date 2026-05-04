@@ -22,8 +22,8 @@ export interface InitialState {
 }
 
 export const visitSlice = createSlice({
-  reducerPath: "visitList",
-  name: "@visitList",
+  reducerPath: "Visits",
+  name: "@Visits",
   initialState: {
     ListVisit: [],
     selectedVisit: {},

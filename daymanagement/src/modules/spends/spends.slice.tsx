@@ -22,8 +22,8 @@ export interface InitialState {
 }
 
 export const spendsListSlice = createSlice({
-  reducerPath: "spendsList",
-  name: "@spendsList",
+  reducerPath: "Spends",
+  name: "@Spends",
   initialState: {
     ListSpends: [],
     selectedSpends: {},

@@ -1,19 +1,17 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import {
   completeTimerList,
   delTimerList,
   selectTimerList,
-  TTimer,
 } from "@/modules/timerList/timer.slice";
 import { toast } from "react-toastify";
+import useTimerList from "./UseTimerList.component";
 
 function TimerListActivities() {
   const dispatch = useAppDispatch();
 
-  const Timer = useAppSelector((state) => state.TimerList);
-
-  const selectedTimer = Timer?.selectedTimer as TTimer;
+  const { selectedTimer } = useTimerList();
 
   const SelectItem = () => {
     dispatch(selectTimerList(""));
@@ -30,7 +28,7 @@ function TimerListActivities() {
     dispatch(
       completeTimerList({
         id: id,
-        endDate: Math.floor(new Date().getTime() / 1000.0).toString(),
+        endDate: Math.floor(new Date().getTime() / 1000.0),
       })
     );
     id && selectedTimer && dispatch(selectTimerList(id));

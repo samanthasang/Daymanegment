@@ -10,7 +10,7 @@ import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component"
 import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useShareList() {
-  const Share = useAppSelector((state) => state.ShareList) || [];
+  const Share = useAppSelector((state) => state.Shares) || [];
 
   const selectedShare = Share?.selectedShare as TShare;
   const ListShare = Share?.ListShare as TShare[];
@@ -26,9 +26,15 @@ function useShareList() {
   const ListToDoForgot = ListShare.filter(
     (item) => +item.doDate < currentUnixTimestampZero
   );
+  const oldCategoryArray = CategoryFilter([...ListToDoForgot] as any);
+
+  const oldListShareFiltered: TShare[] = TagFilter([
+    ...oldCategoryArray,
+  ] as any);
 
   const dateUpOrderArray: TShare[] = DatePlusOrderFilter(ListShareFiltered);
-  const dateDOwnOrderArray: TShare[] = DateMinusOrderFilter(ListToDoForgot);
+  const dateDOwnOrderArray: TShare[] =
+    DateMinusOrderFilter(oldListShareFiltered);
 
   return {
     ListShareFriends: dateUpOrderArray,

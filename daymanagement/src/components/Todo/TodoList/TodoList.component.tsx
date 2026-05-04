@@ -19,8 +19,9 @@ function TodoList() {
   return (
     <>
       <ListSection
-        drawerType="TodoList"
+        drawerType="Todos"
         formType="Add"
+        drawerTitle="Todo"
         selectedID={selectedToDo && !!selectedToDo.id}
         ListFilteredTilte="Todos"
         ListForgotTilte="Old Todos"
@@ -33,8 +34,9 @@ function TodoList() {
         withComplateSort
       />
       <SelectedSection
-        drawerType="TodoList"
+        drawerType="Todos"
         formType="Edit"
+        drawerTitle={selectedToDo.title}
         isComplete={selectedToDo && selectedToDo.isComplete}
         CompleteItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         UndoneItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}

@@ -10,7 +10,7 @@ import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component"
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
 function useReminderList() {
-  const Reminder = useAppSelector((state) => state.reminder);
+  const Reminder = useAppSelector((state) => state.Reminders);
 
   const selectedReminder = Reminder?.selectedReminder as TReminder;
   const ListReminder = Reminder?.ListReminder as TReminder[];
@@ -27,10 +27,15 @@ function useReminderList() {
     (a) => +a.doDate < currentUnixTimestampZero
   );
 
+  const oldCategoryArray = CategoryFilter([...ListReminderForgot] as any);
+
+  const OldListReminderFiltered = TagFilter([...oldCategoryArray] as any);
+
   const dateUpOrderArray: TReminder[] =
     DatePlusOrderFilter(ListReminderFiltered);
-  const dateDOwnOrderArray: TReminder[] =
-    DateMinusOrderFilter(ListReminderForgot);
+  const dateDOwnOrderArray: TReminder[] = DateMinusOrderFilter(
+    OldListReminderFiltered
+  );
 
   return {
     ListReminderFiltered: dateUpOrderArray,

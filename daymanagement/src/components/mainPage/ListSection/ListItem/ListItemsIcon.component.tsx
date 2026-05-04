@@ -1,38 +1,38 @@
 import {
+  BadgeDollarSign,
   BookUser,
   CircuitBoard,
   FileSpreadsheet,
-  ListCheckIcon,
+  ListTodo,
   Repeat2,
-  ShoppingCart,
   Target,
   TimerIcon,
   TimerReset,
   User,
 } from "lucide-react";
 
-function ListItemsIcon(tilte: string) {
+function ListItemsIcon(tilte: string, size: number) {
   switch (tilte) {
     case "ReminderList":
-      return <Repeat2 width={72} height={72} />;
+      return <Repeat2 width={size} height={size} />;
     case "TodoList":
-      return <ListCheckIcon width={72} height={72} />;
+      return <ListTodo width={size} height={size} />;
     case "HabbitList":
-      return <TimerReset width={72} height={72} />;
+      return <TimerReset width={size} height={size} />;
     case "TimerList":
-      return <TimerIcon width={72} height={72} />;
+      return <TimerIcon width={size} height={size} />;
     case "SpendsList":
-      return <ShoppingCart width={72} height={72} />;
+      return <BadgeDollarSign width={size} height={size} />;
     case "InstallmentsList":
-      return <FileSpreadsheet width={72} height={72} />;
+      return <FileSpreadsheet width={size} height={size} />;
     case "VisitsList":
-      return <BookUser width={72} height={72} />;
+      return <BookUser width={size} height={size} />;
     case "GoalsList":
-      return <Target width={72} height={72} />;
+      return <Target width={size} height={size} />;
     case "PeopleList":
-      return <User width={72} height={72} />;
+      return <User width={size} height={size} />;
     case "ShareList":
-      return <CircuitBoard width={72} height={72} />;
+      return <CircuitBoard width={size} height={size} />;
   }
 }
 

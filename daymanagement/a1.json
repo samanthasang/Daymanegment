@@ -1,5 +1,5 @@
 {
-  "todoList": {
+  "Todos": {
     "ListToDo": [
       {
         "id": "fGxyjFAufq01Ub7yE-e4o",
@@ -139,12 +139,14 @@
       },
       {
         "id": "kDUS6_89jSBIbpANpcPZP",
-        "title": "fix habbit form",
+        "title": "fix habbit form fix habbit form",
         "priority": "Medium",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": "1771965000",
-        "isComplete": false
+        "doDate": 1777882944,
+        "isComplete": false,
+        "description": "",
+        "createDate": 1771965000
       },
       {
         "id": "x1Xm2PxQJhUhI0_-Z4mvY",
@@ -393,8 +395,9 @@
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "description": "tsetes",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": "1775421000",
-        "isComplete": false
+        "doDate": 1777753800,
+        "isComplete": true,
+        "createDate": 1777712123
       },
       {
         "id": "nMX9PYa3i5PF-A6C9s-Mk",
@@ -413,8 +416,9 @@
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "description": "",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": "1775593800",
-        "isComplete": false
+        "doDate": 1777866886,
+        "isComplete": false,
+        "createDate": 1775593800
       },
       {
         "id": "9wgdwbFFs4twqgl6l_069",
@@ -456,21 +460,32 @@
         "doDate": 1776976200,
         "createDate": 1776985029,
         "isComplete": true
+      },
+      {
+        "id": "CHyNFIE2UFCqd5Q7Me2nC",
+        "title": "tt test",
+        "priority": "High",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "description": "tsetes",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "doDate": 1777712123,
+        "createDate": 1777712521,
+        "isComplete": true
       }
     ],
     "selectedToDo": {
-      "id": "4-AvmE8fyxYcDhfVIGk5t",
-      "title": "test des",
-      "priority": "Medium",
-      "category": "IyYDXYBbs_yNfmxnVswGw",
+      "id": "grbA44rHKw281kgnK8PGO",
+      "title": "test date",
+      "priority": "High",
+      "category": "uOQQkNiNO8rZL4bIoJef_",
       "description": "",
       "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "doDate": 1777494600,
-      "isComplete": true,
-      "createDate": 1777494600
+      "doDate": 1777866886,
+      "isComplete": false,
+      "createDate": 1775593800
     }
   },
-  "reminder": {
+  "Reminders": {
     "ListReminder": [
       {
         "id": "-8b9JgXttxbC1BNj9uzTH",
@@ -538,10 +553,10 @@
         "priority": "High",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": 1777667400,
+        "doDate": 1777926600,
         "timeDiff": "3",
         "priodDiff": "day",
-        "isComplete": true,
+        "isComplete": false,
         "createDate": 1777667400,
         "description": "",
         "isFinish": false,
@@ -556,7 +571,7 @@
         "doDate": 1777408200,
         "timeDiff": "7",
         "priodDiff": "day",
-        "isComplete": true,
+        "isComplete": false,
         "createDate": 1777408200,
         "description": "",
         "isFinish": false
@@ -588,7 +603,7 @@
         "timeDiff": "1",
         "priodDiff": "day",
         "description": "",
-        "isComplete": true,
+        "isComplete": false,
         "isFinish": false
       },
       {
@@ -597,9 +612,9 @@
         "priority": "High",
         "category": "IyYDXYBbs_yNfmxnVswGw",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-        "doDate": 1776717000,
+        "doDate": 1777753800,
         "createDate": 1777063805,
-        "lastUpdate": 1776717000,
+        "lastUpdate": 1777667400,
         "timeDiff": "1",
         "priodDiff": "day",
         "description": "",
@@ -612,9 +627,9 @@
         "priority": "High",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-        "doDate": 1777149000,
+        "doDate": 1777753800,
         "createDate": 1777064399,
-        "lastUpdate": 1777062600,
+        "lastUpdate": 1777667400,
         "timeDiff": "1",
         "priodDiff": "day",
         "description": "",
@@ -623,22 +638,22 @@
       }
     ],
     "selectedReminder": {
-      "id": "JaQDc9pKPx5rnocOBVhwS",
-      "title": "test t",
-      "priority": "Medium",
+      "id": "EuwRmRGp-luS0rqkaeCtg",
+      "title": "tes 1 3",
+      "priority": "High",
       "category": "uOQQkNiNO8rZL4bIoJef_",
-      "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-      "doDate": 1777235400,
-      "createDate": 1776976200,
-      "timeDiff": "1",
+      "tag": "GPoeAdsLX8zYBd1s38_KA",
+      "doDate": 1777926600,
+      "timeDiff": "3",
       "priodDiff": "day",
+      "isComplete": true,
+      "createDate": 1777667400,
       "description": "",
-      "isComplete": false,
-      "date": "1777062600",
-      "lastUpdate": 1777149000
+      "isFinish": false,
+      "lastUpdate": 1777667400
     }
   },
-  "habbitList": {
+  "Habbits": {
     "ListHabbit": [
       {
         "id": "MFWesSlRANjuM93_DnrGm",
@@ -647,8 +662,8 @@
         "description": "Practice",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 15,
-        "lastUpdate": 1777278621,
+        "score": 14,
+        "lastUpdate": 1777866886,
         "completeUpdate": "1776943013",
         "highest": 19,
         "createDate": 1776984380,
@@ -661,8 +676,8 @@
         "description": "",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 1,
-        "lastUpdate": 1776984136,
+        "score": -1,
+        "lastUpdate": 1777866886,
         "completeUpdate": "1776724010",
         "highest": 3,
         "createDate": 1776990193,
@@ -675,8 +690,8 @@
         "description": "push up",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 4,
-        "lastUpdate": 1777278915,
+        "score": 3,
+        "lastUpdate": 1777866886,
         "completeUpdate": "1776943013",
         "highest": 19,
         "createDate": 1776984380,
@@ -689,28 +704,29 @@
         "description": "",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-        "score": 1,
+        "score": -1,
         "createDate": 1776990193,
-        "lastUpdate": 1776984136,
-        "highest": 1,
+        "lastUpdate": 1777866886,
+        "highest": 2,
         "isComplete": false
       }
     ],
     "selectedhabbit": {
-      "id": "zubRSPM5JkhWvYcn6NDBI",
-      "title": "test h",
-      "priority": "Medium",
-      "description": "",
-      "category": "uOQQkNiNO8rZL4bIoJef_",
-      "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-      "score": 1,
-      "createDate": 1776990193,
-      "lastUpdate": 1776984136,
-      "highest": 1,
-      "isComplete": false
+      "id": "tMDj76pGocyc7CB8cI3LD",
+      "title": "Exercise",
+      "priority": "High",
+      "description": "push up",
+      "category": "wE9n6PtaYIGVWasne3yHr",
+      "tag": "GPoeAdsLX8zYBd1s38_KA",
+      "score": 3,
+      "lastUpdate": 1777866886,
+      "completeUpdate": "1776943013",
+      "highest": 19,
+      "createDate": 1776984380,
+      "isComplete": true
     }
   },
-  "TimerList": {
+  "Timers": {
     "ListTimer": [
       {
         "id": "Ieu-MU5GJVswP3EyQnorT",
@@ -926,23 +942,32 @@
         "id": "IUDGhEU2l9_n6W8SlGXoV",
         "title": "timer-1777199842",
         "startDate": "1777199842",
-        "endDate": "1777199842",
+        "endDate": "1777567888",
         "category": "",
         "tag": "",
-        "isComplete": false
+        "isComplete": true
+      },
+      {
+        "id": "kkDavzbDZcmhoaUhbaj-b",
+        "title": "timer-1777567993",
+        "startDate": "1777567993",
+        "endDate": "1777781902",
+        "category": "",
+        "tag": "",
+        "isComplete": true
       }
     ],
     "selectedTimer": {
-      "id": "I0iNe10bEHA4X7vU3yx3g",
-      "title": "timer-1777198958",
-      "startDate": "1777198958",
-      "endDate": "1777199844",
+      "id": "kkDavzbDZcmhoaUhbaj-b",
+      "title": "timer-1777567993",
+      "startDate": "1777567993",
+      "endDate": "1777781902",
       "category": "",
       "tag": "",
       "isComplete": true
     }
   },
-  "SpendsList": {
+  "Spends": {
     "ListSpends": [
       {
         "id": "McwRRaynUm5DvJxTglUu2",
@@ -1079,8 +1104,10 @@
         "shareList": ["I4-ZQmCXXC3fAIqpdKzW6"],
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "Zss6DvwJ263fhrE-uE6Le",
-        "doDate": "1773520200",
-        "income": true
+        "doDate": 1777321800,
+        "income": true,
+        "createDate": 1773520200,
+        "description": ""
       },
       {
         "id": "g8DJcEC6V6r6AtUOdsKMl",
@@ -1146,8 +1173,50 @@
         "tag": "Zss6DvwJ263fhrE-uE6Le",
         "income": false,
         "description": ""
+      },
+      {
+        "id": "ozQhBD8EOx4osRefJ0sGK",
+        "title": "test share",
+        "numberOfProduct": "",
+        "priceOfProduct": "",
+        "doDate": 1777408200,
+        "createDate": 1777440626,
+        "incomeAmount": "700000",
+        "shareList": ["qYfE4Os1UpHPplwaFaPWV", "o1HC4xVaIRBqsfyYJscWi"],
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "-poV9UMqN41NAzIlc_KA3",
+        "income": true,
+        "description": ""
+      },
+      {
+        "id": "Y0C9-E3diAO-_oecTbutN",
+        "title": "test share",
+        "numberOfProduct": "",
+        "priceOfProduct": "",
+        "doDate": 1777753800,
+        "createDate": 1777775693,
+        "incomeAmount": "700000",
+        "shareList": ["qYfE4Os1UpHPplwaFaPWV", "o1HC4xVaIRBqsfyYJscWi"],
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "-poV9UMqN41NAzIlc_KA3",
+        "income": true,
+        "description": ""
       }
-    ]
+    ],
+    "selectedSpends": {
+      "id": "KJ1cQR_FE7NxRmdGtg-Ir",
+      "title": "test r",
+      "numberOfProduct": "",
+      "priceOfProduct": "",
+      "incomeAmount": "1500000",
+      "shareList": ["I4-ZQmCXXC3fAIqpdKzW6"],
+      "category": "_J1pUjWD-J_mx6zBpXsG8",
+      "tag": "Zss6DvwJ263fhrE-uE6Le",
+      "doDate": 1777321800,
+      "income": true,
+      "createDate": 1773520200,
+      "description": ""
+    }
   },
   "CategoryList": {
     "ListCategory": [
@@ -1198,14 +1267,24 @@
       {
         "id": "vlKy21k_-Dk3p7i-Ul9yn",
         "title": "test 2"
+      },
+      {
+        "id": "N2MYWLv-0AqOL6v_keLZC",
+        "title": "test"
       }
     ]
   },
-  "PeopleList": {
+  "Friends": {
     "ListPeople": [
       {
         "id": "TwlvYS28Isl2B3fYGEfCC",
-        "title": "san"
+        "title": "san",
+        "firstName": "test",
+        "lastName": "testtest",
+        "shareList": [],
+        "phoneNumber": "1111111111111",
+        "birthDate": 1777321800,
+        "description": "testes"
       },
       {
         "id": "fyocRt39F40cVxrbpWua1",
@@ -1222,14 +1301,48 @@
       {
         "id": "4hBWKaBboH6GTOE52oxcB",
         "title": "mehran"
+      },
+      {
+        "id": "evH6m3PVUzXXomoxhp4yZ",
+        "title": "test test",
+        "firstName": "test",
+        "lastName": "testtest",
+        "phoneNumber": "09944512994",
+        "birthDate": 1777321800,
+        "createDate": 1777404523,
+        "description": "",
+        "shareList": [
+          "VlMknHpS772MbjxO4OIls",
+          "CmIy83r44_bhm7zoAVopa",
+          "xHiGyaFt6_WvWKVcqehB4",
+          "demwUdLGcQsQ5JLzdQy4Q",
+          "k3O_vhcsJ8Da-ZQLasTQX",
+          "qYfE4Os1UpHPplwaFaPWV",
+          "o1HC4xVaIRBqsfyYJscWi"
+        ]
       }
     ],
     "selectedPeople": {
-      "id": "4hBWKaBboH6GTOE52oxcB",
-      "title": "mehran"
+      "id": "evH6m3PVUzXXomoxhp4yZ",
+      "title": "test test",
+      "firstName": "test",
+      "lastName": "testtest",
+      "phoneNumber": "09944512994",
+      "birthDate": 1777321800,
+      "createDate": 1777404523,
+      "description": "",
+      "shareList": [
+        "VlMknHpS772MbjxO4OIls",
+        "CmIy83r44_bhm7zoAVopa",
+        "xHiGyaFt6_WvWKVcqehB4",
+        "demwUdLGcQsQ5JLzdQy4Q",
+        "k3O_vhcsJ8Da-ZQLasTQX",
+        "qYfE4Os1UpHPplwaFaPWV",
+        "o1HC4xVaIRBqsfyYJscWi"
+      ]
     }
   },
-  "InstallmentstList": {
+  "Installments": {
     "ListInstallmentst": [
       {
         "id": "QlBc2c-0Fu-r6Qw4wqmnT",
@@ -1563,7 +1676,7 @@
       "nexeDate": "1775853000"
     }
   },
-  "visit": {
+  "Visits": {
     "ListVisit": [
       {
         "id": "Lz3co_tDf_F4mFK0-Hjye",
@@ -1758,6 +1871,20 @@
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "isComplete": true,
         "createDate": 1776976200
+      },
+      {
+        "id": "f1Ss4xphJ_EwN4qDY3RPm",
+        "title": "babaei",
+        "income": true,
+        "doDate": 1777482000,
+        "createDate": 1777439608,
+        "description": "",
+        "shareList": ["xHiGyaFt6_WvWKVcqehB4"],
+        "advancePayment": "200000",
+        "paymentCompleteValue": "1400000",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "isComplete": false
       }
     ],
     "selectedVisit": {
@@ -1781,7 +1908,7 @@
         "id": "mbyL4RsfiQ2g_wABcpx7S",
         "title": "test G",
         "priority": "Low",
-        "score": -15,
+        "score": -22,
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "doDate": "1775939400",
@@ -1864,10 +1991,10 @@
         "id": "eV0tAxDlpYjI0CDlJNB_j",
         "title": "Add Chart",
         "priority": "High",
-        "score": -16,
+        "score": -1,
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": "1775853000",
+        "doDate": 1777771103,
         "isComplete": false,
         "createDate": "1775853000"
       },
@@ -1885,10 +2012,10 @@
         "id": "D-3wWM1iFKR90ez87xmld",
         "title": "test 25 april",
         "priority": "Medium",
-        "score": -2,
+        "score": 0,
         "category": "IyYDXYBbs_yNfmxnVswGw",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-        "doDate": 1777062600,
+        "doDate": 1777878333,
         "isComplete": false,
         "description": "test des",
         "createDate": 1777062600
@@ -1910,7 +2037,7 @@
         "id": "WEkkFoqbscO2qsNMm3qHd",
         "title": "test 7",
         "priority": "Low",
-        "score": 3,
+        "score": -3,
         "description": "",
         "category": "IyYDXYBbs_yNfmxnVswGw",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
@@ -1922,27 +2049,69 @@
         "id": "tDy-Z87fBu8RNnOcpnoeB",
         "title": "test 21",
         "priority": "Medium",
-        "score": 3,
+        "score": -3,
         "description": "",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
         "doDate": 1777581000,
         "createDate": 1776988412,
         "isComplete": false
+      },
+      {
+        "id": "3Fcf9tPnTN6odHCH1NNrP",
+        "title": "test scor",
+        "priority": "Medium",
+        "score": 2,
+        "description": "",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "Zss6DvwJ263fhrE-uE6Le",
+        "doDate": 1778013000,
+        "createDate": 1777877983,
+        "isComplete": true,
+        "completeUpdate": 1777878333
+      },
+      {
+        "id": "C5_jdNxKlur6I-JVBXAso",
+        "title": "test 6",
+        "priority": "High",
+        "score": 1,
+        "description": "",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "doDate": 1778013000,
+        "createDate": 1777878115,
+        "isComplete": false,
+        "completeUpdate": 1777878627
+      },
+      {
+        "id": "XrxI0PjKc5SR8S20jF1HB",
+        "title": "test 7",
+        "priority": "Low",
+        "score": 6,
+        "description": "",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "doDate": 1778358600,
+        "createDate": 1777878333,
+        "isComplete": true,
+        "completeUpdate": 1777878333
       }
     ],
     "selectedGoal": {
-      "id": "JFp80daduB6puQuFHPpC1",
-      "title": "test V",
-      "priority": "Medium",
-      "score": 0,
-      "category": "_J1pUjWD-J_mx6zBpXsG8",
-      "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "doDate": "1773952200",
-      "isComplete": true
+      "id": "C5_jdNxKlur6I-JVBXAso",
+      "title": "test 6",
+      "priority": "High",
+      "score": 1,
+      "description": "",
+      "category": "uOQQkNiNO8rZL4bIoJef_",
+      "tag": "N2MYWLv-0AqOL6v_keLZC",
+      "doDate": 1778013000,
+      "createDate": 1777878115,
+      "isComplete": false,
+      "completeUpdate": 1777878627
     }
   },
-  "ShareList": {
+  "Shares": {
     "ListShare": [
       {
         "id": "tQ6uWNJL5UCBzpddPjD_B",
@@ -2059,12 +2228,14 @@
         "id": "HvAPi6S2-wtif_mZeIZXE",
         "peopleId": "fyocRt39F40cVxrbpWua1",
         "outcomeAmount": "",
-        "spendsId": "0hQDbfhv5V_n2Wx86YacN",
         "incomeAmount": "991",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": "1773520200",
-        "income": true
+        "doDate": 1773520200,
+        "income": true,
+        "title": "spends",
+        "createDate": 1773520200,
+        "description": ""
       },
       {
         "id": "I4-ZQmCXXC3fAIqpdKzW6",
@@ -2074,8 +2245,11 @@
         "incomeAmount": "",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "Zss6DvwJ263fhrE-uE6Le",
-        "doDate": "1773520200",
-        "income": false
+        "doDate": 1777321800,
+        "income": false,
+        "title": "test update",
+        "createDate": 1773520200,
+        "description": ""
       },
       {
         "id": "0P1q92Q2VizjbkE7T_TGC",
@@ -2102,19 +2276,132 @@
         "createDate": 1777235400,
         "income": false,
         "description": ""
+      },
+      {
+        "id": "n_xYfMpFjLwcaCvAcxjOu",
+        "title": "babaei",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "700000",
+        "incomeAmount": "",
+        "visitId": "f1Ss4xphJ_EwN4qDY3RPm",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "doDate": 1777482000,
+        "createDate": 1777482000,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "cbgWvDXWG-8y7u4kGhktY",
+        "title": "babaei",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "700000",
+        "incomeAmount": "",
+        "visitId": "f1Ss4xphJ_EwN4qDY3RPm",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "doDate": 1777482000,
+        "createDate": 1777482000,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "babaei",
+        "title": "babaei",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "700000",
+        "incomeAmount": "",
+        "visitId": "f1Ss4xphJ_EwN4qDY3RPm",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "doDate": 1777482000,
+        "createDate": 1777482000,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "xHiGyaFt6_WvWKVcqehB4",
+        "title": "babaei",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "700000",
+        "incomeAmount": "",
+        "visitId": "f1Ss4xphJ_EwN4qDY3RPm",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "doDate": 1777482000,
+        "createDate": 1777482000,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "demwUdLGcQsQ5JLzdQy4Q",
+        "title": "test share",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "",
+        "spendsId": "y_hM4YDrYW2iM-JiQme1h",
+        "incomeAmount": "700000",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "doDate": 1777408200,
+        "createDate": 1777408200,
+        "income": true,
+        "description": ""
+      },
+      {
+        "id": "k3O_vhcsJ8Da-ZQLasTQX",
+        "title": "test share",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "",
+        "spendsId": "VjiKkxaxLs0mU_gICVfK4",
+        "incomeAmount": "700000",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "-poV9UMqN41NAzIlc_KA3",
+        "doDate": 1777408200,
+        "createDate": 1777408200,
+        "income": true,
+        "description": ""
+      },
+      {
+        "id": "qYfE4Os1UpHPplwaFaPWV",
+        "title": "test share",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "",
+        "spendsId": "ozQhBD8EOx4osRefJ0sGK",
+        "incomeAmount": "700000",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "-poV9UMqN41NAzIlc_KA3",
+        "doDate": 1777753800,
+        "createDate": 1777408200,
+        "income": true,
+        "description": ""
+      },
+      {
+        "id": "o1HC4xVaIRBqsfyYJscWi",
+        "title": "test share",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "",
+        "spendsId": "ozQhBD8EOx4osRefJ0sGK",
+        "incomeAmount": "700",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "-poV9UMqN41NAzIlc_KA3",
+        "doDate": 1777753800,
+        "createDate": 1777408200,
+        "income": true,
+        "description": ""
       }
     ],
     "selectedShare": {
-      "id": "0P1q92Q2VizjbkE7T_TGC",
-      "peopleId": "fyocRt39F40cVxrbpWua1",
+      "id": "o1HC4xVaIRBqsfyYJscWi",
+      "title": "test share",
+      "peopleId": "evH6m3PVUzXXomoxhp4yZ",
       "outcomeAmount": "",
-      "incomeAmount": "100000",
-      "category": "_J1pUjWD-J_mx6zBpXsG8",
-      "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "doDate": 1777559400,
-      "createDate": 1777494600,
+      "spendsId": "ozQhBD8EOx4osRefJ0sGK",
+      "incomeAmount": "700",
+      "category": "rwVonh9Zgsowi8BmTfm_d",
+      "tag": "-poV9UMqN41NAzIlc_KA3",
+      "doDate": 1777408200,
+      "createDate": 1777408200,
       "income": true,
-      "title": "test 1",
       "description": ""
     }
   },

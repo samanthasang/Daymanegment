@@ -10,7 +10,7 @@ import NextDateOrderPlusFilter from "../../ListFilter/NextDateOrderPlusFilter.co
 import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useInstallmentsList() {
-  const Installmentst = useAppSelector((state) => state.InstallmentstList);
+  const Installmentst = useAppSelector((state) => state.Installments);
 
   const selectedInstallmentstList =
     Installmentst?.selectedInstallmentst as TInstallmentsts;
@@ -29,11 +29,15 @@ function useInstallmentsList() {
     (a) => +a.doDate < currentUnixTimestampZero
   );
 
+  const oldCategoryArray = CategoryFilter([...ListInstallmentsForgot]);
+
+  const oldListInstallmentsFiltered = TagFilter([...oldCategoryArray]);
+
   const dateUpOrderArray: TInstallmentsts[] = NextDateOrderPlusFilter(
     ListInstallmentsFiltered
   );
   const dateDOwnOrderArray: TInstallmentsts[] = NextDateOrderMinusFilter(
-    ListInstallmentsForgot
+    oldListInstallmentsFiltered
   );
 
   return {

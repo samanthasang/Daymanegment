@@ -21,8 +21,8 @@ export interface InitialState {
 }
 
 export const goalsListSlice = createSlice({
-  reducerPath: "goalsList",
-  name: "@goalsList",
+  reducerPath: "Goals",
+  name: "@Goals",
   initialState: {
     ListTGoals: [],
     selectedGoal: {},

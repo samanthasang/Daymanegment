@@ -24,8 +24,8 @@ export interface InitialState {
 }
 
 export const reminderListSlice = createSlice({
-  reducerPath: "reminderList",
-  name: "@reminderList",
+  reducerPath: "Reminders",
+  name: "@Reminders",
   initialState: {
     ListReminder: [],
     selectedReminder: {},

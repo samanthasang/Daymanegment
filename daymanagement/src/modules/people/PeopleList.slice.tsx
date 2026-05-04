@@ -18,8 +18,8 @@ export interface InitialState {
 }
 
 export const PeopleListSlice = createSlice({
-  reducerPath: "peopleList",
-  name: "@peopleList",
+  reducerPath: "Friends",
+  name: "@Friends",
   initialState: {
     ListPeople: [],
     selectedPeople: {},

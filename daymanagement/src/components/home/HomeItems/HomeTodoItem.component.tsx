@@ -8,8 +8,8 @@ function HomeTodoList() {
 
   return (
     <MenuItems
-      href={"/todo"}
-      tilte="Todo"
+      href={"/todos"}
+      tilte="Todos"
       infoNumber={`${FinishedArray(ListToDoFiltered).length} / ${ListToDoFiltered?.length}`}
     />
   );

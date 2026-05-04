@@ -11,17 +11,19 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/Drawer";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import { TShare } from "@/modules/share/share.slice";
 import { useState } from "react";
 import { FieldErrors } from "react-hook-form";
 import { DrawerForms } from "./DrawerForms";
+import { DrawerIcon } from "./DrawerIcon";
 import { DrawerInfos } from "./DrawerInfos";
 
 export function DrawerDialogDemo({
   drawerType,
   formType,
+  drawerTitle,
   children,
   onSubmitForm,
   installment,
@@ -36,6 +38,7 @@ export function DrawerDialogDemo({
   onChangeShare?: (onChangeShare: TShare) => void;
   removeShare?: (id: string) => void;
   formType: string;
+  drawerTitle: string;
   children?: React.ReactNode;
   onSubmitForm?: () => void;
   installment?: TInstallmentst[];
@@ -60,7 +63,7 @@ export function DrawerDialogDemo({
   }>;
 }) {
   const [open, setOpen] = useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { isMDMin } = useMediaQueryValues();
 
   const openDrawer = (e: boolean) => {
     setOpen(e);
@@ -69,13 +72,23 @@ export function DrawerDialogDemo({
     onSubmitForm && onSubmitForm();
   };
 
-  if (isDesktop) {
+  if (isMDMin) {
     return (
       <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
         {children}
         <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter p-3 gap-y-3 backdrop-blur-md rounded-2xl">
           <DialogHeader>
-            <DialogTitle>{formType}</DialogTitle>
+            <div className="flex justify-start items-center gap-x-1">
+              <DrawerIcon formType={formType} />
+              <DialogTitle>
+                {formType != "Info"
+                  ? formType != "Edit"
+                    ? "Add "
+                    : "Edit "
+                  : "Info "}
+                {formType == "Info" ? drawerType : drawerTitle}
+              </DialogTitle>
+            </div>
           </DialogHeader>
           {formType == "Info" ? (
             <DrawerInfos drawerType={drawerType} />

@@ -18,7 +18,7 @@ function SideBarMenu() {
       )}
     >
       <div className="w-full flex justify-center items-center gap-x-2 py-2 bg-primary rounded-full">
-        <Menu width={18} height={18} />
+        <Menu width={16} height={16} />
         Menu
       </div>
       <MenuMainSideBarComponent />

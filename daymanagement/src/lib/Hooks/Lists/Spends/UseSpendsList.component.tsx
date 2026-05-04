@@ -10,24 +10,30 @@ import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component"
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
 function useSpendsList() {
-  const Spends = useAppSelector((state) => state.SpendsList);
+  const Spends = useAppSelector((state) => state.Spends);
 
   const selectedSpends = Spends?.selectedSpends as TSpends;
   const ListSpends = Spends.ListSpends as TSpends[];
 
-  const dateFromArray = DateFromFilter([...ListSpends] as any);
+  const dateFromArray = DateFromFilter(ListSpends);
 
-  const dateToArray = DateToFilter([...dateFromArray] as any);
+  const dateToArray = DateToFilter(dateFromArray);
 
-  const categoryArray = CategoryFilter([...dateToArray] as any);
+  const categoryArray = CategoryFilter(dateToArray);
 
-  const ListSpendsFiltered = TagFilter([...categoryArray] as any);
+  const ListSpendsFiltered = TagFilter(categoryArray);
 
   const ListSpendsForgot = ListSpends.filter(
     (a) => +a.doDate < currentUnixTimestampZero
   );
+  const oldcategoryArray = CategoryFilter(ListSpendsForgot);
+
+  const oldListSpendsFiltered = TagFilter(oldcategoryArray);
+
   const dateUpOrderArray: TSpends[] = DatePlusOrderFilter(ListSpendsFiltered);
-  const dateDOwnOrderArray: TSpends[] = DateMinusOrderFilter(ListSpendsForgot);
+  const dateDOwnOrderArray: TSpends[] = DateMinusOrderFilter(
+    oldListSpendsFiltered
+  );
 
   return {
     ListSpendsFiltered: dateUpOrderArray,

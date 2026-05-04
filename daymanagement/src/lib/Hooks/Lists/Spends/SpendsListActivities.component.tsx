@@ -1,18 +1,16 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import {
   delSpendsList,
-  selectSpendsList,
-  TSpends,
+  selectSpendsList
 } from "@/modules/spends/spends.slice";
 import { toast } from "react-toastify";
+import useSpendsList from "./UseSpendsList.component";
 
 function SpendsListActivities() {
   const dispatch = useAppDispatch();
-
-  const Spend = useAppSelector((state) => state.SpendsList);
-
-  const selectedhabbit = Spend?.selectedSpends as TSpends;
+ 
+  const { selectedSpends } = useSpendsList();
 
   const SelectItem = () => {
     dispatch(selectSpendsList(""));
@@ -21,9 +19,9 @@ function SpendsListActivities() {
     dispatch(selectSpendsList(id));
   };
   const DelItem = () => {
-    dispatch(delSpendsList(selectedhabbit.id));
+    dispatch(delSpendsList(selectedSpends.id));
     SelectItem();
-    toast(`${selectedhabbit.title} is deleted`);
+    toast(`${selectedSpends.title} is deleted`);
   };
   return { DelItem, SelectWithId, SelectItem };
 }

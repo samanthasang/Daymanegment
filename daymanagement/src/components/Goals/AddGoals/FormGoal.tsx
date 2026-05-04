@@ -113,7 +113,7 @@ export default function FormGoals({
             description: data.description || "",
             category: data.category,
             tag: data.tag,
-            score: DayUnixDiff(Number(data.doDate), "day"),
+            score: data.score ?? DayUnixDiff(data.doDate, "day") + 1,
           })
         )
       : dispatch(
@@ -128,7 +128,7 @@ export default function FormGoals({
             description: data.description || "",
             category: data.category,
             tag: data.tag,
-            score: DayUnixDiff(Number(data.doDate), "day"),
+            score: DayUnixDiff(data.doDate, "day") + 1,
           })
         );
 

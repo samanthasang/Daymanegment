@@ -20,25 +20,25 @@ export function DrawerInfos({
   className?: React.ComponentProps<"form">;
 }) {
   switch (drawerType) {
-    case "TodoList":
+    case "Todos":
       return <TodoInfo />;
-    case "SpendsList":
+    case "Spendss":
       return <SpendsInfo />;
-    case "HabbitList":
+    case "Habbits":
       return <HabbitInfo />;
-    case "GoalsList":
+    case "Goals":
       return <GoalsInfo />;
-    case "VisitsList":
+    case "Visits":
       return <VisitsInfo />;
-    case "InstallmentsList":
+    case "Installmentss":
       return <InstallmentsInfo />;
-    case "ReminderList":
+    case "Reminders":
       return <RemindersInfo />;
-    case "TimerList":
+    case "Timers":
       return <TimerInfo />;
-    case "PeopleList":
+    case "Peoples":
       return <PeopleInfo />;
-    case "BootomList":
+    case "BootomsList":
       return <ListMenuButtons />;
     case "MenuList":
       return <MenuMainSideBarComponent />;

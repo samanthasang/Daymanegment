@@ -1,3 +1,4 @@
+import ListTitle from "../ListSection/ListContainer/ListTitle.component";
 import SelectedContainer from "./selectedItem/SelectedContainer.component";
 import SelectedItem from "./selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "./selectedItem/SelectedMenuBottom.component";
@@ -6,6 +7,7 @@ function SelectedSection({
   selected,
   drawerType,
   formType,
+  drawerTitle,
   time,
   score,
   isFinish,
@@ -25,6 +27,7 @@ function SelectedSection({
   time?: number;
   drawerType: string;
   formType: string;
+  drawerTitle: string;
   isComplete?: boolean;
   isFinish?: boolean;
   isPause?: boolean;
@@ -40,10 +43,16 @@ function SelectedSection({
   return (
     selected && (
       <SelectedContainer>
+        <ListTitle
+          forgot
+          title={drawerType.split("List")[0]}
+          drawerType={drawerType}
+        />
         <SelectedItem
           drawerType={drawerType}
           score={score}
           time={time}
+          drawerTitle={drawerType.split("List")[0]}
           isComplete={isComplete}
           isFinish={isFinish}
           isPause={isPause}
@@ -59,6 +68,7 @@ function SelectedSection({
         <SelectedMenuBottom
           drawerType={drawerType}
           formType={formType}
+          drawerTitle={drawerTitle}
           isComplete={isComplete}
           isFinish={isFinish}
           isPause={isPause}

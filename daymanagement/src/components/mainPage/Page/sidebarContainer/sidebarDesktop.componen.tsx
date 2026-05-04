@@ -1,5 +1,6 @@
 import FilterComponent from "@/components/Filter/FilterComponent";
 import { useAppSelector } from "@/lib/hook";
+import UseResetFilterComponent from "@/lib/Hooks/ResetFilter.component";
 import { Filter } from "lucide-react";
 
 function SidebarFilter({ witDate = true }: { witDate?: boolean }) {
@@ -14,6 +15,7 @@ function SidebarFilter({ witDate = true }: { witDate?: boolean }) {
         <div className="bg-secondary w-full flex flex-col gap-y-3 justify-start items-center h-full rounded-2xl py-1">
           <FilterComponent witDate={witDate} />
         </div>
+        <UseResetFilterComponent fullButton />
       </div>
     )
   );

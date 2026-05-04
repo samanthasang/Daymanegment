@@ -12,6 +12,7 @@ import {
 
 export const SelectedItemActivities = ({
   drawerType,
+  drawerTitle,
   isFinish,
   isComplete,
   isPause,
@@ -25,6 +26,7 @@ export const SelectedItemActivities = ({
   BringTodayItem,
 }: {
   drawerType: string;
+  drawerTitle: string;
   isFinish?: boolean;
   isComplete: boolean;
   isPause?: boolean;
@@ -94,7 +96,11 @@ export const SelectedItemActivities = ({
       {DuplicateItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
           <label>Duplicate</label>
-          <DrawerButton drawerType={drawerType} formType={"duplicate"}>
+          <DrawerButton
+            drawerType={drawerType}
+            formType="duplicate"
+            drawerTitle={drawerTitle.split("s")[0]}
+          >
             <Copy width={16} height={16} />
           </DrawerButton>
         </div>

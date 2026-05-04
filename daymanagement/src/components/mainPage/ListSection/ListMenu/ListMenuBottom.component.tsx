@@ -1,6 +1,5 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
-import { More } from "@/components/icons";
-import Earth from "@/components/icons/Earth";
+import { DrawerInfos } from "@/components/Drawer/DrawerInfos";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -10,21 +9,12 @@ import {
   DrawerTitle,
 } from "@/components/ui/Drawer";
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
-import {
-  Activity,
-  FilePlus,
-  ListPlus,
-  Menu,
-  Option,
-  Settings,
-  TimerIcon,
-} from "lucide-react";
+import { ListPlus, Menu, Settings } from "lucide-react";
 import { useState } from "react";
 import MenuFilter from "../../Page/MenuSideBar/MenuFilter.component";
 import MenuToday from "../../Page/MenuSideBar/MenuToday.component";
 import ListMenuButtons from "./ListMenuButtons.component";
 import TimerListMenuBottom from "./TimerListMenuBottom.component";
-import { DrawerInfos } from "@/components/Drawer/DrawerInfos";
 
 function ListMenuBottom({
   listTitle,
@@ -42,6 +32,7 @@ function ListMenuBottom({
   ChangeComplate,
   ListInfo,
   drawerType,
+  drawerTitle,
   formType,
   withpriority,
   withFinish,
@@ -65,6 +56,7 @@ function ListMenuBottom({
   listTitle: string;
   ListInfo: string;
   drawerType: string;
+  drawerTitle: string;
   formType: string;
 }) {
   const [open, setOpen] = useState(false);
@@ -74,11 +66,12 @@ function ListMenuBottom({
 
   const { isMDMax, isSMMax } = useMediaQueryValues();
   return (
-    <div className="flex justify-around w-full mx-auto gap-x-0.5">
+    <div className="flex justify-around w-full h-fit mx-auto gap-x-0.5">
       {isSMMax && (
         <DrawerButton
           drawerType="MenuList"
-          formType={"Info"}
+          formType="Info"
+          drawerTitle={drawerTitle}
           className="flex-1"
         >
           <Menu />
@@ -91,6 +84,7 @@ function ListMenuBottom({
           <DrawerButton
             drawerType={drawerType}
             formType="Info"
+            drawerTitle={drawerTitle}
             className="w-full"
           >
             <div className="flex justify-between items-center w-full mx-auto h-10 px-3 cursor-pointer">
@@ -159,9 +153,10 @@ function ListMenuBottom({
         <DrawerButton
           drawerType={drawerType}
           formType={formType}
+          drawerTitle={drawerTitle}
           className="flex-1"
         >
-          <FilePlus />
+          <ListPlus />
         </DrawerButton>
       ) : (
         <TimerListMenuBottom />

@@ -26,9 +26,13 @@ function useGoalsList() {
   const ListGoalsForgot = ListGoals.filter(
     (a) => +a.doDate < currentUnixTimestampZero
   );
+  const oldCategoryArray = CategoryFilter([...ListGoalsForgot]);
+
+  const oldListGoalsFiltered = TagFilter([...oldCategoryArray]);
 
   const dateUpOrderArray: TGoals[] = DatePlusOrderFilter(ListGoalsFiltered);
-  const dateDOwnOrderArray: TGoals[] = DateMinusOrderFilter(ListGoalsForgot);
+  const dateDOwnOrderArray: TGoals[] =
+    DateMinusOrderFilter(oldListGoalsFiltered);
 
   return {
     ListGoalsFiltered: dateUpOrderArray,

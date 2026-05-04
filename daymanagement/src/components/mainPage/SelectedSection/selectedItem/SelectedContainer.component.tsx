@@ -10,7 +10,7 @@ export const SelectedContainer = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col h-[calc(100vh-18px)] p-1.5 mx-auto rounded-3xl bg-secondary",
+        "relative flex flex-col h-[calc(100vh-18px)] p-1.5 gap-y-2 rounded-3xl bg-secondary",
         isSX ? "w-full" : "w-1/2"
       )}
     >

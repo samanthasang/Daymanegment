@@ -8,6 +8,7 @@ import CurrentList from "./CurrentList.component";
 function ListSection({
   drawerType,
   formType,
+  drawerTitle,
   selectedID,
   ListFilteredTilte,
   ListForgotTilte,
@@ -23,6 +24,7 @@ function ListSection({
 }: {
   drawerType: string;
   formType: string;
+  drawerTitle: string;
   selectedID: boolean;
   ListFilteredTilte: string;
   ListForgotTilte: string;
@@ -43,12 +45,14 @@ function ListSection({
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
+          drawerType={drawerType}
           setForgot={() => setForgot(false)}
           title={ListFilteredTilte}
           listCount={ListFilteredCount}
         />
         <ListTitle
           forgot={forgot}
+          drawerType={drawerType}
           setForgot={() => setForgot(true)}
           title={ListForgotTilte}
           listCount={ListForgotCount}
@@ -58,6 +62,7 @@ function ListSection({
         listTitle={!forgot ? ListFilteredTilte : ListForgotTilte}
         drawerType={drawerType}
         formType={formType}
+        drawerTitle={drawerTitle}
         List={!forgot ? ListFiltered : ListForgot}
         withpriority={withpriority}
         withShop={withShop}

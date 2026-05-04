@@ -21,7 +21,7 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
           title: item.title,
           doDate: item.doDate,
           createDate: item.createDate ?? item.doDate,
-          score: DayUnixDiff(+item.doDate, "day"),
+          score: DayUnixDiff(item.doDate, "day") + 1,
           priority: item.priority,
           description: item.description,
           category: item.category,
@@ -39,11 +39,7 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
       CompleteItem={() => CompleteItem(item.id, item.title, item?.score || 0)}
       BringToday={() => BringTodayItem(item)}
       {...item}
-      score={
-        item.isComplete && item.score
-          ? item.score + 1
-          : DayUnixDiff(+item.doDate, "day") + 1
-      }
+      score={item.score}
     />
   );
 };

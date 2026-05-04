@@ -5,6 +5,7 @@ import IncomeFilter from "@/lib/Hooks/Filters/IncomeFilter.componen";
 import IncomeMFilter from "@/lib/Hooks/Filters/IncomeMFilter.componen";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 function SpendsInfo() {
@@ -93,6 +94,20 @@ function SpendsInfo() {
       <div className="flex justify-between items-center text-errorRed bg-primary py-1 px-3 rounded-3xl">
         <span>Spends :</span>
         {!forgot ? SpendsOutcomeArray : OldSpendsOutComeArray}
+      </div>
+      <div
+        className={cn(
+          "flex justify-between items-center text-errorRed bg-primary py-1 px-3 rounded-3xl",
+          SpendsIncomeArray - SpendsOutcomeArray > 0 ||
+            OldSpendsInComeArray - OldSpendsOutComeArray > 0
+            ? "text-successGreen"
+            : "text-errorRed"
+        )}
+      >
+        <span className="text-blue-500">Total :</span>
+        {!forgot
+          ? SpendsIncomeArray - SpendsOutcomeArray
+          : OldSpendsInComeArray - OldSpendsOutComeArray}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
         <span>Today :</span>

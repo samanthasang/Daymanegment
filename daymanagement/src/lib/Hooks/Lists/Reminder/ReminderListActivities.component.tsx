@@ -1,22 +1,20 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import {
   completeReminderList,
   delReminderList,
   finishReminderList,
   selectReminderList,
-  TReminder,
-  unFinishReminderList,
+  unFinishReminderList
 } from "@/modules/reminderList/reminder.slice";
 
 import { toast } from "react-toastify";
+import useReminderList from "./UseReminderList.component";
 
 function ReminderListActivities() {
   const dispatch = useAppDispatch();
 
-  const Reminder = useAppSelector((state) => state.reminder);
-
-  const selectedselectedReminder = Reminder?.selectedReminder as TReminder;
+  const { selectedReminder } = useReminderList();
 
   const SelectItem = () => {
     dispatch(selectReminderList(""));
@@ -25,18 +23,18 @@ function ReminderListActivities() {
     dispatch(selectReminderList(id));
   };
   const DelItem = () => {
-    dispatch(delReminderList(selectedselectedReminder.id));
+    dispatch(delReminderList(selectedReminder.id));
     SelectItem();
-    toast(`${selectedselectedReminder.title} is deleted`);
+    toast(`${selectedReminder.title} is deleted`);
   };
   const CompleteItem = (id: string, title: string) => {
     dispatch(completeReminderList(id));
-    id && selectedselectedReminder && dispatch(selectReminderList(id));
+    id && selectedReminder && dispatch(selectReminderList(id));
     toast(`${title} is updated`);
   };
   const FinishItem = (id: string, title: string) => {
     dispatch(finishReminderList(id));
-    id && selectedselectedReminder && dispatch(selectReminderList(id));
+    id && selectedReminder && dispatch(selectReminderList(id));
     toast(`${title} is updated`);
   };
   const UnFinishItem = (id: string, title: string) => {

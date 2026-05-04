@@ -7,7 +7,7 @@ import {
   CheckCircle,
   DollarSign,
   SeparatorVertical,
-  ShoppingBag
+  ShoppingCart
 } from "lucide-react";
 
 function ListMenuButtons({
@@ -74,7 +74,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeShop && ChangeShop}
           checkStatus={shopFilter}
         >
-          <ShoppingBag width={16} height={16} />
+          <ShoppingCart width={16} height={16} />
         </SwitchComponent>
       )}
       {withBalance && (

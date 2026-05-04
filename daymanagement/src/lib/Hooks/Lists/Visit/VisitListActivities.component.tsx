@@ -1,19 +1,17 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import {
   completeVisitList,
   delVisitList,
   selectVisitList,
-  TVisit,
 } from "@/modules/visitsList/visit.slice";
 import { toast } from "react-toastify";
+import useVisitList from "./UseVisitList.component";
 
 function VisitListActivities() {
   const dispatch = useAppDispatch();
 
-  const Visit = useAppSelector((state) => state.visit);
-
-  const selectedVisit = Visit?.selectedVisit as TVisit;
+  const { selectedVisit } = useVisitList();
 
   const SelectItem = () => {
     dispatch(selectVisitList(""));

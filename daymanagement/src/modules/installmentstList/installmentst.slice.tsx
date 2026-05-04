@@ -30,8 +30,8 @@ export interface InitialState {
 }
 
 export const installmentstListSlice = createSlice({
-  reducerPath: "installmentstList",
-  name: "@installmentstList",
+  reducerPath: "Installments",
+  name: "@Installments",
   initialState: {
     ListInstallmentst: [],
     selectedInstallmentst: {},

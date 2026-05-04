@@ -10,7 +10,7 @@ import StartDateOrderPlusFilter from "../../ListFilter/StartDateOrderPlusFilter.
 import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useTimerList() {
-  const Timer = useAppSelector((state) => state.TimerList);
+  const Timer = useAppSelector((state) => state.Timers);
 
   const selectedTimer = Timer?.selectedTimer as TTimer;
   const ListTimer = Timer?.ListTimer as TTimer[];
@@ -27,10 +27,14 @@ function useTimerList() {
     (a) => +a.startDate < currentUnixTimestampZero
   );
 
+  const oldCategoryArray = CategoryFilter([...ListTimerForgot] as any);
+
+  const oldListTimerFiltered = TagFilter([...oldCategoryArray] as any);
+
   const dateUpOrderArray: TTimer[] =
     StartDateOrderPlusFilter(ListTimerFiltered);
   const dateDOwnOrderArray: TTimer[] =
-    StartDateOrderMinusFilter(ListTimerForgot);
+    StartDateOrderMinusFilter(oldListTimerFiltered);
 
   return {
     ListTimerFiltered: dateUpOrderArray,

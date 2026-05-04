@@ -10,9 +10,9 @@ function usePeopleList() {
   }: {
     ListShare: TShare[];
     selectedShare: {};
-  } = useAppSelector((state) => state.ShareList) || [];
+  } = useAppSelector((state) => state.Shares) || [];
 
-  const People = useAppSelector((state) => state.PeopleList) || {};
+  const People = useAppSelector((state) => state.Friends) || {};
 
   const selectedPeople = People?.selectedPeople as TPeople;
   const ListPeople = People?.ListPeople as TPeople[];

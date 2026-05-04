@@ -1,28 +1,28 @@
 import {
+  BadgeDollarSign,
   BookUser,
   CircuitBoard,
   FileSpreadsheet,
-  ListCheckIcon,
+  ListTodo,
   Repeat2,
-  ShoppingCart,
   Target,
   TimerIcon,
   TimerReset,
-  Users
+  Users,
 } from "lucide-react";
 
 function MenuItemsIcon(tilte: string) {
   switch (tilte) {
     case "Reminder":
       return <Repeat2 width={16} height={16} />;
-    case "Todo":
-      return <ListCheckIcon width={16} height={16} />;
+    case "Todos":
+      return <ListTodo width={16} height={16} />;
     case "Habbit":
       return <TimerReset width={16} height={16} />;
     case "Timer":
       return <TimerIcon width={16} height={16} />;
     case "Spends":
-      return <ShoppingCart width={16} height={16} />;
+      return <BadgeDollarSign width={16} height={16} />;
     case "Installment":
       return <FileSpreadsheet width={16} height={16} />;
     case "Visits":

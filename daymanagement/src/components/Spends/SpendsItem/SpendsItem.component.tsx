@@ -17,6 +17,7 @@ export const SpendsItem = ({ item }: { item: TSpends }) => {
       selectedID={selectedSpends && selectedSpends.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}
+      withShare={item.shareList && item.shareList.length > 0}
       {...item}
     />
   );

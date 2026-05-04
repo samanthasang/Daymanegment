@@ -3,13 +3,15 @@ import { CalendarOff, Folder, Tag } from "lucide-react";
 import { cn } from "../utils";
 import { DayUnixDiff } from "./UseDayJS";
 import useFilters from "./useFilters";
-import useMediaQueryValues from "./useMediaQuery";
 import UseSearchParams from "./UseSearchParams";
+import { Button } from "@/components/ui/button";
 
-function UseResetFilterComponent() {
+function UseResetFilterComponent({
+  fullButton = false,
+}: {
+  fullButton?: boolean;
+}) {
   const { applyFilter } = useFilters();
-
-  const { isMDMax } = useMediaQueryValues();
 
   const { hasdateFrom, dateFrom, hasdateTo, hasCategorySearch, hasTagSearch } =
     UseSearchParams();
@@ -33,11 +35,11 @@ function UseResetFilterComponent() {
   return (
     <div
       className={cn(
-        "flex justify-around w-full mx-auto p-1 bottom-0 left-0 right-0 gap-x-1",
-        isMDMax ? "relative" : "absolute"
+        "w-full flex justify-around items-center gap-x-1",
+        fullButton ? "w-full" : "w-fit"
       )}
     >
-      <div
+      <Button
         onClick={(e) => {
           e && e.preventDefault();
           ((hasdateFrom && dateFrom && DayUnixDiff(+dateFrom, "day") != 0) ||
@@ -45,11 +47,10 @@ function UseResetFilterComponent() {
             handleDateFilter();
         }}
         className={cn(
-          "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
-
           (dateFrom && DayUnixDiff(+dateFrom, "day") != 0) || hasdateTo
             ? "bg-button"
-            : "bg-primary"
+            : "bg-primary",
+          fullButton && "flex-1"
         )}
       >
         <CalendarOff
@@ -59,33 +60,33 @@ function UseResetFilterComponent() {
               : "bg-transparent"
           }
         />
-      </div>
-      <div
+      </Button>
+      <Button
         onClick={(e) => {
           e && e.preventDefault();
           hasCategorySearch && handleCatFilter();
         }}
         className={cn(
-          "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
-          hasCategorySearch ? "bg-button" : "bg-primary"
+          hasCategorySearch ? "bg-button" : "bg-primary",
+          fullButton && "flex-1"
         )}
       >
         <Folder
           className={hasCategorySearch ? "fill-red-500" : "bg-transparent"}
         />
-      </div>
-      <div
+      </Button>
+      <Button
         onClick={(e) => {
           e && e.preventDefault();
           hasTagSearch && handleTagFilter();
         }}
         className={cn(
-          "flex justify-center items-center h-10 flex-1 rounded-full hover:bg-button/15 w-full cursor-pointer",
-          hasTagSearch ? "bg-button" : "bg-primary"
+          hasTagSearch ? "bg-button" : "bg-primary",
+          fullButton && "flex-1"
         )}
       >
         <Tag className={hasTagSearch ? "fill-red-500" : "bg-transparent"} />
-      </div>
+      </Button>
     </div>
   );
 }

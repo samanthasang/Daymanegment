@@ -22,6 +22,7 @@ function GoalsList() {
       <ListSection
         drawerType="GoalsList"
         formType="Add"
+        drawerTitle="Goal"
         selectedID={selectedGoal && !!selectedGoal.id}
         ListFilteredTilte="Goals"
         ListForgotTilte="Old Goals"
@@ -36,6 +37,7 @@ function GoalsList() {
       <SelectedSection
         drawerType="GoalsList"
         formType="Edit"
+        drawerTitle={selectedGoal.title}
         isComplete={(selectedGoal && selectedGoal.isComplete) || false}
         CompleteItem={() =>
           CompleteItem(

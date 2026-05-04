@@ -1,22 +1,21 @@
 "use client";
 import FinishedFilter from "@/lib/Hooks/Filters/FinishedFilter.componen";
-import ComplateFIlter from "@/lib/Hooks/ListFilter/ComplateFIlter.component";
-import PriorityFilter from "@/lib/Hooks/ListFilter/PriorityFilter.component";
-import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
-import { Suspense } from "react";
-import ListContent from "./ListContainer/ListContent.component";
-import ListDetails from "./ListDetails.component";
-import ListMenuBottom from "./ListMenu/ListMenuBottom.component";
 import IncomeFilter from "@/lib/Hooks/Filters/IncomeFilter.componen";
 import IncomeMFilter from "@/lib/Hooks/Filters/IncomeMFilter.componen";
+import ComplateFIlter from "@/lib/Hooks/ListFilter/ComplateFIlter.component";
+import PriorityFilter from "@/lib/Hooks/ListFilter/PriorityFilter.component";
 import IncomeArray from "@/lib/Hooks/ListInfo/IncomeArray.componen";
+import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import OutcomeArray from "@/lib/Hooks/ListInfo/outcomeArray.componet";
 import { TSpends } from "@/modules/spends/spends.slice";
+import CurrentListSearch from "./CurrentListSearch.component";
+import ListMenuBottom from "./ListMenu/ListMenuBottom.component";
 
 function CurrentList({
   List,
   listTitle,
   drawerType,
+  drawerTitle,
   formType,
   withShop,
   withBalance,
@@ -27,6 +26,7 @@ function CurrentList({
   List: [];
   listTitle: string;
   drawerType: string;
+  drawerTitle: string;
   formType: string;
   withpriority?: boolean;
   withShop?: boolean;
@@ -66,14 +66,11 @@ function CurrentList({
 
   return (
     <>
-      <ListContent ListCount={ListAfterFilter.length}>
-        <Suspense>
-          <ListDetails List={ListAfterFilter as []} drawerType={drawerType} />
-        </Suspense>
-      </ListContent>
+      <CurrentListSearch List={ListAfterFilter as []} drawerType={drawerType} />
       <ListMenuBottom
         listTitle={listTitle}
         drawerType={drawerType}
+        drawerTitle={drawerTitle}
         formType={formType}
         priorityFilter={priorityFilter}
         complateFIlter={complateFIlter}

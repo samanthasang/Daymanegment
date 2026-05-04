@@ -15,18 +15,18 @@ import { todoReducer } from "../modules/toDoList/todo.slice";
 // import apiService from "./api.service";
 
 export const reducers = combineReducers({
-  todoList: todoReducer,
-  reminder: reminderReducer,
-  habbitList: habbitReducer,
-  TimerList: timerReducer,
-  SpendsList: spendsReducer,
+  Todos: todoReducer,
+  Reminders: reminderReducer,
+  Habbits: habbitReducer,
+  Timers: timerReducer,
+  Spends: spendsReducer,
   CategoryList: CategoryReducer,
   TagList: TagReducer,
-  PeopleList: PeopleReducer,
-  InstallmentstList: installmentstReducer,
-  visit: VisitReducer,
+  Friends: PeopleReducer,
+  Installments: installmentstReducer,
+  Visits: VisitReducer,
   Goals: goalReducer,
-  ShareList: shareReducer,
+  Shares: shareReducer,
   Menu: MenuReducer,
   // [apiService.reducerPath]: apiService.reducer,
 });

@@ -22,8 +22,8 @@ export interface InitialState {
 }
 
 export const shareListSlice = createSlice({
-  reducerPath: "shareList",
-  name: "@shareList",
+  reducerPath: "Shares",
+  name: "@Shares",
   initialState: {
     ListShare: [],
     selectedShare: {},

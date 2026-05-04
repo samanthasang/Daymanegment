@@ -51,6 +51,7 @@ export const SelectedItem = ({
   priodDiff,
   completeUpdate,
   drawerType,
+  drawerTitle,
   description,
   advancePayment,
   paymentCompleteValue,
@@ -104,6 +105,7 @@ export const SelectedItem = ({
   timeDiff?: string;
   priodDiff?: string;
   drawerType?: string;
+  drawerTitle: string;
   FinishItem?: () => void;
   CompleteItem?: () => void;
   DelItem?: () => void;
@@ -114,7 +116,7 @@ export const SelectedItem = ({
 }) => {
   return (
     id && (
-      <div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-3 scroll-m-0 overflow-y-scroll">
+      <div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-2 rounded-3xl scroll-m-0 overflow-y-scroll">
         <SelectedItemMainInfocomponen
           title={title}
           priority={priority}
@@ -211,6 +213,7 @@ export const SelectedItem = ({
         <SelectedItemContainer title="Activities">
           <SelectedItemActivities
             drawerType={drawerType || ""}
+            drawerTitle={drawerTitle}
             isComplete={isComplete}
             isFinish={isFinish}
             isPause={isPause}

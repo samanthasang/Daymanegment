@@ -2,11 +2,12 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Edit, List, Trash, CheckCircle } from "lucide-react";
+import { CheckCircle, Edit, ListStart, Trash } from "lucide-react";
 
 export const SelectedMenuBottom = ({
   drawerType,
   formType,
+  drawerTitle,
   isFinish,
   isComplete,
   isPause,
@@ -20,6 +21,7 @@ export const SelectedMenuBottom = ({
   isPause?: boolean;
   drawerType: string;
   formType: string;
+  drawerTitle: string;
   SelectItem: () => void;
   DelItem?: () => void;
   CompleteItem?: () => void;
@@ -35,7 +37,7 @@ export const SelectedMenuBottom = ({
         }}
         variant="default"
       >
-        <List />
+        <ListStart width={16} height={16} />
       </Button>
       {drawerType != "SpendsList" && DelItem && CompleteItem && (
         <Button
@@ -64,6 +66,7 @@ export const SelectedMenuBottom = ({
       <DrawerButton
         drawerType={drawerType}
         formType={formType}
+        drawerTitle={drawerTitle}
         className="flex-1"
       >
         <Edit />
