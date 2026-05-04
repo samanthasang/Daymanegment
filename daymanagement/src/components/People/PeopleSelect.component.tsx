@@ -27,7 +27,7 @@ function PeopleSelectComponent({
   }: {
     ListPeople: TPeople[];
     selectedPeople: {};
-  } = useAppSelector((state) => state.PeopleList) || {};
+  } = useAppSelector((state) => state.Friends) || {};
 
   return (
     <SelectButtonGroup
@@ -42,7 +42,11 @@ function PeopleSelectComponent({
       description={description}
       className={`${description ? "border-[1px] border-red-600" : ""}`}
     >
-      <DrawerDialogDemo drawerType={"PeopleList"} formType="Add">
+      <DrawerDialogDemo
+        drawerType="Friends"
+        formType="Add"
+        drawerTitle="Friend"
+      >
         <DialogTrigger asChild>
           <div className="text-red-400 w-8 h-8 flex justify-center items-center rounded-r-xl border border-border bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
             <Edit />

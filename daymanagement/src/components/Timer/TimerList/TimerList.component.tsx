@@ -18,8 +18,9 @@ function TimerList() {
   return (
     <>
       <ListSection
-        drawerType="TimerList"
+        drawerType="Timers"
         formType="Add"
+        drawerTitle="Timer"
         selectedID={selectedTimer && !!selectedTimer.id}
         ListFilteredTilte="Timers"
         ListForgotTilte="Old Timers"
@@ -32,11 +33,10 @@ function TimerList() {
         withComplateSort
       />
       <SelectedSection
-        drawerType="TimerList"
+        drawerType="Timers"
         formType="Edit"
-        selectedIsComplete={
-          (selectedTimer && selectedTimer.isComplete) || false
-        }
+        drawerTitle={selectedTimer.title}
+        isComplete={(selectedTimer && selectedTimer.isComplete) || false}
         CompleteItem={() => CompleteItem(selectedTimer.id, selectedTimer.title)}
         DelItem={DelItem}
         SelectItem={SelectItem}

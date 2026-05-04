@@ -27,8 +27,9 @@ function ShareListList({ peopleId }: { peopleId?: string }) {
   return (
     <>
       <ListSection
-        drawerType="ShareList"
+        drawerType="Shares"
         formType="Add"
+        drawerTitle="Share"
         selectedID={selectedShare && !!selectedShare.id}
         ListFilteredTilte="Shares"
         ListForgotTilte="Old Shares"
@@ -38,8 +39,9 @@ function ShareListList({ peopleId }: { peopleId?: string }) {
         withBalance
       />
       <SelectedSection
-        drawerType="ShareList"
+        drawerType="Shares"
         formType="Edit"
+        drawerTitle={selectedShare.title}
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
         selected={selectedShare}

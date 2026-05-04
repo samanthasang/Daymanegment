@@ -18,8 +18,9 @@ function VisitsList() {
   return (
     <>
       <ListSection
-        drawerType="VisitsList"
+        drawerType="Visits"
         formType="Add"
+        drawerTitle="Visit"
         selectedID={selectedVisit && !!selectedVisit.id}
         ListFilteredTilte="Visits"
         ListForgotTilte="Old Visits"
@@ -31,15 +32,15 @@ function VisitsList() {
         withComplateSort
       />
       <SelectedSection
-        drawerType="VisitsList"
+        drawerType="Visits"
         formType="Edit"
-        selectedIsComplete={
-          (selectedVisit && selectedVisit.isComplete) || false
-        }
+        drawerTitle={selectedVisit.title}
+        isComplete={(selectedVisit && selectedVisit.isComplete) || false}
         time={selectedVisit && selectedVisit.doDate}
         CompleteItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
+        DuplicateItem
         selected={selectedVisit}
       />
     </>

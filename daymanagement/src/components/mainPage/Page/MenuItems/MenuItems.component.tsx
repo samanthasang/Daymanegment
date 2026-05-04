@@ -3,7 +3,7 @@ import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import MenuItemsIcon from "./MenuItemsIcon.component";
+import ListItemsIcon from "../../ListSection/ListItem/ListItemsIcon.component";
 
 function MenuItems({
   href,
@@ -26,7 +26,7 @@ function MenuItems({
       )}
     >
       <div className="flex items-center gap-x-1">
-        {tilte && MenuItemsIcon(tilte)}
+        {tilte && ListItemsIcon(tilte, 16)}
         <span>{tilte}</span>
       </div>
       {(isSX || OpenMenu) && infoNumber && <span>{infoNumber}</span>}

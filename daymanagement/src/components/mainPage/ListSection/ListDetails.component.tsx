@@ -21,30 +21,29 @@ import { TShare } from "@/modules/share/share.slice";
 
 function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
   switch (drawerType) {
-    case "TodoList":
+    case "Todos":
       return List?.map((li: TToDo) => <TodoItem key={li.id} item={li} />);
-    case "SpendsList":
+    case "Spends":
       return List?.map((li: TSpends) => <SpendsItem key={li.id} item={li} />);
-    case "HabbitList":
+    case "Habbits":
       return List?.map((li: Thabbit) => <HabbitItem key={li.id} item={li} />);
-    case "GoalsList":
+    case "Goals":
       return List?.map((li: TGoals) => <GoalsItem key={li.id} item={li} />);
-    case "VisitsList":
+    case "Visits":
       return List?.map((li: TVisit) => <VisitsItem key={li.id} item={li} />);
-    case "ReminderList":
+    case "Reminders":
       return List?.map((li: TReminder) => (
         <ReminderItem key={li.id} item={li} />
       ));
-    case "InstallmentsList":
+    case "Installments":
       return List?.map((li: TInstallmentsts) => (
         <InstallmentsItem key={li.id} item={li} />
       ));
-    case "TimerList":
+    case "Timers":
       return List?.map((li: TTimer) => <Timeritem key={li.id} item={li} />);
-    case "PeopleList":
-    case "PeopleList":
+    case "Friends":
       return List?.map((li: TPeople) => <PeopleItem key={li.id} item={li} />);
-    case "ShareList":
+    case "Shares":
       return List?.map((li: TShare) => <ShareItem key={li.id} item={li} />);
     default:
       return <>nothing to show</>;

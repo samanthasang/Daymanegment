@@ -20,7 +20,7 @@ function GoalsList() {
   return (
     <>
       <ListSection
-        drawerType="GoalsList"
+        drawerType="Goals"
         formType="Add"
         drawerTitle="Goal"
         selectedID={selectedGoal && !!selectedGoal.id}
@@ -35,7 +35,7 @@ function GoalsList() {
         withComplateSort
       />
       <SelectedSection
-        drawerType="GoalsList"
+        drawerType="Goals"
         formType="Edit"
         drawerTitle={selectedGoal.title}
         isComplete={(selectedGoal && selectedGoal.isComplete) || false}

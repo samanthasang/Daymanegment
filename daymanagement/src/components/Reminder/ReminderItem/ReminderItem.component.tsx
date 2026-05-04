@@ -24,7 +24,7 @@ export const ReminderItem = ({ item }: { item: TReminder }) => {
   return (
     <ListItem
       date={item.doDate}
-      drawerType="ReminderList"
+      drawerType="Reminders"
       selectedID={selectedReminder && selectedReminder.id}
       CompleteItem={() => CompleteItem(item.id, item.title)}
       DelItem={DelItem}

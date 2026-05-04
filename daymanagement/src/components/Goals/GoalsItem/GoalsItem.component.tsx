@@ -32,7 +32,7 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
   return (
     <ListItem
       date={item.doDate}
-      drawerType="GoalsList"
+      drawerType="Goals"
       selectedID={selectedGoal && selectedGoal.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

@@ -16,6 +16,9 @@ function TodoList() {
   const { CompleteItem, DelItem, SelectItem, BringTodayItem } =
     TodoListActivities();
 
+  console.log(ListToDoFiltered);
+  console.log(ListToDoForgot);
+
   return (
     <>
       <ListSection

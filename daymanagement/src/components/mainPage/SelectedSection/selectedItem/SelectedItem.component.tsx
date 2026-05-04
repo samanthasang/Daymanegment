@@ -165,7 +165,7 @@ export const SelectedItem = ({
             description={total.toString()}
           />
         )}
-        {drawerType == "PeopleList" && (
+        {drawerType == "Friends" && (
           <SelectedItemPeopleList
             id={id}
             totalIncome={totalIncome}
@@ -178,8 +178,8 @@ export const SelectedItem = ({
               <SelectedItemContainer title="Score">
                 <label
                   className={
-                    (score && drawerType == "GoalsList" && score > 4) ||
-                    (score && drawerType == "HabbitList" && score > 6)
+                    (score && drawerType == "Goals" && score > 4) ||
+                    (score && drawerType == "Habbits" && score > 6)
                       ? "text-success"
                       : "text-red-600"
                   }
@@ -195,8 +195,8 @@ export const SelectedItem = ({
               <SelectedItemContainer title="Highest">
                 <label
                   className={
-                    (highest && drawerType == "GoalsList" && highest > 4) ||
-                    (highest && drawerType == "HabbitList" && highest > 9)
+                    (highest && drawerType == "Goals" && highest > 4) ||
+                    (highest && drawerType == "Habbits" && highest > 9)
                       ? "text-success"
                       : "text-red-600"
                   }
@@ -227,7 +227,7 @@ export const SelectedItem = ({
             UndoneItem={UndoneItem}
           />
         </SelectedItemContainer>
-        {drawerType == "TimerList" && (
+        {drawerType == "Timers" && (
           <SelectedItemTimerList
             isComplete={isComplete}
             startDate={startDate}
@@ -240,8 +240,8 @@ export const SelectedItem = ({
               <SelectedItemContainer title="Payment Complete Value">
                 <label
                   className={
-                    (score && drawerType == "GoalsList" && score > 4) ||
-                    (score && drawerType == "HabbitList" && score > 6)
+                    (score && drawerType == "Goals" && score > 4) ||
+                    (score && drawerType == "Habbits" && score > 6)
                       ? "text-success"
                       : "text-red-600"
                   }
@@ -346,7 +346,7 @@ export const SelectedItem = ({
             </label>
           </SelectedItemContainer>
         )}
-        {drawerType != "PeopleList" && shareList && shareList.length > 0 && (
+        {drawerType != "Peoples" && shareList && shareList.length > 0 && (
           <SelectedItemContainer title="Shares">
             {shareList.map((share) => (
               <SelectedShareItem key={share} id={share} />

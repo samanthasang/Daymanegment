@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { setTimerList } from "@/modules/timerList/timer.slice";
-import { TimerIcon } from "lucide-react";
+import { Timer } from "lucide-react";
 
 function TimerListMenuBottom() {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ function TimerListMenuBottom() {
 
   return (
     <Button variant="default" onClick={() => StartTimer()} className="flex-1">
-      <TimerIcon />
+      <Timer />
     </Button>
   );
 }

@@ -11,7 +11,7 @@ export const VisitsItem = ({ item }: { item: TVisit }) => {
   return (
     <ListItem
       date={item.doDate}
-      drawerType="VisitsList"
+      drawerType="Visits"
       selectedID={selectedVisit && selectedVisit.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

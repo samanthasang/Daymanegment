@@ -45,14 +45,15 @@ function SelectedSection({
       <SelectedContainer>
         <ListTitle
           forgot
-          title={drawerType.split("List")[0]}
+          // title={drawerType.split("s")[0]}
+          title={drawerType}
           drawerType={drawerType}
         />
         <SelectedItem
           drawerType={drawerType}
           score={score}
           time={time}
-          drawerTitle={drawerType.split("List")[0]}
+          drawerTitle={drawerType}
           isComplete={isComplete}
           isFinish={isFinish}
           isPause={isPause}

@@ -12,6 +12,7 @@ import InstallmentsInfo from "../Installments/InstallmentsInfo/InstallmentsInfo.
 import RemindersInfo from "../Reminder/RemindersInfo/InstallmentsInfo.component";
 import TimerInfo from "../Timer/TimerInfo/TimerInfo.component";
 import PeopleInfo from "../People/PeopleInfo/PeopleInfo.component";
+import ShareInfo from "../Share/ShareInfo/ShareInfo.component";
 
 export function DrawerInfos({
   drawerType,
@@ -22,7 +23,7 @@ export function DrawerInfos({
   switch (drawerType) {
     case "Todos":
       return <TodoInfo />;
-    case "Spendss":
+    case "Spends":
       return <SpendsInfo />;
     case "Habbits":
       return <HabbitInfo />;
@@ -30,14 +31,16 @@ export function DrawerInfos({
       return <GoalsInfo />;
     case "Visits":
       return <VisitsInfo />;
-    case "Installmentss":
+    case "Installments":
       return <InstallmentsInfo />;
     case "Reminders":
       return <RemindersInfo />;
     case "Timers":
       return <TimerInfo />;
-    case "Peoples":
+    case "Friends":
       return <PeopleInfo />;
+    case "Shares":
+      return <ShareInfo />;
     case "BootomsList":
       return <ListMenuButtons />;
     case "MenuList":

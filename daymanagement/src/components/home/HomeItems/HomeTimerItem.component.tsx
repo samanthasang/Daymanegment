@@ -8,8 +8,8 @@ function HomeTimerItem() {
 
   return (
     <MenuItems
-      href={"/timer"}
-      tilte="Timer"
+      href={"/timers"}
+      tilte="Timers"
       infoNumber={`${FinishedArray(ListTimerFiltered).length} / ${ListTimerFiltered?.length}`}
     />
   );

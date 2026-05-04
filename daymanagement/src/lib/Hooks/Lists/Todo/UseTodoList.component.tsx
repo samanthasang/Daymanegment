@@ -10,10 +10,10 @@ import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component"
 import { currentUnixTimestampZero } from "../../UseDayJS";
 
 function useTodoList() {
-  const ToDo = useAppSelector((state) => state.Todos);
+  const ToDos = useAppSelector((state) => state.Todos);
 
-  const selectedToDo = ToDo?.selectedToDo as TToDo;
-  const ListToDo = ToDo?.ListToDo as TToDo[];
+  const selectedToDo = ToDos?.selectedToDo as TToDo;
+  const ListToDo = ToDos?.ListToDo as TToDo[];
 
   const dateFromArray = DateFromFilter([...ListToDo]);
 

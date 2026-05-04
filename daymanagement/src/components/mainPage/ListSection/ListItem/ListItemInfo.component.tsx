@@ -28,7 +28,7 @@ export const ListItemInfo = ({
 }) => {
   return (
     <div className="flex flex-col w-fit gap-y-1 justify-end items-end">
-      {drawerType == "GoalsList" && (
+      {drawerType == "Goals" && (
         <label
           className={cn(
             `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
@@ -40,7 +40,7 @@ export const ListItemInfo = ({
           {score && score}
         </label>
       )}
-      {drawerType == "HabbitList" && (
+      {drawerType == "Habbits" && (
         <label
           className={cn(
             `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
@@ -55,7 +55,7 @@ export const ListItemInfo = ({
           {score && score}
         </label>
       )}
-      {drawerType == "VisitsList" && (
+      {drawerType == "Visits" && (
         <label
           className={cn(
             `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
@@ -71,7 +71,7 @@ export const ListItemInfo = ({
           {date && DayUnixFormat(+date, "MM-DD HH:mm")}
         </label>
       )}
-      {drawerType == "PeopleList" && hasShare && (
+      {drawerType == "Friends" && hasShare && (
         <label
           className={cn(
             "cursor-pointer px-2 py-1 rounded-2xl",
@@ -95,10 +95,10 @@ export const ListItemInfo = ({
           {`${incomeAmount || priceOfProduct || outcomeAmount}`}
         </label>
       )}
-      {drawerType == "TimerList" && !isComplete && date && (
+      {drawerType == "Timets" && !isComplete && date && (
         <ListItemTimeDiff date={date} />
       )}
-      {drawerType == "TimerList" && isComplete && diff && (
+      {drawerType == "Timets" && isComplete && diff && (
         <label
           className={cn(`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`)}
         >
@@ -110,12 +110,12 @@ export const ListItemInfo = ({
           {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
         </label>
       )}
-      {drawerType !== "HabbitList" &&
-        drawerType !== "VisitsList" &&
-        drawerType !== "GoalsList" &&
-        drawerType != "SpendsList" &&
-        drawerType != "TimerList" &&
-        drawerType != "ShareList" &&
+      {drawerType !== "Habbits" &&
+        drawerType !== "Visits" &&
+        drawerType !== "Goals" &&
+        drawerType != "Spends" &&
+        drawerType != "Timets" &&
+        drawerType != "Shares" &&
         date && (
           <label
             className={cn(

@@ -1,5 +1,5 @@
 import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
-import VisitsList from "./VisitsList/VisitssList.component";
+import VisitsList from "./VisitsList/VisitsList.component";
 
 function VisitListComponent() {
   return (

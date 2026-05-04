@@ -22,8 +22,9 @@ function InstallmentsList() {
   return (
     <>
       <ListSection
-        drawerType="InstallmentsList"
+        drawerType="Installments"
         formType="Add"
+        drawerTitle="Installment"
         selectedID={selectedInstallmentstList && !!selectedInstallmentstList.id}
         ListFilteredTilte="Installments"
         ListForgotTilte="Old Installments"
@@ -35,6 +36,9 @@ function InstallmentsList() {
         withComplateSort
       />
       <SelectedSection
+        drawerType="Installments"
+        formType="Edit"
+        drawerTitle={selectedInstallmentstList.title}
         CompleteItem={() =>
           CompleteItem(
             selectedInstallmentstList.id,
@@ -45,9 +49,7 @@ function InstallmentsList() {
         }
         DelItem={DelItem}
         SelectItem={SelectItem}
-        drawerType="InstallmentsList"
-        formType="Edit"
-        selectedIsComplete={selectedInstallmentstList.isComplete}
+        isComplete={selectedInstallmentstList.isComplete}
         selected={selectedInstallmentstList}
       />
     </>

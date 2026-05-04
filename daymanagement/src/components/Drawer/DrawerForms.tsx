@@ -83,15 +83,15 @@ export function DrawerForms({
       return <CategoryForm onSubmitForm={onSubmit} />;
     case "TagList":
       return <TagForm onSubmitForm={onSubmit} />;
-    case "Peoples":
+    case "Friends":
       return <PeopleForm formType={formType} onSubmitForm={onSubmit} />;
     case "Timers":
       return <FormTimer formType={formType} onSubmitForm={onSubmit} />;
-    case "Spendss":
+    case "Spends":
       return <FormSpends formType={formType} onSubmitForm={onSubmit} />;
     case "Installments":
       return <FormInstallments formType={formType} onSubmitForm={onSubmit} />;
-    case "Visitss":
+    case "Visits":
       return <FormVisits formType={formType} onSubmitForm={onSubmit} />;
     case "Goals":
       return <FormGoals formType={formType} onSubmitForm={onSubmit} />;

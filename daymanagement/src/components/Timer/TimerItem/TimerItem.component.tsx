@@ -27,7 +27,7 @@ export const Timeritem = ({ item }: { item: TTimer }) => {
     <ListItem
       date={item.startDate}
       diff={diff}
-      drawerType="TimerList"
+      drawerType="Timers"
       selectedID={selectedTimer && selectedTimer.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

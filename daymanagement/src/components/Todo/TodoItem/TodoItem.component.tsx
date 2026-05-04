@@ -12,7 +12,7 @@ export const TodoItem = ({ item }: { item: TToDo }) => {
   return (
     <ListItem
       date={item.doDate}
-      drawerType="TodoList"
+      drawerType="Todos"
       selectedID={selectedToDo && selectedToDo.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

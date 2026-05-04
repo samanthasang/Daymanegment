@@ -13,7 +13,7 @@ export const SpendsItem = ({ item }: { item: TSpends }) => {
       date={item.doDate}
       incomeAmount={item.incomeAmount}
       priceOfProduct={item.priceOfProduct}
-      drawerType="SpendsList"
+      drawerType="Spends"
       selectedID={selectedSpends && selectedSpends.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

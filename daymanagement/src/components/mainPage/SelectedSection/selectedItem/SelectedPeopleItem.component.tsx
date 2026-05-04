@@ -7,7 +7,7 @@ export const SelectedPeopleItem = ({ id }: { id: string }) => {
   }: {
     ListPeople: TPeople[];
     selectedPeople: {};
-  } = useAppSelector((state) => state.PeopleList) || {};
+  } = useAppSelector((state) => state.Friends) || {};
 
   const peopleAcoreToId = ListPeople.filter((share) => share.id == id)[0];
 

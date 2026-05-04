@@ -13,25 +13,25 @@ import {
 
 function ListItemsIcon(tilte: string, size: number) {
   switch (tilte) {
-    case "ReminderList":
+    case "Reminders":
       return <Repeat2 width={size} height={size} />;
-    case "TodoList":
+    case "Todos":
       return <ListTodo width={size} height={size} />;
-    case "HabbitList":
+    case "Habbits":
       return <TimerReset width={size} height={size} />;
-    case "TimerList":
+    case "Timers":
       return <TimerIcon width={size} height={size} />;
-    case "SpendsList":
+    case "Spends":
       return <BadgeDollarSign width={size} height={size} />;
-    case "InstallmentsList":
+    case "Installments":
       return <FileSpreadsheet width={size} height={size} />;
-    case "VisitsList":
+    case "Visits":
       return <BookUser width={size} height={size} />;
-    case "GoalsList":
+    case "Goals":
       return <Target width={size} height={size} />;
-    case "PeopleList":
+    case "Friends":
       return <User width={size} height={size} />;
-    case "ShareList":
+    case "Shares":
       return <CircuitBoard width={size} height={size} />;
   }
 }

@@ -74,7 +74,11 @@ export const ListItemActions = ({
         </Button>
       )}
       {drawerType == "PeopleList" && id && (
-        <DrawerDialogDemo drawerType="PeopleList" formType={`Edit ${title}`}>
+        <DrawerDialogDemo
+          drawerType="Friends"
+          formType={`Edit ${title}`}
+          drawerTitle="Friend"
+        >
           <DialogTrigger asChild>
             <Button
               onClick={(e) => {
@@ -88,7 +92,7 @@ export const ListItemActions = ({
           </DialogTrigger>
         </DrawerDialogDemo>
       )}
-      {drawerType != "SpendsList" && (
+      {drawerType != "Spends" && (
         <>
           {UpdateItem && (
             <Button

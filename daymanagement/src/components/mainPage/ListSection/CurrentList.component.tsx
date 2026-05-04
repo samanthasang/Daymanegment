@@ -64,6 +64,8 @@ function CurrentList({
       ? incomeMArray
       : incomeArray;
 
+  console.log(ListAfterFilter);
+
   return (
     <>
       <CurrentListSearch List={ListAfterFilter as []} drawerType={drawerType} />
@@ -88,9 +90,9 @@ function CurrentList({
         ChangeShop={() => setIncomeFilter(!incomeFilter)}
         ChangeBalance={() => setIncomeMFilter(!incomeMFIlter)}
         ListInfo={
-          drawerType == "PeopleList"
+          drawerType == "Ftiends"
             ? `${ListAfterFilter?.length}`
-            : drawerType == "SpendsList"
+            : drawerType == "Spends"
               ? `${outcomeArrayList.length} | ${incomeArrayList.length}`
               : `${FinishedArrayList.length} / ${ListAfterFilter?.length}`
         }

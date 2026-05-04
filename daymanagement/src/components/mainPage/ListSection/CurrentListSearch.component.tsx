@@ -18,6 +18,13 @@ function CurrentListSearch({
   useEffect(() => {
     title != "" && List.filter((li: any) => li.title.includes(title));
   }, [title]);
+  console.log(
+    List.filter(
+      (li: any) =>
+        li.title && li.title.toLowerCase().includes(title.trim().toLowerCase())
+    ) as []
+  );
+  console.log(List);
 
   return (
     <>

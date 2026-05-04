@@ -149,7 +149,7 @@ function ListMenuBottom({
           withBalance={withBalance}
         />
       )}
-      {drawerType != "TimerList" ? (
+      {drawerType != "Timers" ? (
         <DrawerButton
           drawerType={drawerType}
           formType={formType}

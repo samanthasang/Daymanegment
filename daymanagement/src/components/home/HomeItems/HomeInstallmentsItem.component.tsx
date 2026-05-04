@@ -9,7 +9,7 @@ function HomeInstallmentsItem() {
   return (
     <MenuItems
       href={"/installments"}
-      tilte="Installment"
+      tilte="Installments"
       infoNumber={`${FinishedArray(ListInstallmentsFiltered).length} / ${ListInstallmentsFiltered?.length}`}
     />
   );

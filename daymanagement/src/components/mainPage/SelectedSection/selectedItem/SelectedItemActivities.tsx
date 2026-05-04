@@ -99,7 +99,8 @@ export const SelectedItemActivities = ({
           <DrawerButton
             drawerType={drawerType}
             formType="duplicate"
-            drawerTitle={drawerTitle.split("s")[0]}
+            // drawerTitle={drawerTitle.split("s")[0]}
+            drawerTitle={drawerTitle}
           >
             <Copy width={16} height={16} />
           </DrawerButton>

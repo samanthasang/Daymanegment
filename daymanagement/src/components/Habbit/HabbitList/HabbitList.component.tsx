@@ -17,8 +17,9 @@ function HabbitList() {
   return (
     <>
       <ListSection
-        drawerType="HabbitList"
+        drawerType="Habbits"
         formType="Add"
+        drawerTitle="Habbit"
         selectedID={selectedHabbit && !!selectedHabbit.id}
         ListFilteredTilte="Habbit"
         ListForgotTilte="New Habbit"
@@ -31,14 +32,16 @@ function HabbitList() {
         withComplateSort
       />
       <SelectedSection
-        drawerType="HabbitList"
+        drawerType="Habbits"
         formType="Edit"
+        drawerTitle={selectedHabbit.title}
         CompleteItem={() =>
           CompleteItem(selectedHabbit.id, selectedHabbit.title)
         }
         DelItem={DelItem}
         SelectItem={SelectItem}
-        selectedIsComplete={selectedHabbit && selectedHabbit.isComplete}
+        DuplicateItem
+        isComplete={selectedHabbit && selectedHabbit.isComplete}
         selected={selectedHabbit}
       />
     </>

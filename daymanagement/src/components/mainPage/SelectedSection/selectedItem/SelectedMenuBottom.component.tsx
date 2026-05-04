@@ -39,7 +39,7 @@ export const SelectedMenuBottom = ({
       >
         <ListStart width={16} height={16} />
       </Button>
-      {drawerType != "SpendsList" && DelItem && CompleteItem && (
+      {drawerType != "Spends" && DelItem && CompleteItem && (
         <Button
           disabled={isComplete && isPause && isFinish}
           onClick={(e) => {

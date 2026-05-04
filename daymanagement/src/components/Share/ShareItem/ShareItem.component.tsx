@@ -11,7 +11,7 @@ export const ShareItem = ({ item }: { item: TShare }) => {
   return (
     <ListItem
       date={item.doDate}
-      drawerType="ShareList"
+      drawerType="Shares"
       selectedID={selectedShare && selectedShare.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

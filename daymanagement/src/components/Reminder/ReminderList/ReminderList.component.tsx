@@ -3,7 +3,6 @@ import ListSection from "@/components/mainPage/ListSection/ListSection.component
 import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import ReminderListActivities from "@/lib/Hooks/Lists/Reminder/ReminderListActivities.component";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
-import { DayUnixFormat, DayUnixFormatNow } from "@/lib/Hooks/UseDayJS";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -21,11 +20,12 @@ function ReminderList() {
   return (
     <>
       <ListSection
-        drawerType="ReminderList"
+        drawerType="Reminders"
         formType="Add"
+        drawerTitle="Reminder"
         selectedID={selectedReminder && !!selectedReminder.id}
-        ListFilteredTilte="Reminder"
-        ListForgotTilte="Old Reminder"
+        ListFilteredTilte="Reminders"
+        ListForgotTilte="Old Reminders"
         ListFilteredCount={FinishedArray(ListReminderFiltered).length}
         ListForgotCount={FinishedArray(ListReminderForgot).length}
         ListFiltered={ListReminderFiltered as []}
@@ -35,17 +35,17 @@ function ReminderList() {
         withComplateSort
       />
       <SelectedSection
-        drawerType="ReminderList"
+        drawerType="Reminders"
         formType="Edit"
-        selectedIsComplete={
-          (selectedReminder && selectedReminder.isComplete) || false
-        }
+        drawerTitle={selectedReminder.title}
+        isComplete={(selectedReminder && selectedReminder.isComplete) || false}
         FinishItem={() =>
           FinishItem(selectedReminder.id, selectedReminder.title)
         }
         CompleteItem={() =>
           CompleteItem(selectedReminder.id, selectedReminder.title)
         }
+        DuplicateItem
         DelItem={() => DelItem()}
         SelectItem={() => SelectItem()}
         selected={selectedReminder}

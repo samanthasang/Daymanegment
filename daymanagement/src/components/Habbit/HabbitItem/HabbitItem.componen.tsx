@@ -31,7 +31,7 @@ export const HabbitItem = ({ item }: { item: Thabbit }) => {
 
   return (
     <ListItem
-      drawerType="HabbitList"
+      drawerType="Habbits"
       selectedID={selectedHabbit && selectedHabbit.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

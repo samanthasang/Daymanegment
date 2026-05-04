@@ -1,13 +1,12 @@
 "use client";
 import { Eye, Trash } from "@/components/icons";
 import SelectedItemContainer from "@/components/mainPage/SelectedSection/selectedItem/SelectedItemContainer.component";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
-import { delVisitShareList, TShare } from "@/modules/share/share.slice";
+import { delVisitShareList } from "@/modules/share/share.slice";
 import {
   delVisitListShare,
-  selectVisitList,
-  TVisit,
+  selectVisitList
 } from "@/modules/visitsList/visit.slice";
 import { useRouter } from "next/navigation";
 

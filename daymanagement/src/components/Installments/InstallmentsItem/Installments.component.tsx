@@ -33,7 +33,7 @@ export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
   return (
     <ListItem
       date={item.doDate}
-      drawerType="InstallmentsList"
+      drawerType="Installments"
       selectedID={selectedInstallmentstList && selectedInstallmentstList.id}
       SelectItem={() => SelectWithId(item.id)}
       DelItem={DelItem}

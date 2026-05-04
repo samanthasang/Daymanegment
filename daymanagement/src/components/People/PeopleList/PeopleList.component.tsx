@@ -63,8 +63,9 @@ function PeopleList() {
   return (
     <>
       <ListSection
-        drawerType="PeopleList"
+        drawerType="Friends"
         formType="Add"
+        drawerTitle="Friend"
         selectedID={selectedPeople && !!selectedPeople.id}
         ListFilteredTilte="Friends"
         ListForgotTilte="New Friends"
@@ -74,11 +75,12 @@ function PeopleList() {
         ListForgot={listHasNoShare as []}
       />
       <SelectedSection
-        drawerType="PeopleList"
+        drawerType="Friends"
         formType="Edit"
-        total={total}
-        totalIncome={incomeArray}
-        totalOuCome={outComeArray}
+        drawerTitle={selectedPeople.title}
+        // total={total}
+        // totalIncome={incomeArray}
+        // totalOuCome={outComeArray}
         SelectItem={SelectItem}
         selected={selectedPeople}
       />

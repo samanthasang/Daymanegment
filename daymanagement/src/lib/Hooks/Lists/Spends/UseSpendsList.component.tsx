@@ -26,9 +26,9 @@ function useSpendsList() {
   const ListSpendsForgot = ListSpends.filter(
     (a) => +a.doDate < currentUnixTimestampZero
   );
-  const oldcategoryArray = CategoryFilter(ListSpendsForgot);
+  const oldCategoryArray = CategoryFilter(ListSpendsForgot);
 
-  const oldListSpendsFiltered = TagFilter(oldcategoryArray);
+  const oldListSpendsFiltered = TagFilter(oldCategoryArray);
 
   const dateUpOrderArray: TSpends[] = DatePlusOrderFilter(ListSpendsFiltered);
   const dateDOwnOrderArray: TSpends[] = DateMinusOrderFilter(

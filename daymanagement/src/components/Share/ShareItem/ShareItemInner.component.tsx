@@ -34,7 +34,7 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
   }: {
     ListPeople: TPeople[];
     selectedPeople: {};
-  } = useAppSelector((state) => state.PeopleList) || [];
+  } = useAppSelector((state) => state.Friends) || [];
 
   const peopleSelected = ListPeople
     ? ListPeople.filter((people) => people.id == item.peopleId)[0]
@@ -124,7 +124,11 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
             >
               <Trash />
             </div>
-            <DrawerDialogDemo drawerType={"ShareList"} formType="Edit">
+            <DrawerDialogDemo
+              drawerType="Shares"
+              formType="Edit"
+              drawerTitle="Share"
+            >
               <DialogTrigger asChild>
                 <Button
                   onClick={(e) => {
