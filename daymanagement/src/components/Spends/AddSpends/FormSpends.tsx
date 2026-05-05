@@ -536,6 +536,7 @@ export default function FormSpends({
       <DrawerDialogDemo
         drawerType={"ShareListDetails"}
         formType="Share List Details"
+        drawerTitle="Share List"
         errors={errors}
         shareList={shareList || []}
         onSubmitForm={onChangeShareSubmit}

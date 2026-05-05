@@ -26,6 +26,8 @@ export const ListItem = ({
   withShare,
   priceOfProduct,
   drawerType,
+  visitId,
+  spendsId,
   withDel = true,
   selectedID,
   SelectItem,
@@ -42,6 +44,8 @@ export const ListItem = ({
   incomeAmount?: string;
   outcomeAmount?: string;
   priceOfProduct?: string;
+  visitId?: string;
+  spendsId?: string;
   tag?: string;
   isComplete?: boolean;
   withShare?: boolean;
@@ -89,12 +93,14 @@ export const ListItem = ({
           priceOfProduct={priceOfProduct}
           priority={priority}
           withShare={withShare}
+          visitId={visitId}
+          spendsId={spendsId}
         />
         <ListItemCatTag
           id={id}
           tag={tag}
           category={category}
-          hasShare={drawerType == "PeopleList" && hasShare}
+          hasShare={drawerType == "Friends" && hasShare}
         />
       </div>
       {showDetails && (

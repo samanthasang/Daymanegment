@@ -113,7 +113,7 @@ export const habbitListSlice = createSlice({
         lastUpdate: number;
         category: string;
         tag: string;
-        isComplete: boolean;
+        isComplete?: boolean;
       }>
     ) => {
       state.ListHabbit = state.ListHabbit.map((Habbit) =>

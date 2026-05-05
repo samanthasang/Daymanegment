@@ -10,6 +10,7 @@ import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import { cn } from "@/lib/utils";
 import {
   selectReminderList,
   setReminderList,
@@ -244,7 +245,11 @@ export default function FormReminder({
             onValueChange={(data) => data && handlePriod(data)}
             {...field}
             value={field.value}
-            className={`${!field.value && errors.priodDiff?.message ? "border-[1px] border-red-600" : ""}`}
+            className={cn(
+              !field.value && errors.priodDiff?.message
+                ? "border-[1px] border-red-600"
+                : ""
+            )}
             {...register("priodDiff")}
           />
         )}
@@ -268,7 +273,11 @@ export default function FormReminder({
             onValueChange={(data) => data && handlePriority(data)}
             {...field}
             value={field.value}
-            className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+            className={cn(
+              !field.value && errors.priority?.message
+                ? "border-[1px] border-red-600"
+                : ""
+            )}
             {...register("priority")}
           />
         )}

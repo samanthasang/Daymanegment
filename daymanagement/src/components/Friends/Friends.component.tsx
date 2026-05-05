@@ -1,10 +1,10 @@
 import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
-import PeopleList from "./PeopleList/PeopleList.component";
+import FriendsList from "./FriendsList/FriendsList.component";
 
 function FriendsListComponent() {
   return (
     <PageContainer>
-      <PeopleList />
+      <FriendsList />
     </PageContainer>
   );
 }

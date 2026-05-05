@@ -1,4 +1,4 @@
-import FriendsListComponent from "@/components/People/People.component";
+import FriendsListComponent from "@/components/Friends/Friends.component";
 
 function page() {
   return <FriendsListComponent />;

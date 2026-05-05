@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { useAppDispatch } from "@/lib/hook";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
@@ -402,6 +402,7 @@ export default function FormVisits({
             <DrawerDialogDemo
               drawerType={"ShareListDetails"}
               formType="Share List Details"
+              drawerTitle="Share List Details"
               errors={errors}
               shareList={shareList || []}
               onSubmitForm={onChangeShareSubmit}

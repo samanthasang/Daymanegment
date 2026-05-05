@@ -3,12 +3,11 @@ import SelectedItemContainer from "@/components/mainPage/SelectedSection/selecte
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
-import { delVisitShareList } from "@/modules/share/share.slice";
 import {
   delVisitListShare,
   selectVisitList,
 } from "@/modules/visitsList/visit.slice";
-import { Eye, Trash } from "lucide-react";
+import { BookUser, Eye, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const ShareItemVisit = ({
@@ -27,18 +26,15 @@ export const ShareItemVisit = ({
 
   return (
     <SelectedItemContainer title="Visit">
-      <div className="w-full h-10 flex flex-row items-center justify-between rounded-3xl p-1">
-        <label>{`${VisitSelected && VisitSelected.title}`}</label>
+      <div className="w-full h-10 flex flex-row items-center justify-between rounded-3xl">
+        <div className="flex gap-x-1 items-center">
+          <BookUser width={16} height={16} />
+          <label>{`${VisitSelected && VisitSelected.title}`}</label>
+        </div>
         <div className="flex gap-x-1">
           <Button
             onClick={(e) => {
               e && e.preventDefault();
-              dispatch(
-                delVisitShareList({
-                  id: id,
-                  visitId: visitId,
-                })
-              );
               id &&
                 visitId &&
                 dispatch(delVisitListShare({ id: id, visitId: visitId }));

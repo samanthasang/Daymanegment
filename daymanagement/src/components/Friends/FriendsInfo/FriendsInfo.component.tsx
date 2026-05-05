@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import { Timer } from "lucide-react";
 import { useState } from "react";
 
-function PeopleInfo() {
+function FriendsInfo() {
   const [forgot, setForgot] = useState(false);
   const { ListTimerFiltered, ListTimerForgot, ListTimerAll } = useTimerList();
 
@@ -131,4 +131,4 @@ function PeopleInfo() {
   );
 }
 
-export default PeopleInfo;
+export default FriendsInfo;

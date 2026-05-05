@@ -1,9 +1,10 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { TPeople } from "@/modules/people/PeopleList.slice";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { Edit } from "../icons";
 import { useAppSelector } from "../../lib/hook";
 import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
+import { Edit } from "../icons";
 import { SelectButtonGroup } from "../ui/SelectButtonGroup";
 
 interface ICategotySelect {
@@ -40,7 +41,7 @@ function PeopleSelectComponent({
       onValueChange={(e) => e && onValueChange(e)}
       value={value || ""}
       description={description}
-      className={`${description ? "border-[1px] border-red-600" : ""}`}
+      className={cn(description ? "border-[1px] border-red-600" : "")}
     >
       <DrawerDialogDemo
         drawerType="Friends"

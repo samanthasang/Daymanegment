@@ -26,10 +26,7 @@ export const SelectedItemMainInfocomponen = ({
         </SelectedItemContainer>
       )}
       {(incomeAmount || priceOfProduct) && (
-        <SelectedItemContainer
-          classContainer="w-fit items-center p-3"
-          title="Type"
-        >
+        <SelectedItemContainer classContainer="w-fit items-center" title="Type">
           {incomeAmount && (
             <div className="flex items-center gap-x-1">
               <CircleDollarSign
@@ -37,13 +34,13 @@ export const SelectedItemMainInfocomponen = ({
                 height={16}
                 className="text-successGreen"
               />
-              Earn
+              <label>Earn</label>
             </div>
           )}
           {priceOfProduct && (
             <div className="flex items-center gap-x-1">
               <ShoppingCart width={16} height={16} className="text-errorRed" />
-              Buy
+              <label>Buy</label>
             </div>
           )}
         </SelectedItemContainer>

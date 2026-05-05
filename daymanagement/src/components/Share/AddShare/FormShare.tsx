@@ -1,6 +1,6 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
-import PeopleSelectComponent from "@/components/People/PeopleSelect.component";
+import PeopleSelectComponent from "@/components/Friends/PeopleSelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { CalendarDialog } from "@/components/ui/calenderWithDialog";

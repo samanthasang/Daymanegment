@@ -11,6 +11,7 @@ import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
 import { currentUnixTimestamp, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import { cn } from "@/lib/utils";
 import {
   selectInstallmentstList,
   setInstallmentstList,
@@ -385,7 +386,11 @@ export default function FormInstallments({
             onValueChange={(data) => data && handlePriod(data)}
             {...field}
             value={field.value}
-            className={`${!field.value && errors.paymentNumber?.message ? "border-[1px] border-red-600" : ""}`}
+            className={cn(
+              !field.value && errors.paymentNumber?.message
+                ? "border-[1px] border-red-600"
+                : ""
+            )}
             {...register("paymentNumber")}
           />
         )}
@@ -457,6 +462,7 @@ export default function FormInstallments({
       <DrawerDialogDemo
         drawerType={"InstallmentsListDetails"}
         formType="Installments List Details"
+        drawerTitle="Installments List"
         errors={errors}
         installment={instalmentDetails || []}
         onSubmitForm={onSubmitHandler}

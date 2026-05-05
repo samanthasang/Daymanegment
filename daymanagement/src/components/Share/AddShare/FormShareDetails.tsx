@@ -1,7 +1,6 @@
 "use client";
+import PeopleSelectComponent from "@/components/Friends/PeopleSelect.component";
 import { Trash } from "@/components/icons";
-import PeopleSelectComponent from "@/components/People/PeopleSelect.component";
-import BasicSwitch from "@/components/ui/BasicSwitch";
 import { InputField } from "@/components/ui/inputField";
 import { cn } from "@/lib/utils";
 import { TShare } from "@/modules/share/share.slice";
@@ -172,38 +171,6 @@ export default function FormShareDetails({
             />
           )}
         </div>
-        {/* <div className="flex-1">
-          {share.income && (
-            <InputField
-              title="Title"
-              type="string"
-              // className="!text-white w-full px-3 border-white rounded py-1"
-              placeholder="Income Amount"
-              disabled={!!errors.title?.message}
-              content={errors.title?.message}
-              required
-              value={shareDetail.incomeAmount}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                onChageInputIncome(e)
-              }
-            />
-          )}
-          {!share.income && (
-            <InputField
-              title="Title"
-              type="string"
-              disabled={!!errors.title?.message}
-              content={errors.title?.message}
-              required
-              className={`${share.income ? "text-success" : "text-red-500"}`}
-              placeholder="Outcome Amount"
-              value={shareDetail.outcomeAmount}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                onChageInputOutcome(e)
-              }
-            />
-          )}
-        </div> */}
       </div>
     </div>
   );

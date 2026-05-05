@@ -10,7 +10,7 @@ import {
 } from "@/modules/people/PeopleList.slice";
 import { toast } from "react-toastify";
 
-export const PeopleItem = ({
+export const FriendsItem = ({
   item,
   hasShare = true,
 }: {
@@ -49,7 +49,7 @@ export const PeopleItem = ({
       withDel={!hasShare}
       total={hasShare ? total : undefined}
       hasShare={hasShare}
-      drawerType="PeopleList"
+      drawerType="Friends"
       selectedID={selectedPeople && selectedPeople.id}
       SelectItem={SelectList}
       DelItem={DelItem}
@@ -58,4 +58,4 @@ export const PeopleItem = ({
   );
 };
 
-export default PeopleItem;
+export default FriendsItem;

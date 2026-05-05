@@ -16,7 +16,7 @@ export const SelectedItemContainer = ({
   return (
     <div
       className={cn(
-        "w-full flex h-fit flex-col gap-y-1 justify-start items-start bg-card/15 rounded-3xl p-3 relative",
+        "w-full flex h-fit flex-col gap-y-1 justify-start items-start bg-card/15 rounded-3xl py-2 px-2.5  relative",
         classContainer
       )}
     >

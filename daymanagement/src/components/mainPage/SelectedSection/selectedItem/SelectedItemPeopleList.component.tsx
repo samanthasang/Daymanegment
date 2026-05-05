@@ -1,36 +1,99 @@
 "use client";
-import PeopleShareList from "@/components/Share/ShareItem/ShareInner.component";
+import ShareItemInner from "@/components/Share/ShareItem/ShareItemInner.component";
+import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
+import { cn } from "@/lib/utils";
+import { TShare } from "@/modules/share/share.slice";
 import SelectedItemContainer from "./SelectedItemContainer.component";
+import { DollarSign } from "lucide-react";
 
-export const SelectedItemPeopleList = ({
-  id,
-  totalIncome,
-  totalOuCome,
-}: {
-  id: string;
-  totalIncome?: number;
-  totalOuCome?: number;
-}) => {
+export const SelectedItemPeopleList = ({ id }: { id: string }) => {
+  const { ListShareAll } = useShareList();
+
+  const ListShare =
+    ListShareAll && ListShareAll.filter((share) => share.peopleId == id);
+
+  const incomeArray =
+    id &&
+    ListShare &&
+    ListShare?.filter((share) => share.peopleId == id && share.income).reduce(
+      (acc, obj) => {
+        if (obj.income && obj.incomeAmount) {
+          return acc + +obj.incomeAmount;
+        }
+        return acc;
+      },
+      0
+    );
+  const outComeArray =
+    id &&
+    ListShare &&
+    ListShare?.filter((share) => share.peopleId == id && !share.income).reduce(
+      (acc, obj) => {
+        if (!obj.income && obj.outcomeAmount) {
+          return acc + +obj.outcomeAmount;
+        }
+        return acc;
+      },
+      0
+    );
+
+  const total =
+    id &&
+    ListShare &&
+    ListShare?.filter((share) => share.peopleId == id).reduce((acc, obj) => {
+      if (obj.income && obj.incomeAmount) {
+        return acc + +obj.incomeAmount;
+      }
+      if (!obj.income && obj.outcomeAmount) {
+        return acc - +obj.outcomeAmount;
+      }
+      return acc;
+    }, 0);
   return (
     <>
       <div className="w-full flex flex-row justify-between gap-x-3">
-        {(totalIncome || totalIncome == 0) && (
-          <SelectedItemContainer
-            title="Income Amount"
-            className={`${totalIncome && "text-success"}`}
-            description={(!!totalIncome && totalIncome.toString()) || "0"}
-          />
+        {incomeArray && (
+          <SelectedItemContainer title="Income Amount">
+            <div className="flex flex-row items-center gap-x-0.5 text-success">
+              <DollarSign width={16} height={16} />
+              {incomeArray}
+            </div>
+          </SelectedItemContainer>
         )}
-        {(totalOuCome || totalOuCome == 0) && (
-          <SelectedItemContainer
-            title="Outcome Amount"
-            className={`${totalOuCome && "text-red-600"}`}
-            description={(!!totalOuCome && totalOuCome.toString()) || "0"}
-          />
+        {outComeArray && (
+          <SelectedItemContainer title="Outcome Amount">
+            <div className="flex flex-row items-center gap-x-0.5 text-error">
+              <DollarSign width={16} height={16} />
+              {outComeArray}
+            </div>
+          </SelectedItemContainer>
         )}
       </div>
+      {total && (
+        <SelectedItemContainer title="Total Amount">
+          <div
+            className={cn(
+              "flex flex-row items-center gap-x-0.5 text-error",
+              total > 0 ? "text-successGreen" : "text-errorRed"
+            )}
+          >
+            <DollarSign width={16} height={16} />
+            {total}
+          </div>
+        </SelectedItemContainer>
+      )}
       <SelectedItemContainer title="Share List">
-        <PeopleShareList peopleId={id} />
+        <div className="flex flex-col gap-4 w-full h-auto">
+          {ListShare?.length == 0 ? (
+            <div className="flex items-center justify-center rounded-2xl h-full">
+              <span>There is nothing to show</span>
+            </div>
+          ) : (
+            ListShare?.map((li: TShare) => (
+              <ShareItemInner key={li.id} item={li} />
+            ))
+          )}
+        </div>
       </SelectedItemContainer>
     </>
   );

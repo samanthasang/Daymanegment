@@ -20,6 +20,7 @@ import {
   setToDoList,
   updateToDoList,
 } from "../../../modules/toDoList/todo.slice";
+import { cn } from "@/lib/utils";
 
 interface IFormInputs {
   title: string;
@@ -209,7 +210,11 @@ export default function FormTodo({
             onValueChange={(data) => data && handlePriority(data)}
             {...field}
             value={field.value}
-            className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+            className={cn(
+              !field.value && errors.priority?.message
+                ? "border-[1px] border-red-600"
+                : ""
+            )}
             {...register("priority")}
           />
         )}

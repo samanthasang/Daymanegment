@@ -14,7 +14,7 @@ import InstallmentsItem from "@/components/Installments/InstallmentsItem/Install
 import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
 import { TTimer } from "@/modules/timerList/timer.slice";
 import Timeritem from "@/components/Timer/TimerItem/TimerItem.component";
-import PeopleItem from "@/components/People/PeopleItem/PeopleItem.component";
+import FriendsItem from "@/components/Friends/FriendsItem/FriendsItem.component";
 import { TPeople } from "@/modules/people/PeopleList.slice";
 import ShareItem from "@/components/Share/ShareItem/ShareItem.component";
 import { TShare } from "@/modules/share/share.slice";
@@ -42,7 +42,7 @@ function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
     case "Timers":
       return List?.map((li: TTimer) => <Timeritem key={li.id} item={li} />);
     case "Friends":
-      return List?.map((li: TPeople) => <PeopleItem key={li.id} item={li} />);
+      return List?.map((li: TPeople) => <FriendsItem key={li.id} item={li} />);
     case "Shares":
       return List?.map((li: TShare) => <ShareItem key={li.id} item={li} />);
     default:

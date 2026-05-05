@@ -5,7 +5,6 @@ import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import { delShareList, selectShareList } from "@/modules/share/share.slice";
 import { Eye, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import SelectedItemContainer from "./SelectedItemContainer.component";
 
 export const SelectedShareItem = ({ id }: { id: string }) => {
   const router = useRouter();

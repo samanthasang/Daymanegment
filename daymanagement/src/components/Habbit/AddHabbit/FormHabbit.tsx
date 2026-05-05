@@ -7,6 +7,7 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
+import { cn } from "@/lib/utils";
 import {
   selectHabbitList,
   setHabbitList,
@@ -184,7 +185,11 @@ export default function FormHabbit({
             ]}
             onValueChange={(data) => data && handlePriority(data)}
             value={field.value}
-            className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+            className={cn(
+              !field.value && errors.priority?.message
+                ? "border-[1px] border-red-600"
+                : ""
+            )}
             {...register("priority")}
           />
         )}

@@ -19,7 +19,6 @@ function SelectedSection({
   DelItem,
   PauseItem,
   UndoneItem,
-  DuplicateItem,
   BringTodayItem,
 }: {
   selected: any;
@@ -37,7 +36,6 @@ function SelectedSection({
   DelItem?: () => void;
   PauseItem?: () => void;
   UndoneItem?: () => void;
-  DuplicateItem?: boolean;
   BringTodayItem?: () => void;
 }) {
   return (

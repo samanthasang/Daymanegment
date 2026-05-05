@@ -5,6 +5,7 @@ import { useAppSelector } from "../../lib/hook";
 import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
 import { DialogTrigger } from "../ui/dialog";
 import { SelectButtonGroup } from "../ui/SelectButtonGroup";
+import { cn } from "@/lib/utils";
 
 interface ICategotySelect {
   className?: string;
@@ -39,9 +40,13 @@ function CategotySelectComponent({
       itemArray={ListCategory}
       onValueChange={(e) => e && onValueChange(e)}
       value={value || ""}
-      className={`${errors ? "border-[1px] border-red-600 w-full" : " w-full"}`}
+      className={cn(errors ? "border-[1px] border-red-600 w-full" : " w-full")}
     >
-      <DrawerDialogDemo drawerType={"CategoryList"} formType="Add">
+      <DrawerDialogDemo
+        drawerType={"CategoryList"}
+        formType="Add"
+        drawerTitle="Category"
+      >
         <DialogTrigger asChild>
           <div className="cursor-pointer w-8 h-8 flex justify-center items-center rounded-r-xl border border-border bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">
             <LucideEdit width={16} height={16} />

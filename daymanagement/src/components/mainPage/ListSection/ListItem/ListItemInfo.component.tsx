@@ -95,10 +95,10 @@ export const ListItemInfo = ({
           {`${incomeAmount || priceOfProduct || outcomeAmount}`}
         </label>
       )}
-      {drawerType == "Timets" && !isComplete && date && (
+      {drawerType == "Timers" && !isComplete && date && (
         <ListItemTimeDiff date={date} />
       )}
-      {drawerType == "Timets" && isComplete && diff && (
+      {drawerType == "Timers" && isComplete && diff && (
         <label
           className={cn(`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`)}
         >
@@ -114,7 +114,7 @@ export const ListItemInfo = ({
         drawerType !== "Visits" &&
         drawerType !== "Goals" &&
         drawerType != "Spends" &&
-        drawerType != "Timets" &&
+        drawerType != "Timers" &&
         drawerType != "Shares" &&
         date && (
           <label

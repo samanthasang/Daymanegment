@@ -1,9 +1,12 @@
 "use client";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import ListCategorySelected from "@/components/mainPage/ListSection/listCategorySelected/ListCategorySelected.component";
+import ListTagSelected from "@/components/mainPage/ListSection/listTagSelected/ListTagSelected.component";
 import { Button } from "@/components/ui/button";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { TCategory } from "@/modules/category/categoryList.slice";
+import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
+import { cn } from "@/lib/utils";
 import { TPeople } from "@/modules/people/PeopleList.slice";
 import {
   delShareList,
@@ -11,22 +14,14 @@ import {
   TShare,
 } from "@/modules/share/share.slice";
 import { delSpendsListShare } from "@/modules/spends/spends.slice";
-import { TTag } from "@/modules/tag/TagList.slice";
 import { delVisitListShare } from "@/modules/visitsList/visit.slice";
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import relativeTime from "dayjs/plugin/relativeTime";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
+import { Edit, Eye, Trash, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import ShareItemSpends from "./ShareItemSpends.component";
 import ShareItemVisit from "./ShareItemVisit.componen";
-import { Edit, Trash } from "lucide-react";
-dayjs.extend(relativeTime);
-dayjs.extend(duration);
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 export const ShareItemInner = ({ item }: { item: TShare }) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
 
   const {
@@ -36,72 +31,28 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
     selectedPeople: {};
   } = useAppSelector((state) => state.Friends) || [];
 
-  const peopleSelected = ListPeople
-    ? ListPeople.filter((people) => people.id == item.peopleId)[0]
-    : {
-        id: "",
-        title: "",
-      };
-
-  const {
-    ListCategory,
-  }: {
-    ListCategory: TCategory[];
-    selectedCategory: {};
-  } = useAppSelector((state) => state.CategoryList) || [];
-
-  const categorySelected = ListCategory
-    ? ListCategory.filter((category) => category.id == item.category)[0]
-    : {
-        id: "",
-        title: "",
-      };
-
-  const {
-    ListTag,
-  }: {
-    ListTag: TTag[];
-    selectedTag: {};
-  } = useAppSelector((state) => state.TagList) || [];
-
-  const tagSelected = ListTag
-    ? ListTag.filter((category) => category.id == item.tag)[0]
-    : {
-        id: "",
-        title: "",
-      };
+  const peopleSelected =
+    ListPeople && ListPeople.filter((people) => people.id == item.peopleId)[0];
 
   return (
-    <div className="w-full h-fit flex flex-col items-start justify-start p-3 gap-y-2 rounded-2xl bg-secondary">
-      <div className="w-full h-fit flex flex-row items-start justify-start rounded-2xl">
+    <div className="w-full h-fit flex flex-col items-start justify-start p-2 gap-y-2 rounded-3xl bg-secondary">
+      <div className="w-full h-fit flex flex-row rounded-3xl">
         <div className="select-none flex flex-col flex-1 gap-2 justify-start items-start">
-          <div className=" select-none cursor-pointer flex col-span-4 gap-3 justify-start items-start">
-            <label
-              className={`cursor-pointer flex justify-center items-center gap-2`}
-            >
+          <div className="flex flex-row gap-x-1 justify-start items-center">
+            <User width={16} height={16} />
+            <label>
               {peopleSelected && peopleSelected.title
                 ? peopleSelected.title
                 : ""}
             </label>
           </div>
           <div className="flex flex-row select-none cursor-pointer col-span-3 gap-2 justify-start items-start">
-            {categorySelected && (
-              <label
-                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-              >
-                {categorySelected.title || ""}
-              </label>
-            )}
-            {tagSelected && (
-              <label
-                className={`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`}
-              >
-                {tagSelected.title || ""}
-              </label>
-            )}
+            {item.category && <ListCategorySelected category={item.category} />}
+
+            {item.tag && <ListTagSelected tag={item.tag} />}
           </div>
         </div>
-        <div className="flex flex-col w-fit gap-2 justify-end items-end">
+        <div className="flex flex-col w-fit gap-y-2 justify-end items-end">
           <div className="flex flex-row gap-x-2">
             <Button
               onClick={(e) => {
@@ -140,12 +91,29 @@ export const ShareItemInner = ({ item }: { item: TShare }) => {
                 </Button>
               </DialogTrigger>
             </DrawerDialogDemo>
+            <Button
+              onClick={(e) => {
+                e && e.preventDefault();
+                item.id &&
+                  item.id &&
+                  dispatch(
+                    selectShareList(item.id),
+                    router.push(`/shares?dateFrom=${item.doDate}`)
+                  );
+              }}
+              size="sm"
+            >
+              <Eye width={16} height={16} />
+            </Button>
           </div>
 
           <label
-            className={`cursor-pointer px-2 py-1 rounded-2xl ${item.income ? "bg-success" : "bg-error"}`}
+            className={cn(
+              "cursor-pointer px-2 py-1 rounded-2xl ",
+              item.income ? "bg-success" : "bg-error"
+            )}
           >
-            {dayjs(dayjs.unix(Number(item.doDate))).format("YYYY-MM-DD")} |{" "}
+            {DayUnixFormat(item.doDate, "YYYY-MM-DD")} |{" "}
             {`${item.incomeAmount || item.outcomeAmount}`}
           </label>
         </div>

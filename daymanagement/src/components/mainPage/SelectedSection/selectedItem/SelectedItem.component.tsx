@@ -2,11 +2,14 @@
 import { ShoppingCart } from "@/components/icons";
 import ShareItemSpends from "@/components/Share/ShareItem/ShareItemSpends.component";
 import ShareItemVisit from "@/components/Share/ShareItem/ShareItemVisit.componen";
+import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import { cn } from "@/lib/utils";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import { DollarSign, LineChart, Star } from "lucide-react";
 import ListCategorySelected from "../../ListSection/listCategorySelected/ListCategorySelected.component";
 import ListTagSelected from "../../ListSection/listTagSelected/ListTagSelected.component";
 import SelectedInsstalmentsItem from "./SelectedInsstalmentsItem.component";
+import SelectedItemActivities from "./SelectedItemActivities";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import SelectedItemDate from "./SelectedItemDate.component";
 import SelectedItemMainInfocomponen from "./SelectedItemMainInfocomponen";
@@ -14,8 +17,6 @@ import SelectedItemPeopleList from "./SelectedItemPeopleList.component";
 import SelectedItemTimerList from "./SelectedItemTimerList.component";
 import SelectedPeopleItem from "./SelectedPeopleItem.component";
 import SelectedShareItem from "./SelectedShareItem.component";
-import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
-import SelectedItemActivities from "./SelectedItemActivities";
 
 export const SelectedItem = ({
   id,
@@ -35,8 +36,6 @@ export const SelectedItem = ({
   highest,
   time,
   total,
-  totalIncome,
-  totalOuCome,
   incomeAmount,
   outcomeAmount,
   numberOfProduct,
@@ -89,8 +88,6 @@ export const SelectedItem = ({
   createDate: number;
   time?: string;
   total?: number;
-  totalIncome?: number;
-  totalOuCome?: number;
   shareList?: string[];
   phoneNumber: string;
   birthDate: number;
@@ -144,7 +141,7 @@ export const SelectedItem = ({
           timeDiff={timeDiff}
         />
         {peopleId && (
-          <SelectedItemContainer title="People">
+          <SelectedItemContainer title="Friend">
             <SelectedPeopleItem id={peopleId} />
           </SelectedItemContainer>
         )}
@@ -159,17 +156,11 @@ export const SelectedItem = ({
         {(total || total == 0) && (
           <SelectedItemContainer
             title="Total Amount"
-            className={`${total > 0 ? "text-success" : "text-red-600"}`}
+            className={cn(total > 0 ? "text-success" : "text-errorRed")}
             description={total.toString()}
           />
         )}
-        {drawerType == "Friends" && (
-          <SelectedItemPeopleList
-            id={id}
-            totalIncome={totalIncome}
-            totalOuCome={totalOuCome}
-          />
-        )}
+        {drawerType == "Friends" && <SelectedItemPeopleList id={id} />}
         {(score || highest) && (
           <div className="w-full flex flex-row justify-between gap-x-3">
             {score && (
@@ -179,7 +170,7 @@ export const SelectedItem = ({
                     (score && drawerType == "Goals" && score > 4) ||
                     (score && drawerType == "Habbits" && score > 6)
                       ? "text-success"
-                      : "text-red-600"
+                      : "text-errorRed"
                   }
                 >
                   <div className="flex flex-row items-center gap-x-0.5">
@@ -196,7 +187,7 @@ export const SelectedItem = ({
                     (highest && drawerType == "Goals" && highest > 4) ||
                     (highest && drawerType == "Habbits" && highest > 9)
                       ? "text-success"
-                      : "text-red-600"
+                      : "text-errorRed"
                   }
                 >
                   <div className="flex flex-row items-center gap-x-0.5">
@@ -208,23 +199,6 @@ export const SelectedItem = ({
             )}
           </div>
         )}
-        <SelectedItemContainer title="Activities">
-          <SelectedItemActivities
-            drawerType={drawerType || ""}
-            drawerTitle={drawerTitle}
-            isComplete={isComplete}
-            isFinish={isFinish}
-            isPause={isPause}
-            isToday={DayUnixDiff(doDate, "day") == 0}
-            CompleteItem={CompleteItem}
-            FinishItem={FinishItem}
-            BringTodayItem={BringTodayItem}
-            DelItem={DelItem}
-            DuplicateItem={DuplicateItem}
-            PauseItem={PauseItem}
-            UndoneItem={UndoneItem}
-          />
-        </SelectedItemContainer>
         {drawerType == "Timers" && (
           <SelectedItemTimerList
             isComplete={isComplete}
@@ -235,36 +209,34 @@ export const SelectedItem = ({
         {(paymentCompleteValue || advancePayment) && (
           <div className="w-full flex flex-row justify-between gap-x-3">
             {paymentCompleteValue && (
-              <SelectedItemContainer title="Payment Complete Value">
-                <label
-                  className={
+              <SelectedItemContainer title="Complete Payment">
+                <div
+                  className={cn(
+                    "flex flex-row items-center gap-x-0.5",
                     (score && drawerType == "Goals" && score > 4) ||
-                    (score && drawerType == "Habbits" && score > 6)
+                      (score && drawerType == "Habbits" && score > 6)
                       ? "text-success"
-                      : "text-red-600"
-                  }
+                      : "text-errorRed"
+                  )}
                 >
-                  <div className="flex flex-row items-center gap-x-0.5">
-                    <DollarSign width={16} height={16} />
-                    {paymentCompleteValue}
-                  </div>
-                </label>
+                  <DollarSign width={16} height={16} />
+                  {paymentCompleteValue}
+                </div>
               </SelectedItemContainer>
             )}
             {paymentCompleteValue && advancePayment && (
               <SelectedItemContainer title="Advance Payment">
-                <label
-                  className={
+                <div
+                  className={cn(
+                    "flex flex-row items-center gap-x-0.5",
                     +paymentCompleteValue - +advancePayment > 0
                       ? "text-red-500"
                       : "text-success"
-                  }
+                  )}
                 >
-                  <div className="flex flex-row items-center gap-x-0.5">
-                    <DollarSign width={16} height={16} />
-                    {advancePayment}
-                  </div>
-                </label>
+                  <DollarSign width={16} height={16} />
+                  {advancePayment}
+                </div>
               </SelectedItemContainer>
             )}
           </div>
@@ -285,6 +257,61 @@ export const SelectedItem = ({
             )}
           </div>
         )}
+        {(priceOfProduct || numberOfProduct) && (
+          <div className="w-full flex flex-row justify-between gap-x-3">
+            {priceOfProduct && (
+              <SelectedItemContainer title="Price Of Product">
+                <div className="flex flex-row items-center gap-x-0.5 text-error">
+                  <DollarSign width={16} height={16} />
+                  {priceOfProduct}
+                </div>
+              </SelectedItemContainer>
+            )}
+            {numberOfProduct && (
+              <SelectedItemContainer title="Number Of Product">
+                <div className="flex flex-row items-center gap-x-1">
+                  <ShoppingCart width={16} height={16} />
+                  {numberOfProduct}
+                </div>
+              </SelectedItemContainer>
+            )}
+          </div>
+        )}
+        {incomeAmount && (
+          <SelectedItemContainer title="Income Amount">
+              <div className="flex flex-row items-center gap-x-0.5 text-success">
+                <DollarSign width={16} height={16} />
+                {incomeAmount}
+              </div>
+          </SelectedItemContainer>
+        )}
+        {outcomeAmount && (
+          <SelectedItemContainer title="Outcome Amount">
+            <label>
+              <div className="flex flex-row items-center gap-x-0.5 text-error">
+                <DollarSign width={16} height={16} />
+                {outcomeAmount}
+              </div>
+            </label>
+          </SelectedItemContainer>
+        )}
+        <SelectedItemContainer title="Activities">
+          <SelectedItemActivities
+            drawerType={drawerType || ""}
+            drawerTitle={drawerTitle}
+            isComplete={isComplete}
+            isFinish={isFinish}
+            isPause={isPause}
+            isToday={DayUnixDiff(doDate, "day") == 0}
+            CompleteItem={CompleteItem}
+            FinishItem={FinishItem}
+            BringTodayItem={BringTodayItem}
+            DelItem={DelItem}
+            DuplicateItem={DuplicateItem}
+            PauseItem={PauseItem}
+            UndoneItem={UndoneItem}
+          />
+        </SelectedItemContainer>
         {installmentstList && (
           <SelectedItemContainer title="Installments">
             {installmentstList.map((inss) => (
@@ -298,50 +325,6 @@ export const SelectedItem = ({
                 {...inss}
               />
             ))}
-          </SelectedItemContainer>
-        )}
-        {(priceOfProduct || numberOfProduct) && (
-          <div className="w-full flex flex-row justify-between gap-x-3">
-            {priceOfProduct && (
-              <SelectedItemContainer title="Price Of Product">
-                <label>
-                  <div className="flex flex-row items-center gap-x-0.5 text-error">
-                    <DollarSign width={16} height={16} />
-                    {priceOfProduct}
-                  </div>
-                </label>
-              </SelectedItemContainer>
-            )}
-            {numberOfProduct && (
-              <SelectedItemContainer title="Number Of Product">
-                <label>
-                  <div className="flex flex-row items-center gap-x-1">
-                    <ShoppingCart width={16} height={16} />
-                    {numberOfProduct}
-                  </div>
-                </label>
-              </SelectedItemContainer>
-            )}
-          </div>
-        )}
-        {incomeAmount && (
-          <SelectedItemContainer title="Income Amount">
-            <label>
-              <div className="flex flex-row items-center gap-x-0.5 text-success">
-                <DollarSign width={16} height={16} />
-                {incomeAmount}
-              </div>
-            </label>
-          </SelectedItemContainer>
-        )}
-        {outcomeAmount && (
-          <SelectedItemContainer title="Outcome Amount">
-            <label>
-              <div className="flex flex-row items-center gap-x-0.5 text-error">
-                <DollarSign width={16} height={16} />
-                {outcomeAmount}
-              </div>
-            </label>
           </SelectedItemContainer>
         )}
         {drawerType != "Friends" && shareList && shareList.length > 0 && (

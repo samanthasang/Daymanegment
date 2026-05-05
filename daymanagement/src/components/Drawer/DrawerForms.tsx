@@ -14,7 +14,7 @@ import FormInstallments from "../Installments/AddInstallments/FormInstallments";
 import FormInstallmentsDetailsList from "../Installments/InstallmentsList/installmentsDetailsList.components";
 import ListMenuButtons from "../mainPage/ListSection/ListMenu/ListMenuButtons.component";
 import MenuMainSideBarComponent from "../mainPage/Page/MenuSideBar/MainMenuSideBar.component";
-import PeopleForm from "../People/AddPeople/PeopleForm";
+import PeopleForm from "../Friends/AddFriends/FriendsForm";
 import FormReminder from "../Reminder/AddReminder/FormReminder";
 import FormShare from "../Share/AddShare/FormShare";
 import ShareDetailsList from "../Share/AddShare/ShareDetailsList.components";

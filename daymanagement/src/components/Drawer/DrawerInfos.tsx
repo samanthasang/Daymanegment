@@ -11,7 +11,7 @@ import VisitsInfo from "../Visits/VisitsInfo/VisitsInfo.component";
 import InstallmentsInfo from "../Installments/InstallmentsInfo/InstallmentsInfo.component";
 import RemindersInfo from "../Reminder/RemindersInfo/InstallmentsInfo.component";
 import TimerInfo from "../Timer/TimerInfo/TimerInfo.component";
-import PeopleInfo from "../People/PeopleInfo/PeopleInfo.component";
+import FriendsInfo from "../Friends/FriendsInfo/FriendsInfo.component";
 import ShareInfo from "../Share/ShareInfo/ShareInfo.component";
 
 export function DrawerInfos({
@@ -38,7 +38,7 @@ export function DrawerInfos({
     case "Timers":
       return <TimerInfo />;
     case "Friends":
-      return <PeopleInfo />;
+      return <FriendsInfo />;
     case "Shares":
       return <ShareInfo />;
     case "BootomsList":
@@ -50,7 +50,7 @@ export function DrawerInfos({
     default:
       return (
         <div className="grid gap-3">
-          <Label htmlFor="username">SOmThing Went Wrong</Label>
+          <Label htmlFor="username">SomThing Went Wrong</Label>
         </div>
       );
   }

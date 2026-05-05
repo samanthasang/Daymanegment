@@ -45,13 +45,17 @@ export const SelectedItemDate = ({
               </div>
             </SelectedItemContainer>
           )}
+          {birthDate && (
+            <SelectedItemContainer title="BirthDate">
+              <div className="flex flex-row items-center gap-x-1">
+                <Calendar width={12} height={12} />
+                {DayUnixFormat(birthDate, "YYYY-MM-DD")}
+              </div>
+            </SelectedItemContainer>
+          )}
         </div>
       )}
-      {(!!startDate ||
-        !!lastUpdate ||
-        !!completeUpdate ||
-        !!birthDate ||
-        !!endDate) && (
+      {(!!startDate || !!lastUpdate || !!completeUpdate || !!endDate) && (
         <div className="w-full flex flex-row justify-between gap-x-3">
           {startDate && (
             <SelectedItemContainer title="Start Date">
@@ -82,14 +86,6 @@ export const SelectedItemDate = ({
               title="Complete"
               description={DayUnixFormat(completeUpdate, "YYYY-MM-DD")}
             />
-          )}
-          {birthDate && (
-            <SelectedItemContainer title="BirthDate">
-              <div className="flex flex-row items-center gap-x-1">
-                <Calendar width={12} height={12} />
-                {DayUnixFormat(birthDate, "YYYY-MM-DD")}
-              </div>
-            </SelectedItemContainer>
           )}
         </div>
       )}

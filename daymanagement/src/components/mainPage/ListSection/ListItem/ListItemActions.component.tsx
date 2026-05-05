@@ -73,7 +73,7 @@ export const ListItemActions = ({
           <Trash width="16px" height="16px" className="text-errorRed" />
         </Button>
       )}
-      {drawerType == "PeopleList" && id && (
+      {drawerType == "Friends" && id && (
         <DrawerDialogDemo
           drawerType="Friends"
           formType={`Edit ${title}`}

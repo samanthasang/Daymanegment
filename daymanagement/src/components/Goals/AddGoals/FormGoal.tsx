@@ -10,16 +10,17 @@ import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 import { currentUnixTimestamp, DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 import {
   selectGoalList,
   setGoalList,
   updateGoalList,
 } from "../../../modules/goalsList/goals.slice";
-import { toast } from "react-toastify";
 
 interface IFormInputs {
   title: string;
@@ -214,7 +215,11 @@ export default function FormGoals({
             onValueChange={(data) => data && handlePriority(data)}
             {...field}
             value={field.value}
-            className={`${!field.value && errors.priority?.message ? "border-[1px] border-red-600" : ""}`}
+            className={cn(
+              !field.value && errors.priority?.message
+                ? "border-[1px] border-red-600"
+                : ""
+            )}
             {...register("priority")}
           />
         )}
