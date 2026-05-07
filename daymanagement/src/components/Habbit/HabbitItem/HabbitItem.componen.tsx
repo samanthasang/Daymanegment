@@ -34,7 +34,7 @@ export const HabbitItem = ({ item }: { item: Thabbit }) => {
       drawerType="Habbits"
       selectedID={selectedHabbit && selectedHabbit.id}
       SelectItem={() => SelectWithId(item.id)}
-      DelItem={DelItem}
+      DelItem={() => DelItem(item.id, item.title)}
       CompleteItem={() => CompleteItem(item.id, item.title)}
       {...item}
     />

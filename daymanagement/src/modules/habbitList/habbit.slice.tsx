@@ -130,7 +130,7 @@ export const habbitListSlice = createSlice({
               tag: action.payload.tag,
               createDate: action.payload.createDate,
               lastUpdate: action.payload.lastUpdate,
-              isComplete: action.payload.isComplete ?? Habbit.isComplete,
+              isComplete: !!action.payload.isComplete ? action.payload.isComplete : Habbit.isComplete,
             }
           : Habbit
       );

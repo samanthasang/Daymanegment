@@ -11,7 +11,7 @@ function TimerListMenuBottom() {
     dispatch(
       setTimerList({
         id: "",
-        title: `timer-${currentUnixTimestamp.toString()}`,
+        title: `timer-${currentUnixTimestamp}`,
         startDate: currentUnixTimestamp,
         endDate: currentUnixTimestamp,
         createDate: currentUnixTimestamp,

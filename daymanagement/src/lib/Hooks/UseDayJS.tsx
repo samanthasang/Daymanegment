@@ -9,7 +9,9 @@ dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const currentUnixTimestamp = dayjs().unix();
+export const currentUnixTimestamp = dayjs(
+  Math.floor(new Date().getTime())
+).unix();
 
 export const zeroHour = new Date().setHours(0, 0, 0, 0);
 

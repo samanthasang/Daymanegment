@@ -2,6 +2,7 @@ import { DayUnixDiff, DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import duration from "dayjs/plugin/duration";
 import ListItemTimeDiff from "./ListItemTimeDiff.component";
+import { BadgeDollarSign, Star } from "lucide-react";
 
 export const ListItemInfo = ({
   isComplete,
@@ -31,68 +32,78 @@ export const ListItemInfo = ({
       {drawerType == "Goals" && (
         <label
           className={cn(
-            `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-            score && (score > 5 ? "bg-success" : "bg-error")
+            `cursor-pointer px-2 py-1 rounded-2xl text-white`,
+            score && (score > 5 ? "text-successGreen" : "text-errorRed")
           )}
         >
-          {!isComplete && date && DayUnixFormat(+date, "MM-DD")}
-          {!isComplete && ` | `}
-          {score && score}
+          <div className="flex flex-row items-center gap-x-0.5">
+            {!isComplete && date && DayUnixFormat(+date, "YYYY-MM-DD")}
+            {!isComplete && ` | `}
+            <Star width={16} height={16} />
+            {score}
+          </div>
         </label>
       )}
       {drawerType == "Habbits" && (
         <label
           className={cn(
-            `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
+            "cursor-pointer px-2 py-1 rounded-2xl",
             score &&
               (score == 0
-                ? "bg-white/80"
+                ? "text-white"
                 : score > 6
-                  ? "bg-success"
-                  : "bg-error")
+                  ? "text-successGreen"
+                  : "text-errorRed")
           )}
         >
-          {score && score}
+          <div className="flex flex-row items-center gap-x-0.5">
+            <Star width={16} height={16} />
+            {score}
+          </div>
         </label>
       )}
       {drawerType == "Visits" && (
         <label
           className={cn(
-            `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-            date
-              ? "bg-white/15"
-              : date && DayUnixDiff(+date, "day") > 10
-                ? "bg-success"
-                : "bg-error",
-            incomeAmount && "bg-success",
-            priceOfProduct && "bg-error"
+            `cursor-pointer px-2 py-1 rounded-2xl text-white`,
+            date && date && DayUnixDiff(+date, "day") > 10
+              ? "text-successGreen"
+              : "text-errorRed",
+            incomeAmount && "text-successGreen",
+            priceOfProduct && "text-errorRed"
           )}
         >
-          {date && DayUnixFormat(+date, "MM-DD HH:mm")}
+          {date && DayUnixFormat(+date, "YYYY-MM-DD HH:mm")}
         </label>
       )}
       {drawerType == "Friends" && hasShare && (
         <label
           className={cn(
             "cursor-pointer px-2 py-1 rounded-2xl",
-            !total ? "bg-white/15" : total > 0 ? "bg-success" : "bg-error"
+            !total ? "text-white" : total > 0 ? "text-success" : "text-error"
           )}
         >
-          {total}
+          <div className="flex gap-x-1 items-center">
+            <BadgeDollarSign width={16} height={16} />
+            <label>{total}</label>
+          </div>
         </label>
       )}
       {(incomeAmount || priceOfProduct || outcomeAmount) && (
         <label
           className={cn(
-            `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
+            `cursor-pointer px-2 py-1 rounded-2xl text-white`,
             incomeAmount
-              ? "bg-success"
-              : (priceOfProduct || outcomeAmount) && "bg-error"
+              ? "text-successGreen"
+              : (priceOfProduct || outcomeAmount) && "text-errorRed"
           )}
         >
-          {date && DayUnixFormat(+date, "MM-DD")}
-          {(incomeAmount || priceOfProduct || outcomeAmount) && ` | `}
-          {`${incomeAmount || priceOfProduct || outcomeAmount}`}
+          <div className="flex gap-x-1 items-center">
+            {date && DayUnixFormat(+date, "MM-DD")}
+            {(incomeAmount || priceOfProduct || outcomeAmount) && ` | `}
+            <BadgeDollarSign width={16} height={16} />
+            {`${incomeAmount || priceOfProduct || outcomeAmount}`}
+          </div>
         </label>
       )}
       {drawerType == "Timers" && !isComplete && date && (
@@ -100,7 +111,7 @@ export const ListItemInfo = ({
       )}
       {drawerType == "Timers" && isComplete && diff && (
         <label
-          className={cn(`cursor-pointer px-2 py-1 rounded-2xl bg-white/15`)}
+          className={cn(`cursor-pointer px-2 py-1 rounded-2xl text-white`)}
         >
           {diff.years() > 0 && `${diff.years()} : `}
           {diff.months() > 0 && `${diff.months()} : `}
@@ -119,11 +130,13 @@ export const ListItemInfo = ({
         date && (
           <label
             className={cn(
-              `cursor-pointer px-2 py-1 rounded-2xl bg-white/15`,
-              date && DayUnixDiff(+date, "day") > -1 ? "bg-success" : "bg-error"
+              "cursor-pointer px-2 py-1 rounded-2xl text-white",
+              date && DayUnixDiff(+date, "day") > -1
+                ? "text-successGreen"
+                : "text-errorRed"
             )}
           >
-            {date && DayUnixFormat(+date, "MM-DD")}
+            {date && DayUnixFormat(+date, "YYYY-MM-DD")}
           </label>
         )}
     </div>

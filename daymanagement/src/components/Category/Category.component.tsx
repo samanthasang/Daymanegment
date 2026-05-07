@@ -5,7 +5,8 @@ import {
   selectCategoryList,
   TCategory,
 } from "@/modules/category/categoryList.slice";
-import { Edit, Trash } from "../icons";
+import { Edit, Trash } from "lucide-react";
+import { Button } from "../ui/button";
 
 export const CategoryList = ({ item }: { item: TCategory }) => {
   const dispatch = useAppDispatch();
@@ -19,24 +20,25 @@ export const CategoryList = ({ item }: { item: TCategory }) => {
           </label>
         </div>
         <div className="flex col-span-6 gap-3 justify-start items-start">
-          <div
+          <Button
             onClick={(e) => {
               e && e.preventDefault();
               item.id && dispatch(delCategoryList(item.id));
             }}
-            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
+            className="hover:bg-error/30"
+            size="sm"
           >
-            <Trash />
-          </div>
-          <div
+            <Trash width="16px" height="16px" className="text-error" />
+          </Button>
+          <Button
             onClick={(e) => {
               e && e.preventDefault();
               item.id && dispatch(selectCategoryList(item.id));
             }}
-            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-button/15 cursor-pointer"
+            size="sm"
           >
-            <Edit />
-          </div>
+            <Edit width="16px" height="16px" />
+          </Button>
         </div>
       </div>
     </div>

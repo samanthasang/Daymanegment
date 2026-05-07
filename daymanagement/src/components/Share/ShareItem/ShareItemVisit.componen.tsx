@@ -39,9 +39,10 @@ export const ShareItemVisit = ({
                 visitId &&
                 dispatch(delVisitListShare({ id: id, visitId: visitId }));
             }}
+            className="hover:bg-error/30"
             size="sm"
           >
-            <Trash width={16} height={16} className="text-errorRed" />
+            <Trash width="16px" height="16px" className="text-error" />
           </Button>
           <Button
             onClick={(e) => {

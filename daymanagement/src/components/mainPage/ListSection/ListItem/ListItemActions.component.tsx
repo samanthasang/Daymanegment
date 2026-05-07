@@ -4,8 +4,8 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch } from "@/lib/hook";
 import { selectPeopleList } from "@/modules/people/PeopleList.slice";
 import {
-  BadgeCheck,
   CheckCircle,
+  CircleOff,
   Edit,
   LucideCalendarSync,
   Trash,
@@ -17,8 +17,6 @@ export const ListItemActions = ({
   isComplete,
   isFinish,
   isToday,
-  nextDate,
-  date,
   score,
   hasShare,
   drawerType,
@@ -33,8 +31,6 @@ export const ListItemActions = ({
   isComplete?: boolean;
   isFinish?: boolean;
   isToday?: boolean;
-  nextDate?: string;
-  date?: string | number;
   score?: number;
   hasShare?: boolean;
   drawerType: string;
@@ -67,10 +63,10 @@ export const ListItemActions = ({
             e && e.stopPropagation();
             e && !(hasShare || (score == 0 && score)) && DelItem();
           }}
-          className="hover:bg-errorRed"
+          className="hover:bg-error/30"
           variant="default"
         >
-          <Trash width="16px" height="16px" className="text-errorRed" />
+          <Trash width="16px" height="16px" className="text-error" />
         </Button>
       )}
       {drawerType == "Friends" && id && (
@@ -103,7 +99,7 @@ export const ListItemActions = ({
               }}
               className={isFinish ? "bg-success" : "bg-primary"}
             >
-              <BadgeCheck />
+              <CircleOff />
             </Button>
           )}
           {CompleteItem && (
@@ -126,27 +122,6 @@ export const ListItemActions = ({
             </Button>
           )}
         </>
-        // : (
-        //   CompleteItem && (
-        //     <BasicSwitch
-        //       checked={isComplete || false}
-        //       handleToggle={(e) => {
-        //         e && e.preventDefault();
-        //         e && e.stopPropagation();
-        //         e && !isComplete && CompleteItem();
-        //       }}
-        //       label=""
-        //       key={"isComplete"}
-        //     />
-        //     // <SwitchComponent
-        //     //   ChangeStatus={CompleteItem}
-        //     //   checkStatus={isComplete}
-        //     //   className="h-8 w-8 min-w-8"
-        //     // >
-        //     //   <Done />
-        //     // </SwitchComponent>
-        //   )
-        // )
       )}
     </div>
   );

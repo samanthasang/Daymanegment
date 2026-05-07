@@ -27,7 +27,7 @@ export const ListPriority = ({
   };
 
   return (
-    <div className="text-lg flex items-center">
+    <div className="flex items-center">
       {priorityIcon()}
       <label
         className={cn(

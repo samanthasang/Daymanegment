@@ -59,7 +59,7 @@ function GoalsList() {
             selectedGoal.doDate &&
             DayUnixDiff(+selectedGoal.doDate, "day") + 1)
         }
-        DelItem={() => DelItem()}
+        DelItem={() => DelItem(selectedGoal.id, selectedGoal.title)}
         SelectItem={() => SelectItem()}
         BringTodayItem={() => BringTodayItem({ ...selectedGoal })}
         DuplicateItem

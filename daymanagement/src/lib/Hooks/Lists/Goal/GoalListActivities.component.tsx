@@ -22,10 +22,10 @@ function GoalListActivities() {
   const SelectWithId = (id: string) => {
     dispatch(selectGoalList(id));
   };
-  const DelItem = () => {
-    dispatch(delGoalList(selectedGoal.id));
+  const DelItem = (id: string, title: string) => {
+    dispatch(delGoalList(id));
     SelectItem();
-    toast(`${selectedGoal.title} is deleted`);
+    toast(`${title} is deleted`);
   };
   const CompleteItem = (id: string, title: string, score: number) => {
     dispatch(completeGoalList({ id, score }));

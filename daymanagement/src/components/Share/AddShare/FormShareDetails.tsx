@@ -1,10 +1,11 @@
 "use client";
 import PeopleSelectComponent from "@/components/Friends/PeopleSelect.component";
-import { Trash } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/inputField";
 import { cn } from "@/lib/utils";
 import { TShare } from "@/modules/share/share.slice";
 import dayjs from "dayjs";
+import { Trash } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FieldErrors } from "react-hook-form";
 
@@ -73,15 +74,15 @@ export default function FormShareDetails({
             {dayjs(dayjs.unix(Number(share.doDate))).format("YYYY-MM-DD")}
           </label>
           <div className="flex justify-end w-fit gap-x-1">
-            <div
+            <Button
               onClick={(e) => {
                 e && e.preventDefault();
                 removeShare(share.id);
               }}
-              className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
+              className="hover:bg-error/30"
             >
-              <Trash />
-            </div>
+              <Trash width="16px" height="16px" className="text-error" />
+            </Button>
             {/* <BasicSwitch
               checked={share.income}
               handleToggle={(e) => {

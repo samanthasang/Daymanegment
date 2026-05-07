@@ -16,10 +16,10 @@ export const SelectedItemMainInfocomponen = ({
   priceOfProduct?: string;
 }) => {
   return (
-    <div className="w-full flex flex-row justify-between gap-x-3">
+    <div className="w-full flex flex-row justify-between gap-x-2">
       {priority && (
         <SelectedItemContainer
-          classContainer="w-fit items-center p-3"
+          classContainer="w-fit items-center p-2"
           title="Priority"
         >
           <ListPriority priority={priority} showTitle />

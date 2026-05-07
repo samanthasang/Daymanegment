@@ -22,10 +22,10 @@ function TodoListActivities() {
   const SelectWithId = (id: string) => {
     dispatch(selectToDoList(id));
   };
-  const DelItem = () => {
-    dispatch(delToDoList(selectedToDo.id));
+  const DelItem = (id: string, title: string) => {
+    dispatch(delToDoList(id));
     SelectItem();
-    toast(`${selectedToDo.title} is deleted`);
+    toast(`${title} is deleted`);
   };
   const CompleteItem = (id: string, title: string) => {
     dispatch(completeToDoList(id));

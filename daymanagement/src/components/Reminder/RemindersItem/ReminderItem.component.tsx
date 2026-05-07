@@ -13,7 +13,7 @@ import { useEffect } from "react";
 
 export const ReminderItem = ({ item }: { item: TReminder }) => {
   const dispatch = useAppDispatch();
-  const { CompleteItem, DelItem, SelectWithId, FinishItem, UndoItem } =
+  const { CompleteItem, DelItem, SelectWithId, UndoItem } =
     ReminderListActivities();
   const { selectedReminder } = useReminderList();
   useEffect(() => {

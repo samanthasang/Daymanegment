@@ -28,7 +28,7 @@ export const SelectedItemDate = ({
   return (
     <>
       {(!!doDate || !!createDate) && (
-        <div className="w-full flex flex-row justify-between gap-x-3">
+        <div className="w-full flex flex-row justify-between gap-x-2">
           {!!createDate && (
             <SelectedItemContainer title="Create Date">
               <div className="flex flex-row items-center gap-x-1">
@@ -55,8 +55,8 @@ export const SelectedItemDate = ({
           )}
         </div>
       )}
-      {(!!startDate || !!lastUpdate || !!completeUpdate || !!endDate) && (
-        <div className="w-full flex flex-row justify-between gap-x-3">
+      {(!!startDate || !!lastUpdate || !!endDate) && (
+        <div className="w-full flex flex-row justify-between gap-x-2">
           {startDate && (
             <SelectedItemContainer title="Start Date">
               <div className="flex flex-row items-center gap-x-1">
@@ -81,19 +81,21 @@ export const SelectedItemDate = ({
               </div>
             </SelectedItemContainer>
           )}
-          {completeUpdate && (
-            <SelectedItemContainer
-              title="Complete"
-              description={DayUnixFormat(completeUpdate, "YYYY-MM-DD")}
-            />
-          )}
         </div>
+      )}
+      {completeUpdate && (
+        <SelectedItemContainer title="Complete">
+          <div className="flex flex-row items-center gap-x-1">
+            <Calendar width={12} height={12} />
+            {DayUnixFormat(completeUpdate, "YYYY-MM-DD")}
+          </div>
+        </SelectedItemContainer>
       )}
       {time && (
         <SelectedItemContainer title="Do Time">
           <div className="flex flex-row items-center gap-x-1">
             <Clock width={12} height={12} />
-            {DayUnixFormat(+time, "hh:mm")}
+            {DayUnixFormat(+time, "HH:mm")}
           </div>
         </SelectedItemContainer>
       )}

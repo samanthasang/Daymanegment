@@ -19,10 +19,10 @@ function TimerListActivities() {
   const SelectWithId = (id: string) => {
     dispatch(selectTimerList(id));
   };
-  const DelItem = () => {
-    dispatch(delTimerList(selectedTimer.id));
+  const DelItem = (id: string, title: string) => {
+    dispatch(delTimerList(id));
     SelectItem();
-    toast(`${selectedTimer.title} is deleted`);
+    toast(`${title} is deleted`);
   };
   const CompleteItem = (id: string, title: string) => {
     dispatch(

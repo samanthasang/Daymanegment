@@ -22,9 +22,10 @@ export const SelectedShareItem = ({ id }: { id: string }) => {
             e && e.preventDefault();
             dispatch(delShareList(id));
           }}
+          className="hover:bg-error/30"
           size="sm"
         >
-          <Trash width={16} height={16} className="text-errorRed" />
+          <Trash width="16px" height="16px" className="text-error" />
         </Button>
         <Button
           onClick={(e) => {

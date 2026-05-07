@@ -51,10 +51,10 @@ export const SelectedItemPeopleList = ({ id }: { id: string }) => {
     }, 0);
   return (
     <>
-      <div className="w-full flex flex-row justify-between gap-x-3">
+      <div className="w-full flex flex-row justify-between gap-x-2">
         {incomeArray && (
           <SelectedItemContainer title="Income Amount">
-            <div className="flex flex-row items-center gap-x-0.5 text-success">
+            <div className="flex flex-row items-center gap-x-0.5 text-successGreen">
               <DollarSign width={16} height={16} />
               {incomeArray}
             </div>
@@ -62,26 +62,24 @@ export const SelectedItemPeopleList = ({ id }: { id: string }) => {
         )}
         {outComeArray && (
           <SelectedItemContainer title="Outcome Amount">
-            <div className="flex flex-row items-center gap-x-0.5 text-error">
+            <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
               <DollarSign width={16} height={16} />
               {outComeArray}
             </div>
           </SelectedItemContainer>
         )}
       </div>
-      {total && (
-        <SelectedItemContainer title="Total Amount">
-          <div
-            className={cn(
-              "flex flex-row items-center gap-x-0.5 text-error",
-              total > 0 ? "text-successGreen" : "text-errorRed"
-            )}
-          >
-            <DollarSign width={16} height={16} />
-            {total}
-          </div>
-        </SelectedItemContainer>
-      )}
+      <SelectedItemContainer title="Total Amount">
+        <div
+          className={cn(
+            "flex flex-row items-center gap-x-0.5",
+            !total || total > 0 ? "text-successGreen" : "text-errorRed"
+          )}
+        >
+          <DollarSign width={16} height={16} />
+          {total}
+        </div>
+      </SelectedItemContainer>
       <SelectedItemContainer title="Share List">
         <div className="flex flex-col gap-4 w-full h-auto">
           {ListShare?.length == 0 ? (

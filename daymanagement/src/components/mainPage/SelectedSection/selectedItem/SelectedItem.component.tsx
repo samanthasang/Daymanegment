@@ -5,7 +5,14 @@ import ShareItemVisit from "@/components/Share/ShareItem/ShareItemVisit.componen
 import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
-import { DollarSign, LineChart, Star } from "lucide-react";
+import {
+  DollarSign,
+  Highlighter,
+  LineChart,
+  SignalHigh,
+  Star,
+  Stars,
+} from "lucide-react";
 import ListCategorySelected from "../../ListSection/listCategorySelected/ListCategorySelected.component";
 import ListTagSelected from "../../ListSection/listTagSelected/ListTagSelected.component";
 import SelectedInsstalmentsItem from "./SelectedInsstalmentsItem.component";
@@ -120,7 +127,7 @@ export const SelectedItem = ({
           incomeAmount={incomeAmount}
           priceOfProduct={priceOfProduct ?? outcomeAmount}
         />
-        <div className="w-full flex flex-row justify-between gap-x-3">
+        <div className="w-full flex flex-row justify-between gap-x-2">
           <SelectedItemContainer title="Category">
             {category && <ListCategorySelected category={category} />}
           </SelectedItemContainer>
@@ -162,7 +169,7 @@ export const SelectedItem = ({
         )}
         {drawerType == "Friends" && <SelectedItemPeopleList id={id} />}
         {(score || highest) && (
-          <div className="w-full flex flex-row justify-between gap-x-3">
+          <div className="w-full flex flex-row justify-between gap-x-2">
             {score && (
               <SelectedItemContainer title="Score">
                 <label
@@ -182,16 +189,9 @@ export const SelectedItem = ({
             )}
             {highest && (
               <SelectedItemContainer title="Highest">
-                <label
-                  className={
-                    (highest && drawerType == "Goals" && highest > 4) ||
-                    (highest && drawerType == "Habbits" && highest > 9)
-                      ? "text-success"
-                      : "text-errorRed"
-                  }
-                >
+                <label className="text-successGreen">
                   <div className="flex flex-row items-center gap-x-0.5">
-                    <LineChart width={16} height={16} />
+                    <Stars width={16} height={16} />
                     {highest}
                   </div>
                 </label>
@@ -207,7 +207,7 @@ export const SelectedItem = ({
           />
         )}
         {(paymentCompleteValue || advancePayment) && (
-          <div className="w-full flex flex-row justify-between gap-x-3">
+          <div className="w-full flex flex-row justify-between gap-x-2">
             {paymentCompleteValue && (
               <SelectedItemContainer title="Complete Payment">
                 <div
@@ -242,7 +242,7 @@ export const SelectedItem = ({
           </div>
         )}
         {(numberOfPayment || paymentNumber) && (
-          <div className="w-full flex flex-row justify-between gap-x-3">
+          <div className="w-full flex flex-row justify-between gap-x-2">
             {numberOfPayment && (
               <SelectedItemContainer
                 title="Installments"
@@ -258,7 +258,7 @@ export const SelectedItem = ({
           </div>
         )}
         {(priceOfProduct || numberOfProduct) && (
-          <div className="w-full flex flex-row justify-between gap-x-3">
+          <div className="w-full flex flex-row justify-between gap-x-2">
             {priceOfProduct && (
               <SelectedItemContainer title="Price Of Product">
                 <div className="flex flex-row items-center gap-x-0.5 text-error">
@@ -279,10 +279,10 @@ export const SelectedItem = ({
         )}
         {incomeAmount && (
           <SelectedItemContainer title="Income Amount">
-              <div className="flex flex-row items-center gap-x-0.5 text-success">
-                <DollarSign width={16} height={16} />
-                {incomeAmount}
-              </div>
+            <div className="flex flex-row items-center gap-x-0.5 text-success">
+              <DollarSign width={16} height={16} />
+              {incomeAmount}
+            </div>
           </SelectedItemContainer>
         )}
         {outcomeAmount && (

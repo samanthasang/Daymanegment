@@ -10,6 +10,7 @@ export type TReminder = {
   doDate: number;
   createDate: number;
   lastUpdate: number;
+  startDate: number;
   timeDiff: string;
   priodDiff: string;
   priority: string;
@@ -59,6 +60,7 @@ export const reminderListSlice = createSlice({
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
               lastUpdate: action.payload.lastUpdate,
+              startDate: action.payload.doDate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
               description: action.payload.description,
@@ -73,6 +75,7 @@ export const reminderListSlice = createSlice({
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
               lastUpdate: action.payload.lastUpdate,
+              startDate: action.payload.doDate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
               title: action.payload.title,

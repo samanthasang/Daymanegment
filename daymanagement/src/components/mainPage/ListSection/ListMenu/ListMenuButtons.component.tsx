@@ -1,13 +1,11 @@
 "use client";
 import SwitchComponent from "@/components/FormItem/SwitchComponent";
-import {
-  ChevronSmallTripleUp
-} from "@/components/icons";
+import { ChevronSmallTripleUp } from "@/components/icons";
 import {
   CheckCircle,
   DollarSign,
   SeparatorVertical,
-  ShoppingCart
+  ShoppingCart,
 } from "lucide-react";
 
 function ListMenuButtons({
@@ -50,7 +48,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeDate && ChangeDate}
           checkStatus={dateFIlter}
         >
-          <CheckCircle />
+          <CheckCircle width={18} height={18} />
         </SwitchComponent>
       )}
       {withComplateSort && (
@@ -58,7 +56,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeComplate && ChangeComplate}
           checkStatus={complateFIlter}
         >
-          <SeparatorVertical />
+          <SeparatorVertical width={18} height={18} />
         </SwitchComponent>
       )}
       {withpriority && (
@@ -66,7 +64,11 @@ function ListMenuButtons({
           ChangeStatus={ChangePriority && ChangePriority}
           checkStatus={priorityFilter}
         >
-          <ChevronSmallTripleUp className="fill-red-500" />
+          <ChevronSmallTripleUp
+            width={18}
+            height={18}
+            className="fill-red-500"
+          />
         </SwitchComponent>
       )}
       {withShop && (
@@ -74,7 +76,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeShop && ChangeShop}
           checkStatus={shopFilter}
         >
-          <ShoppingCart width={16} height={16} />
+          <ShoppingCart width={18} height={18} />
         </SwitchComponent>
       )}
       {withBalance && (
@@ -82,7 +84,7 @@ function ListMenuButtons({
           ChangeStatus={ChangeBalance && ChangeBalance}
           checkStatus={balanceFilter}
         >
-          <DollarSign width={16} height={16} />
+          <DollarSign width={18} height={18} />
         </SwitchComponent>
       )}
     </>

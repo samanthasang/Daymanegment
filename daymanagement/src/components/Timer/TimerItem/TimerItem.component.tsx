@@ -30,7 +30,7 @@ export const Timeritem = ({ item }: { item: TTimer }) => {
       drawerType="Timers"
       selectedID={selectedTimer && selectedTimer.id}
       SelectItem={() => SelectWithId(item.id)}
-      DelItem={DelItem}
+      DelItem={() => DelItem(item.id, item.title)}
       CompleteItem={() => CompleteItem(item.id, item.title)}
       {...item}
       title={timerTItle}

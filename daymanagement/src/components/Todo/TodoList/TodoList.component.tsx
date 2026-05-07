@@ -43,7 +43,7 @@ function TodoList() {
         isComplete={selectedToDo && selectedToDo.isComplete}
         CompleteItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         UndoneItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
-        DelItem={() => DelItem()}
+        DelItem={() => DelItem(selectedToDo.id, selectedToDo.title)}
         SelectItem={() => SelectItem()}
         BringTodayItem={() => BringTodayItem({ ...selectedToDo })}
         DuplicateItem

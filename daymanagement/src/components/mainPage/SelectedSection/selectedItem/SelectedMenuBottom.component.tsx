@@ -58,9 +58,9 @@ export const SelectedMenuBottom = ({
             e && e.stopPropagation();
             e && DelItem();
           }}
-          className="hover:bg-errorRed flex-1"
+          className="hover:bg-error/30 flex-1"
         >
-          <Trash width={16} height={16} className="text-errorRed" />
+          <Trash width="16px" height="16px" className="text-error" />
         </Button>
       )}
       <DrawerButton

@@ -26,13 +26,19 @@ function useTimerList() {
   const ListTimerForgot = ListTimer.filter(
     (a) => +a.startDate < currentUnixTimestampZero
   );
+  const ListTimerForgotComplete = ListTimerForgot.filter((a) => a.isComplete);
+  const ListTimerForgotNotComplete = ListTimerForgot.filter(
+    (a) => !a.isComplete
+  );
 
-  const oldCategoryArray = CategoryFilter([...ListTimerForgot] as any);
+  const oldCategoryArray = CategoryFilter([...ListTimerForgotComplete] as any);
 
   const oldListTimerFiltered = TagFilter([...oldCategoryArray] as any);
 
-  const dateUpOrderArray: TTimer[] =
-    StartDateOrderPlusFilter(ListTimerFiltered);
+  const dateUpOrderArray: TTimer[] = StartDateOrderPlusFilter([
+    ...ListTimerFiltered,
+    ...ListTimerForgotNotComplete,
+  ]);
   const dateDOwnOrderArray: TTimer[] =
     StartDateOrderMinusFilter(oldListTimerFiltered);
 

@@ -19,12 +19,12 @@ export const SelectedItemTimerList = ({
   const diff = dayjs.duration(endD.diff(startD));
 
   return (
-    <div className="w-full flex flex-row justify-between gap-x-3">
+    <div className="w-full flex flex-row justify-between gap-x-2">
       {startDate && (
         <SelectedItemContainer title="Start Time">
           <div className="flex flex-row items-center gap-x-1">
             <Clock width={12} height={12} />
-            {DayUnixFormat(startDate, "hh:MM")}
+            {DayUnixFormat(startDate, "HH:mm")}
           </div>
         </SelectedItemContainer>
       )}
@@ -32,7 +32,7 @@ export const SelectedItemTimerList = ({
         <SelectedItemContainer title="End Time">
           <div className="flex flex-row items-center gap-x-1">
             <Clock width={12} height={12} />
-            {DayUnixFormat(endDate, "hh:MM")}
+            {DayUnixFormat(endDate, "HH:mm")}
           </div>
         </SelectedItemContainer>
       )}

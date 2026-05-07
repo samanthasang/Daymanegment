@@ -1,7 +1,8 @@
 "use client";
 import { useAppDispatch } from "@/lib/hook";
 import { delTagList, selectTagList, TTag } from "@/modules/tag/TagList.slice";
-import { Edit, Trash } from "../icons";
+import { Edit, Trash } from "lucide-react";
+import { Button } from "../ui/button";
 
 export const TagList = ({ item }: { item: TTag }) => {
   const dispatch = useAppDispatch();
@@ -15,24 +16,24 @@ export const TagList = ({ item }: { item: TTag }) => {
           </label>
         </div>
         <div className="flex col-span-6 gap-3 justify-start items-start">
-          <div
+          <Button
             onClick={(e) => {
               e && e.preventDefault();
               item.id && dispatch(delTagList(item.id));
             }}
-            className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-error cursor-pointer"
+            className="hover:bg-error/30"
           >
-            <Trash />
-          </div>
-          <div
+            <Trash width="16px" height="16px" className="text-error" />
+          </Button>
+          <Button
             onClick={(e) => {
               e && e.preventDefault();
               item.id && dispatch(selectTagList(item.id));
             }}
             className="flex justify-center items-center h-10 w-10 flex-1 rounded-full bg-primary hover:bg-button/15 cursor-pointer"
           >
-            <Edit />
-          </div>
+            <Edit width="16px" height="16px" />
+          </Button>
         </div>
       </div>
     </div>

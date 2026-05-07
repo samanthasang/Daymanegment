@@ -38,9 +38,10 @@ function TimerList() {
         drawerTitle="Timer"
         isComplete={(selectedTimer && selectedTimer.isComplete) || false}
         CompleteItem={() => CompleteItem(selectedTimer.id, selectedTimer.title)}
-        DelItem={DelItem}
+        DelItem={() => DelItem(selectedTimer.id, selectedTimer.title)}
         SelectItem={SelectItem}
         selected={selectedTimer}
+        DuplicateItem
       />
     </>
   );

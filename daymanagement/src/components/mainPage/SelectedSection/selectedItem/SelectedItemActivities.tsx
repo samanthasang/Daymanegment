@@ -55,7 +55,7 @@ export const SelectedItemActivities = ({
               e && !isPause && FinishItem();
             }}
           >
-            <CheckSquare width={16} height={16} />
+            <CircleOff width={16} height={16} />
           </Button>
         </div>
       )}
@@ -148,9 +148,9 @@ export const SelectedItemActivities = ({
               e && e.stopPropagation();
               e && DelItem();
             }}
-            className="hover:bg-errorRed"
+            className="hover:bg-error/30"
           >
-            <Trash width={16} height={16} className="text-errorRed" />
+            <Trash width="16px" height="16px" className="text-error" />
           </Button>
         </div>
       )}
