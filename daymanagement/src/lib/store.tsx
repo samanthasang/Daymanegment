@@ -49,9 +49,11 @@ const localStorageMiddleware: Middleware = (store) => (next) => (action) => {
 
 const reHydrateStore = () => {
   try {
-    const persistedState = localStorage.getItem("applicationState");
-    if (persistedState) {
-      return JSON.parse(persistedState);
+    if (typeof window !== "undefined") {
+      const persistedState = localStorage.getItem("applicationState");
+      if (persistedState) {
+        return JSON.parse(persistedState);
+      }
     }
   } catch (error) {
     console.warn("Failed to rehydrate state from localStorage:", error);

@@ -35,7 +35,7 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
       drawerType="Goals"
       selectedID={selectedGoal && selectedGoal.id}
       SelectItem={() => SelectWithId(item.id)}
-      DelItem={DelItem}
+      DelItem={() => DelItem(item.id, item.title)}
       CompleteItem={() => CompleteItem(item.id, item.title, item?.score || 0)}
       BringToday={() => BringTodayItem(item)}
       {...item}

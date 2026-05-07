@@ -71,6 +71,9 @@ export const SelectedItem = ({
   UndoneItem,
   DuplicateItem,
   BringTodayItem,
+  DuplicateTodayItem,
+  AddOneDayToItem,
+  AddSevenDaysToItem,
 }: {
   id: string;
   priority?: string;
@@ -117,6 +120,9 @@ export const SelectedItem = ({
   UndoneItem?: () => void;
   DuplicateItem?: () => void;
   BringTodayItem?: () => void;
+  DuplicateTodayItem?: () => void;
+  AddOneDayToItem?: () => void;
+  AddSevenDaysToItem?: () => void;
 }) => {
   return (
     id && (
@@ -310,6 +316,9 @@ export const SelectedItem = ({
             DuplicateItem={DuplicateItem}
             PauseItem={PauseItem}
             UndoneItem={UndoneItem}
+            DuplicateTodayItem={DuplicateTodayItem}
+            AddOneDayToItem={AddOneDayToItem}
+            AddSevenDaysToItem={AddSevenDaysToItem}
           />
         </SelectedItemContainer>
         {installmentstList && (

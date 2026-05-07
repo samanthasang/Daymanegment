@@ -21,6 +21,9 @@ function SelectedSection({
   PauseItem,
   UndoneItem,
   BringTodayItem,
+  DuplicateTodayItem,
+  AddOneDayToItem,
+  AddSevenDaysToItem,
 }: {
   selected: any;
   score?: number;
@@ -39,6 +42,9 @@ function SelectedSection({
   PauseItem?: () => void;
   UndoneItem?: () => void;
   BringTodayItem?: () => void;
+  DuplicateTodayItem?: () => void;
+  AddOneDayToItem?: () => void;
+  AddSevenDaysToItem?: () => void;
 }) {
   return (
     selected && (
@@ -59,6 +65,9 @@ function SelectedSection({
           DuplicateItem
           PauseItem={PauseItem}
           UndoneItem={UndoneItem}
+          DuplicateTodayItem={DuplicateTodayItem}
+          AddOneDayToItem={AddOneDayToItem}
+          AddSevenDaysToItem={AddSevenDaysToItem}
           {...selected}
         />
         <SelectedMenuBottom

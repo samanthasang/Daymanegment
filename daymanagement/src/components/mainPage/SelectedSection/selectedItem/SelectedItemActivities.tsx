@@ -1,17 +1,19 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
-import { CheckMark, DoneAll } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
+  Calendar1,
+  CalendarCog,
+  CalendarDays,
+  CalendarPlus,
+  CalendarPlus2,
   CalendarSync,
   CheckCircle,
-  CheckCircle2,
-  CheckSquare,
-  CheckSquare2,
   CircleOff,
+  CircleX,
   Copy,
   Pause,
   Trash,
-  UndoIcon,
+  UndoDot,
 } from "lucide-react";
 
 export const SelectedItemActivities = ({
@@ -28,6 +30,9 @@ export const SelectedItemActivities = ({
   UndoneItem,
   DuplicateItem,
   BringTodayItem,
+  DuplicateTodayItem,
+  AddOneDayToItem,
+  AddSevenDaysToItem,
 }: {
   drawerType: string;
   drawerTitle: string;
@@ -42,6 +47,9 @@ export const SelectedItemActivities = ({
   UndoneItem?: () => void;
   DuplicateItem?: () => void;
   BringTodayItem?: () => void;
+  DuplicateTodayItem?: () => void;
+  AddOneDayToItem?: () => void;
+  AddSevenDaysToItem?: () => void;
 }) => {
   return (
     <>
@@ -93,7 +101,7 @@ export const SelectedItemActivities = ({
             }}
             variant="default"
           >
-            <UndoIcon width={16} height={16} />
+            <CircleX width={16} height={16} />
           </Button>
         </div>
       )}
@@ -103,11 +111,25 @@ export const SelectedItemActivities = ({
           <DrawerButton
             drawerType={drawerType}
             formType="duplicate"
-            // drawerTitle={drawerTitle.split("s")[0]}
             drawerTitle={drawerTitle}
           >
             <Copy width={16} height={16} />
           </DrawerButton>
+        </div>
+      )}
+      {DuplicateTodayItem && (
+        <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
+          <label>Duplicate For Today</label>
+          <Button
+            disabled={isToday}
+            onClick={(e) => {
+              e && e.preventDefault();
+              e && e.stopPropagation();
+              e && DuplicateTodayItem();
+            }}
+          >
+            <CalendarCog width={16} height={16} />
+          </Button>
         </div>
       )}
       {BringTodayItem && (
@@ -122,6 +144,36 @@ export const SelectedItemActivities = ({
             }}
           >
             <CalendarSync width={16} height={16} />
+          </Button>
+        </div>
+      )}
+      {AddOneDayToItem && (
+        <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
+          <label>Add 1 Day</label>
+          <Button
+            disabled={isToday}
+            onClick={(e) => {
+              e && e.preventDefault();
+              e && e.stopPropagation();
+              e && AddOneDayToItem();
+            }}
+          >
+            <CalendarPlus2 width={16} height={16} />
+          </Button>
+        </div>
+      )}
+      {AddSevenDaysToItem && (
+        <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
+          <label>Add 7 Days</label>
+          <Button
+            disabled={isToday}
+            onClick={(e) => {
+              e && e.preventDefault();
+              e && e.stopPropagation();
+              e && AddSevenDaysToItem();
+            }}
+          >
+            <CalendarPlus width={16} height={16} />
           </Button>
         </div>
       )}

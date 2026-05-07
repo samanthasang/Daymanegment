@@ -1,11 +1,14 @@
+import { Suspense } from "react";
 import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
 import ShareList from "./ShareList/ShareList.component";
 
 function ShareListComponent() {
   return (
-    <PageContainer>
-      <ShareList />
-    </PageContainer>
+    <Suspense>
+      <PageContainer>
+        <ShareList />
+      </PageContainer>
+    </Suspense>
   );
 }
 

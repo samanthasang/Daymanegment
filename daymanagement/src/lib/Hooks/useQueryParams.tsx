@@ -23,9 +23,7 @@ export default function useQueryParams() {
         // REMOVE FILTER ACTION
 
         if (params.has(name)) {
-
           params.delete(name);
-
         }
       } else if (params.has(name)) {
         params.set(name, value.toString ? value.toString() : (value as string));

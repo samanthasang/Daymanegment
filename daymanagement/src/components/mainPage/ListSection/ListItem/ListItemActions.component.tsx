@@ -1,14 +1,10 @@
-import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import { Button } from "@/components/ui/button";
-import { DialogTrigger } from "@/components/ui/dialog";
 import { useAppDispatch } from "@/lib/hook";
-import { selectPeopleList } from "@/modules/people/PeopleList.slice";
 import {
   CheckCircle,
   CircleOff,
-  Edit,
   LucideCalendarSync,
-  Trash,
+  Trash
 } from "lucide-react";
 
 export const ListItemActions = ({
@@ -69,7 +65,7 @@ export const ListItemActions = ({
           <Trash width="16px" height="16px" className="text-error" />
         </Button>
       )}
-      {drawerType == "Friends" && id && (
+      {/* {drawerType == "Friends" && id && (
         <DrawerDialogDemo
           drawerType="Friends"
           formType={`Edit ${title}`}
@@ -87,7 +83,7 @@ export const ListItemActions = ({
             </Button>
           </DialogTrigger>
         </DrawerDialogDemo>
-      )}
+      )} */}
       {drawerType != "Spends" && (
         <>
           {UpdateItem && (

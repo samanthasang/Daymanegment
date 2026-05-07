@@ -15,7 +15,7 @@ export const TodoItem = ({ item }: { item: TToDo }) => {
       drawerType="Todos"
       selectedID={selectedToDo && selectedToDo.id}
       SelectItem={() => SelectWithId(item.id)}
-      DelItem={DelItem}
+      DelItem={() => DelItem(item.id, item.title)}
       CompleteItem={() => CompleteItem(item.id, item.title)}
       BringToday={() => BringTodayItem(item)}
       {...item}

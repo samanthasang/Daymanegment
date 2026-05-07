@@ -13,11 +13,14 @@ const SelectedSection = dynamic(
 
 function TodoList() {
   const { ListToDoFiltered, ListToDoForgot, selectedToDo } = useTodoList();
-  const { CompleteItem, DelItem, SelectItem, BringTodayItem } =
-    TodoListActivities();
-
-  console.log(ListToDoFiltered);
-  console.log(ListToDoForgot);
+  const {
+    CompleteItem,
+    DelItem,
+    SelectItem,
+    BringTodayItem,
+    DuplicateTodayItem,
+    AddDayToItem,
+  } = TodoListActivities();
 
   return (
     <>
@@ -40,12 +43,14 @@ function TodoList() {
         drawerType="Todos"
         formType="Edit"
         drawerTitle="Todo"
-        isComplete={selectedToDo && selectedToDo.isComplete}
         CompleteItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         UndoneItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         DelItem={() => DelItem(selectedToDo.id, selectedToDo.title)}
         SelectItem={() => SelectItem()}
         BringTodayItem={() => BringTodayItem({ ...selectedToDo })}
+        DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedToDo })}
+        AddOneDayToItem={() => AddDayToItem({ ...selectedToDo }, 1)}
+        AddSevenDaysToItem={() => AddDayToItem({ ...selectedToDo }, 7)}
         DuplicateItem
         selected={selectedToDo}
       />
