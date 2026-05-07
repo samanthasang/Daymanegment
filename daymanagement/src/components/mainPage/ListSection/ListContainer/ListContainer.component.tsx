@@ -14,7 +14,7 @@ function ListContainer({
     ((isSX && !selectedID) || isSMMin) && (
       <div
         className={cn(
-          "flex flex-col flex-1 h-[calc(100vh-18px)] p-1.5 gap-y-2 mx-auto rounded-3xl bg-secondary",
+          "flex flex-col flex-1 h-[calc(100vh-16px)] p-1.5 gap-y-2 rounded-3xl bg-secondary",
           (isSX && !selectedID) || isSMMin ? "w-full" : "w-1/2"
         )}
       >

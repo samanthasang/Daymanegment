@@ -169,7 +169,7 @@ export const SelectedItem = ({
         {(total || total == 0) && (
           <SelectedItemContainer
             title="Total Amount"
-            className={cn(total > 0 ? "text-success" : "text-errorRed")}
+            className={cn(total > 0 ? "text-successGreen" : "text-errorRed")}
             description={total.toString()}
           />
         )}
@@ -182,7 +182,7 @@ export const SelectedItem = ({
                   className={
                     (score && drawerType == "Goals" && score > 4) ||
                     (score && drawerType == "Habbits" && score > 6)
-                      ? "text-success"
+                      ? "text-successGreen"
                       : "text-errorRed"
                   }
                 >
@@ -221,7 +221,7 @@ export const SelectedItem = ({
                     "flex flex-row items-center gap-x-0.5",
                     (score && drawerType == "Goals" && score > 4) ||
                       (score && drawerType == "Habbits" && score > 6)
-                      ? "text-success"
+                      ? "text-successGreen"
                       : "text-errorRed"
                   )}
                 >
@@ -237,7 +237,7 @@ export const SelectedItem = ({
                     "flex flex-row items-center gap-x-0.5",
                     +paymentCompleteValue - +advancePayment > 0
                       ? "text-red-500"
-                      : "text-success"
+                      : "text-successGreen"
                   )}
                 >
                   <DollarSign width={16} height={16} />
@@ -267,7 +267,7 @@ export const SelectedItem = ({
           <div className="w-full flex flex-row justify-between gap-x-2">
             {priceOfProduct && (
               <SelectedItemContainer title="Price Of Product">
-                <div className="flex flex-row items-center gap-x-0.5 text-error">
+                <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
                   <DollarSign width={16} height={16} />
                   {priceOfProduct}
                 </div>
@@ -285,7 +285,7 @@ export const SelectedItem = ({
         )}
         {incomeAmount && (
           <SelectedItemContainer title="Income Amount">
-            <div className="flex flex-row items-center gap-x-0.5 text-success">
+            <div className="flex flex-row items-center gap-x-0.5 text-successGreen">
               <DollarSign width={16} height={16} />
               {incomeAmount}
             </div>
@@ -294,7 +294,7 @@ export const SelectedItem = ({
         {outcomeAmount && (
           <SelectedItemContainer title="Outcome Amount">
             <label>
-              <div className="flex flex-row items-center gap-x-0.5 text-error">
+              <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
                 <DollarSign width={16} height={16} />
                 {outcomeAmount}
               </div>

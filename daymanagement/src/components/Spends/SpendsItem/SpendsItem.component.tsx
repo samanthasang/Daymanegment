@@ -16,7 +16,7 @@ export const SpendsItem = ({ item }: { item: TSpends }) => {
       drawerType="Spends"
       selectedID={selectedSpends && selectedSpends.id}
       SelectItem={() => SelectWithId(item.id)}
-      DelItem={DelItem}
+      DelItem={() => DelItem(item.id, item.title)}
       withShare={item.shareList && item.shareList.length > 0}
       {...item}
     />

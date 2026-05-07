@@ -14,8 +14,14 @@ const SelectedSection = dynamic(
 
 function GoalsList() {
   const { ListGoalsFiltered, ListGoalsForgot, selectedGoal } = useGoalsList();
-  const { CompleteItem, DelItem, SelectItem, BringTodayItem } =
-    GoalListActivities();
+  const {
+    CompleteItem,
+    DelItem,
+    SelectItem,
+    BringTodayItem,
+    DuplicateTodayItem,
+    AddDayToItem,
+  } = GoalListActivities();
 
   return (
     <>
@@ -62,6 +68,9 @@ function GoalsList() {
         DelItem={() => DelItem(selectedGoal.id, selectedGoal.title)}
         SelectItem={() => SelectItem()}
         BringTodayItem={() => BringTodayItem({ ...selectedGoal })}
+        DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedGoal })}
+        AddOneDayToItem={() => AddDayToItem({ ...selectedGoal }, 1)}
+        AddSevenDaysToItem={() => AddDayToItem({ ...selectedGoal }, 7)}
         DuplicateItem
         selected={selectedGoal}
       />

@@ -51,7 +51,7 @@ export const shareListSlice = createSlice({
         ? [
             ...state.ListShare,
             {
-              id: action.payload.id,
+              id: nanoid(),
               title: action.payload.title,
               peopleId: action.payload.peopleId,
               outcomeAmount: action.payload.outcomeAmount,
@@ -68,7 +68,7 @@ export const shareListSlice = createSlice({
           ]
         : [
             {
-              id: action.payload.title,
+              id: nanoid(),
               title: action.payload.title,
               peopleId: action.payload.peopleId,
               outcomeAmount: action.payload.outcomeAmount,

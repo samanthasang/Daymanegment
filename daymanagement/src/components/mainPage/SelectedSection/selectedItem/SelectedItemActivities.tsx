@@ -1,9 +1,7 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
 import { Button } from "@/components/ui/button";
 import {
-  Calendar1,
   CalendarCog,
-  CalendarDays,
   CalendarPlus,
   CalendarPlus2,
   CalendarSync,
@@ -13,7 +11,6 @@ import {
   Copy,
   Pause,
   Trash,
-  UndoDot,
 } from "lucide-react";
 
 export const SelectedItemActivities = ({
@@ -151,7 +148,7 @@ export const SelectedItemActivities = ({
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
           <label>Add 1 Day</label>
           <Button
-            disabled={isToday}
+            disabled={isComplete}
             onClick={(e) => {
               e && e.preventDefault();
               e && e.stopPropagation();
@@ -166,7 +163,7 @@ export const SelectedItemActivities = ({
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
           <label>Add 7 Days</label>
           <Button
-            disabled={isToday}
+            disabled={isComplete}
             onClick={(e) => {
               e && e.preventDefault();
               e && e.stopPropagation();

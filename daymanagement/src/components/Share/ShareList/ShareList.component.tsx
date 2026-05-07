@@ -42,7 +42,7 @@ function ShareListList({ peopleId }: { peopleId?: string }) {
         drawerType="Shares"
         formType="Edit"
         drawerTitle="Share"
-        DelItem={() => DelItem()}
+        DelItem={() => DelItem(selectedShare.id, selectedShare.title)}
         SelectItem={() => SelectItem()}
         selected={selectedShare}
       />

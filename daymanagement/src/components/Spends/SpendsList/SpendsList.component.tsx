@@ -13,7 +13,7 @@ const SelectedSection = dynamic(
 function SpendsList() {
   const { ListSpendsFiltered, ListSpendsForgot, selectedSpends } =
     useSpendsList();
-  const { DelItem, SelectItem } = SpendsListActivities();
+  const { DelItem, SelectItem, DuplicateTodayItem } = SpendsListActivities();
 
   return (
     <>
@@ -33,9 +33,10 @@ function SpendsList() {
         drawerType="Spends"
         formType="Edit"
         drawerTitle="Spend"
-        DelItem={() => DelItem()}
+        DelItem={() => DelItem(selectedSpends.id, selectedSpends.title)}
         SelectItem={() => SelectItem()}
         DuplicateItem
+        DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedSpends })}
         selected={selectedSpends}
       />
     </>

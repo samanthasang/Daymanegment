@@ -27,7 +27,7 @@ export const ReminderItem = ({ item }: { item: TReminder }) => {
       drawerType="Reminders"
       selectedID={selectedReminder && selectedReminder.id}
       CompleteItem={() => CompleteItem(item.id, item.title)}
-      DelItem={DelItem}
+      DelItem={() => DelItem(item.id, item.title)}
       SelectItem={() => SelectWithId(item.id)}
       UpdateItem={() => UndoItem(item)}
       {...item}

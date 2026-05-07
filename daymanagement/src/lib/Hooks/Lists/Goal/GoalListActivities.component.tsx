@@ -4,11 +4,12 @@ import {
   completeGoalList,
   delGoalList,
   selectGoalList,
+  setGoalList,
   TGoals,
   updateGoalList,
 } from "@/modules/goalsList/goals.slice";
 import { toast } from "react-toastify";
-import { currentUnixTimestamp } from "../../UseDayJS";
+import { currentUnixTimestamp, DayUnixAdd, DayUnixDiff } from "../../UseDayJS";
 import useGoalsList from "./UseGoalsList.component";
 
 function GoalListActivities() {
@@ -39,7 +40,40 @@ function GoalListActivities() {
     item.id && selectedGoal && dispatch(selectGoalList(item.id));
     toast(`${item.title} is updated`);
   };
-  return { CompleteItem, DelItem, SelectWithId, SelectItem, BringTodayItem };
+  const DuplicateTodayItem = (item: TGoals) => {
+    dispatch(
+      setGoalList({
+        ...item,
+        id: "",
+        title: `${item.title} copy`,
+        doDate: currentUnixTimestamp,
+        createDate: currentUnixTimestamp,
+      })
+    );
+    item.id && selectedGoal && dispatch(selectGoalList(item.id));
+    toast(`${item.title} is updated`);
+  };
+  const AddDayToItem = (item: TGoals, day: number) => {
+    dispatch(
+      updateGoalList({
+        ...item,
+        doDate: DayUnixAdd(item.doDate, "day", day),
+        createDate: item.createDate ?? item.doDate,
+        score: DayUnixDiff(DayUnixAdd(item.doDate, "day", day), "day"),
+      })
+    );
+    item.id && selectedGoal && dispatch(selectGoalList(item.id));
+    toast(`${item.title} is updated`);
+  };
+  return {
+    CompleteItem,
+    DelItem,
+    SelectWithId,
+    SelectItem,
+    BringTodayItem,
+    DuplicateTodayItem,
+    AddDayToItem,
+  };
 }
 
 export default GoalListActivities;

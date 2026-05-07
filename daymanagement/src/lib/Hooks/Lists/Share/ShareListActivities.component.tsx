@@ -15,10 +15,10 @@ function ShareListActivities() {
   const SelectWithId = (id: string) => {
     dispatch(selectShareList(id));
   };
-  const DelItem = () => {
-    dispatch(delShareList(selectedShare.id));
+  const DelItem = (id: string, title: string) => {
+    dispatch(delShareList(id));
     SelectItem();
-    toast(`${selectedShare.title} is deleted`);
+    toast(`${title} is deleted`);
   };
   const CompleteItem = (id: string, title: string) => {
     // dispatch(completeShareList(id));

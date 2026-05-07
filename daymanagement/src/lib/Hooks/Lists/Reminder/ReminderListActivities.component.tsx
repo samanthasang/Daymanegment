@@ -24,10 +24,10 @@ function ReminderListActivities() {
   const SelectWithId = (id: string) => {
     dispatch(selectReminderList(id));
   };
-  const DelItem = () => {
-    dispatch(delReminderList(selectedReminder.id));
+  const DelItem = (id: string, title: string) => {
+    dispatch(delReminderList(id));
     SelectItem();
-    toast(`${selectedReminder.title} is deleted`);
+    toast(`${title} is deleted`);
   };
   const CompleteItem = (id: string, title: string) => {
     dispatch(completeReminderList(id));

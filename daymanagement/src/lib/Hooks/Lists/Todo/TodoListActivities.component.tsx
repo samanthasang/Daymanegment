@@ -45,6 +45,7 @@ function TodoListActivities() {
         id: "",
         title: `${item.title} copy`,
         doDate: currentUnixTimestamp,
+        createDate: currentUnixTimestamp,
       })
     );
     item.id && selectedToDo && dispatch(selectToDoList(item.id));
@@ -55,7 +56,7 @@ function TodoListActivities() {
       updateToDoList({
         ...item,
         doDate: DayUnixAdd(item.doDate, "day", day),
-        createDate: item.createDate ?? item.doDate,
+        createDate: item.createDate ?? currentUnixTimestamp,
       })
     );
     item.id && selectedToDo && dispatch(selectToDoList(item.id));

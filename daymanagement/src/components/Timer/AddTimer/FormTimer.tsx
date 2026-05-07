@@ -98,7 +98,7 @@ export default function FormTimer({
   }, [selectedTimer, setValue]);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    selectedTimer?.title
+    formType == "Edit"
       ? dispatch(
           updateTimerList({
             id: selectedTimer.id,

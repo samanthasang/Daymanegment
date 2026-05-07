@@ -47,7 +47,8 @@ function SelectedSection({
   AddSevenDaysToItem?: () => void;
 }) {
   return (
-    selected && (
+    selected &&
+    selected.id && (
       <SelectedContainer>
         <ListTitle forgot title={drawerTitle} drawerType={drawerType} />
         <SelectedItem
