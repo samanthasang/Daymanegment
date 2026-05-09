@@ -7,6 +7,10 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
+import {
+  currentUnixTimestamp,
+  currentUnixTimestampZero,
+} from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   selectHabbitList,
@@ -21,7 +25,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
-const currentUnixTimestamp = dayjs().unix();
 interface IFormInputs {
   title: string;
   description?: string;
@@ -96,8 +99,6 @@ export default function FormHabbit({
   const handleTag = (data: string) => {
     setValue("tag", data);
   };
-  console.log(getValues());
-  console.log(errors);
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     formType == "Edit"
@@ -123,7 +124,7 @@ export default function FormHabbit({
             description: data.description || "",
             priority: data.priority,
             createDate: currentUnixTimestamp,
-            lastUpdate: currentUnixTimestamp,
+            lastUpdate: currentUnixTimestampZero,
             isComplete: false,
             score: 1,
             category: data.category,
@@ -139,11 +140,6 @@ export default function FormHabbit({
     reset();
     onSubmitForm();
   };
-  const onReset = () => {
-    dispatch(selectHabbitList(""));
-    reset();
-  };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

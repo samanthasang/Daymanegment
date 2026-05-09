@@ -17,7 +17,8 @@ function InstallmentsList() {
     ListInstallmentsForgot,
     selectedInstallmentstList,
   } = useInstallmentsList();
-  const { CompleteItem, DelItem, SelectItem } = InstallmentsListActivities();
+  const { CompleteItem, DelItem, SelectItem, UndoItem } =
+    InstallmentsListActivities();
 
   return (
     <>
@@ -42,14 +43,22 @@ function InstallmentsList() {
         CompleteItem={() =>
           CompleteItem(
             selectedInstallmentstList.id,
-            selectedInstallmentstList.title,
-            selectedInstallmentstList.startDate,
-            selectedInstallmentstList.doDate
+            selectedInstallmentstList.title
           )
         }
-        DelItem={DelItem}
+        DelItem={() =>
+          DelItem(selectedInstallmentstList.id, selectedInstallmentstList.title)
+        }
         SelectItem={SelectItem}
-        isComplete={selectedInstallmentstList.isComplete}
+        UndoneItem={() =>
+          UndoItem(
+            selectedInstallmentstList.id,
+            selectedInstallmentstList.title
+          )
+        }
+        isComplete={
+          selectedInstallmentstList && selectedInstallmentstList.isComplete
+        }
         selected={selectedInstallmentstList}
       />
     </>

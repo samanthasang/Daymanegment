@@ -6,10 +6,11 @@ import {
   CalendarPlus2,
   CalendarSync,
   CheckCircle,
+  CircleDollarSign,
   CircleOff,
   CircleX,
   Copy,
-  Pause,
+  PauseCircle,
   Trash,
 } from "lucide-react";
 
@@ -20,6 +21,7 @@ export const SelectedItemActivities = ({
   isComplete,
   isPause,
   isToday,
+  isPaymentComplete,
   FinishItem,
   CompleteItem,
   DelItem,
@@ -30,6 +32,7 @@ export const SelectedItemActivities = ({
   DuplicateTodayItem,
   AddOneDayToItem,
   AddSevenDaysToItem,
+  PaymentCompleteItem,
 }: {
   drawerType: string;
   drawerTitle: string;
@@ -37,6 +40,7 @@ export const SelectedItemActivities = ({
   isComplete: boolean;
   isPause?: boolean;
   isToday?: boolean;
+  isPaymentComplete?: boolean;
   FinishItem?: () => void;
   CompleteItem?: () => void;
   DelItem?: () => void;
@@ -47,9 +51,25 @@ export const SelectedItemActivities = ({
   DuplicateTodayItem?: () => void;
   AddOneDayToItem?: () => void;
   AddSevenDaysToItem?: () => void;
+  PaymentCompleteItem?: () => void;
 }) => {
   return (
     <>
+      {PauseItem && (
+        <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
+          <label>Pause</label>
+          <Button
+            onClick={(e) => {
+              e && e.preventDefault();
+              e && e.stopPropagation();
+              e && PauseItem();
+            }}
+            className={isPause ? "bg-blue-500" : "bg-primary"}
+          >
+            <PauseCircle width={16} height={16} />
+          </Button>
+        </div>
+      )}
       {FinishItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
           <label>Finish</label>
@@ -59,6 +79,7 @@ export const SelectedItemActivities = ({
               e && e.stopPropagation();
               e && !isPause && FinishItem();
             }}
+            className={!isFinish ? "bg-primary" : "bg-blue-500"}
           >
             <CircleOff width={16} height={16} />
           </Button>
@@ -94,11 +115,32 @@ export const SelectedItemActivities = ({
             onClick={(e) => {
               e && e.preventDefault();
               e && e.stopPropagation();
-              e && UndoneItem();
+              e && isComplete && !isPause && !isFinish && UndoneItem();
             }}
+            className={!isFinish ? "bg-primary" : "bg-white/15"}
             variant="default"
           >
             <CircleX width={16} height={16} />
+          </Button>
+        </div>
+      )}
+      {PaymentCompleteItem && (
+        <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
+          <label>Payment Complete</label>
+          <Button
+            disabled={!isPaymentComplete}
+            onClick={(e) => {
+              e && e.preventDefault();
+              e && e.stopPropagation();
+              e && PaymentCompleteItem();
+            }}
+            variant="default"
+          >
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
           </Button>
         </div>
       )}
@@ -171,20 +213,6 @@ export const SelectedItemActivities = ({
             }}
           >
             <CalendarPlus width={16} height={16} />
-          </Button>
-        </div>
-      )}
-      {PauseItem && (
-        <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Pause</label>
-          <Button
-            onClick={(e) => {
-              e && e.preventDefault();
-              e && e.stopPropagation();
-              e && !isPause && PauseItem();
-            }}
-          >
-            <Pause width={16} height={16} />
           </Button>
         </div>
       )}

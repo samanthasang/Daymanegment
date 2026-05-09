@@ -4,14 +4,14 @@ import {
   CheckCircle,
   CircleOff,
   LucideCalendarSync,
-  Trash
+  PauseCircle,
+  Trash,
 } from "lucide-react";
 
 export const ListItemActions = ({
-  id,
-  title,
   isComplete,
   isFinish,
+  isPause,
   isToday,
   score,
   hasShare,
@@ -22,10 +22,9 @@ export const ListItemActions = ({
   BringToday,
   UpdateItem,
 }: {
-  id?: string;
-  title: string;
   isComplete?: boolean;
   isFinish?: boolean;
+  isPause?: boolean;
   isToday?: boolean;
   score?: number;
   hasShare?: boolean;
@@ -93,13 +92,14 @@ export const ListItemActions = ({
                 e && e.stopPropagation();
                 e && UpdateItem();
               }}
-              className={isFinish ? "bg-success" : "bg-primary"}
+              className={isPause ? "bg-blue-500" : "bg-primary"}
             >
-              <CircleOff />
+              <PauseCircle />
             </Button>
           )}
           {CompleteItem && (
             <Button
+              disabled={isComplete && isPause && isFinish}
               onClick={(e) => {
                 e && e.preventDefault();
                 e && e.stopPropagation();

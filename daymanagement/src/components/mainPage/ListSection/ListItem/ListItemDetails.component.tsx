@@ -8,11 +8,10 @@ export const ListItemDetails = ({
   title,
   isComplete,
   isFinish,
-  nextDate,
+  isPause,
   date,
   diff,
   score,
-  highest,
   incomeAmount,
   outcomeAmount,
   total,
@@ -32,12 +31,11 @@ export const ListItemDetails = ({
   priceOfProduct?: string;
   isComplete?: boolean;
   isFinish?: boolean;
-  nextDate?: string;
+  isPause?: boolean;
   withDel?: boolean;
   date?: string | number;
   diff?: duration.Duration;
   score?: number;
-  highest?: number;
   total?: number;
   hasShare?: boolean;
   drawerType: string;
@@ -49,10 +47,9 @@ export const ListItemDetails = ({
   return (
     <div className="flex flex-col w-fit gap-y-1 justify-end items-end">
       <ListItemActions
-        id={id}
-        title={title}
         isComplete={isComplete}
         isFinish={isFinish}
+        isPause={isPause}
         score={score}
         hasShare={hasShare}
         drawerType={drawerType}

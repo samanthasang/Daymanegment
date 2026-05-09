@@ -2,7 +2,9 @@ import {
   BadgeDollarSign,
   BookUser,
   CircleDollarSign,
+  CircleOff,
   CircuitBoard,
+  PauseCircle,
   ShoppingCart,
 } from "lucide-react";
 import ListPriority from "../ListPriority/ListPriority.component";
@@ -14,18 +16,24 @@ export const ListItemTitle = ({
   incomeAmount,
   priceOfProduct,
   withShare,
+  isPause,
+  isFinish,
   drawerType,
   visitId,
   spendsId,
+  paymentCompleteValue,
 }: {
   priority?: string;
   title: string;
   incomeAmount?: string;
   priceOfProduct?: string;
   withShare?: boolean;
+  isPause?: boolean;
+  isFinish?: boolean;
   drawerType: string;
   visitId?: string;
   spendsId?: string;
+  paymentCompleteValue?: string;
 }) => {
   return (
     <div className="flex justify-start items-start gap-y-0.5">
@@ -40,8 +48,20 @@ export const ListItemTitle = ({
               className="text-successGreen"
             />
           )}
+          {isFinish && (
+            <CircleOff width={16} height={16} className="text-successGreen" />
+          )}
+          {isPause && (
+            <PauseCircle width={16} height={16} className="text-blue-500" />
+          )}
           {visitId && <BookUser width={16} height={16} />}
-          {spendsId && <BadgeDollarSign width={16} height={16} />}
+          {(paymentCompleteValue || spendsId) && (
+            <BadgeDollarSign
+              width={16}
+              height={16}
+              className={paymentCompleteValue && "text-blue-500"}
+            />
+          )}
           {drawerType != "shares" && priceOfProduct && (
             <ShoppingCart width={16} height={16} className="text-errorRed" />
           )}

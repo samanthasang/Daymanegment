@@ -1,7 +1,6 @@
+import { currentUnixTimestampZero } from "@/lib/Hooks/UseDayJS";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import dayjs from "dayjs";
 
-const currentUnixTimestamp = dayjs().unix();
 export type Thabbit = {
   id: string;
   title: string;
@@ -12,6 +11,7 @@ export type Thabbit = {
   createDate: number;
   lastUpdate: number;
   isComplete: boolean;
+  isPause: boolean;
   category: string;
   tag: string;
 };
@@ -60,7 +60,8 @@ export const habbitListSlice = createSlice({
               highest: action.payload.score || 1,
               createDate: action.payload.createDate,
               lastUpdate: action.payload.lastUpdate,
-              isComplete: action.payload.isComplete,
+              isComplete: false,
+              isPause: false,
             },
           ]
         : [
@@ -75,7 +76,8 @@ export const habbitListSlice = createSlice({
               highest: action.payload.score || 1,
               createDate: action.payload.createDate,
               lastUpdate: action.payload.lastUpdate,
-              isComplete: action.payload.isComplete,
+              isComplete: false,
+              isPause: false,
             },
           ];
     },
@@ -95,8 +97,19 @@ export const habbitListSlice = createSlice({
               score: !Habbit.isComplete ? Habbit.score + 1 : Habbit.score - 1,
               highest:
                 Habbit.highest > Habbit.score ? Habbit.highest : Habbit.score,
-              lastUpdate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestampZero,
               isComplete: !Habbit.isComplete,
+            }
+          : Habbit
+      );
+    },
+    PauseHabbitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListHabbit = state.ListHabbit.map((Habbit) =>
+        Habbit.id == action.payload
+          ? {
+              ...Habbit,
+              lastUpdate: currentUnixTimestampZero,
+              isPause: !Habbit.isPause,
             }
           : Habbit
       );
@@ -155,4 +168,5 @@ export const {
   delHabbitList,
   updateHabbitList,
   selectHabbitList,
+  PauseHabbitList,
 } = habbitListSlice.actions;

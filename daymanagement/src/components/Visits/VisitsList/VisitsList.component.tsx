@@ -13,7 +13,15 @@ const SelectedSection = dynamic(
 
 function VisitsList() {
   const { ListVisitFiltered, ListVisitForgot, selectedVisit } = useVisitList();
-  const { CompleteItem, DelItem, SelectItem } = VisitListActivities();
+  const {
+    CompleteItem,
+    DelItem,
+    SelectItem,
+    BringTodayItem,
+    DuplicateTodayItem,
+    AddDayToItem,
+    PaymentCompleteItem,
+  } = VisitListActivities();
 
   return (
     <>
@@ -38,8 +46,14 @@ function VisitsList() {
         isComplete={(selectedVisit && selectedVisit.isComplete) || false}
         time={selectedVisit && selectedVisit.doDate}
         CompleteItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}
-        DelItem={() => DelItem()}
+        UndoneItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}
+        DelItem={() => DelItem(selectedVisit.id, selectedVisit.title)}
         SelectItem={() => SelectItem()}
+        BringTodayItem={() => BringTodayItem({ ...selectedVisit })}
+        DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedVisit })}
+        AddOneDayToItem={() => AddDayToItem({ ...selectedVisit }, 1)}
+        AddSevenDaysToItem={() => AddDayToItem({ ...selectedVisit }, 7)}
+        PaymentCompleteItem={() => PaymentCompleteItem({ ...selectedVisit })}
         DuplicateItem
         selected={selectedVisit}
       />

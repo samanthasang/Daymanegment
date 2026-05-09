@@ -12,7 +12,7 @@ const SelectedSection = dynamic(
 
 function ShareListList({ peopleId }: { peopleId?: string }) {
   const { ListShareFriends, ListShareForgot, selectedShare } = useShareList();
-  const { DelItem, SelectItem } = ShareListActivities();
+  const { DelItem, SelectItem, DuplicateTodayItem } = ShareListActivities();
 
   const ListShareWithId =
     ListShareFriends && peopleId
@@ -44,6 +44,7 @@ function ShareListList({ peopleId }: { peopleId?: string }) {
         drawerTitle="Share"
         DelItem={() => DelItem(selectedShare.id, selectedShare.title)}
         SelectItem={() => SelectItem()}
+        DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedShare })}
         selected={selectedShare}
       />
     </>

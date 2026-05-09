@@ -3,30 +3,32 @@ import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.compon
 import { useAppDispatch } from "@/lib/hook";
 import SelectHabbitListActivities from "@/lib/Hooks/Lists/Habbit/HabbitListActivities.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import { currentUnixTimestamp, DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestampZero, DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import { Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import { useEffect } from "react";
 
 export const HabbitItem = ({ item }: { item: Thabbit }) => {
   const dispatch = useAppDispatch();
-  const { CompleteItem, DelItem, SelectWithId } = SelectHabbitListActivities();
+  const { CompleteItem, DelItem, SelectWithId, PauseItem } =
+    SelectHabbitListActivities();
   const { selectedHabbit } = UseHabbitList();
   useEffect(() => {
-    DayUnixDiff(item.lastUpdate, "day") < -1 &&
-      dispatch(
-        updateHabbitList({
-          id: item.id,
-          title: item.title,
-          description: item.description || "",
-          priority: item.priority,
-          createDate: item.createDate,
-          lastUpdate: currentUnixTimestamp,
-          score: item.score + DayUnixDiff(item.lastUpdate, "day"),
-          category: item.category,
-          tag: item.tag,
-          isComplete: false,
-        })
-      );
+    item.isPause
+      ? dispatch(
+          updateHabbitList({
+            ...item,
+            lastUpdate: currentUnixTimestampZero,
+          })
+        )
+      : DayUnixDiff(item.lastUpdate, "day") < -1 &&
+        dispatch(
+          updateHabbitList({
+            ...item,
+            lastUpdate: currentUnixTimestampZero,
+            score: item.score + DayUnixDiff(item.lastUpdate, "day"),
+            isComplete: false,
+          })
+        );
   }, []);
 
   return (
@@ -36,6 +38,7 @@ export const HabbitItem = ({ item }: { item: Thabbit }) => {
       SelectItem={() => SelectWithId(item.id)}
       DelItem={() => DelItem(item.id, item.title)}
       CompleteItem={() => CompleteItem(item.id, item.title)}
+      UpdateItem={() => PauseItem(item.id, item.title)}
       {...item}
     />
   );

@@ -13,7 +13,7 @@ import { useEffect } from "react";
 
 export const ReminderItem = ({ item }: { item: TReminder }) => {
   const dispatch = useAppDispatch();
-  const { CompleteItem, DelItem, SelectWithId, UndoItem } =
+  const { CompleteItem, DelItem, SelectWithId, PauseItem } =
     ReminderListActivities();
   const { selectedReminder } = useReminderList();
   useEffect(() => {
@@ -29,7 +29,7 @@ export const ReminderItem = ({ item }: { item: TReminder }) => {
       CompleteItem={() => CompleteItem(item.id, item.title)}
       DelItem={() => DelItem(item.id, item.title)}
       SelectItem={() => SelectWithId(item.id)}
-      UpdateItem={() => UndoItem(item)}
+      UpdateItem={() => PauseItem(item.id, item.title)}
       {...item}
     />
   );

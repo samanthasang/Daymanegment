@@ -14,7 +14,7 @@ export const VisitsItem = ({ item }: { item: TVisit }) => {
       drawerType="Visits"
       selectedID={selectedVisit && selectedVisit.id}
       SelectItem={() => SelectWithId(item.id)}
-      DelItem={DelItem}
+      DelItem={() => DelItem(item.id, item.title)}
       CompleteItem={() => CompleteItem(item.id, item.title)}
       {...item}
     />

@@ -64,8 +64,6 @@ function CurrentList({
       ? incomeMArray
       : incomeArray;
 
-  console.log(ListAfterFilter);
-
   return (
     <>
       <CurrentListSearch List={ListAfterFilter as []} drawerType={drawerType} />

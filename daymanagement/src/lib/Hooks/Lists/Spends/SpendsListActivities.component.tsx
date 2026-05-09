@@ -34,9 +34,9 @@ function SpendsListActivities() {
         title: `${item.title} copy`,
         doDate: currentUnixTimestamp,
         createDate: currentUnixTimestamp,
-        numberOfProduct: item.numberOfProduct ?? "0",
-        priceOfProduct: item.priceOfProduct ?? "0",
-        incomeAmount: item.incomeAmount ?? "0",
+        numberOfProduct: item.numberOfProduct ?? "",
+        priceOfProduct: item.priceOfProduct ?? "",
+        incomeAmount: item.incomeAmount ?? "",
         income: item.income,
       })
     );

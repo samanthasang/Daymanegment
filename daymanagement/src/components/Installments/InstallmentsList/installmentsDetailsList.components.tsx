@@ -72,7 +72,7 @@ export default function FormInstallmentsDetailsList({
             />
           ))}
       </div>
-      <Button onClick={() => onSubmitForm()}>submit</Button>
+      <Button className="w-full" onClick={() => onSubmitForm()}>submit</Button>
     </div>
   );
 }

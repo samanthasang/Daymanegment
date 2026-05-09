@@ -1,4 +1,6 @@
+import { DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { ManipulateType } from "dayjs";
 
 export type TInstallmentst = {
   doDate: number;
@@ -16,6 +18,7 @@ export type TInstallmentsts = {
   createDate: number;
   completeUpdate: number;
   isComplete: boolean;
+  isFinish: boolean;
   paymentNumber: string;
   numberOfPayment: string;
   paymentCompleteValue: string;
@@ -81,6 +84,7 @@ export const installmentstListSlice = createSlice({
               tag: action.payload.tag,
               installmentstList: action.payload.installmentstList,
               isComplete: false,
+              isFinish: false,
             },
           ]
         : [
@@ -101,6 +105,7 @@ export const installmentstListSlice = createSlice({
               tag: action.payload.tag,
               installmentstList: action.payload.installmentstList,
               isComplete: false,
+              isFinish: false,
             },
           ];
     },
@@ -120,37 +125,62 @@ export const installmentstListSlice = createSlice({
         installment.id == action.payload
           ? {
               ...installment,
-              isComplete: !installment.isComplete,
-            }
-          : installment
-      );
-    },
-    completeInstallmentstList: (
-      state: InitialState,
-      action: PayloadAction<{
-        id: string;
-        lastUpdate: number;
-        doDate: number;
-      }>
-    ) => {
-      state.ListInstallmentst = state.ListInstallmentst.map((installmentst) =>
-        installmentst.id == action.payload.id
-          ? {
-              ...installmentst,
-              lastUpdate: action.payload.lastUpdate,
-              doDate: action.payload.doDate,
+              isComplete: true,
+              isFinish:
+                installment.doDate == installment.completeUpdate ? true : false,
+              doDate:
+                installment.doDate == installment.completeUpdate
+                  ? installment.doDate
+                  : DayUnixAdd(
+                      +installment.doDate,
+                      installment.paymentNumber as ManipulateType,
+                      1
+                    ),
               installmentstList:
-                installmentst.installmentstList &&
-                installmentst.installmentstList.map((ins) =>
-                  ins.doDate == action.payload.lastUpdate
+                installment.installmentstList &&
+                installment.installmentstList.map((ins) =>
+                  ins.doDate == installment.doDate
                     ? {
                         ...ins,
-                        isComplete: !ins.isComplete,
+                        isComplete: true,
                       }
                     : ins
                 ),
             }
-          : installmentst
+          : installment
+      );
+    },
+    unCompleteInstallmentst: (
+      state: InitialState,
+      action: PayloadAction<string>
+    ) => {
+      state.ListInstallmentst = state.ListInstallmentst.map((installment) =>
+        installment.id == action.payload
+          ? {
+              ...installment,
+              isComplete: false,
+              doDate: DayUnixAdd(
+                +installment.doDate,
+                installment.paymentNumber as ManipulateType,
+                -1
+              ),
+              installmentstList:
+                installment.installmentstList &&
+                installment.installmentstList.map((ins) =>
+                  ins.doDate ==
+                  DayUnixAdd(
+                    +installment.doDate,
+                    installment.paymentNumber as ManipulateType,
+                    -1
+                  )
+                    ? {
+                        ...ins,
+                        isComplete: false,
+                      }
+                    : ins
+                ),
+            }
+          : installment
       );
     },
     updateInstallmentstList: (
@@ -170,6 +200,7 @@ export const installmentstListSlice = createSlice({
         paymentCompleteValue: string;
         category: string;
         tag: string;
+        isComplete?: boolean;
         installmentstList: TInstallmentst[];
       }>
     ) => {
@@ -190,6 +221,7 @@ export const installmentstListSlice = createSlice({
               paymentCompleteValue: action.payload.paymentCompleteValue,
               category: action.payload.category,
               tag: action.payload.tag,
+              isComplete: action.payload.isComplete ?? installmentst.isComplete,
               installmentstList: action.payload.installmentstList,
             }
           : installmentst
@@ -210,8 +242,8 @@ export const installmentstReducer = installmentstListSlice.reducer;
 export const installmentstReducerPath = installmentstListSlice.reducerPath;
 
 export const {
-  completeInstallmentstList,
   completeInstallmentst,
+  unCompleteInstallmentst,
   setInstallmentstList,
   delInstallmentstList,
   updateInstallmentstList,

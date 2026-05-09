@@ -1,34 +1,45 @@
 "use client";
 import ListItem from "@/components/mainPage/ListSection/ListItem/ListItem.component";
+import { useAppDispatch } from "@/lib/hook";
 import InstallmentsListActivities from "@/lib/Hooks/Lists/Installments/InstallmentsListActivities.component";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
-import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
+import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import {
+  TInstallmentsts,
+  updateInstallmentstList,
+} from "@/modules/installmentstList/installmentst.slice";
+import { useEffect } from "react";
 
 export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
-  const { CompleteItem, DelItem, SelectWithId, CompleteItemInstallment } =
-    InstallmentsListActivities();
+  const dispatch = useAppDispatch();
+  const { CompleteItem, DelItem, SelectWithId } = InstallmentsListActivities();
 
   const { selectedInstallmentstList } = useInstallmentsList();
 
-  const instalmentNotComplete =
-    item.installmentstList &&
-    item.installmentstList.filter((ins) => !ins.isComplete);
+  useEffect(() => {
+    item.isComplete &&
+      DayUnixDiff(item.doDate, "day") < 6 &&
+      dispatch(updateInstallmentstList({ ...item, isComplete: false }));
+  }, []);
+  // const instalmentNotComplete =
+  //   item.installmentstList &&
+  //   item.installmentstList.filter((ins) => !ins.isComplete);
 
-  const lastInstalment =
-    (item.installmentstList &&
-      item.installmentstList.length > 0 &&
-      item.installmentstList[item.installmentstList.length - 1].doDate) ||
-    item.completeUpdate;
+  // const lastInstalment =
+  //   (item.installmentstList &&
+  //     item.installmentstList.length > 0 &&
+  //     item.installmentstList[item.installmentstList.length - 1].doDate) ||
+  //   item.completeUpdate;
 
-  const firstNOtComplete =
-    instalmentNotComplete && instalmentNotComplete?.length > 0
-      ? instalmentNotComplete[0].doDate
-      : lastInstalment;
+  // const firstNOtComplete =
+  //   instalmentNotComplete && instalmentNotComplete?.length > 0
+  //     ? instalmentNotComplete[0].doDate
+  //     : lastInstalment;
 
-  const secondNOtComplete =
-    instalmentNotComplete && instalmentNotComplete?.length > 0
-      ? instalmentNotComplete[1].doDate
-      : lastInstalment;
+  // const secondNOtComplete =
+  //   instalmentNotComplete && instalmentNotComplete?.length > 0
+  //     ? instalmentNotComplete[1].doDate
+  //     : lastInstalment;
 
   return (
     <ListItem
@@ -36,11 +47,15 @@ export const InstallmentsItem = ({ item }: { item: TInstallmentsts }) => {
       drawerType="Installments"
       selectedID={selectedInstallmentstList && selectedInstallmentstList.id}
       SelectItem={() => SelectWithId(item.id)}
-      DelItem={DelItem}
-      CompleteItem={() =>
-        CompleteItem(item.id, item.title, firstNOtComplete, secondNOtComplete)
+      DelItem={() =>
+        DelItem(selectedInstallmentstList.id, selectedInstallmentstList.title)
       }
-      UpdateItem={() => CompleteItemInstallment(item.id, item.title)}
+      CompleteItem={() =>
+        CompleteItem(
+          selectedInstallmentstList.id,
+          selectedInstallmentstList.title
+        )
+      }
       {...item}
     />
   );

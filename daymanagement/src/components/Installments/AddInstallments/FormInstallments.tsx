@@ -10,7 +10,11 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
-import { currentUnixTimestamp, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import {
+  currentUnixTimestamp,
+  currentUnixTimestampZero,
+  DayUnixAdd,
+} from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   selectInstallmentstList,
@@ -131,8 +135,6 @@ export default function FormInstallments({
           isComplete: false,
         });
       }
-      console.log(installmentArray);
-
       setInstalmentDetails(installmentArray);
     }
   }, [
@@ -219,7 +221,7 @@ export default function FormInstallments({
         ? instalmentNotComplete[instalmentNotComplete.length - 1].doDate
         : lastInstalment;
 
-    selectedInstallmentstList?.title
+    formType == "Edit"
       ? dispatch(
           updateInstallmentstList({
             id: selectedInstallmentstList.id,
@@ -251,9 +253,9 @@ export default function FormInstallments({
             startDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.startDate,
-            lastUpdate: lastComplete,
+            lastUpdate: currentUnixTimestampZero,
             doDate: firstNOtComplete,
-            createDate: currentUnixTimestamp,
+            createDate: currentUnixTimestampZero,
             completeUpdate: lastNOtComplete,
             description: data.description || "",
             priority: data.priority || "",
@@ -268,7 +270,7 @@ export default function FormInstallments({
 
     setValue("startDate", 0);
 
-    selectedInstallmentstList?.id
+    formType == "Edit"
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 
@@ -469,7 +471,9 @@ export default function FormInstallments({
         onChangeinstallment={onChangeinstallment}
       >
         <DialogTrigger asChild disabled={!date}>
-          <Button variant="default">Installments list</Button>
+          <Button variant="default" className="flex-1 w-full">
+            Installments list
+          </Button>
         </DialogTrigger>
       </DrawerDialogDemo>
 

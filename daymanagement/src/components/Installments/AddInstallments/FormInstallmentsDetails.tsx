@@ -1,8 +1,9 @@
 "use client";
-import BasicSwitch from "@/components/ui/BasicSwitch";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import dayjs from "dayjs";
+import { CheckCircle } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FieldErrors } from "react-hook-form";
 
@@ -60,19 +61,21 @@ export default function FormInstallmentsDetails({
       />
 
       <div className="flex-none w-14 flex flex-row justify-center items-center">
-        <BasicSwitch
-          checked={installment.isComplete}
-          handleToggle={(e) => {
+        <Button
+          disabled={installment.isComplete}
+          onClick={(e) => {
             e && e.preventDefault();
+            e && e.stopPropagation();
             installment.doDate &&
               setInstalmentDetail({
                 ...installment,
                 isComplete: !installment.isComplete,
               });
           }}
-          label=""
-          key={"isComplete"}
-        />
+          className={installment.isComplete ? "bg-success" : "bg-primary"}
+        >
+          <CheckCircle width={16} height={16} />
+        </Button>
       </div>
     </div>
   );

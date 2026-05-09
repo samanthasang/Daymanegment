@@ -27,7 +27,7 @@ export const DayUnixFormatNow = (format: string) =>
   dayjs(dayjs.unix(Number(currentUnixTimestamp))).format(format);
 
 export const DayUnixDiff = (date: number, format: dayjs.QUnitType) =>
-  dayjs.unix(Number(date)).diff(dayjs.unix(currentUnixTimestamp), format);
+  dayjs.unix(Number(date)).diff(dayjs.unix(currentUnixTimestampZero), format);
 
 export const DayUnixDuration = (dateStart: string, dateEnd: string) =>
   dayjs.duration(

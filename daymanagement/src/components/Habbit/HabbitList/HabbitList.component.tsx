@@ -12,7 +12,7 @@ const SelectedSection = dynamic(
 );
 function HabbitList() {
   const { ListHabbitNew, ListMyHabbit, selectedHabbit } = UseHabbitList();
-  const { CompleteItem, DelItem, SelectItem, UndoItem } =
+  const { CompleteItem, DelItem, SelectItem, UndoItem, PauseItem } =
     SelectHabbitListActivities();
 
   return (
@@ -42,6 +42,7 @@ function HabbitList() {
         DelItem={() => DelItem(selectedHabbit.id, selectedHabbit.title)}
         SelectItem={SelectItem}
         UndoneItem={() => UndoItem(selectedHabbit)}
+        PauseItem={() => PauseItem(selectedHabbit.id, selectedHabbit.title)}
         DuplicateItem
         isComplete={selectedHabbit && selectedHabbit.isComplete}
         selected={selectedHabbit}

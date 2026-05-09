@@ -1,27 +1,22 @@
 "use client";
-import { ShoppingCart } from "@/components/icons";
 import ShareItemSpends from "@/components/Share/ShareItem/ShareItemSpends.component";
 import ShareItemVisit from "@/components/Share/ShareItem/ShareItemVisit.componen";
 import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
-import {
-  DollarSign,
-  Highlighter,
-  LineChart,
-  SignalHigh,
-  Star,
-  Stars,
-} from "lucide-react";
 import ListCategorySelected from "../../ListSection/listCategorySelected/ListCategorySelected.component";
 import ListTagSelected from "../../ListSection/listTagSelected/ListTagSelected.component";
 import SelectedInsstalmentsItem from "./SelectedInsstalmentsItem.component";
 import SelectedItemActivities from "./SelectedItemActivities";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import SelectedItemDate from "./SelectedItemDate.component";
+import SelectedItemHabbit from "./SelectedItemHabbit.component";
+import SelectedItemInstallments from "./SelectedItemInstallments.component";
 import SelectedItemMainInfocomponen from "./SelectedItemMainInfocomponen";
 import SelectedItemPeopleList from "./SelectedItemPeopleList.component";
+import SelectedItemSpends from "./SelectedItemSpends.component";
 import SelectedItemTimerList from "./SelectedItemTimerList.component";
+import SelectedItemVisit from "./SelectedItemVisit.component";
 import SelectedPeopleItem from "./SelectedPeopleItem.component";
 import SelectedShareItem from "./SelectedShareItem.component";
 
@@ -43,6 +38,7 @@ export const SelectedItem = ({
   highest,
   time,
   total,
+  income,
   incomeAmount,
   outcomeAmount,
   numberOfProduct,
@@ -74,6 +70,7 @@ export const SelectedItem = ({
   DuplicateTodayItem,
   AddOneDayToItem,
   AddSevenDaysToItem,
+  PaymentCompleteItem,
 }: {
   id: string;
   priority?: string;
@@ -91,6 +88,7 @@ export const SelectedItem = ({
   paymentCompleteValue?: string;
   numberOfPayment?: string;
   tag?: string;
+  income: boolean;
   isComplete: boolean;
   isFinish?: boolean;
   isPause?: boolean;
@@ -123,15 +121,21 @@ export const SelectedItem = ({
   DuplicateTodayItem?: () => void;
   AddOneDayToItem?: () => void;
   AddSevenDaysToItem?: () => void;
+  PaymentCompleteItem?: () => void;
 }) => {
   return (
     id && (
       <div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-2 rounded-3xl scroll-m-0 overflow-y-scroll">
         <SelectedItemMainInfocomponen
           title={title}
+          isFinish={isFinish}
           priority={priority}
-          incomeAmount={incomeAmount}
-          priceOfProduct={priceOfProduct ?? outcomeAmount}
+          incomeAmount={drawerType != "Shares" ? incomeAmount : undefined}
+          priceOfProduct={
+            drawerType != "Shares"
+              ? (priceOfProduct ?? outcomeAmount)
+              : undefined
+          }
         />
         <div className="w-full flex flex-row justify-between gap-x-2">
           <SelectedItemContainer title="Category">
@@ -174,37 +178,11 @@ export const SelectedItem = ({
           />
         )}
         {drawerType == "Friends" && <SelectedItemPeopleList id={id} />}
-        {(score || highest) && (
-          <div className="w-full flex flex-row justify-between gap-x-2">
-            {score && (
-              <SelectedItemContainer title="Score">
-                <label
-                  className={
-                    (score && drawerType == "Goals" && score > 4) ||
-                    (score && drawerType == "Habbits" && score > 6)
-                      ? "text-successGreen"
-                      : "text-errorRed"
-                  }
-                >
-                  <div className="flex flex-row items-center gap-x-0.5">
-                    <Star width={16} height={16} />
-                    {score}
-                  </div>
-                </label>
-              </SelectedItemContainer>
-            )}
-            {highest && (
-              <SelectedItemContainer title="Highest">
-                <label className="text-successGreen">
-                  <div className="flex flex-row items-center gap-x-0.5">
-                    <Stars width={16} height={16} />
-                    {highest}
-                  </div>
-                </label>
-              </SelectedItemContainer>
-            )}
-          </div>
-        )}
+        <SelectedItemHabbit
+          score={score}
+          highest={highest}
+          drawerType={drawerType}
+        />
         {drawerType == "Timers" && (
           <SelectedItemTimerList
             isComplete={isComplete}
@@ -212,95 +190,22 @@ export const SelectedItem = ({
             endDate={endDate}
           />
         )}
-        {(paymentCompleteValue || advancePayment) && (
-          <div className="w-full flex flex-row justify-between gap-x-2">
-            {paymentCompleteValue && (
-              <SelectedItemContainer title="Complete Payment">
-                <div
-                  className={cn(
-                    "flex flex-row items-center gap-x-0.5",
-                    (score && drawerType == "Goals" && score > 4) ||
-                      (score && drawerType == "Habbits" && score > 6)
-                      ? "text-successGreen"
-                      : "text-errorRed"
-                  )}
-                >
-                  <DollarSign width={16} height={16} />
-                  {paymentCompleteValue}
-                </div>
-              </SelectedItemContainer>
-            )}
-            {paymentCompleteValue && advancePayment && (
-              <SelectedItemContainer title="Advance Payment">
-                <div
-                  className={cn(
-                    "flex flex-row items-center gap-x-0.5",
-                    +paymentCompleteValue - +advancePayment > 0
-                      ? "text-red-500"
-                      : "text-successGreen"
-                  )}
-                >
-                  <DollarSign width={16} height={16} />
-                  {advancePayment}
-                </div>
-              </SelectedItemContainer>
-            )}
-          </div>
-        )}
-        {(numberOfPayment || paymentNumber) && (
-          <div className="w-full flex flex-row justify-between gap-x-2">
-            {numberOfPayment && (
-              <SelectedItemContainer
-                title="Installments"
-                description={numberOfPayment}
-              />
-            )}
-            {paymentNumber && (
-              <SelectedItemContainer
-                title="Period"
-                description={paymentNumber}
-              />
-            )}
-          </div>
-        )}
-        {(priceOfProduct || numberOfProduct) && (
-          <div className="w-full flex flex-row justify-between gap-x-2">
-            {priceOfProduct && (
-              <SelectedItemContainer title="Price Of Product">
-                <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
-                  <DollarSign width={16} height={16} />
-                  {priceOfProduct}
-                </div>
-              </SelectedItemContainer>
-            )}
-            {numberOfProduct && (
-              <SelectedItemContainer title="Number Of Product">
-                <div className="flex flex-row items-center gap-x-1">
-                  <ShoppingCart width={16} height={16} />
-                  {numberOfProduct}
-                </div>
-              </SelectedItemContainer>
-            )}
-          </div>
-        )}
-        {incomeAmount && (
-          <SelectedItemContainer title="Income Amount">
-            <div className="flex flex-row items-center gap-x-0.5 text-successGreen">
-              <DollarSign width={16} height={16} />
-              {incomeAmount}
-            </div>
-          </SelectedItemContainer>
-        )}
-        {outcomeAmount && (
-          <SelectedItemContainer title="Outcome Amount">
-            <label>
-              <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
-                <DollarSign width={16} height={16} />
-                {outcomeAmount}
-              </div>
-            </label>
-          </SelectedItemContainer>
-        )}
+        <SelectedItemVisit
+          advancePayment={advancePayment}
+          paymentCompleteValue={paymentCompleteValue}
+          installmentstList={installmentstList}
+        />
+        <SelectedItemInstallments
+          paymentNumber={paymentNumber}
+          numberOfPayment={numberOfPayment}
+        />
+        <SelectedItemSpends
+          income={income}
+          incomeAmount={incomeAmount}
+          outcomeAmount={outcomeAmount}
+          numberOfProduct={numberOfProduct}
+          priceOfProduct={priceOfProduct}
+        />
         <SelectedItemContainer title="Activities">
           <SelectedItemActivities
             drawerType={drawerType || ""}
@@ -308,6 +213,11 @@ export const SelectedItem = ({
             isComplete={isComplete}
             isFinish={isFinish}
             isPause={isPause}
+            isPaymentComplete={
+              !!paymentCompleteValue &&
+              !!advancePayment &&
+              +paymentCompleteValue - +advancePayment != 0
+            }
             isToday={DayUnixDiff(doDate, "day") == 0}
             CompleteItem={CompleteItem}
             FinishItem={FinishItem}
@@ -319,6 +229,7 @@ export const SelectedItem = ({
             DuplicateTodayItem={DuplicateTodayItem}
             AddOneDayToItem={AddOneDayToItem}
             AddSevenDaysToItem={AddSevenDaysToItem}
+            PaymentCompleteItem={PaymentCompleteItem}
           />
         </SelectedItemContainer>
         {installmentstList && (
@@ -328,10 +239,12 @@ export const SelectedItem = ({
                 key={inss.doDate}
                 id={id}
                 title={title}
-                last={inss.doDate == completeUpdate}
+                isFinish={isFinish}
                 lastupdate={lastUpdate || 0}
-                createDate={createDate || doDate || 0}
-                {...inss}
+                date={doDate || 0}
+                doDate={inss.doDate}
+                isComplete={inss.isComplete}
+                payment={inss.payment}
               />
             ))}
           </SelectedItemContainer>

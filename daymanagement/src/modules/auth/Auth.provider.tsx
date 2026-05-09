@@ -31,7 +31,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
 	function getToken() {
 		const token = localStorage.getItem("AuthProvider");
-		if (token != null) console.log(JSON.parse(token));
 		if (token != null) login(JSON.parse(token));
 		if (token == null) deleteSession();
 

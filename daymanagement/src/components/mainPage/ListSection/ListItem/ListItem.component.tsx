@@ -15,7 +15,7 @@ export const ListItem = ({
   tag,
   isComplete,
   isFinish,
-  nextDate,
+  isPause,
   date,
   diff,
   score,
@@ -28,6 +28,7 @@ export const ListItem = ({
   drawerType,
   visitId,
   spendsId,
+  paymentCompleteValue,
   withDel = true,
   selectedID,
   SelectItem,
@@ -48,9 +49,9 @@ export const ListItem = ({
   spendsId?: string;
   tag?: string;
   isComplete?: boolean;
+  isPause?: boolean;
   withShare?: boolean;
   isFinish?: boolean;
-  nextDate?: string;
   withDel?: boolean;
   date?: string | number;
   diff?: duration.Duration;
@@ -58,6 +59,7 @@ export const ListItem = ({
   total?: number;
   hasShare?: boolean;
   drawerType: string;
+  paymentCompleteValue?: string;
   SelectItem?: () => void;
   DelItem?: () => void;
   CompleteItem?: () => void;
@@ -95,6 +97,9 @@ export const ListItem = ({
           withShare={withShare}
           visitId={visitId}
           spendsId={spendsId}
+          paymentCompleteValue={paymentCompleteValue}
+          isPause={isPause}
+          isFinish={isFinish}
         />
         <ListItemCatTag
           id={id}
@@ -109,7 +114,7 @@ export const ListItem = ({
           title={title}
           isComplete={isComplete}
           isFinish={isFinish}
-          nextDate={nextDate}
+          isPause={isPause}
           date={date}
           score={score}
           hasShare={hasShare}

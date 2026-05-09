@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/lib/hook";
 import {
   completeReminderList,
   delReminderList,
-  finishReminderList,
+  pauseReminderList,
   selectReminderList,
   TReminder,
   updateReminderList,
@@ -34,8 +34,8 @@ function ReminderListActivities() {
     id && selectedReminder && dispatch(selectReminderList(id));
     toast(`${title} is updated`);
   };
-  const FinishItem = (id: string, title: string) => {
-    dispatch(finishReminderList(id));
+  const PauseItem = (id: string, title: string) => {
+    dispatch(pauseReminderList(id));
     id && selectedReminder && dispatch(selectReminderList(id));
     toast(`${title} is updated`);
   };
@@ -57,7 +57,7 @@ function ReminderListActivities() {
     DelItem,
     SelectWithId,
     SelectItem,
-    FinishItem,
+    PauseItem,
   };
 }
 

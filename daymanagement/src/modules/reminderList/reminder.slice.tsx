@@ -6,7 +6,7 @@ export type TReminder = {
   id: string;
   title: string;
   isComplete: boolean;
-  isFinish: boolean;
+  isPause: boolean;
   doDate: number;
   createDate: number;
   lastUpdate: number;
@@ -65,7 +65,7 @@ export const reminderListSlice = createSlice({
               priodDiff: action.payload.priodDiff,
               description: action.payload.description,
               isComplete: false,
-              isFinish: false,
+              isPause: false,
             },
           ]
         : [
@@ -83,7 +83,7 @@ export const reminderListSlice = createSlice({
               tag: action.payload.tag,
               description: action.payload.description,
               isComplete: false,
-              isFinish: false,
+              isPause: false,
             },
           ];
     },
@@ -111,15 +111,12 @@ export const reminderListSlice = createSlice({
           : reminder
       );
     },
-    finishReminderList: (
-      state: InitialState,
-      action: PayloadAction<string>
-    ) => {
+    pauseReminderList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListReminder = state.ListReminder.map((reminder) =>
         reminder.id == action.payload
           ? {
               ...reminder,
-              isFinish: !reminder.isFinish,
+              isPause: !reminder.isPause,
             }
           : reminder
       );
@@ -194,5 +191,5 @@ export const {
   updateReminderList,
   selectReminderList,
   unFinishReminderList,
-  finishReminderList,
+  pauseReminderList,
 } = reminderListSlice.actions;

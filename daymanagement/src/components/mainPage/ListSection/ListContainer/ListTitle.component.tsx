@@ -18,7 +18,7 @@ function ListTitle({
   return (
     <div
       className={cn(
-        "cursor-pointer flex justify-center items-center gap-x-1 w-full text-center py-1 rounded-2xl hover:bg-card/15 hover:text-card",
+        "cursor-pointer flex justify-center items-center gap-x-1 w-full text-center py-1 rounded-3xl hover:text-card",
         forgot ? "bg-card/15 text-card" : "bg-primary text-TextForeground "
       )}
       onClick={() => setForgot && setForgot()}

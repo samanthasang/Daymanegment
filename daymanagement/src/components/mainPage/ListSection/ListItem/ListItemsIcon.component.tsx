@@ -1,24 +1,24 @@
 import {
   BadgeDollarSign,
   BookUser,
+  CalendarRange,
+  CalendarSync,
   CircuitBoard,
   FileSpreadsheet,
   ListTodo,
-  Repeat2,
   Target,
   TimerIcon,
-  TimerReset,
-  User,
+  User
 } from "lucide-react";
 
 function ListItemsIcon(tilte: string, size: number) {
   switch (tilte) {
     case "Reminders":
-      return <Repeat2 width={size} height={size} />;
+      return <CalendarSync width={size} height={size} />;
     case "Todos":
       return <ListTodo width={size} height={size} />;
     case "Habbits":
-      return <TimerReset width={size} height={size} />;
+      return <CalendarRange width={size} height={size} />;
     case "Timers":
       return <TimerIcon width={size} height={size} />;
     case "Spends":

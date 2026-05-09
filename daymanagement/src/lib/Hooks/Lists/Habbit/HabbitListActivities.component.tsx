@@ -3,6 +3,7 @@ import { useAppDispatch } from "@/lib/hook";
 import {
   completeHabbitList,
   delHabbitList,
+  PauseHabbitList,
   selectHabbitList,
   Thabbit,
   updateHabbitList,
@@ -32,6 +33,11 @@ function SelectHabbitListActivities() {
     id && selectedHabbit && dispatch(selectHabbitList(id));
     toast(`${title} is updated`);
   };
+  const PauseItem = (id: string, title: string) => {
+    dispatch(PauseHabbitList(id));
+    id && selectedHabbit && dispatch(selectHabbitList(id));
+    toast(`${title} is updated`);
+  };
   const UndoItem = (item: Thabbit) => {
     dispatch(
       updateHabbitList({
@@ -44,7 +50,14 @@ function SelectHabbitListActivities() {
     item.id && selectedHabbit && dispatch(selectHabbitList(item.id));
     toast(`${item.title} is updated`);
   };
-  return { CompleteItem, DelItem, SelectWithId, SelectItem, UndoItem };
+  return {
+    CompleteItem,
+    DelItem,
+    SelectWithId,
+    SelectItem,
+    UndoItem,
+    PauseItem,
+  };
 }
 
 export default SelectHabbitListActivities;

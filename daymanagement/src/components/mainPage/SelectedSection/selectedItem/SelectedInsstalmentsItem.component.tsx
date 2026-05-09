@@ -1,70 +1,69 @@
-import { Done } from "@/components/icons";
+import { Button } from "@/components/ui/button";
 import InstallmentsListActivities from "@/lib/Hooks/Lists/Installments/InstallmentsListActivities.component";
+import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
+import { Calendar, CheckCircle2, DollarSign } from "lucide-react";
 
 export const SelectedInsstalmentsItem = ({
   id,
   title,
-  createDate,
-  last,
+  date,
+  isFinish,
   payment,
   isComplete,
   doDate,
-  lastupdate,
 }: {
   id: string;
   title: string;
   doDate: number;
-  createDate: number;
-  last?: boolean;
+  date: number;
+  isFinish?: boolean;
   payment: string;
   isComplete: boolean;
   lastupdate: number;
 }) => {
-  const { CompleteItem, CompleteItemInstallment } =
-    InstallmentsListActivities();
+  const { CompleteItem } = InstallmentsListActivities();
 
   return (
     <div className="flex justify-between w-full">
-      <label>
-        {/* <Eye /> */}
-        {dayjs(dayjs.unix(Number(doDate))).format("YYYY-MM-DD")}
-      </label>
-      <label className={!isComplete ? "text-white" : "text-success"}>
+      <div
+        className={cn(
+          "flex flex-row items-center gap-x-0.5",
+          !isComplete ? "text-white" : "text-successGreen"
+        )}
+      >
+        <Calendar width={16} height={16} />
+        {DayUnixFormat(+doDate, "YYYY-MM-DD")}
+      </div>
+      <div
+        className={cn(
+          "flex flex-row items-center gap-x-0.5",
+          !isComplete ? "text-errorRed" : "text-successGreen"
+        )}
+      >
+        <DollarSign width={16} height={16} />
         {payment}
-      </label>
-      {/* <BasicSwitch
-        checked={(disable && isComplete) || false}
-        handleToggle={(e) => {
-          e && e.preventDefault() && e.stopPropagation();
-          !disable && !isComplete && CompleteItem(id, title, date);
-          last && CompleteItemInstallment(id, title);
-        }}
-        label=""
-        key={"isComplete"}
-      /> */}
+      </div>
       <>
-        <div
+        <Button
+          disabled={!isFinish && isComplete}
           onClick={(e) => {
             e && e.preventDefault();
             e && e.stopPropagation();
-            e &&
-              (!(doDate != createDate && doDate != lastupdate) || isComplete) &&
-              CompleteItemInstallment(id, title);
-            e && last && CompleteItem(id, title, doDate, createDate);
+            e && (doDate == date || isComplete) && CompleteItem(id, title);
           }}
           className={cn(
-            "h-8 w-8 min-w-8 flex justify-center items-center rounded-full hover:bg-card/15 cursor-pointer",
-            !isComplete
-              ? !(doDate != createDate && doDate != lastupdate)
-                ? "bg-primary"
-                : "bg-white/15"
-              : "bg-success"
+            !isFinish
+              ? isComplete
+                ? "bg-success"
+                : doDate != date
+                  ? "bg-white/15"
+                  : "bg-primary"
+              : "bg-white/15"
           )}
         >
-          <Done />
-        </div>
+          <CheckCircle2 />
+        </Button>
       </>
     </div>
   );

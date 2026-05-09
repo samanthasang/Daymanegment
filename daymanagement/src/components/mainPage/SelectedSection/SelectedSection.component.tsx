@@ -2,6 +2,7 @@ import ListTitle from "../ListSection/ListContainer/ListTitle.component";
 import SelectedContainer from "./selectedItem/SelectedContainer.component";
 import SelectedItem from "./selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "./selectedItem/SelectedMenuBottom.component";
+import SelectedTitle from "./SelectedTitle.component";
 
 function SelectedSection({
   selected,
@@ -24,6 +25,7 @@ function SelectedSection({
   DuplicateTodayItem,
   AddOneDayToItem,
   AddSevenDaysToItem,
+  PaymentCompleteItem,
 }: {
   selected: any;
   score?: number;
@@ -45,12 +47,13 @@ function SelectedSection({
   DuplicateTodayItem?: () => void;
   AddOneDayToItem?: () => void;
   AddSevenDaysToItem?: () => void;
+  PaymentCompleteItem?: () => void;
 }) {
   return (
     selected &&
     selected.id && (
       <SelectedContainer>
-        <ListTitle forgot title={drawerTitle} drawerType={drawerType} />
+        <SelectedTitle title={drawerTitle} drawerType={drawerType} />
         <SelectedItem
           drawerType={drawerType}
           score={score}
@@ -69,6 +72,7 @@ function SelectedSection({
           DuplicateTodayItem={DuplicateTodayItem}
           AddOneDayToItem={AddOneDayToItem}
           AddSevenDaysToItem={AddSevenDaysToItem}
+          PaymentCompleteItem={PaymentCompleteItem}
           {...selected}
         />
         <SelectedMenuBottom

@@ -1,19 +1,26 @@
 "use client";
-import SelectedItemContainer from "./SelectedItemContainer.component";
+import {
+  CircleDollarSign,
+  CircleOff,
+  PauseCircle,
+  ShoppingCart,
+} from "lucide-react";
 import ListPriority from "../../ListSection/ListPriority/ListPriority.component";
-import { CircleDollarSign, ShoppingCart } from "lucide-react";
+import SelectedItemContainer from "./SelectedItemContainer.component";
 
 export const SelectedItemMainInfocomponen = ({
   priority,
   title,
   incomeAmount,
   priceOfProduct,
+  isFinish,
 }: {
   priority?: string;
   title: string;
   incomeAmount?: string;
   numberOfProduct?: string;
   priceOfProduct?: string;
+  isFinish?: boolean;
 }) => {
   return (
     <div className="w-full flex flex-row justify-between gap-x-2">
@@ -25,8 +32,11 @@ export const SelectedItemMainInfocomponen = ({
           <ListPriority priority={priority} showTitle />
         </SelectedItemContainer>
       )}
-      {(incomeAmount || priceOfProduct) && (
-        <SelectedItemContainer classContainer="w-fit items-center" title="Type">
+      {(incomeAmount || priceOfProduct || isFinish) && (
+        <SelectedItemContainer
+          classContainer="w-fit items-center"
+          title={isFinish ? "Status" : "Type"}
+        >
           {incomeAmount && (
             <div className="flex items-center gap-x-1">
               <CircleDollarSign
@@ -41,6 +51,12 @@ export const SelectedItemMainInfocomponen = ({
             <div className="flex items-center gap-x-1">
               <ShoppingCart width={16} height={16} className="text-errorRed" />
               <label>Buy</label>
+            </div>
+          )}
+          {isFinish && (
+            <div className="flex items-center gap-x-1 text-successGreen">
+              <CircleOff width={16} height={16} />
+              <label>Finished</label>
             </div>
           )}
         </SelectedItemContainer>
