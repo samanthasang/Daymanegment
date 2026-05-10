@@ -1,65 +1,74 @@
 "use client";
 import ListTitle from "@/components/mainPage/ListSection/ListContainer/ListTitle.component";
 import ListTitleContainer from "@/components/mainPage/ListSection/ListContainer/ListTitleContainer.component";
-import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
-import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
-import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
+import IncomeFilter from "@/lib/Hooks/Filters/IncomeFilter.componen";
+import IncomeMFilter from "@/lib/Hooks/Filters/IncomeMFilter.componen";
+import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
-import dayjs from "dayjs";
-import { Timer } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { CircleDollarSign } from "lucide-react";
 import { useState } from "react";
 
 function ShareInfo() {
   const [forgot, setForgot] = useState(false);
-  const { ListTimerFiltered, ListTimerForgot, ListTimerAll } = useTimerList();
+  const { ListShareFriends, ListShareForgot, ListShareAll } = useShareList();
 
-  const TimersLenght = ListTimerFiltered.length;
-  const TimersFinishLenght = NotFinishedArray(ListTimerFiltered).length;
-  const TimersNotFinishLenght = FinishedArray(ListTimerFiltered).length;
-  const TimersTodayLenght = ListTimerAll.filter(
-    (item) =>
-      item.startDate >= currentUnixTimestampZero &&
-      item.startDate <= DayUnixAdd(currentUnixTimestampZero, "day", 1)
-  );
-  const TimersStartTimeArray = ListTimerFiltered?.reduce((acc, obj) => {
-    if (obj.isComplete && obj.startDate) {
-      return acc + +obj.startDate;
+  const SharesLenght = ListShareFriends.length;
+  const { incomeArray: inComeArray } = IncomeFilter(ListShareFriends);
+  const { incomeMArray: outComeArray } = IncomeMFilter(ListShareFriends);
+  const SharesIncomeArray = inComeArray?.reduce((acc, obj) => {
+    if (obj.income && obj.incomeAmount) {
+      return acc + +obj.incomeAmount;
     }
     return acc;
   }, 0);
-  const TimersEndTimeArray = ListTimerFiltered?.reduce((acc, obj) => {
-    if (obj.isComplete && obj.endDate) {
-      return acc + +obj.endDate;
+  const SharesOutcomeArray = outComeArray?.reduce((acc, obj) => {
+    if (!obj.income && obj.outcomeAmount) {
+      return acc + +obj.outcomeAmount;
     }
     return acc;
   }, 0);
 
-  const startD = dayjs.unix(TimersStartTimeArray);
-  const endD = dayjs.unix(TimersEndTimeArray);
-  const diff = dayjs.duration(endD.diff(startD));
-
-  const TodayTimersFinishLenght = NotFinishedArray(TimersTodayLenght).length;
-  const TodayTimersNotFinishLenght = FinishedArray(TimersTodayLenght).length;
-
-  const OldTimersLenght = ListTimerForgot.length;
-  const OldTimersFinishLenght = NotFinishedArray(ListTimerForgot).length;
-  const OldTimersNotFinishLenght = FinishedArray(ListTimerForgot).length;
-  const oldTimersStartTimeArray = ListTimerForgot?.reduce((acc, obj) => {
-    if (obj.isComplete && obj.startDate) {
-      return acc + +obj.startDate;
+  const OldSharesLenght = ListShareForgot.length;
+  const { incomeArray } = IncomeFilter(ListShareForgot);
+  const { incomeMArray: outcomeArray } = IncomeMFilter(ListShareForgot);
+  const OldSharesInComeArray = incomeArray?.reduce((acc, obj) => {
+    if (obj.income && obj.incomeAmount) {
+      return acc + +obj.incomeAmount;
     }
     return acc;
   }, 0);
-  const oldTimersEndTimeArray = ListTimerForgot?.reduce((acc, obj) => {
-    if (obj.isComplete && obj.endDate) {
-      return acc + +obj.endDate;
+  const OldSharesOutComeArray = outcomeArray?.reduce((acc, obj) => {
+    if (!obj.income && obj.outcomeAmount) {
+      return acc + +obj.outcomeAmount;
     }
     return acc;
   }, 0);
 
-  const oldStartD = dayjs.unix(oldTimersStartTimeArray);
-  const oldEndD = dayjs.unix(oldTimersEndTimeArray);
-  const oldDiff = dayjs.duration(oldEndD.diff(oldStartD));
+  const EarnToday = inComeArray
+    .filter(
+      (item) =>
+        +item.doDate >= currentUnixTimestampZero &&
+        +item.doDate <= DayUnixAdd(currentUnixTimestampZero, "day", 1)
+    )
+    .reduce((acc, obj) => {
+      if (obj.income && obj.incomeAmount) {
+        return acc + +obj.incomeAmount;
+      }
+      return acc;
+    }, 0);
+  const SharesToday = outComeArray
+    .filter(
+      (item) =>
+        +item.doDate >= currentUnixTimestampZero &&
+        +item.doDate <= DayUnixAdd(currentUnixTimestampZero, "day", 1)
+    )
+    .reduce((acc, obj) => {
+      if (!obj.income && obj.outcomeAmount) {
+        return acc + +obj.outcomeAmount;
+      }
+      return acc;
+    }, 0);
 
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
@@ -67,64 +76,103 @@ function ShareInfo() {
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Timers"}
+          title={"Shares"}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Timers"}
+          title={"Old Shares"}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Timers :</span>
-        {!forgot ? TimersLenght : OldTimersLenght}
+        <span>All Shares :</span>
+        {!forgot ? SharesLenght : OldSharesLenght}
+      </div>
+      <div className="flex justify-between items-center text-successGreen bg-primary py-1 px-3 rounded-3xl">
+        <span>Earn :</span>
+        {!forgot ? (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{SharesIncomeArray}</label>
+          </div>
+        ) : (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{OldSharesInComeArray}</label>
+          </div>
+        )}
+      </div>
+      <div className="flex justify-between items-center text-errorRed bg-primary py-1 px-3 rounded-3xl">
+        <span>Shares :</span>
+        {!forgot ? (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-errorRed"
+            />
+            <label>{SharesOutcomeArray}</label>
+          </div>
+        ) : (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-errorRed"
+            />
+            <label>{OldSharesOutComeArray}</label>
+          </div>
+        )}
+      </div>
+      <div
+        className={cn(
+          "flex justify-between items-center text-errorRed bg-primary py-1 px-3 rounded-3xl",
+          SharesIncomeArray - SharesOutcomeArray > 0 ||
+            OldSharesInComeArray - OldSharesOutComeArray > 0
+            ? "text-successGreen"
+            : "text-errorRed"
+        )}
+      >
+        <span className="text-blue-500">Total :</span>
+        {!forgot ? (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{SharesIncomeArray - SharesOutcomeArray}</label>
+          </div>
+        ) : (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{OldSharesInComeArray - OldSharesOutComeArray}</label>
+          </div>
+        )}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
-            {!forgot ? TimersFinishLenght : OldTimersFinishLenght}
-          </span>
-          <span className="text-errorRed">
-            {!forgot ? TimersNotFinishLenght : OldTimersNotFinishLenght}
-          </span>
-        </div>
-      </div>
-      <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Timers :</span>
-        <label>
-          {!forgot ? (
-            <div className="flex flex-row items-center gap-x-1">
-              <Timer width={12} height={12} />
-              {diff.years() > 0 && `${diff.years()} : `}
-              {diff.months() > 0 && `${diff.months()} : `}
-              {diff.days() > 0 && `${diff.days()} : `}
-              {diff.hours() > 0 && `${diff.hours()} : `}
-              {diff.minutes() > 0 && `${diff.minutes()} : `}
-              {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
-            </div>
-          ) : (
-            <div className="flex flex-row items-center gap-x-1">
-              <Timer width={12} height={12} />
-              {oldDiff.years() > 0 && `${oldDiff.years()} : `}
-              {oldDiff.months() > 0 && `${oldDiff.months()} : `}
-              {oldDiff.days() > 0 && `${oldDiff.days()} : `}
-              {oldDiff.hours() > 0 && `${oldDiff.hours()} : `}
-              {oldDiff.minutes() > 0 && `${oldDiff.minutes()} : `}
-              {oldDiff.seconds() < 10
-                ? `0${oldDiff.seconds()}`
-                : `${oldDiff.seconds()}`}
-            </div>
-          )}
-        </label>
-      </div>
-      <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Timers :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
-            {TodayTimersFinishLenght}
-          </span>
-          <span className="text-errorRed">{TodayTimersNotFinishLenght}</span>
+        <span>Today :</span>
+        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-1">
+          <div className="flex items-center gap-x-1 text-successGreen border-r-2 border-blue-500 pr-1">
+            <CircleDollarSign width={16} height={16} />
+            <label>{EarnToday}</label>
+          </div>
+          <div className="flex items-center gap-x-1 text-errorRed">
+            <CircleDollarSign width={16} height={16} />
+            <label>{SharesToday}</label>
+          </div>
         </div>
       </div>
     </div>

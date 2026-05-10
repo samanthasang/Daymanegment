@@ -19,7 +19,7 @@ function HabbitInfo() {
   const OldHabbitNotFinishLenght = FinishedArray(ListHabbitNew).length;
 
   return (
-    <div className="w-full min-w-60 flex flex-col gap-y-2">
+    <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}

@@ -76,7 +76,7 @@ export const SelectedItemVisit = ({
               </div>
             </SelectedItemContainer>
 
-            <SelectedItemContainer title="LeftOver Payment">
+            <SelectedItemContainer title="Leftover Payment">
               <div
                 className={cn(
                   "flex flex-row items-center gap-x-0.5",

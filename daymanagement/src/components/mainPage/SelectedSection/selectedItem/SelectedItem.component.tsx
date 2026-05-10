@@ -128,7 +128,7 @@ export const SelectedItem = ({
       <div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-2 rounded-3xl scroll-m-0 overflow-y-scroll">
         <SelectedItemMainInfocomponen
           title={title}
-          isFinish={isFinish}
+          isFinish={isFinish || (!!endDate && isComplete)}
           priority={priority}
           incomeAmount={drawerType != "Shares" ? incomeAmount : undefined}
           priceOfProduct={

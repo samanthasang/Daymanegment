@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { setTimerList } from "@/modules/timerList/timer.slice";
+import dayjs from "dayjs";
 import { Timer } from "lucide-react";
 
 function TimerListMenuBottom() {
@@ -11,10 +11,10 @@ function TimerListMenuBottom() {
     dispatch(
       setTimerList({
         id: "",
-        title: `timer-${currentUnixTimestamp}`,
-        startDate: currentUnixTimestamp,
-        endDate: currentUnixTimestamp,
-        createDate: currentUnixTimestamp,
+        title: `timer-${dayjs(Math.floor(new Date().getTime())).unix()}`,
+        startDate: dayjs(Math.floor(new Date().getTime())).unix(),
+        endDate: dayjs(Math.floor(new Date().getTime())).unix(),
+        createDate: dayjs(Math.floor(new Date().getTime())).unix(),
         description: "",
         isComplete: false,
         category: "",

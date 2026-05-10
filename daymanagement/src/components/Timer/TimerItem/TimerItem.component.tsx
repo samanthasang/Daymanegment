@@ -34,6 +34,7 @@ export const Timeritem = ({ item }: { item: TTimer }) => {
       CompleteItem={() => CompleteItem(item.id, item.title)}
       {...item}
       title={timerTItle}
+      isFinish={!!item.endDate && item.isComplete}
     />
   );
 };

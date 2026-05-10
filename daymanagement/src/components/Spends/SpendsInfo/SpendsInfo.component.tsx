@@ -6,6 +6,7 @@ import IncomeMFilter from "@/lib/Hooks/Filters/IncomeMFilter.componen";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
+import { CircleDollarSign } from "lucide-react";
 import { useState } from "react";
 
 function SpendsInfo() {
@@ -70,7 +71,7 @@ function SpendsInfo() {
     }, 0);
 
   return (
-    <div className="w-full min-w-60 flex flex-col gap-y-2">
+    <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
@@ -89,11 +90,47 @@ function SpendsInfo() {
       </div>
       <div className="flex justify-between items-center text-successGreen bg-primary py-1 px-3 rounded-3xl">
         <span>Earn :</span>
-        {!forgot ? SpendsIncomeArray : OldSpendsInComeArray}
+        {!forgot ? (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{SpendsIncomeArray}</label>
+          </div>
+        ) : (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{OldSpendsInComeArray}</label>
+          </div>
+        )}
       </div>
       <div className="flex justify-between items-center text-errorRed bg-primary py-1 px-3 rounded-3xl">
         <span>Spends :</span>
-        {!forgot ? SpendsOutcomeArray : OldSpendsOutComeArray}
+        {!forgot ? (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-errorRed"
+            />
+            <label>{SpendsOutcomeArray}</label>
+          </div>
+        ) : (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-errorRed"
+            />
+            <label>{OldSpendsOutComeArray}</label>
+          </div>
+        )}
       </div>
       <div
         className={cn(
@@ -105,17 +142,37 @@ function SpendsInfo() {
         )}
       >
         <span className="text-blue-500">Total :</span>
-        {!forgot
-          ? SpendsIncomeArray - SpendsOutcomeArray
-          : OldSpendsInComeArray - OldSpendsOutComeArray}
+        {!forgot ? (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{SpendsIncomeArray - SpendsOutcomeArray}</label>
+          </div>
+        ) : (
+          <div className="flex items-center gap-x-1">
+            <CircleDollarSign
+              width={16}
+              height={16}
+              className="text-successGreen"
+            />
+            <label>{OldSpendsInComeArray - OldSpendsOutComeArray}</label>
+          </div>
+        )}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
         <span>Today :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
-            {EarnToday}
-          </span>
-          <span className="text-errorRed">{SpendsToday}</span>
+        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-1">
+          <div className="flex items-center gap-x-1 text-successGreen border-r-2 border-blue-500 pr-1">
+            <CircleDollarSign width={16} height={16} />
+            <label>{EarnToday}</label>
+          </div>
+          <div className="flex items-center gap-x-1 text-errorRed">
+            <CircleDollarSign width={16} height={16} />
+            <label>{SpendsToday}</label>
+          </div>
         </div>
       </div>
     </div>

@@ -2,8 +2,7 @@
 import {
   CircleDollarSign,
   CircleOff,
-  PauseCircle,
-  ShoppingCart,
+  ShoppingCart
 } from "lucide-react";
 import ListPriority from "../../ListSection/ListPriority/ListPriority.component";
 import SelectedItemContainer from "./SelectedItemContainer.component";
