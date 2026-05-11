@@ -20,7 +20,7 @@ export const SelectedItemSpends = ({
     <>
       {!income && (priceOfProduct || numberOfProduct) && (
         <div className="w-full flex flex-row justify-between gap-x-2">
-          {priceOfProduct && (
+          {!!priceOfProduct && (
             <SelectedItemContainer title="Price Of Product">
               <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
                 <DollarSign width={16} height={16} />
@@ -28,7 +28,7 @@ export const SelectedItemSpends = ({
               </div>
             </SelectedItemContainer>
           )}
-          {numberOfProduct && (
+          {!!numberOfProduct && (
             <SelectedItemContainer title="Number Of Product">
               <div className="flex flex-row items-center gap-x-1">
                 <ShoppingCart width={16} height={16} />
@@ -38,7 +38,7 @@ export const SelectedItemSpends = ({
           )}
         </div>
       )}
-      {income && incomeAmount && (
+      {!!incomeAmount && (
         <SelectedItemContainer title="Income Amount">
           <div className="flex flex-row items-center gap-x-0.5 text-successGreen">
             <DollarSign width={16} height={16} />
@@ -46,7 +46,7 @@ export const SelectedItemSpends = ({
           </div>
         </SelectedItemContainer>
       )}
-      {outcomeAmount && (
+      {!!outcomeAmount && (
         <SelectedItemContainer title="Outcome Amount">
           <label>
             <div className="flex flex-row items-center gap-x-0.5 text-errorRed">

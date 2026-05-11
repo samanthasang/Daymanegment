@@ -106,7 +106,7 @@
         "priority": "High",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": "1772224200",
+        "doDate": 1773174600,
         "isComplete": false
       },
       {
@@ -124,7 +124,7 @@
         "priority": "High",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "Zss6DvwJ263fhrE-uE6Le",
-        "doDate": "1771446600",
+        "doDate": 1778159314,
         "isComplete": false,
         "description": "test test"
       },
@@ -143,7 +143,7 @@
         "priority": "Medium",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": 1777882944,
+        "doDate": 1778148959,
         "isComplete": false,
         "description": "",
         "createDate": 1771965000
@@ -385,8 +385,8 @@
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "description": "",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": "1775421000",
-        "isComplete": false
+        "doDate": 1778150467,
+        "isComplete": true
       },
       {
         "id": "lI1vAMO9zs474J4MHSXUF",
@@ -395,8 +395,8 @@
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "description": "tsetes",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": 1777753800,
-        "isComplete": true,
+        "doDate": 1778150467,
+        "isComplete": false,
         "createDate": 1777712123
       },
       {
@@ -417,7 +417,7 @@
         "description": "",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "doDate": 1777866886,
-        "isComplete": false,
+        "isComplete": true,
         "createDate": 1775593800
       },
       {
@@ -471,18 +471,57 @@
         "doDate": 1777712123,
         "createDate": 1777712521,
         "isComplete": true
+      },
+      {
+        "id": "bMlJiQdmGdrVP9U9rv_Bk",
+        "title": "test G copy",
+        "priority": "High",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "doDate": 1776198600,
+        "isComplete": false,
+        "createDate": 1774816200
+      },
+      {
+        "id": "RSyyd__hA0Hu08w0Qmemb",
+        "title": "test G copy copy",
+        "priority": "High",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "doDate": 1773174600,
+        "isComplete": false
+      },
+      {
+        "id": "L6J6dQlU_ATXyztChTHrd",
+        "title": "test G copy copy",
+        "priority": "High",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "doDate": 1778172674,
+        "isComplete": false
+      },
+      {
+        "id": "ffM2yVCjMiJPkYzkPvmlt",
+        "title": "fix todo list",
+        "priority": "High",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "description": "",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "doDate": 1778704200,
+        "createDate": 1778180505,
+        "isComplete": false
       }
     ],
     "selectedToDo": {
-      "id": "grbA44rHKw281kgnK8PGO",
-      "title": "test date",
+      "id": "ffM2yVCjMiJPkYzkPvmlt",
+      "title": "fix todo list",
       "priority": "High",
-      "category": "uOQQkNiNO8rZL4bIoJef_",
+      "category": "_J1pUjWD-J_mx6zBpXsG8",
       "description": "",
       "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "doDate": 1777866886,
-      "isComplete": false,
-      "createDate": 1775593800
+      "doDate": 1778704200,
+      "createDate": 1778180505,
+      "isComplete": false
     }
   },
   "Reminders": {
@@ -509,7 +548,8 @@
         "timeDiff": "1",
         "priodDiff": "day",
         "isComplete": false,
-        "lastUpdate": -1382400
+        "lastUpdate": -1382400,
+        "isPause": true
       },
       {
         "id": "U06zm-3rv6a02WE1oSclV",
@@ -553,14 +593,15 @@
         "priority": "High",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": 1777926600,
+        "doDate": 1780864200,
         "timeDiff": "3",
         "priodDiff": "day",
         "isComplete": false,
         "createDate": 1777667400,
         "description": "",
         "isFinish": false,
-        "lastUpdate": 1777667400
+        "lastUpdate": 1780605000,
+        "isPause": true
       },
       {
         "id": "uLZdNIcsU8NiZBXkfTz_h",
@@ -612,9 +653,9 @@
         "priority": "High",
         "category": "IyYDXYBbs_yNfmxnVswGw",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-        "doDate": 1777753800,
+        "doDate": 1779049800,
         "createDate": 1777063805,
-        "lastUpdate": 1777667400,
+        "lastUpdate": 1778963400,
         "timeDiff": "1",
         "priodDiff": "day",
         "description": "",
@@ -635,22 +676,53 @@
         "description": "",
         "isComplete": false,
         "isFinish": false
+      },
+      {
+        "id": "YKjmhzZk1dlP343jActRh",
+        "title": "test start date",
+        "priority": "Medium",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "doDate": 1778877000,
+        "createDate": 1778091422,
+        "lastUpdate": 1778272200,
+        "startDate": 1778272200,
+        "timeDiff": "7",
+        "priodDiff": "day",
+        "description": "",
+        "isComplete": true,
+        "isFinish": false
+      },
+      {
+        "id": "9yKb-fRTe1-kYMX-m7-w1",
+        "title": "test start test",
+        "priority": "Medium",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "doDate": 1778785305,
+        "createDate": 1778180505,
+        "lastUpdate": 1778180505,
+        "startDate": 1778877000,
+        "timeDiff": "7",
+        "priodDiff": "day",
+        "description": "",
+        "isComplete": true,
+        "isFinish": false,
+        "isPause": true
       }
     ],
     "selectedReminder": {
-      "id": "EuwRmRGp-luS0rqkaeCtg",
-      "title": "tes 1 3",
+      "id": "vD6IZnmVk0qnsHpgXJzqi",
+      "title": "test 12",
       "priority": "High",
-      "category": "uOQQkNiNO8rZL4bIoJef_",
-      "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "doDate": 1777926600,
-      "timeDiff": "3",
+      "category": "wobOzpiZXIsgyko5_kIHo",
+      "tag": "_Ur_ZS2DDiSysHcFmKhPb",
+      "doDate": 1768681800,
+      "timeDiff": "1",
       "priodDiff": "day",
-      "isComplete": true,
-      "createDate": 1777667400,
-      "description": "",
-      "isFinish": false,
-      "lastUpdate": 1777667400
+      "isComplete": false,
+      "lastUpdate": -1382400,
+      "isPause": true
     }
   },
   "Habbits": {
@@ -660,14 +732,15 @@
         "title": "Harmonica",
         "priority": "Medium",
         "description": "Practice",
-        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 14,
-        "lastUpdate": 1777866886,
+        "score": 12,
+        "lastUpdate": 1778358600,
         "completeUpdate": "1776943013",
         "highest": 19,
-        "createDate": 1776984380,
-        "isComplete": true
+        "createDate": 1778242278,
+        "isComplete": true,
+        "isPause": false
       },
       {
         "id": "EF95C3LS-CRSshZN1f3vc",
@@ -676,12 +749,13 @@
         "description": "",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": -1,
-        "lastUpdate": 1777866886,
+        "score": -3,
+        "lastUpdate": 1778358600,
         "completeUpdate": "1776724010",
         "highest": 3,
         "createDate": 1776990193,
-        "isComplete": false
+        "isComplete": false,
+        "isPause": true
       },
       {
         "id": "tMDj76pGocyc7CB8cI3LD",
@@ -690,12 +764,12 @@
         "description": "push up",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 3,
-        "lastUpdate": 1777866886,
+        "score": -1,
+        "lastUpdate": 1778358600,
         "completeUpdate": "1776943013",
         "highest": 19,
         "createDate": 1776984380,
-        "isComplete": true
+        "isComplete": false
       },
       {
         "id": "zubRSPM5JkhWvYcn6NDBI",
@@ -704,26 +778,55 @@
         "description": "",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-        "score": -1,
+        "score": -44,
         "createDate": 1776990193,
-        "lastUpdate": 1777866886,
+        "lastUpdate": 1778358600,
         "highest": 2,
-        "isComplete": false
+        "isComplete": true,
+        "isPause": true
+      },
+      {
+        "id": "sq-uI73TmkWUGqqtFpWDI",
+        "title": "test DD",
+        "priority": "Medium",
+        "description": "",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+        "score": 3,
+        "highest": 2,
+        "createDate": 1778180505,
+        "lastUpdate": 1778358600,
+        "isComplete": true
+      },
+      {
+        "id": "foxXD0nnUJu3xDXsg9uYK",
+        "title": "Read",
+        "priority": "High",
+        "description": "",
+        "category": "wE9n6PtaYIGVWasne3yHr",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "score": 3,
+        "highest": 2,
+        "createDate": 1778242278,
+        "lastUpdate": 1778358600,
+        "isComplete": true,
+        "isPause": false
       }
     ],
     "selectedhabbit": {
-      "id": "tMDj76pGocyc7CB8cI3LD",
-      "title": "Exercise",
+      "id": "EF95C3LS-CRSshZN1f3vc",
+      "title": "test",
       "priority": "High",
-      "description": "push up",
-      "category": "wE9n6PtaYIGVWasne3yHr",
+      "description": "",
+      "category": "_J1pUjWD-J_mx6zBpXsG8",
       "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "score": 3,
-      "lastUpdate": 1777866886,
-      "completeUpdate": "1776943013",
-      "highest": 19,
-      "createDate": 1776984380,
-      "isComplete": true
+      "score": -3,
+      "lastUpdate": 1778358600,
+      "completeUpdate": "1776724010",
+      "highest": 3,
+      "createDate": 1776990193,
+      "isComplete": false,
+      "isPause": true
     }
   },
   "Timers": {
@@ -955,17 +1058,129 @@
         "category": "",
         "tag": "",
         "isComplete": true
+      },
+      {
+        "id": "6EOa9vsXI9XTP4n0N7DDa",
+        "title": "timer-1777892833",
+        "startDate": 1777892833,
+        "endDate": 1778090569,
+        "createDate": 1777892833,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "t7nKKTAqX-YJsmpNooXi_",
+        "title": "timer-1778077456",
+        "startDate": 1778077456,
+        "endDate": 1778090571,
+        "createDate": 1778077456,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "76uxi8Sc7O4eTwl5hgVTW",
+        "title": "timer-1778077767",
+        "startDate": 1778077767,
+        "endDate": 1778173777,
+        "createDate": 1778077767,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "rugfO-Qf8CY249WkJ-QNV",
+        "title": "test co",
+        "startDate": 1778099400,
+        "endDate": 1778173778,
+        "createDate": 1778099400,
+        "description": "",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "isComplete": true
+      },
+      {
+        "id": "uC_1weJG6Aci3XqvClj1c",
+        "title": "timer-1778426323",
+        "startDate": 1778426323,
+        "endDate": 1778426503,
+        "createDate": 1778426323,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "gH1iM5J2lDtMpovNauyzq",
+        "title": "timer-1778426323",
+        "startDate": 1778426323,
+        "endDate": 1778426501,
+        "createDate": 1778426323,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "sZA3CY6G0259vVxgKAK9h",
+        "title": "timer-1778426323",
+        "startDate": 1778426323,
+        "endDate": 1778426693,
+        "createDate": 1778426323,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "PaTnqQCwIzSx6fg1CRteO",
+        "title": "timer-1778426491",
+        "startDate": 1778426491,
+        "endDate": 1778426511,
+        "createDate": 1778426491,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "shg7nWRiZBa2cj2aHo6NJ",
+        "title": "timer-1778426498",
+        "startDate": 1778426498,
+        "endDate": 1778426688,
+        "createDate": 1778426498,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "77zt0NGdMqmlHTYiSUm9b",
+        "title": "timer-1778426505",
+        "startDate": 1778426505,
+        "endDate": 1778426696,
+        "createDate": 1778426505,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
+      },
+      {
+        "id": "2kJ7wiT3T8ftM2LB1VKDP",
+        "title": "timer-1778426544",
+        "startDate": 1778426544,
+        "endDate": 1778426698,
+        "createDate": 1778426544,
+        "description": "",
+        "category": "",
+        "tag": "",
+        "isComplete": true
       }
-    ],
-    "selectedTimer": {
-      "id": "kkDavzbDZcmhoaUhbaj-b",
-      "title": "timer-1777567993",
-      "startDate": "1777567993",
-      "endDate": "1777781902",
-      "category": "",
-      "tag": "",
-      "isComplete": true
-    }
+    ]
   },
   "Spends": {
     "ListSpends": [
@@ -1201,20 +1416,76 @@
         "tag": "-poV9UMqN41NAzIlc_KA3",
         "income": true,
         "description": ""
+      },
+      {
+        "id": "H86BGrN75T0RKjIBiL23M",
+        "title": "snap",
+        "numberOfProduct": "1",
+        "priceOfProduct": "35000",
+        "doDate": 1778013000,
+        "createDate": 1778065832,
+        "incomeAmount": "",
+        "shareList": [],
+        "category": "8FshQfBGXduZXNzmAOP0x",
+        "tag": "Zss6DvwJ263fhrE-uE6Le",
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "rUU1MTj1uC7NFwt8f9tj-",
+        "title": "Tape",
+        "numberOfProduct": "2",
+        "priceOfProduct": "50000",
+        "doDate": 1778099400,
+        "createDate": 1778150346,
+        "incomeAmount": "",
+        "shareList": [],
+        "category": "8FshQfBGXduZXNzmAOP0x",
+        "tag": "Zss6DvwJ263fhrE-uE6Le",
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "s_z3jd5ghptdMh2PKJorM",
+        "title": "Tape copy",
+        "numberOfProduct": "2",
+        "priceOfProduct": "50000",
+        "doDate": 1778215331,
+        "createDate": 1778215331,
+        "incomeAmount": "",
+        "shareList": [],
+        "category": "8FshQfBGXduZXNzmAOP0x",
+        "tag": "Zss6DvwJ263fhrE-uE6Le",
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "yOoCcSmS-06VTDkUNr52a",
+        "title": "Tape copy",
+        "numberOfProduct": "2",
+        "priceOfProduct": "50000",
+        "doDate": 1778249051,
+        "createDate": 1778249051,
+        "incomeAmount": "",
+        "shareList": [],
+        "category": "8FshQfBGXduZXNzmAOP0x",
+        "tag": "Zss6DvwJ263fhrE-uE6Le",
+        "income": false,
+        "description": ""
       }
     ],
     "selectedSpends": {
-      "id": "KJ1cQR_FE7NxRmdGtg-Ir",
-      "title": "test r",
-      "numberOfProduct": "",
-      "priceOfProduct": "",
-      "incomeAmount": "1500000",
-      "shareList": ["I4-ZQmCXXC3fAIqpdKzW6"],
-      "category": "_J1pUjWD-J_mx6zBpXsG8",
+      "id": "yOoCcSmS-06VTDkUNr52a",
+      "title": "Tape copy",
+      "numberOfProduct": "2",
+      "priceOfProduct": "50000",
+      "doDate": 1778249051,
+      "createDate": 1778249051,
+      "incomeAmount": "",
+      "shareList": [],
+      "category": "8FshQfBGXduZXNzmAOP0x",
       "tag": "Zss6DvwJ263fhrE-uE6Le",
-      "doDate": 1777321800,
-      "income": true,
-      "createDate": 1773520200,
+      "income": false,
       "description": ""
     }
   },
@@ -1271,6 +1542,10 @@
       {
         "id": "N2MYWLv-0AqOL6v_keLZC",
         "title": "test"
+      },
+      {
+        "id": "XwlWC-SCbSX8OQl6K8ot8",
+        "title": "tag"
       }
     ]
   },
@@ -1281,26 +1556,69 @@
         "title": "san",
         "firstName": "test",
         "lastName": "testtest",
-        "shareList": [],
+        "shareList": ["tQ6uWNJL5UCBzpddPjD_B", "DMXEVd1zV-aMF4kkJY3gY"],
         "phoneNumber": "1111111111111",
         "birthDate": 1777321800,
         "description": "testes"
       },
       {
         "id": "fyocRt39F40cVxrbpWua1",
-        "title": "sina"
+        "title": "sina",
+        "firstName": "test",
+        "lastName": "testtest",
+        "shareList": [
+          "7U7f42chOay1yvAXRYE9d",
+          "yrrgjXcO65XcFyQ-HRn38",
+          "BavHAIxAsESFl1eskqWcT",
+          "HvAPi6S2-wtif_mZeIZXE",
+          "0P1q92Q2VizjbkE7T_TGC",
+          "xeYJ3BgJMwDZGSSFAE0-L",
+          "8uec-5nEAucUF77havgn0",
+          "UBpKL-co70x5mGsGORf_3",
+          "FLh1tgLnIy_M8bfF20e0H",
+          "B6UgqCGWrjwspqBREJu96",
+          "5xTEhZMJCUTG9cVXYFMK_",
+          "ZoChwTEBALpVoNSxLOj23"
+        ],
+        "phoneNumber": "1111111111111",
+        "birthDate": 1777321800,
+        "description": "testes"
       },
       {
         "id": "aP9GkPATcjZ4s6sQHrG4n",
-        "title": "test"
+        "title": "test",
+        "firstName": "test",
+        "lastName": "testtest",
+        "shareList": [
+          "aP9GkPATcjZ4s6sQHrG4n",
+          "oKVVncVVyjs_mf8OIcCTg",
+          "C67r1ijHvIbkLfmj7vCQF",
+          "YrBi7O1EUmCj58C79xmfp",
+          "I4-ZQmCXXC3fAIqpdKzW6"
+        ],
+        "phoneNumber": "1111111111111",
+        "birthDate": 1777321800,
+        "description": "testes"
       },
       {
         "id": "oGos7-b5VVn1lGkxuDtED",
-        "title": "testq"
+        "title": "testq",
+        "firstName": "test",
+        "lastName": "testtest",
+        "shareList": [],
+        "phoneNumber": "1111111111111",
+        "birthDate": 1777321800,
+        "description": "testes"
       },
       {
         "id": "4hBWKaBboH6GTOE52oxcB",
-        "title": "mehran"
+        "title": "mehran",
+        "firstName": "test",
+        "lastName": "testtest",
+        "shareList": ["wE9n6PtaYIGVWasne3yHr"],
+        "phoneNumber": "1111111111111",
+        "birthDate": 1777321800,
+        "description": "testes"
       },
       {
         "id": "evH6m3PVUzXXomoxhp4yZ",
@@ -1312,14 +1630,26 @@
         "createDate": 1777404523,
         "description": "",
         "shareList": [
-          "VlMknHpS772MbjxO4OIls",
-          "CmIy83r44_bhm7zoAVopa",
+          "n_xYfMpFjLwcaCvAcxjOu",
+          "cbgWvDXWG-8y7u4kGhktY",
           "xHiGyaFt6_WvWKVcqehB4",
           "demwUdLGcQsQ5JLzdQy4Q",
           "k3O_vhcsJ8Da-ZQLasTQX",
           "qYfE4Os1UpHPplwaFaPWV",
-          "o1HC4xVaIRBqsfyYJscWi"
+          "o1HC4xVaIRBqsfyYJscWi",
+          "KRU0fQ16w_jQkYGQVlsVq"
         ]
+      },
+      {
+        "id": "0nermo-Fm2D7lawRpa-cW",
+        "title": "test new",
+        "firstName": "test",
+        "lastName": "test",
+        "phoneNumber": "09944512994",
+        "birthDate": 1778358600,
+        "createDate": 1778442682,
+        "description": "",
+        "shareList": []
       }
     ],
     "selectedPeople": {
@@ -1350,7 +1680,7 @@
         "priority": "",
         "startDate": "1770841800",
         "description": "",
-        "lastUpdate": "1775939400",
+        "lastUpdate": "1799699400",
         "completeUpdate": "1799699400",
         "paymentNumber": "month",
         "numberOfPayment": "11",
@@ -1414,7 +1744,8 @@
             "isComplete": false
           }
         ],
-        "doDate": "1778531400"
+        "doDate": 1778531400,
+        "isComplete": false
       },
       {
         "id": "XCRdofs0R8TQj4T4ER6Eh",
@@ -1457,47 +1788,8 @@
           }
         ],
         "doDate": "1775939400",
-        "isComplete": true,
+        "isComplete": false,
         "nexeDate": "1775853000"
-      },
-      {
-        "id": "9k6BeLzTHdJoCDsB2ziCq",
-        "title": "test L",
-        "priority": "",
-        "startDate": "1775680200",
-        "description": "test des",
-        "lastUpdate": "1786221000",
-        "completeUpdate": "1786221000",
-        "paymentNumber": "month",
-        "numberOfPayment": "4",
-        "paymentCompleteValue": "20000000",
-        "category": "uOQQkNiNO8rZL4bIoJef_",
-        "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "installmentstList": [
-          {
-            "doDate": "1778272200",
-            "payment": "5000000",
-            "isComplete": false
-          },
-          {
-            "doDate": "1780950600",
-            "payment": "5000000",
-            "isComplete": false
-          },
-          {
-            "doDate": "1783542600",
-            "payment": "5000000",
-            "isComplete": false
-          },
-          {
-            "doDate": "1786221000",
-            "payment": "5000000",
-            "isComplete": false
-          }
-        ],
-        "doDate": "1778272200",
-        "isComplete": true,
-        "nexeDate": "1778272200"
       },
       {
         "id": "Rpzdhl4-Oh8WC8dc4M3fV",
@@ -1585,7 +1877,7 @@
         ],
         "doDate": "1775680200",
         "completeUpdate": "1776803400",
-        "isComplete": true
+        "isComplete": false
       },
       {
         "id": "ioz-mz3QuFehbzI9oeJy8",
@@ -1629,51 +1921,209 @@
         "doDate": "1773779400",
         "completeUpdate": "1774038600",
         "isComplete": false
+      },
+      {
+        "id": "HfJn5kDbBLsakDry--Vf6",
+        "title": "test L 9",
+        "priority": "",
+        "startDate": 1778272200,
+        "description": "test des",
+        "lastUpdate": 1788899400,
+        "doDate": 1788899400,
+        "createDate": 1778334924,
+        "completeUpdate": 1788899400,
+        "paymentNumber": "month",
+        "numberOfPayment": "4",
+        "paymentCompleteValue": "20000000",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "installmentstList": [
+          {
+            "doDate": 1780950600,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1783542600,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1786221000,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1788899400,
+            "payment": "5000000",
+            "isComplete": true
+          }
+        ],
+        "isComplete": true,
+        "isFinish": true,
+        "isPause": true
+      },
+      {
+        "id": "TmgJJQg8XvepQqck7KOv7",
+        "title": "test L 100",
+        "priority": "",
+        "startDate": 1778358600,
+        "description": "test des",
+        "lastUpdate": 1778272200,
+        "doDate": 1791577800,
+        "createDate": 1778272200,
+        "completeUpdate": 1788985800,
+        "paymentNumber": "month",
+        "numberOfPayment": "4",
+        "paymentCompleteValue": "20000000",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "installmentstList": [
+          {
+            "doDate": 1781037000,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1783629000,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1786307400,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1788985800,
+            "payment": "5000000",
+            "isComplete": true
+          }
+        ],
+        "isComplete": true,
+        "isFinish": false,
+        "isPause": false
+      },
+      {
+        "id": "TB9jjyB6M2z1CJIs2ZFm5",
+        "title": "test L 11",
+        "priority": "",
+        "startDate": 1778445000,
+        "description": "test des",
+        "lastUpdate": null,
+        "doDate": null,
+        "createDate": 1778272200,
+        "completeUpdate": 1789072200,
+        "paymentNumber": "month",
+        "numberOfPayment": "4",
+        "paymentCompleteValue": "20000000",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "installmentstList": [
+          {
+            "doDate": 1781123400,
+            "payment": "5000000",
+            "isComplete": false
+          },
+          {
+            "doDate": 1783715400,
+            "payment": "5000000",
+            "isComplete": false
+          },
+          {
+            "doDate": 1786393800,
+            "payment": "5000000",
+            "isComplete": false
+          },
+          {
+            "doDate": 1789072200,
+            "payment": "5000000",
+            "isComplete": false
+          }
+        ],
+        "isComplete": false,
+        "isFinish": false
+      },
+      {
+        "id": "juw-VJZJ1ZQlwIHf2wdZi",
+        "title": "test L 1",
+        "priority": "",
+        "startDate": 1778358600,
+        "description": "test des",
+        "lastUpdate": 1778272200,
+        "doDate": 1786307400,
+        "createDate": 1778272200,
+        "completeUpdate": 1788985800,
+        "paymentNumber": "month",
+        "numberOfPayment": "4",
+        "paymentCompleteValue": "20000000",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "installmentstList": [
+          {
+            "doDate": 1781037000,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1783629000,
+            "payment": "5000000",
+            "isComplete": true
+          },
+          {
+            "doDate": 1786307400,
+            "payment": "5000000",
+            "isComplete": false
+          },
+          {
+            "doDate": 1788985800,
+            "payment": "5000000",
+            "isComplete": false
+          }
+        ],
+        "isComplete": false,
+        "isFinish": false
       }
     ],
     "selectedInstallmentst": {
-      "id": "XCRdofs0R8TQj4T4ER6Eh",
-      "title": "test",
+      "id": "juw-VJZJ1ZQlwIHf2wdZi",
+      "title": "test L 1",
       "priority": "",
-      "startDate": "1775680200",
-      "description": "",
-      "lastUpdate": "1775853000",
-      "completeUpdate": "1776112200",
-      "paymentNumber": "day",
-      "numberOfPayment": "5",
+      "startDate": 1778358600,
+      "description": "test des",
+      "lastUpdate": 1778272200,
+      "doDate": 1786307400,
+      "createDate": 1778272200,
+      "completeUpdate": 1788985800,
+      "paymentNumber": "month",
+      "numberOfPayment": "4",
       "paymentCompleteValue": "20000000",
-      "category": "_J1pUjWD-J_mx6zBpXsG8",
+      "category": "uOQQkNiNO8rZL4bIoJef_",
       "tag": "GPoeAdsLX8zYBd1s38_KA",
       "installmentstList": [
         {
-          "doDate": "1775766600",
-          "payment": "4000000",
+          "doDate": 1781037000,
+          "payment": "5000000",
           "isComplete": true
         },
         {
-          "doDate": "1775853000",
-          "payment": "4000000",
+          "doDate": 1783629000,
+          "payment": "5000000",
           "isComplete": true
         },
         {
-          "doDate": "1775939400",
-          "payment": "4000000",
+          "doDate": 1786307400,
+          "payment": "5000000",
           "isComplete": false
         },
         {
-          "doDate": "1776025800",
-          "payment": "4000000",
-          "isComplete": false
-        },
-        {
-          "doDate": "1776112200",
-          "payment": "4000000",
+          "doDate": 1788985800,
+          "payment": "5000000",
           "isComplete": false
         }
       ],
-      "doDate": "1775939400",
-      "isComplete": true,
-      "nexeDate": "1775853000"
+      "isComplete": false,
+      "isFinish": false
     }
   },
   "Visits": {
@@ -1822,14 +2272,15 @@
         "id": "WWub9j-H4xWUGKs4XEPCG",
         "title": "test P",
         "income": true,
-        "doDate": "1773520200",
+        "doDate": 1778445000,
         "description": "",
         "shareList": [],
         "advancePayment": "100000",
         "paymentCompleteValue": "1000000",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "isComplete": false
+        "isComplete": false,
+        "createDate": 1778234922
       },
       {
         "id": "5HAFP6o37BgCTvT5zjfkh",
@@ -1885,21 +2336,49 @@
         "category": "rwVonh9Zgsowi8BmTfm_d",
         "tag": "_RFnU-s3G-8uXuXNNhU9c",
         "isComplete": false
+      },
+      {
+        "id": "0pnr6igtwsjXTENvpgYTK",
+        "title": "jafari copy",
+        "income": true,
+        "doDate": 1778235291,
+        "createDate": 1778235291,
+        "description": "test",
+        "shareList": [],
+        "advancePayment": "1400",
+        "paymentCompleteValue": "1400",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "isComplete": false
+      },
+      {
+        "id": "qxBHJSFYVRJdB1NBN2ivv",
+        "title": "babaei copy",
+        "income": true,
+        "doDate": 1778235809,
+        "createDate": 1778235809,
+        "description": "",
+        "shareList": ["xHiGyaFt6_WvWKVcqehB4"],
+        "advancePayment": "1400000",
+        "paymentCompleteValue": "1400000",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "isComplete": true
       }
     ],
     "selectedVisit": {
-      "id": "jDJQMRFW-aqBQ9A9ViLef",
-      "title": "test pp",
+      "id": "qxBHJSFYVRJdB1NBN2ivv",
+      "title": "babaei copy",
       "income": true,
-      "doDate": 1777559400,
-      "description": "test",
-      "shareList": ["0P1q92Q2VizjbkE7T_TGC"],
-      "advancePayment": "100000",
-      "paymentCompleteValue": "1000000",
-      "category": "_J1pUjWD-J_mx6zBpXsG8",
-      "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "isComplete": false,
-      "createDate": 1777559400
+      "doDate": 1778235809,
+      "createDate": 1778235809,
+      "description": "",
+      "shareList": ["xHiGyaFt6_WvWKVcqehB4"],
+      "advancePayment": "1400000",
+      "paymentCompleteValue": "1400000",
+      "category": "rwVonh9Zgsowi8BmTfm_d",
+      "tag": "_RFnU-s3G-8uXuXNNhU9c",
+      "isComplete": true
     }
   },
   "Goals": {
@@ -1908,7 +2387,7 @@
         "id": "mbyL4RsfiQ2g_wABcpx7S",
         "title": "test G",
         "priority": "Low",
-        "score": -22,
+        "score": -24,
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "doDate": "1775939400",
@@ -1991,10 +2470,10 @@
         "id": "eV0tAxDlpYjI0CDlJNB_j",
         "title": "Add Chart",
         "priority": "High",
-        "score": -1,
+        "score": 21,
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "doDate": 1777771103,
+        "doDate": 1780103903,
         "isComplete": false,
         "createDate": "1775853000"
       },
@@ -2012,7 +2491,7 @@
         "id": "D-3wWM1iFKR90ez87xmld",
         "title": "test 25 april",
         "priority": "Medium",
-        "score": 0,
+        "score": -2,
         "category": "IyYDXYBbs_yNfmxnVswGw",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
         "doDate": 1777878333,
@@ -2037,7 +2516,7 @@
         "id": "WEkkFoqbscO2qsNMm3qHd",
         "title": "test 7",
         "priority": "Low",
-        "score": -3,
+        "score": -5,
         "description": "",
         "category": "IyYDXYBbs_yNfmxnVswGw",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
@@ -2049,7 +2528,7 @@
         "id": "tDy-Z87fBu8RNnOcpnoeB",
         "title": "test 21",
         "priority": "Medium",
-        "score": -3,
+        "score": -5,
         "description": "",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
@@ -2074,7 +2553,7 @@
         "id": "C5_jdNxKlur6I-JVBXAso",
         "title": "test 6",
         "priority": "High",
-        "score": 1,
+        "score": 0,
         "description": "",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "N2MYWLv-0AqOL6v_keLZC",
@@ -2095,20 +2574,55 @@
         "createDate": 1777878333,
         "isComplete": true,
         "completeUpdate": 1777878333
+      },
+      {
+        "id": "a8jxzIFlAL8qtcYU02SKu",
+        "title": "test 7 copy",
+        "priority": "Low",
+        "score": 1,
+        "description": "",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "doDate": 1778180420,
+        "createDate": 1778180420,
+        "isComplete": false
+      },
+      {
+        "id": "Ex4-m3Xn9BXGi9ECMrRis",
+        "title": "Add Chart copy",
+        "priority": "High",
+        "score": 10,
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "doDate": 1779217220,
+        "createDate": 1778180420,
+        "isComplete": false
+      },
+      {
+        "id": "Lgq-iG48hryvtFD99nGsa",
+        "title": "test 77",
+        "priority": "Low",
+        "score": 5,
+        "description": "",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "doDate": 1778704200,
+        "createDate": 1778180505,
+        "isComplete": false
       }
     ],
     "selectedGoal": {
-      "id": "C5_jdNxKlur6I-JVBXAso",
-      "title": "test 6",
-      "priority": "High",
-      "score": 1,
+      "id": "XrxI0PjKc5SR8S20jF1HB",
+      "title": "test 7",
+      "priority": "Low",
+      "score": 6,
       "description": "",
       "category": "uOQQkNiNO8rZL4bIoJef_",
       "tag": "N2MYWLv-0AqOL6v_keLZC",
-      "doDate": 1778013000,
-      "createDate": 1777878115,
-      "isComplete": false,
-      "completeUpdate": 1777878627
+      "doDate": 1778358600,
+      "createDate": 1777878333,
+      "isComplete": true,
+      "completeUpdate": 1777878333
     }
   },
   "Shares": {
@@ -2388,19 +2902,123 @@
         "createDate": 1777408200,
         "income": true,
         "description": ""
+      },
+      {
+        "id": "xeYJ3BgJMwDZGSSFAE0-L",
+        "title": "etes",
+        "peopleId": "fyocRt39F40cVxrbpWua1",
+        "outcomeAmount": "1000",
+        "incomeAmount": "",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "doDate": 1771360200,
+        "createDate": 1778185252,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "8uec-5nEAucUF77havgn0",
+        "title": "etes",
+        "peopleId": "fyocRt39F40cVxrbpWua1",
+        "outcomeAmount": "1000",
+        "incomeAmount": "",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+        "doDate": 1771360200,
+        "createDate": 1778185252,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "UBpKL-co70x5mGsGORf_3",
+        "title": "etes",
+        "peopleId": "fyocRt39F40cVxrbpWua1",
+        "outcomeAmount": "1000",
+        "incomeAmount": "",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+        "doDate": 1778099400,
+        "createDate": 1778185252,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "FLh1tgLnIy_M8bfF20e0H",
+        "title": "etes",
+        "peopleId": "fyocRt39F40cVxrbpWua1",
+        "outcomeAmount": "",
+        "incomeAmount": "1000",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+        "doDate": 1778099400,
+        "createDate": 1778185252,
+        "income": true,
+        "description": ""
+      },
+      {
+        "id": "B6UgqCGWrjwspqBREJu96",
+        "title": "etes",
+        "peopleId": "fyocRt39F40cVxrbpWua1",
+        "outcomeAmount": "1000",
+        "incomeAmount": "",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+        "doDate": 1778185800,
+        "createDate": 1778185252,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "KRU0fQ16w_jQkYGQVlsVq",
+        "title": "babaei copy",
+        "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+        "outcomeAmount": "700000",
+        "incomeAmount": "",
+        "visitId": "f1Ss4xphJ_EwN4qDY3RPm",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "_RFnU-s3G-8uXuXNNhU9c",
+        "doDate": 1778248674,
+        "createDate": 1778248674,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "5xTEhZMJCUTG9cVXYFMK_",
+        "title": "etes copy",
+        "peopleId": "fyocRt39F40cVxrbpWua1",
+        "outcomeAmount": "1000",
+        "incomeAmount": "",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+        "doDate": 1778426965,
+        "createDate": 1778426965,
+        "income": false,
+        "description": ""
+      },
+      {
+        "id": "ZoChwTEBALpVoNSxLOj23",
+        "title": "etes copy",
+        "peopleId": "fyocRt39F40cVxrbpWua1",
+        "outcomeAmount": "",
+        "incomeAmount": "1000",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+        "doDate": 1778426965,
+        "createDate": 1778426965,
+        "income": true,
+        "description": ""
       }
     ],
     "selectedShare": {
-      "id": "o1HC4xVaIRBqsfyYJscWi",
-      "title": "test share",
-      "peopleId": "evH6m3PVUzXXomoxhp4yZ",
+      "id": "FLh1tgLnIy_M8bfF20e0H",
+      "title": "etes",
+      "peopleId": "fyocRt39F40cVxrbpWua1",
       "outcomeAmount": "",
-      "spendsId": "ozQhBD8EOx4osRefJ0sGK",
-      "incomeAmount": "700",
-      "category": "rwVonh9Zgsowi8BmTfm_d",
-      "tag": "-poV9UMqN41NAzIlc_KA3",
-      "doDate": 1777408200,
-      "createDate": 1777408200,
+      "incomeAmount": "1000",
+      "category": "_J1pUjWD-J_mx6zBpXsG8",
+      "tag": "vlKy21k_-Dk3p7i-Ul9yn",
+      "doDate": 1778099400,
+      "createDate": 1778185252,
       "income": true,
       "description": ""
     }

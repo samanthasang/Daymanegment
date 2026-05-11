@@ -31,6 +31,7 @@ export const ListItem = ({
   paymentCompleteValue,
   withDel = true,
   selectedID,
+  shareList,
   SelectItem,
   DelItem,
   CompleteItem,
@@ -57,9 +58,10 @@ export const ListItem = ({
   diff?: duration.Duration;
   score?: number;
   total?: number;
-  hasShare?: boolean;
+  hasShare?: number;
   drawerType: string;
   paymentCompleteValue?: string;
+  shareList: string[];
   SelectItem?: () => void;
   DelItem?: () => void;
   CompleteItem?: () => void;
@@ -105,7 +107,7 @@ export const ListItem = ({
           id={id}
           tag={tag}
           category={category}
-          hasShare={drawerType == "Friends" && hasShare}
+          hasShare={(drawerType == "Friends" && shareList?.length) || 0}
         />
       </div>
       {showDetails && (
@@ -117,7 +119,7 @@ export const ListItem = ({
           isPause={isPause}
           date={date}
           score={score}
-          hasShare={hasShare}
+          hasShare={shareList?.length > 0}
           drawerType={drawerType}
           withDel={withDel}
           diff={diff}

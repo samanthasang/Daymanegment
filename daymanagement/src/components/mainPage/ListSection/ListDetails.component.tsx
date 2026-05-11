@@ -18,6 +18,7 @@ import FriendsItem from "@/components/Friends/FriendsItem/FriendsItem.component"
 import { TPeople } from "@/modules/people/PeopleList.slice";
 import ShareItem from "@/components/Share/ShareItem/ShareItem.component";
 import { TShare } from "@/modules/share/share.slice";
+import { currentUnixTimestampZero } from "@/lib/Hooks/UseDayJS";
 
 function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
   switch (drawerType) {
@@ -42,7 +43,9 @@ function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
     case "Timers":
       return List?.map((li: TTimer) => <Timeritem key={li.id} item={li} />);
     case "Friends":
-      return List?.map((li: TPeople) => <FriendsItem key={li.id} item={li} />);
+      return List?.map((li: TPeople, index) => (
+        <FriendsItem key={li && li.id ? li.id : index} item={li} />
+      ));
     case "Shares":
       return List?.map((li: TShare) => <ShareItem key={li.id} item={li} />);
     default:

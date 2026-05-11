@@ -1,9 +1,7 @@
 import ListCategorySelected from "../listCategorySelected/ListCategorySelected.component";
 import ListTagSelected from "../listTagSelected/ListTagSelected.component";
-import ListItemShare from "./ListItemShareItem.component";
 
 export const ListItemCatTag = ({
-  id,
   category,
   tag,
   hasShare,
@@ -11,7 +9,7 @@ export const ListItemCatTag = ({
   id?: string;
   category?: string;
   tag?: string;
-  hasShare?: boolean;
+  hasShare?: number;
 }) => {
   return (
     <>
@@ -21,7 +19,11 @@ export const ListItemCatTag = ({
           {tag && <ListTagSelected tag={tag} />}
         </div>
       )}
-      {hasShare && <ListItemShare peopleId={id} />}
+      {!!hasShare && (
+        <label className="cursor-pointer px-2 py-1 rounded-2xl bg-white/15">
+          Shares : {hasShare}
+        </label>
+      )}
     </>
   );
 };

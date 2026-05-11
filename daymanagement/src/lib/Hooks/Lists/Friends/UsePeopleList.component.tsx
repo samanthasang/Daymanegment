@@ -17,30 +17,37 @@ function usePeopleList() {
   const selectedPeople = People?.selectedPeople as TPeople;
   const ListPeople = People?.ListPeople as TPeople[];
 
-  const [listHasShare, setListHasShare] = useState<TPeople[]>(ListPeople);
-  const [listHasNoShare, setListHasNoShare] = useState<TPeople[]>(ListPeople);
+  // const [listHasShare, setListHasShare] = useState<TPeople[]>(ListPeople);
+  // const [listHasNoShare, setListHasNoShare] = useState<TPeople[]>(ListPeople);
 
-  useEffect(() => {
-    const filterdList = () => {
-      let filterArrayHasShare = ListPeople || [];
-      let filterArrayHasNoShare = ListPeople || [];
+  // useEffect(() => {
+  //   const filterdList = () => {
+  //     let filterArrayHasShare = ListPeople || [];
+  //     let filterArrayHasNoShare = ListPeople || [];
 
-      filterArrayHasShare = ListPeople.filter(
-        (people) =>
-          ListShare.filter((share) => share.peopleId == people.id).length > 0
-      );
-      filterArrayHasNoShare = ListPeople.filter(
-        (people) =>
-          ListShare.filter((share) => share.peopleId == people.id).length == 0
-      );
+  //     filterArrayHasShare = ListPeople.filter(
+  //       (people) =>
+  //         ListShare.filter((share) => share.peopleId == people.id).length > 0
+  //     );
+  //     filterArrayHasNoShare = ListPeople.filter(
+  //       (people) =>
+  //         ListShare.filter((share) => share.peopleId == people.id).length == 0
+  //     );
 
-      return { filterArrayHasShare, filterArrayHasNoShare };
-    };
-    const { filterArrayHasNoShare, filterArrayHasShare } = filterdList();
+  //     return { filterArrayHasShare, filterArrayHasNoShare };
+  //   };
+  //   const { filterArrayHasNoShare, filterArrayHasShare } = filterdList();
 
-    ListPeople && setListHasNoShare(filterArrayHasNoShare);
-    ListPeople && setListHasShare(filterArrayHasShare);
-  }, [ListShare, ListPeople]);
+  //   ListPeople && setListHasNoShare(filterArrayHasNoShare);
+  //   ListPeople && setListHasShare(filterArrayHasShare);
+  // }, [ListShare, ListPeople]);
+
+  const listHasShare: TPeople[] = ListPeople.filter(
+    (people) => people.shareList && people?.shareList.length > 0 && people
+  );
+  const listHasNoShare: TPeople[] = ListPeople.filter(
+    (people) => people.shareList && people?.shareList.length == 0 && people
+  );
 
   return { listHasShare, listHasNoShare, ListPeople, selectedPeople };
 }

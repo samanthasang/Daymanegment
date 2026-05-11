@@ -88,7 +88,7 @@ function CurrentList({
         ChangeShop={() => setIncomeFilter(!incomeFilter)}
         ChangeBalance={() => setIncomeMFilter(!incomeMFIlter)}
         ListInfo={
-          drawerType == "Ftiends"
+          drawerType == "Friends"
             ? `${ListAfterFilter?.length}`
             : drawerType == "Spends"
               ? `${outcomeArrayList.length} | ${incomeArrayList.length}`

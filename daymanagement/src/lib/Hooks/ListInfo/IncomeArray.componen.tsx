@@ -1,5 +1,5 @@
 function IncomeArray(List: any[]) {
-  return List?.filter((a) => !a.income);
+  return List?.filter((a) => a && !a.income);
 }
 
 export default IncomeArray;

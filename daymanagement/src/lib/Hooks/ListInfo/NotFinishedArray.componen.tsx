@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 
 function NotFinishedArray(List: any[]) {
-  return useMemo(() => List?.filter((a) => a.isComplete), [List]);
+  return useMemo(() => List?.filter((a) => a && a.isComplete), [List]);
 }
 
 export default NotFinishedArray;

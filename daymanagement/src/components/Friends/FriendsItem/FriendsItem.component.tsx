@@ -24,18 +24,21 @@ export const FriendsItem = ({
 
   const total =
     ListShare &&
-    ListShare?.filter((share) => share.peopleId == item.id).reduce(
-      (acc, obj) => {
-        if (obj.income && obj.incomeAmount) {
-          return acc + +obj.incomeAmount;
-        }
-        if (!obj.income && obj.outcomeAmount) {
-          return acc - +obj.outcomeAmount;
-        }
-        return acc;
-      },
-      0
-    );
+    ListShare?.filter(
+      (share) =>
+        item &&
+        item.shareList &&
+        item.shareList.length > 0 &&
+        item.shareList.includes(share.id)
+    ).reduce((acc, obj) => {
+      if (obj.income && obj.incomeAmount) {
+        return acc + +obj.incomeAmount;
+      }
+      if (!obj.income && obj.outcomeAmount) {
+        return acc - +obj.outcomeAmount;
+      }
+      return acc;
+    }, 0);
   const SelectList = () => {
     hasShare && dispatch(selectPeopleList(item.id));
   };
@@ -46,9 +49,8 @@ export const FriendsItem = ({
   };
   return (
     <ListItem
-      withDel={!hasShare}
-      total={hasShare ? total : undefined}
-      hasShare={hasShare}
+      withDel={item?.shareList && item.shareList.length == 0}
+      total={total ?? undefined}
       drawerType="Friends"
       selectedID={selectedPeople && selectedPeople.id}
       SelectItem={SelectList}

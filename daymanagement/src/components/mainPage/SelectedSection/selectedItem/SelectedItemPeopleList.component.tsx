@@ -12,6 +12,8 @@ export const SelectedItemPeopleList = ({ id }: { id: string }) => {
   const ListShare =
     ListShareAll && ListShareAll.filter((share) => share.peopleId == id);
 
+  console.log(ListShare);
+
   const incomeArray =
     id &&
     ListShare &&
@@ -52,22 +54,18 @@ export const SelectedItemPeopleList = ({ id }: { id: string }) => {
   return (
     <>
       <div className="w-full flex flex-row justify-between gap-x-2">
-        {incomeArray && (
-          <SelectedItemContainer title="Income Amount">
-            <div className="flex flex-row items-center gap-x-0.5 text-successGreen">
-              <DollarSign width={16} height={16} />
-              {incomeArray}
-            </div>
-          </SelectedItemContainer>
-        )}
-        {outComeArray && (
-          <SelectedItemContainer title="Outcome Amount">
-            <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
-              <DollarSign width={16} height={16} />
-              {outComeArray}
-            </div>
-          </SelectedItemContainer>
-        )}
+        <SelectedItemContainer title="Income Amount">
+          <div className="flex flex-row items-center gap-x-0.5 text-successGreen">
+            <DollarSign width={16} height={16} />
+            {incomeArray || 0}
+          </div>
+        </SelectedItemContainer>
+        <SelectedItemContainer title="Outcome Amount">
+          <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
+            <DollarSign width={16} height={16} />
+            {outComeArray || 0}
+          </div>
+        </SelectedItemContainer>
       </div>
       <SelectedItemContainer title="Total Amount">
         <div

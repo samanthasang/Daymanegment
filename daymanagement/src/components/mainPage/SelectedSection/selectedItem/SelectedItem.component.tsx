@@ -201,8 +201,8 @@ export const SelectedItem = ({
         />
         <SelectedItemSpends
           income={income}
-          incomeAmount={incomeAmount}
-          outcomeAmount={outcomeAmount}
+          incomeAmount={(income && incomeAmount) || undefined}
+          outcomeAmount={(!income && outcomeAmount) || undefined}
           numberOfProduct={numberOfProduct}
           priceOfProduct={priceOfProduct}
         />
