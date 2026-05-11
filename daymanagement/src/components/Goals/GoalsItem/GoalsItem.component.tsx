@@ -39,7 +39,6 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
       CompleteItem={() => CompleteItem(item.id, item.title, item?.score || 0)}
       BringToday={() => BringTodayItem(item)}
       {...item}
-      score={item.score}
     />
   );
 };

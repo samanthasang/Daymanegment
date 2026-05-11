@@ -61,7 +61,7 @@ export const ListItem = ({
   hasShare?: number;
   drawerType: string;
   paymentCompleteValue?: string;
-  shareList: string[];
+  shareList?: string[];
   SelectItem?: () => void;
   DelItem?: () => void;
   CompleteItem?: () => void;
@@ -119,7 +119,7 @@ export const ListItem = ({
           isPause={isPause}
           date={date}
           score={score}
-          hasShare={shareList?.length > 0}
+          hasShare={shareList && shareList?.length > 0}
           drawerType={drawerType}
           withDel={withDel}
           diff={diff}
