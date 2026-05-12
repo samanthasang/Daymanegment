@@ -114,9 +114,19 @@ export function DrawerDialogDemo({
   return (
     <Drawer open={open} onOpenChange={(e) => openDrawer(e)}>
       {children}
-      <DrawerContent className="sm:max-w-full w-full bg-secondary backdrop-filter backdrop-blur-md px-3 gap-y-3">
+      <DrawerContent className="sm:max-w-full w-full bg-secondary backdrop-filter backdrop-blur-md p-3 pt-0 gap-y-3">
         <DrawerHeader className="text-left">
-          <DrawerTitle>{formType}</DrawerTitle>
+          <div className="flex justify-center items-center gap-x-1">
+            <DrawerIcon formType={formType} />
+            <DrawerTitle>
+              {formType != "Info"
+                ? formType != "Edit"
+                  ? "Add "
+                  : "Edit "
+                : "Info "}
+              {formType == "Info" ? drawerType : drawerTitle}
+            </DrawerTitle>{" "}
+          </div>
         </DrawerHeader>
         <DrawerForms
           drawerType={drawerType}

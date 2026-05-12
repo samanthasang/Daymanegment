@@ -1,12 +1,15 @@
 "use client";
-import { useAppSelector } from "@/lib/hook";
-import { Thabbit } from "@/modules/habbitList/habbit.slice";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import { Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import TagFilter from "../../Filters/TagFilter.componen";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
+import { useEffect } from "react";
+import { currentUnixTimestampZero, DayUnixDiff } from "../../UseDayJS";
 
 function UseHabbitList() {
+  const dispatch = useAppDispatch();
   const Habbit = useAppSelector((state) => state.Habbits);
 
   const selectedHabbit = Habbit?.selectedhabbit as Thabbit;
@@ -26,6 +29,27 @@ function UseHabbitList() {
   const dateUpOrderArray: Thabbit[] = DatePlusOrderFilter(ListMyHabbit);
   const dateDOwnOrderArray: Thabbit[] =
     DateMinusOrderFilter(oldListAfterFilter);
+
+  useEffect(() => {
+    ListHabbit.map((item) =>
+      item.isPause
+        ? dispatch(
+            updateHabbitList({
+              ...item,
+              lastUpdate: currentUnixTimestampZero,
+            })
+          )
+        : DayUnixDiff(item.lastUpdate, "day") < -1 &&
+          dispatch(
+            updateHabbitList({
+              ...item,
+              lastUpdate: currentUnixTimestampZero,
+              score: item.score + 1 + DayUnixDiff(item.lastUpdate, "day"),
+              isComplete: false,
+            })
+          )
+    );
+  }, []);
 
   return {
     ListMyHabbit: dateUpOrderArray,

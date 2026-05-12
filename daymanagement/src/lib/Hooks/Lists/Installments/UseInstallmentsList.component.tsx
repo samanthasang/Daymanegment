@@ -1,15 +1,20 @@
 "use client";
-import { useAppSelector } from "@/lib/hook";
-import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import {
+  TInstallmentsts,
+  updateInstallmentstList,
+} from "@/modules/installmentstList/installmentst.slice";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
 import NextDateOrderMinusFilter from "../../ListFilter/NextDateOrderMinusFilter.component";
 import NextDateOrderPlusFilter from "../../ListFilter/NextDateOrderPlusFilter.component";
-import { currentUnixTimestampZero } from "../../UseDayJS";
+import { currentUnixTimestampZero, DayUnixDiff } from "../../UseDayJS";
+import { useEffect } from "react";
 
 function useInstallmentsList() {
+  const dispatch = useAppDispatch();
   const Installmentst = useAppSelector((state) => state.Installments);
 
   const selectedInstallmentstList =
@@ -39,6 +44,15 @@ function useInstallmentsList() {
   const dateDOwnOrderArray: TInstallmentsts[] = NextDateOrderMinusFilter(
     oldListInstallmentsFiltered
   );
+
+  useEffect(() => {
+    ListInstallments.map(
+      (item) =>
+        item.isComplete &&
+        DayUnixDiff(item.doDate, "day") < 6 &&
+        dispatch(updateInstallmentstList({ ...item, isComplete: false }))
+    );
+  }, []);
 
   return {
     ListInstallmentsFiltered: dateUpOrderArray,

@@ -1,15 +1,21 @@
 "use client";
-import { useAppSelector } from "@/lib/hook";
-import { TReminder } from "@/modules/reminderList/reminder.slice";
+import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import {
+  TReminder,
+  unFinishReminderList,
+} from "@/modules/reminderList/reminder.slice";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
-import { currentUnixTimestampZero } from "../../UseDayJS";
+import { currentUnixTimestampZero, DayUnixDiff } from "../../UseDayJS";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
+import { useEffect } from "react";
+import { QUnitType } from "dayjs";
 
 function useReminderList() {
+  const dispatch = useAppDispatch();
   const Reminder = useAppSelector((state) => state.Reminders);
 
   const selectedReminder = Reminder?.selectedReminder as TReminder;
@@ -36,6 +42,15 @@ function useReminderList() {
   const dateDOwnOrderArray: TReminder[] = DateMinusOrderFilter(
     OldListReminderFiltered
   );
+
+  useEffect(() => {
+    ListReminder.map(
+      (item) =>
+        item.isComplete &&
+        DayUnixDiff(item.doDate, item.priodDiff as QUnitType) < 1 &&
+        dispatch(unFinishReminderList(item.id))
+    );
+  }, []);
 
   return {
     ListReminderFiltered: dateUpOrderArray,
