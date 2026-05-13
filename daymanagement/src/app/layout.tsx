@@ -28,7 +28,7 @@ export default function RootLayout({
       >
         <Provider store={store}>
           <ToastContainer />
-          <div className="h-[100vh] bg-primary">{children}</div>
+          <div className=" min-h-lvh bg-primary">{children}</div>
         </Provider>
       </body>
     </html>
