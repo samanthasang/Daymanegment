@@ -1,3 +1,4 @@
+"use client";
 import FilterComponent from "@/components/Filter/FilterComponent";
 import { useAppSelector } from "@/lib/hook";
 import UseResetFilterComponent from "@/lib/Hooks/ResetFilter.component";

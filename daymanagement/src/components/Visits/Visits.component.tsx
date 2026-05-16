@@ -1,14 +1,11 @@
-import { Suspense } from "react";
 import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
 import VisitsList from "./VisitsList/VisitsList.component";
 
 function VisitListComponent() {
   return (
-    <Suspense>
-      <PageContainer>
+    <PageContainer>
         <VisitsList />
-      </PageContainer>
-    </Suspense>
+    </PageContainer>
   );
 }
 

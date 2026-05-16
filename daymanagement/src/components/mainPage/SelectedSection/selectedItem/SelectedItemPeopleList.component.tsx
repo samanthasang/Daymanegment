@@ -12,8 +12,6 @@ export const SelectedItemPeopleList = ({ id }: { id: string }) => {
   const ListShare =
     ListShareAll && ListShareAll.filter((share) => share.peopleId == id);
 
-  console.log(ListShare);
-
   const incomeArray =
     id &&
     ListShare &&

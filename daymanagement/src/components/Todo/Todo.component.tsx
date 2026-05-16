@@ -4,11 +4,9 @@ import TodoList from "./TodoList/TodoList.component";
 
 function TodoListComponent() {
   return (
-    <Suspense>
-      <PageContainer>
-        <TodoList />
-      </PageContainer>
-    </Suspense>
+    <PageContainer>
+      <TodoList />
+    </PageContainer>
   );
 }
 

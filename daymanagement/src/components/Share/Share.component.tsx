@@ -4,11 +4,11 @@ import ShareList from "./ShareList/ShareList.component";
 
 function ShareListComponent() {
   return (
-    <Suspense>
-      <PageContainer>
+    <PageContainer>
+      <Suspense>
         <ShareList />
-      </PageContainer>
-    </Suspense>
+      </Suspense>
+    </PageContainer>
   );
 }
 

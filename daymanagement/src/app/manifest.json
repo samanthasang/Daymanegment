@@ -1,7 +1,7 @@
 {
   "name": "Mountains",
   "short_name": "Mountains",
-  "description": "Daymanegment APP",
+  "description": "Mountains Day Management APP",
   "background_color": "#151E26",
   "theme_color": "#1C2733",
   "start_url": "/index.html?utm_source=homescreen",
