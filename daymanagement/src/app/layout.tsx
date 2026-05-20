@@ -1,11 +1,12 @@
 "use client";
 import { store } from "@/lib/store";
 import localFont from "next/font/local";
+import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
-import { Metadata } from "next";
-import { useEffect } from "react";
+import SplashGate from "./splash-gate";
+import PWAInstallPrompt from "./PWAInstallPrompt";
 
 const geistSans = localFont({
   src: "./fonts/GoogleSansFlex.ttf",
@@ -17,6 +18,10 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+// export const metadata = {
+//   manifest: "/manifest.json",
+// };
 
 // export const metadata: Metadata = {
 //   applicationName: "Mountains",
@@ -46,15 +51,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   useEffect(() => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then((registration) =>
-        console.log(
-          "Service Worker registration successful with scope: ",
-          registration.scope
-        )
-      )
-      .catch((err) => console.log("Service Worker registration failed: ", err));
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch((err) => {
+        console.error("SW registration failed:", err);
+      });
+    }
   }, []);
   return (
     <html lang="en">
@@ -63,7 +64,12 @@ export default function RootLayout({
       >
         <Provider store={store}>
           <ToastContainer />
-          <div className=" min-h-lvh bg-primary">{children}</div>
+          <SplashGate>
+            <div className=" min-h-lvh bg-primary">
+              <PWAInstallPrompt />
+              {children}
+            </div>
+          </SplashGate>
         </Provider>
       </body>
     </html>

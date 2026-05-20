@@ -39,15 +39,23 @@ function UseHabbitList() {
               lastUpdate: currentUnixTimestampZero,
             })
           )
-        : DayUnixDiff(item.lastUpdate, "day") < -1 &&
-          dispatch(
-            updateHabbitList({
-              ...item,
-              lastUpdate: currentUnixTimestampZero,
-              score: item.score + 1 + DayUnixDiff(item.lastUpdate, "day"),
-              isComplete: false,
-            })
-          )
+        : (DayUnixDiff(item.lastUpdate, "day") < -1 &&
+            dispatch(
+              updateHabbitList({
+                ...item,
+                lastUpdate: currentUnixTimestampZero,
+                score: item.score + 1 + DayUnixDiff(item.lastUpdate, "day"),
+                isComplete: false,
+              })
+            )) ||
+          (DayUnixDiff(item.lastUpdate, "day") < 0 &&
+            dispatch(
+              updateHabbitList({
+                ...item,
+                lastUpdate: currentUnixTimestampZero,
+                isComplete: false,
+              })
+            ))
     );
   }, []);
 
