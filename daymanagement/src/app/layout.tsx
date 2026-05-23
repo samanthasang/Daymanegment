@@ -23,7 +23,7 @@ const geistMono = localFont({
 //   manifest: "/manifest.json",
 // };
 
-// export const metadata: Metadata = {
+// export const metadata = {
 //   applicationName: "Mountains",
 //   title: {
 //     default: "Mountains",
@@ -52,20 +52,28 @@ export default function RootLayout({
 }>) {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch((err) => {
-        console.error("SW registration failed:", err);
-      });
+      navigator.serviceWorker
+        .register("/sw.js", {
+          type: "module", // This is the key change
+        })
+        .catch((err) => {
+          console.error("Service worker registration failed:", err);
+        });
     }
   }, []);
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1C2733" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
           <ToastContainer />
           <SplashGate>
-            <div className=" min-h-lvh bg-primary">
+            <div className="min-h-dvh bg-primary">
               <PWAInstallPrompt />
               {children}
             </div>

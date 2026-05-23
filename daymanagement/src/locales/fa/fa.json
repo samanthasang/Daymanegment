@@ -1,0 +1,44 @@
+{
+  "Todos": {
+    "Title": "Todos"
+  },
+  "Reminders": {
+    "Title": "يادآور"
+  },
+  "Habbits": {
+    "Title": "Habbits"
+  },
+  "Timers": {
+    "Title": "زمان"
+  },
+  "Spends": {
+    "Title": "Spends"
+  },
+  "CategoryList": {
+    "Title": "Category",
+    "placeholder": "Choose Category"
+  },
+  "TagList": {
+    "Title": "Tag",
+    "placeholder": "Choose Tag"
+  },
+  "Friends": {
+    "Title": "دوستان"
+  },
+  "Installments": {
+    "Title": "Installments"
+  },
+  "Visits": {
+    "Title": "قرارها"
+  },
+  "Goals": {
+    "Title": "اهداف"
+  },
+  "Shares": {
+    "Title": "سهم ها"
+  },
+  "Menu": {
+    "MenuTitle": "منو",
+    "FilterTitle": "فیلتر"
+  }
+}

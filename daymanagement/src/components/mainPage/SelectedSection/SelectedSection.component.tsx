@@ -1,4 +1,3 @@
-import ListTitle from "../ListSection/ListContainer/ListTitle.component";
 import SelectedContainer from "./selectedItem/SelectedContainer.component";
 import SelectedItem from "./selectedItem/SelectedItem.component";
 import SelectedMenuBottom from "./selectedItem/SelectedMenuBottom.component";

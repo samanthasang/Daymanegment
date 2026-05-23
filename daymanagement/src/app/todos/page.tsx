@@ -1,7 +1,9 @@
+"use client";
 import TodoListComponent from "@/components/Todo/Todo.component";
+import { NextPage } from "next";
 
-function page() {
+const page: NextPage = () => {
   return <TodoListComponent />;
-}
+};
 
 export default page;

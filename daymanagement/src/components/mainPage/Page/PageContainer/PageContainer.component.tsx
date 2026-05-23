@@ -1,4 +1,3 @@
-import PWAInstallPrompt from "@/app/PWAInstallPrompt";
 import MenuSideBarComponent from "../MenuSideBar/MenuSideBar.component";
 
 function PageContainer({
@@ -10,7 +9,6 @@ function PageContainer({
 }) {
   return (
     <div className="w-full flex flex-row gap-x-2 flex-1 relative m-auto h-[100vh] p-2">
-      <PWAInstallPrompt />
       <MenuSideBarComponent witDate={witDate} />
       <div className="flex flex-row gap-x-2 flex-1 w-full mx-auto">
         {children}

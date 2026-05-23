@@ -1,7 +1,7 @@
 "use client";
 import { CalendarOff, Folder, Tag } from "lucide-react";
 import { cn } from "../utils";
-import { DayUnixDiff } from "./UseDayJS";
+import { currentUnixTimestampZero, DayUnixDiff } from "./UseDayJS";
 import useFilters from "./useFilters";
 import UseSearchParams from "./UseSearchParams";
 import { Button } from "@/components/ui/button";
@@ -22,14 +22,9 @@ function UseResetFilterComponent({
   const handleTagFilter = () => {
     applyFilter("tag", "");
   };
-  const fromTodayNow = new Date().setHours(0, 0, 0, 0);
 
-  const toDaUnix = Math.floor(
-    new Date(fromTodayNow).getTime() / 1000.0
-  ).toString();
   const handleDateFilter = () => {
-    applyFilter("dateFrom", "");
-    applyFilter("dateTo", "");
+    hasdateTo ? applyFilter("dateTo", "") : applyFilter("dateFrom", "");
   };
 
   return (

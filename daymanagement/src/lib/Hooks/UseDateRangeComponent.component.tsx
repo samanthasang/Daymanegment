@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import useFilters from "./useFilters";
 import UseSearchParams from "./UseSearchParams";
+import { currentUnixTimestampZero } from "./UseDayJS";
 
 function UseDateRangeComponent() {
   const { applyFilter } = useFilters();
@@ -42,13 +43,17 @@ function UseDateRangeComponent() {
   }, [dateRange?.from]);
 
   useEffect(() => {
-    hasdateFrom
-      ? hasdateTo
-        ? dateTo &&
-          dateFrom &&
-          dateFrom !== fromDay &&
-          dateTo !== toDay &&
-          setDateRange({
+    console.log(hasdateFrom);
+    console.log(dateFrom);
+    console.log(toDaUnix);
+    console.log(currentUnixTimestampZero);
+    console.log(new Date(dayjs(dayjs.unix(Number(toDaUnix))).toDate()));
+    console.log(
+      new Date(dayjs(dayjs.unix(Number(currentUnixTimestampZero))).toDate())
+    );
+    dateFrom && dateFrom !== toDaUnix 
+      ? dateTo && dateFrom !== fromDay && dateTo !== toDay
+        ? setDateRange({
             from: new Date(dayjs(dayjs.unix(Number(dateFrom))).toDate()),
             to: new Date(dayjs(dayjs.unix(Number(dateTo))).toDate()),
           })
@@ -57,7 +62,9 @@ function UseDateRangeComponent() {
             to: new Date(),
           })
       : setDateRange({
-          from: new Date(dayjs(dayjs.unix(Number(dateFrom))).toDate()),
+          from: new Date(
+            dayjs(dayjs.unix(Number(currentUnixTimestampZero))).toDate()
+          ),
           to: new Date(),
         });
   }, [dateFrom, dateTo]);

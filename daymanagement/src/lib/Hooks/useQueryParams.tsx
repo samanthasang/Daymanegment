@@ -6,7 +6,7 @@ export default function useQueryParams() {
   const pathname = usePathname();
 
   const getUrlWithNewQueryParam = useCallback(
-    (name: string, value: string | number | false) => {
+    (name: string, value: string | number | false | "") => {
       const params = new URLSearchParams(
         searchParams as unknown as URLSearchParams
       );
@@ -19,10 +19,14 @@ export default function useQueryParams() {
       }
       // END RESET PAGE NUMBER
 
-      if (value === false) {
+      console.log(name);
+      console.log(value);
+      if (value === false || value === "") {
         // REMOVE FILTER ACTION
 
         if (params.has(name)) {
+          console.log(params);
+          console.log(params.has(name));
           params.delete(name);
         }
       } else if (params.has(name)) {
@@ -34,6 +38,8 @@ export default function useQueryParams() {
         );
       }
       // RETURNING NEW PAGE URL
+      console.log(pathname + "?" + params.toString());
+
       return pathname + "?" + params.toString();
     },
     [pathname, searchParams]

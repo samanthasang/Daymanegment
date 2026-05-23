@@ -1,4 +1,3 @@
-"use client";
 import PageContainer from "../mainPage/Page/PageContainer/PageContainer.component";
 import HomeList from "./HomeList/HomeList.component";
 
