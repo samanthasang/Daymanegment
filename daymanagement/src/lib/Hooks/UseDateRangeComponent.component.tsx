@@ -43,17 +43,13 @@ function UseDateRangeComponent() {
   }, [dateRange?.from]);
 
   useEffect(() => {
-    console.log(hasdateFrom);
-    console.log(dateFrom);
-    console.log(toDaUnix);
-    console.log(currentUnixTimestampZero);
-    console.log(new Date(dayjs(dayjs.unix(Number(toDaUnix))).toDate()));
-    console.log(
-      new Date(dayjs(dayjs.unix(Number(currentUnixTimestampZero))).toDate())
-    );
-    dateFrom && dateFrom !== toDaUnix 
-      ? dateTo && dateFrom !== fromDay && dateTo !== toDay
-        ? setDateRange({
+    hasdateFrom
+      ? hasdateTo
+        ? dateTo &&
+          dateFrom &&
+          dateFrom !== fromDay &&
+          dateTo !== toDay &&
+          setDateRange({
             from: new Date(dayjs(dayjs.unix(Number(dateFrom))).toDate()),
             to: new Date(dayjs(dayjs.unix(Number(dateTo))).toDate()),
           })
@@ -65,7 +61,7 @@ function UseDateRangeComponent() {
           from: new Date(
             dayjs(dayjs.unix(Number(currentUnixTimestampZero))).toDate()
           ),
-          to: new Date(),
+          to: new Date(dayjs(dayjs.unix(Number(dateTo))).toDate()),
         });
   }, [dateFrom, dateTo]);
 

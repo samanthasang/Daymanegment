@@ -510,19 +510,30 @@
         "doDate": 1778704200,
         "createDate": 1778180505,
         "isComplete": false
+      },
+      {
+        "id": "pbDiFx2f2VlGKiUKNCFdZ",
+        "title": "test off",
+        "priority": "High",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "description": "",
+        "tag": "XwlWC-SCbSX8OQl6K8ot8",
+        "doDate": 1779309000,
+        "createDate": 1779352094,
+        "isComplete": false
+      },
+      {
+        "id": "0KiCQakEkbt4StTAiaBOC",
+        "title": "test offline",
+        "priority": "High",
+        "category": "_J1pUjWD-J_mx6zBpXsG8",
+        "description": "",
+        "tag": "XwlWC-SCbSX8OQl6K8ot8",
+        "doDate": 1779309000,
+        "createDate": 1779352917,
+        "isComplete": false
       }
-    ],
-    "selectedToDo": {
-      "id": "ffM2yVCjMiJPkYzkPvmlt",
-      "title": "fix todo list",
-      "priority": "High",
-      "category": "_J1pUjWD-J_mx6zBpXsG8",
-      "description": "",
-      "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "doDate": 1778704200,
-      "createDate": 1778180505,
-      "isComplete": false
-    }
+    ]
   },
   "Reminders": {
     "ListReminder": [
@@ -734,8 +745,8 @@
         "description": "Practice",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 16,
-        "lastUpdate": 1779136200,
+        "score": 15,
+        "lastUpdate": 1779568200,
         "completeUpdate": "1776943013",
         "highest": 19,
         "createDate": 1778242278,
@@ -750,12 +761,12 @@
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "score": 1,
-        "lastUpdate": 1779136200,
+        "lastUpdate": 1779568200,
         "completeUpdate": "1776724010",
         "highest": 3,
         "createDate": 1776990193,
-        "isComplete": true,
-        "isPause": true
+        "isComplete": false,
+        "isPause": false
       },
       {
         "id": "tMDj76pGocyc7CB8cI3LD",
@@ -764,8 +775,8 @@
         "description": "push up",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 6,
-        "lastUpdate": 1779136200,
+        "score": 5,
+        "lastUpdate": 1779568200,
         "completeUpdate": "1776943013",
         "highest": 19,
         "createDate": 1776984380,
@@ -780,22 +791,22 @@
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
         "score": -44,
         "createDate": 1776990193,
-        "lastUpdate": 1779136200,
+        "lastUpdate": 1779568200,
         "highest": 2,
         "isComplete": true,
         "isPause": true
       },
       {
         "id": "sq-uI73TmkWUGqqtFpWDI",
-        "title": "test DD",
+        "title": "Native",
         "priority": "Medium",
         "description": "",
         "category": "uOQQkNiNO8rZL4bIoJef_",
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
-        "score": 2,
+        "score": 1,
         "highest": 3,
-        "createDate": 1778180505,
-        "lastUpdate": 1779136200,
+        "createDate": 1779358104,
+        "lastUpdate": 1779568200,
         "isComplete": false
       },
       {
@@ -805,28 +816,14 @@
         "description": "",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 8,
+        "score": 7,
         "highest": 8,
         "createDate": 1778242278,
-        "lastUpdate": 1779136200,
+        "lastUpdate": 1779568200,
         "isComplete": false,
         "isPause": false
       }
-    ],
-    "selectedhabbit": {
-      "id": "tMDj76pGocyc7CB8cI3LD",
-      "title": "Exercise",
-      "priority": "High",
-      "description": "push up",
-      "category": "wE9n6PtaYIGVWasne3yHr",
-      "tag": "GPoeAdsLX8zYBd1s38_KA",
-      "score": 6,
-      "lastUpdate": 1779049800,
-      "completeUpdate": "1776943013",
-      "highest": 19,
-      "createDate": 1776984380,
-      "isComplete": true
-    }
+    ]
   },
   "Timers": {
     "ListTimer": [
@@ -2508,7 +2505,7 @@
         "id": "eV0tAxDlpYjI0CDlJNB_j",
         "title": "Add Chart",
         "priority": "High",
-        "score": 17,
+        "score": 7,
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "doDate": 1780103903,
@@ -3063,6 +3060,6 @@
   },
   "Menu": {
     "OpenMenu": false,
-    "OpenFilter": false
+    "OpenFilter": true
   }
 }

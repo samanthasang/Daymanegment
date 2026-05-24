@@ -1,10 +1,10 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { CalendarOff, Folder, Tag } from "lucide-react";
 import { cn } from "../utils";
-import { currentUnixTimestampZero, DayUnixDiff } from "./UseDayJS";
+import { DayUnixDiff } from "./UseDayJS";
 import useFilters from "./useFilters";
 import UseSearchParams from "./UseSearchParams";
-import { Button } from "@/components/ui/button";
 
 function UseResetFilterComponent({
   fullButton = false,
@@ -23,8 +23,11 @@ function UseResetFilterComponent({
     applyFilter("tag", "");
   };
 
-  const handleDateFilter = () => {
-    hasdateTo ? applyFilter("dateTo", "") : applyFilter("dateFrom", "");
+  const handleStartDateFilter = () => {
+    applyFilter("dateFrom", "");
+  };
+  const handleEndDateFilter = () => {
+    applyFilter("dateTo", "");
   };
 
   return (
@@ -37,12 +40,14 @@ function UseResetFilterComponent({
       <Button
         onClick={(e) => {
           e && e.preventDefault();
-          ((hasdateFrom && dateFrom && DayUnixDiff(+dateFrom, "day") != 0) ||
-            hasdateTo) &&
-            handleDateFilter();
+          hasdateFrom &&
+            dateFrom &&
+            DayUnixDiff(+dateFrom, "day") != 0 &&
+            handleStartDateFilter();
         }}
         className={cn(
-          (dateFrom && DayUnixDiff(+dateFrom, "day") != 0) || hasdateTo
+          "rounded-none rounded-l-3xl",
+          dateFrom && DayUnixDiff(+dateFrom, "day") != 0
             ? "bg-button"
             : "bg-primary",
           fullButton && "flex-1"
@@ -50,10 +55,25 @@ function UseResetFilterComponent({
       >
         <CalendarOff
           className={
-            (dateFrom && DayUnixDiff(+dateFrom, "day") != 0) || hasdateTo
+            dateFrom && DayUnixDiff(+dateFrom, "day") != 0
               ? "fill-red-500"
               : "bg-transparent"
           }
+        />
+      </Button>
+      <Button
+        onClick={(e) => {
+          e && e.preventDefault();
+          hasdateTo && handleEndDateFilter();
+        }}
+        className={cn(
+          "rounded-none rounded-r-3xl",
+          hasdateTo ? "bg-button" : "bg-primary",
+          fullButton && "flex-1"
+        )}
+      >
+        <CalendarOff
+          className={hasdateTo ? "fill-red-500" : "bg-transparent"}
         />
       </Button>
       <Button

@@ -204,7 +204,7 @@ export default function PeopleForm({
         rules={{ required: true }}
         render={({ field }) => (
           <InputField
-            title="IncomeAmount"
+            title="PhoneNumber"
             placeholder="Phone Number"
             disabled={!!errors.phoneNumber?.message}
             content={errors.phoneNumber?.message}

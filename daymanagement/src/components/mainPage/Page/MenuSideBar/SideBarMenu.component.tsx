@@ -5,10 +5,12 @@ import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import MenuMainSideBarComponent from "./MainMenuSideBar.component";
 import MenuBottomSideBarComponent from "./MenuBottomSideBarComponent";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 function SideBarMenu() {
   const { OpenMenu } = useAppSelector((state) => state.Menu);
   const { isSX } = useMediaQueryValues();
+  const t: any = UseLangComponent("Menu");
 
   return (
     <div
@@ -19,7 +21,7 @@ function SideBarMenu() {
     >
       <div className="w-full flex justify-center items-center gap-x-2 py-2 bg-primary rounded-full">
         <Menu width={16} height={16} />
-        Menu
+        {t.menuTitle}
       </div>
       <MenuMainSideBarComponent />
       <MenuBottomSideBarComponent />

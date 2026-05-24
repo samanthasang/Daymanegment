@@ -55,7 +55,7 @@ export default function FormInstallmentsDetails({
       </label>
       <Input
         className="!text-white w-full px-3 rounded-2xl py-1 flex-1"
-        placeholder="Name"
+        placeholder="paymentAmount"
         value={instalmentDetail.payment}
         onChange={(e) => onChageInput(e)}
       />

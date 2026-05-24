@@ -408,7 +408,7 @@ export default function FormSpends({
               "cursor-pointer w-full text-center py-1 rounded-2xl hover:bg-card/15",
               !getValues("income")
                 ? "bg-card/15 text-card"
-                : "text-TextForeground hover:text-white"
+                : "text-TextForeground"
             )}
             onClick={() => setValue("income", false)}
           >

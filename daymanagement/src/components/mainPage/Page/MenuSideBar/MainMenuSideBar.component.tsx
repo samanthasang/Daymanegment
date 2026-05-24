@@ -8,8 +8,10 @@ import HomeSpendsItem from "@/components/home/HomeItems/HomeSpendsItem.component
 import HomeTimerItem from "@/components/home/HomeItems/HomeTimerItem.component";
 import HomeTodoList from "@/components/home/HomeItems/HomeTodoItem.component";
 import HomeVisitItem from "@/components/home/HomeItems/HomeVisitItem.component";
+import MenuMainLangComponent from "./MenuMainLangComponent";
 
 function MenuMainSideBarComponent() {
+
   return (
     <div className="bg-secondary w-full flex flex-col justify-start items-start h-full flex-1 rounded-2xl py-1 gap-y-0.5">
       <HomeTodoList />
@@ -22,6 +24,7 @@ function MenuMainSideBarComponent() {
       <HomeSpendsItem />
       <HomeFriendsItem />
       <HomeShareItem />
+      <MenuMainLangComponent />
     </div>
   );
 }
