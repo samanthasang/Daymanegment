@@ -52,7 +52,6 @@ function GoalsInfo() {
             {!forgot ? GoalsFinishLenght : OldGoalsFinishLenght}{" "}
           </span>
           <span className="text-errorRed">
-            {" "}
             {!forgot ? GoalsNotFinishLenght : OldGoalsNotFinishLenght}
           </span>
         </div>

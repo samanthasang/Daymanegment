@@ -80,9 +80,9 @@ export function DrawerForms({
     case "Habbits":
       return <FormHabbit formType={formType} onSubmitForm={onSubmit} />;
     case "CategoryList":
-      return <CategoryForm onSubmitForm={onSubmit} />;
+      return <CategoryForm />;
     case "TagList":
-      return <TagForm onSubmitForm={onSubmit} />;
+      return <TagForm />;
     case "Friends":
       return <PeopleForm formType={formType} onSubmitForm={onSubmit} />;
     case "Timers":

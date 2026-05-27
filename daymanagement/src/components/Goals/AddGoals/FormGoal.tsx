@@ -143,6 +143,7 @@ export default function FormGoals({
     reset();
     onSubmitForm();
   };
+  
   const onReset = () => {
     dispatch(selectGoalList(""));
     setValue("doDate", 0);
@@ -272,7 +273,7 @@ export default function FormGoals({
       />
       <div className="flex gap-4">
         {selectedGoal?.title && (
-          <Button type="submit" className="flex-1">
+          <Button type="button" className="flex-1">
             reset
           </Button>
         )}

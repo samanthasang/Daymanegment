@@ -227,8 +227,8 @@ export default function PeopleForm({
         )}
       />
       <div className="flex gap-4">
-        {formType.split(" ")[0] && (
-          <Button type="submit" className="flex-1">
+        {selectedPeople?.title && (
+          <Button type="button" className="flex-1">
             reset
           </Button>
         )}

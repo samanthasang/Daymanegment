@@ -8,21 +8,13 @@ import {
 } from "@/modules/category/categoryList.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { InputField } from "../ui/inputField";
 import { CategoryList } from "./Category.component";
 
-interface IFormInputs {
-  category: string;
-}
-
-export default function CategoryForm({
-  onSubmitForm,
-}: {
-  onSubmitForm: () => void;
-}) {
+export default function CategoryForm() {
   const dispatch = useAppDispatch();
   const { ListCategory, selectedCategory }: any =
     useAppSelector((state) => state.CategoryList) || {};
@@ -42,7 +34,6 @@ export default function CategoryForm({
     control,
     setValue,
     getValues,
-    handleSubmit,
     formState: { errors },
     reset,
   } = useForm<FormData>({
@@ -50,7 +41,7 @@ export default function CategoryForm({
   });
 
   const onSubmit = () => {
-    selectedCategory?.title
+    selectedCategory?.id
       ? dispatch(
           updateCategoryList({
             id: selectedCategory.id,
@@ -65,7 +56,6 @@ export default function CategoryForm({
         );
     dispatch(selectCategoryList(""));
     reset();
-    // onSubmitForm();
   };
 
   const onReset = () => {
@@ -73,11 +63,8 @@ export default function CategoryForm({
     reset();
   };
   return (
-    <div className="flex flex-col gap-2 ">
-      <form
-        // onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-4"
-      >
+    <div className="flex flex-col gap-2 min-w-96">
+      <form className="flex flex-col w-full gap-4">
         <Controller
           defaultValue={""}
           name="category"
@@ -95,25 +82,27 @@ export default function CategoryForm({
           )}
         />
         <div className="flex gap-4">
-          {selectedCategory?.title && (
-            <Button
-              type="submit"
-              className="flex-1"
-              variant="secondary"
-            >
+          {selectedCategory?.id && (
+            <Button type="button" className="flex-1" onClick={() => onReset()}>
               reset
             </Button>
           )}
-          <Button type="button" variant="default" onClick={() => onSubmit()}>
+          <Button
+            type="button"
+            variant="default"
+            className="flex-1"
+            onClick={() => onSubmit()}
+          >
             submit
           </Button>
         </div>
       </form>
-
-      {ListCategory &&
-        ListCategory?.map((li: TCategory) => (
-          <CategoryList key={li.id} item={li} />
-        ))}
+      <div className="flex flex-col gap-y-2 p-1 rounded-3xl max-h-52 overflow-y-scroll">
+        {ListCategory &&
+          ListCategory?.map((li: TCategory) => (
+            <CategoryList key={li.id} item={li} />
+          ))}
+      </div>
     </div>
   );
 }

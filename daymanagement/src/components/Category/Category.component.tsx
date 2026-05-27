@@ -12,34 +12,29 @@ export const CategoryList = ({ item }: { item: TCategory }) => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className=" cursor-pointer flex flex-row items-start justify-start bg-primary p-3 rounded-2xl">
-      <div className=" h-fit w-full flex flex-row justify-between items-center">
-        <div className=" select-none cursor-pointer flex col-span-6 gap-3 justify-start items-start">
-          <label className="cursor-pointer flex justify-center items-center gap-2">
-            {item.title}
-          </label>
-        </div>
-        <div className="flex col-span-6 gap-3 justify-start items-start">
-          <Button
-            onClick={(e) => {
-              e && e.preventDefault();
-              item.id && dispatch(delCategoryList(item.id));
-            }}
-            className="hover:bg-error/30"
-            size="sm"
-          >
-            <Trash width="16px" height="16px" className="text-error" />
-          </Button>
-          <Button
-            onClick={(e) => {
-              e && e.preventDefault();
-              item.id && dispatch(selectCategoryList(item.id));
-            }}
-            size="sm"
-          >
-            <Edit width="16px" height="16px" />
-          </Button>
-        </div>
+    <div className=" h-fit w-full bg-primary p-1.5 rounded-3xl flex flex-row justify-between items-center">
+      <label className="px-2 py-1">{item.title}</label>
+      <div className="flex col-span-6 gap-3 justify-start items-start">
+        <Button
+          onClick={(e) => {
+            e && e.preventDefault();
+            item.id && dispatch(delCategoryList(item.id));
+          }}
+          className="hover:bg-error/30"
+          size="sm"
+        >
+          <Trash width="16px" height="16px" className="text-error" />
+        </Button>
+        <Button
+          onClick={(e) => {
+            e && e.preventDefault();
+            item.id && dispatch(selectCategoryList(item.id));
+          }}
+          className="hover:bg-button/15"
+          size="sm"
+        >
+          <Edit width="16px" height="16px" />
+        </Button>
       </div>
     </div>
   );

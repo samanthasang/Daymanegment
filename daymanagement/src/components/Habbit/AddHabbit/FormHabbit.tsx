@@ -1,5 +1,6 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import FormButtons from "@/components/FormItem/FormButton";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/inputField";
@@ -19,7 +20,6 @@ import {
 } from "@/modules/habbitList/habbit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { nanoid } from "@reduxjs/toolkit";
-import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -98,6 +98,10 @@ export default function FormHabbit({
   };
   const handleTag = (data: string) => {
     setValue("tag", data);
+  };
+
+  const onReset = () => {
+    reset();
   };
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
@@ -237,16 +241,7 @@ export default function FormHabbit({
         )}
       />
 
-      <div className="flex gap-4">
-        {formType != "Add" && (
-          <Button type="submit" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

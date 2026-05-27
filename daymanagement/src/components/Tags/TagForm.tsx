@@ -14,15 +14,7 @@ import { Button } from "../ui/button";
 import { InputField } from "../ui/inputField";
 import TagList from "./Tag.component";
 
-interface IFormInputs {
-  tag: string;
-}
-
-export default function TagForm({
-  onSubmitForm,
-}: {
-  onSubmitForm: () => void;
-}) {
+export default function TagForm() {
   const dispatch = useAppDispatch();
   const { ListTag, selectedTag }: any =
     useAppSelector((state) => state.TagList) || {};
@@ -41,7 +33,6 @@ export default function TagForm({
     control,
     setValue,
     getValues,
-    handleSubmit,
     formState: { errors },
     reset,
   } = useForm<FormData>({
@@ -49,7 +40,7 @@ export default function TagForm({
   });
 
   const onSubmit = () => {
-    selectedTag?.title
+    selectedTag?.id
       ? dispatch(
           updateTagList({
             id: selectedTag.id,
@@ -64,7 +55,6 @@ export default function TagForm({
         );
     dispatch(selectTagList(""));
     reset();
-    // onSubmitForm();
   };
 
   const onReset = () => {
@@ -91,21 +81,25 @@ export default function TagForm({
           )}
         />
         <div className="flex gap-4">
-          {selectedTag?.title && (
-            <Button
-              type="submit"
-              className="flex-1"
-            >
+          {selectedTag?.id && (
+            <Button type="button" className="flex-1" onClick={() => onReset()}>
               reset
             </Button>
           )}
-          <Button type="button" variant="default" className="flex-1" onClick={() => onSubmit()}>
+          <Button
+            type="button"
+            variant="default"
+            className="flex-1"
+            onClick={() => onSubmit()}
+          >
             submit
           </Button>
         </div>
       </form>
-
-      {ListTag && ListTag?.map((li: TTag) => <TagList key={li.id} item={li} />)}
+      <div className="flex flex-col gap-y-2 p-1 rounded-3xl max-h-52 overflow-y-scroll">
+        {ListTag &&
+          ListTag?.map((li: TTag) => <TagList key={li.id} item={li} />)}
+      </div>
     </div>
   );
 }

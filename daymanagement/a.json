@@ -745,7 +745,7 @@
         "description": "Practice",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 15,
+        "score": 19,
         "lastUpdate": 1779568200,
         "completeUpdate": "1776943013",
         "highest": 19,
@@ -775,7 +775,7 @@
         "description": "push up",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 5,
+        "score": 7,
         "lastUpdate": 1779568200,
         "completeUpdate": "1776943013",
         "highest": 19,
@@ -816,7 +816,7 @@
         "description": "",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 7,
+        "score": 12,
         "highest": 8,
         "createDate": 1778242278,
         "lastUpdate": 1779568200,
@@ -3060,6 +3060,7 @@
   },
   "Menu": {
     "OpenMenu": false,
-    "OpenFilter": true
+    "OpenFilter": true,
+    "lang": "en"
   }
 }

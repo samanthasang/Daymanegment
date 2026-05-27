@@ -96,7 +96,7 @@ export const habbitListSlice = createSlice({
               ...Habbit,
               score: !Habbit.isComplete ? Habbit.score + 1 : Habbit.score - 1,
               highest:
-                Habbit.highest > Habbit.score ? Habbit.highest : Habbit.score,
+                Habbit.highest >= Habbit.score ? Habbit.highest : Habbit.score,
               lastUpdate: currentUnixTimestampZero,
               isComplete: !Habbit.isComplete,
             }

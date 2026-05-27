@@ -235,7 +235,6 @@ export default function FormVisits({
   };
 
   const onReset = () => {
-    dispatch(selectVisitList(""));
     setValue("doDate", 0);
     reset();
   };
@@ -508,12 +507,12 @@ export default function FormVisits({
       />
 
       <div className="flex gap-4">
-        {selectedVisit?.id && (
-          <Button type="submit" className="flex-1">
+        {formType != "Add" && (
+          <Button type="button" className="flex-1" onClick={() => onReset()}>
             reset
           </Button>
         )}
-        <Button type="submit" className="flex-1" variant="default">
+        <Button type="submit" variant="default" className="flex-1">
           submit
         </Button>
       </div>
