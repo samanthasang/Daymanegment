@@ -1,7 +1,7 @@
 "use client";
-import { faLang } from "@/locales/fa/fa";
 import { useAppSelector } from "../hook";
 import { enLang } from "@/locales/en/en";
+import { faLang } from "@/locales/fa/fa";
 import { useEffect, useState } from "react";
 
 function UseLangComponent(
@@ -20,6 +20,8 @@ function UseLangComponent(
     | "Menu"
     | "Form"
     | "Drawer"
+    | "Selected"
+    | "Buttons"
 ) {
   const [langChoosen, setLangChoosen] = useState(enLang);
 

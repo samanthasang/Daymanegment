@@ -8,11 +8,11 @@ import {
   ListTodo,
   Target,
   TimerIcon,
-  User
+  User,
 } from "lucide-react";
 
-function ListItemsIcon(tilte: string, size: number) {
-  switch (tilte) {
+function ListItemsIcon(title: string, size: number) {
+  switch (title) {
     case "Reminders":
       return <CalendarSync width={size} height={size} />;
     case "Todos":

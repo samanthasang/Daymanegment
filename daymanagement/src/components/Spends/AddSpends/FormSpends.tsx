@@ -497,7 +497,6 @@ export default function FormSpends({
           <CategotySelectComponent
             required
             errors={!field.value && !!errors.category?.message}
-            description={errors.category?.message}
             onValueChange={handleCategory}
             value={field.value}
           />
@@ -513,7 +512,6 @@ export default function FormSpends({
           <TagSelectComponent
             required
             errors={!field.value && !!errors.tag?.message}
-            description={errors.tag?.message}
             onValueChange={handleTag}
             value={field.value}
           />

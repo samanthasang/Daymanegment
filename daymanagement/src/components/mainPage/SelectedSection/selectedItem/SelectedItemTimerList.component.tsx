@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import ListItemTimeDiff from "../../ListSection/ListItem/ListItemTimeDiff.component";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import { Clock, Timer } from "lucide-react";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export const SelectedItemTimerList = ({
   isComplete,
@@ -14,6 +15,7 @@ export const SelectedItemTimerList = ({
   endDate?: number;
   startDate?: number;
 }) => {
+  const t: any = UseLangComponent("Selected");
   const startD = dayjs.unix(Number(startDate));
   const endD = dayjs.unix(Number(endDate));
   const diff = dayjs.duration(endD.diff(startD));
@@ -22,7 +24,7 @@ export const SelectedItemTimerList = ({
     <>
       <div className="w-full flex flex-row justify-between gap-x-2">
         {startDate && (
-          <SelectedItemContainer title="Start Time">
+          <SelectedItemContainer title={t.StartTime}>
             <div className="flex flex-row items-center gap-x-1">
               <Clock width={12} height={12} />
               {DayUnixFormat(startDate, "HH:mm")}
@@ -30,7 +32,7 @@ export const SelectedItemTimerList = ({
           </SelectedItemContainer>
         )}
         {isComplete && endDate && (
-          <SelectedItemContainer title="End Time">
+          <SelectedItemContainer title={t.EndTime}>
             <div className="flex flex-row items-center gap-x-1">
               <Clock width={12} height={12} />
               {DayUnixFormat(endDate, "HH:mm")}
@@ -39,7 +41,7 @@ export const SelectedItemTimerList = ({
         )}
       </div>
       {isComplete && diff ? (
-        <SelectedItemContainer title="Timer">
+        <SelectedItemContainer title={t.Timer}>
           <div className="flex flex-row items-center gap-x-1">
             <Timer width={12} height={12} />
             <label>
@@ -53,7 +55,7 @@ export const SelectedItemTimerList = ({
           </div>
         </SelectedItemContainer>
       ) : (
-        <SelectedItemContainer title="Timer">
+        <SelectedItemContainer title={t.Timer}>
           <ListItemTimeDiff date={startDate} />
         </SelectedItemContainer>
       )}

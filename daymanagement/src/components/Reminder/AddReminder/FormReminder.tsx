@@ -291,7 +291,6 @@ export default function FormReminder({
           <CategotySelectComponent
             required
             errors={!field.value && !!errors.category?.message}
-            description={errors.category?.message}
             onValueChange={handleCategory}
             value={field.value}
           />
@@ -306,7 +305,6 @@ export default function FormReminder({
           <TagSelectComponent
             required
             errors={!field.value && !!errors.tag?.message}
-            description={errors.tag?.message}
             onValueChange={handleTag}
             value={field.value}
           />

@@ -6,6 +6,7 @@ import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
 import { DialogTrigger } from "../ui/dialog";
 import { SelectButtonGroup } from "../ui/SelectButtonGroup";
 import { cn } from "@/lib/utils";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 interface ICategotySelect {
   className?: string;
@@ -13,12 +14,10 @@ interface ICategotySelect {
   errors?: boolean;
   onValueChange: (data: string) => void;
   value?: string;
-  description?: string;
 }
 
 function CategotySelectComponent({
   required,
-  description,
   errors = false,
   onValueChange,
   value,
@@ -30,12 +29,13 @@ function CategotySelectComponent({
     selectedCategory: {};
   } = useAppSelector((state) => state.CategoryList) || [];
 
+  const t: any = UseLangComponent("CategoryList");
   return (
     <SelectButtonGroup
-      title="Category"
+      title={t.title}
       name="category"
       errors={errors}
-      placeholder="Choose Category"
+      placeholder={t.placeholder}
       required={required}
       itemArray={ListCategory}
       onValueChange={(e) => e && onValueChange(e)}
@@ -43,7 +43,7 @@ function CategotySelectComponent({
       className={cn(errors ? "border-[1px] border-red-600 w-full" : " w-full")}
     >
       <DrawerDialogDemo
-        drawerType={"CategoryList"}
+        drawerType="CategoryList"
         formType="Add"
         drawerTitle="Category"
       >

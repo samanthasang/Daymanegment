@@ -1,6 +1,7 @@
 import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import { Calendar, Clock, Timer } from "lucide-react";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export const SelectedItemDate = ({
   doDate,
@@ -25,12 +26,13 @@ export const SelectedItemDate = ({
   endDate?: number;
   birthDate?: number;
 }) => {
+  const t: any = UseLangComponent("Selected");
   return (
     <>
       {(!!doDate || !!createDate) && (
         <div className="w-full flex flex-row justify-between gap-x-2">
           {!!createDate && (
-            <SelectedItemContainer title="Create Day">
+            <SelectedItemContainer title={t.CreateDay}>
               <div className="flex flex-row items-center gap-x-1">
                 <Calendar width={12} height={12} />
                 {DayUnixFormat(createDate, "YYYY-MM-DD")}
@@ -38,7 +40,7 @@ export const SelectedItemDate = ({
             </SelectedItemContainer>
           )}
           {!!doDate && (
-            <SelectedItemContainer title="Do Day">
+            <SelectedItemContainer title={t.DoDay}>
               <div className="flex flex-row items-center gap-x-1">
                 <Calendar width={12} height={12} />
                 {DayUnixFormat(doDate, "YYYY-MM-DD")}
@@ -46,7 +48,7 @@ export const SelectedItemDate = ({
             </SelectedItemContainer>
           )}
           {birthDate && (
-            <SelectedItemContainer title="BirthDay">
+            <SelectedItemContainer title={t.BirthDay}>
               <div className="flex flex-row items-center gap-x-1">
                 <Calendar width={12} height={12} />
                 {DayUnixFormat(birthDate, "YYYY-MM-DD")}
@@ -58,7 +60,7 @@ export const SelectedItemDate = ({
       {(!!startDate || !!lastUpdate || !!endDate) && (
         <div className="w-full flex flex-row justify-between gap-x-2">
           {startDate && (
-            <SelectedItemContainer title="Start Day">
+            <SelectedItemContainer title={t.StartDay}>
               <div className="flex flex-row items-center gap-x-1">
                 <Calendar width={12} height={12} />
                 {DayUnixFormat(startDate, "YYYY-MM-DD")}
@@ -66,7 +68,7 @@ export const SelectedItemDate = ({
             </SelectedItemContainer>
           )}
           {endDate && (
-            <SelectedItemContainer title="End Day">
+            <SelectedItemContainer title={t.EndDay}>
               <div className="flex flex-row items-center gap-x-1">
                 <Calendar width={12} height={12} />
                 {DayUnixFormat(endDate, "YYYY-MM-DD")}
@@ -74,7 +76,7 @@ export const SelectedItemDate = ({
             </SelectedItemContainer>
           )}
           {lastUpdate && (
-            <SelectedItemContainer title="Update Day">
+            <SelectedItemContainer title={t.UpdateDay}>
               <div className="flex flex-row items-center gap-x-1">
                 <Calendar width={12} height={12} />
                 {DayUnixFormat(lastUpdate, "YYYY-MM-DD")}
@@ -84,7 +86,7 @@ export const SelectedItemDate = ({
         </div>
       )}
       {completeUpdate && (
-        <SelectedItemContainer title="Complete Day">
+        <SelectedItemContainer title={t.CompleteDay}>
           <div className="flex flex-row items-center gap-x-1">
             <Calendar width={12} height={12} />
             {DayUnixFormat(completeUpdate, "YYYY-MM-DD")}
@@ -92,7 +94,7 @@ export const SelectedItemDate = ({
         </SelectedItemContainer>
       )}
       {time && (
-        <SelectedItemContainer title="Do Hour">
+        <SelectedItemContainer title={t.DoHour}>
           <div className="flex flex-row items-center gap-x-1">
             <Clock width={12} height={12} />
             {DayUnixFormat(+time, "HH:mm")}
@@ -100,7 +102,7 @@ export const SelectedItemDate = ({
         </SelectedItemContainer>
       )}
       {timeDiff && (
-        <SelectedItemContainer title="Reminde After">
+        <SelectedItemContainer title={t.ReminderAfter}>
           <div className="flex flex-row items-center gap-x-1">
             <Timer width={12} height={12} />
             {`${timeDiff} ${priodDiff}s`}

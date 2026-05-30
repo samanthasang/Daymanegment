@@ -13,7 +13,6 @@ function SelectedSection({
   isFinish,
   isComplete,
   isPause,
-  DuplicateItem,
   SelectItem,
   FinishItem,
   CompleteItem,
@@ -35,7 +34,6 @@ function SelectedSection({
   isComplete?: boolean;
   isFinish?: boolean;
   isPause?: boolean;
-  DuplicateItem?: boolean;
   SelectItem: () => void;
   FinishItem?: () => void;
   CompleteItem?: () => void;

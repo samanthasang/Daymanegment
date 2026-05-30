@@ -6,10 +6,13 @@ import { DateRange } from "react-day-picker";
 import useFilters from "./useFilters";
 import UseSearchParams from "./UseSearchParams";
 import { currentUnixTimestampZero } from "./UseDayJS";
+import { useAppSelector } from "../hook";
+import { CalendarPersian } from "@/components/ui/calendarPersian";
 
 function UseDateRangeComponent() {
   const { applyFilter } = useFilters();
 
+  const { lang } = useAppSelector((state) => state.Menu);
   const { hasdateFrom, dateFrom, hasdateTo, dateTo } = UseSearchParams();
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -65,13 +68,24 @@ function UseDateRangeComponent() {
         });
   }, [dateFrom, dateTo]);
 
-  return (
+  return lang == "en" ? (
     <Calendar
       mode="range"
       defaultMonth={dateRange?.from}
       selected={dateRange}
       onSelect={setDateRange}
       numberOfMonths={1}
+      captionLayout="dropdown"
+      className="w-[320px] mx-auto rounded-2xl border shadow-sm bg-transparent"
+    />
+  ) : (
+    <CalendarPersian
+      mode="range"
+      defaultMonth={dateRange?.from}
+      selected={dateRange}
+      onSelect={setDateRange}
+      numberOfMonths={1}
+      dir="ltr"
       captionLayout="dropdown"
       className="w-[320px] mx-auto rounded-2xl border shadow-sm bg-transparent"
     />

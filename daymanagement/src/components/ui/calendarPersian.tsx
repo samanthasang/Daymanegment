@@ -11,7 +11,7 @@ import * as React from "react";
 import { DayButton, getDefaultClassNames } from "react-day-picker";
 import { DayPicker } from "react-day-picker/persian";
 
-function calendarPersian({
+function CalendarPersian({
   className,
   classNames,
   showOutsideDays = true,
@@ -210,4 +210,4 @@ function CalendarPersianDayButton({
   );
 }
 
-export { calendarPersian, CalendarPersianDayButton };
+export { CalendarPersian, CalendarPersianDayButton };

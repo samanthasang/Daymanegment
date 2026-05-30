@@ -1,11 +1,8 @@
 "use client";
-import {
-  CircleDollarSign,
-  CircleOff,
-  ShoppingCart
-} from "lucide-react";
+import { CircleDollarSign, CircleOff, ShoppingCart } from "lucide-react";
 import ListPriority from "../../ListSection/ListPriority/ListPriority.component";
 import SelectedItemContainer from "./SelectedItemContainer.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export const SelectedItemMainInfocomponen = ({
   priority,
@@ -21,12 +18,13 @@ export const SelectedItemMainInfocomponen = ({
   priceOfProduct?: string;
   isFinish?: boolean;
 }) => {
+  const t: any = UseLangComponent("Selected");
   return (
     <div className="w-full flex flex-row justify-between gap-x-2">
       {priority && (
         <SelectedItemContainer
           classContainer="w-fit items-center p-2"
-          title="Priority"
+          title={t.Priority}
         >
           <ListPriority priority={priority} showTitle />
         </SelectedItemContainer>
@@ -34,7 +32,7 @@ export const SelectedItemMainInfocomponen = ({
       {(incomeAmount || priceOfProduct || isFinish) && (
         <SelectedItemContainer
           classContainer="w-fit items-center"
-          title={isFinish ? "Status" : "Type"}
+          title={isFinish ? t.Status : t.Type}
         >
           {incomeAmount && (
             <div className="flex items-center gap-x-1">
@@ -43,19 +41,19 @@ export const SelectedItemMainInfocomponen = ({
                 height={16}
                 className="text-successGreen"
               />
-              <label>Earn</label>
+              <label>{t.Earn}</label>
             </div>
           )}
           {priceOfProduct && (
             <div className="flex items-center gap-x-1">
               <ShoppingCart width={16} height={16} className="text-errorRed" />
-              <label>Buy</label>
+              <label>{t.Buy}</label>
             </div>
           )}
           {isFinish && (
             <div className="flex items-center gap-x-1 text-successGreen">
               <CircleOff width={16} height={16} />
-              <label>Finished</label>
+              <label>{t.Finished}</label>
             </div>
           )}
         </SelectedItemContainer>
@@ -63,7 +61,7 @@ export const SelectedItemMainInfocomponen = ({
 
       <SelectedItemContainer
         className="flex-1"
-        title="Title"
+        title={t.Title}
         description={title}
       />
     </div>

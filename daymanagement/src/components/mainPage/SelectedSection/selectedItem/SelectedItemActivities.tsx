@@ -1,5 +1,6 @@
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
 import { Button } from "@/components/ui/button";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import {
   CalendarCog,
   CalendarPlus,
@@ -53,11 +54,12 @@ export const SelectedItemActivities = ({
   AddSevenDaysToItem?: () => void;
   PaymentCompleteItem?: () => void;
 }) => {
+  const t: any = UseLangComponent("Buttons");
   return (
     <>
       {PauseItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Pause</label>
+          <label>{t.Pause}</label>
           <Button
             onClick={(e) => {
               e && e.preventDefault();
@@ -72,7 +74,7 @@ export const SelectedItemActivities = ({
       )}
       {FinishItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Finish</label>
+          <label>{t.Finish}</label>
           <Button
             onClick={(e) => {
               e && e.preventDefault();
@@ -87,7 +89,7 @@ export const SelectedItemActivities = ({
       )}
       {CompleteItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Done</label>
+          <label>{t.Done}</label>
           <Button
             disabled={isComplete && isPause && isFinish}
             onClick={(e) => {
@@ -109,7 +111,7 @@ export const SelectedItemActivities = ({
       )}
       {UndoneItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Undone</label>
+          <label>{t.Undone}</label>
           <Button
             disabled={!isFinish && !isPause && !isComplete}
             onClick={(e) => {
@@ -126,7 +128,7 @@ export const SelectedItemActivities = ({
       )}
       {PaymentCompleteItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Payment Complete</label>
+          <label>{t.PaymentComplete}</label>
           <Button
             disabled={!isPaymentComplete}
             onClick={(e) => {
@@ -146,7 +148,7 @@ export const SelectedItemActivities = ({
       )}
       {DuplicateItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Duplicate</label>
+          <label>{t.Duplicate}</label>
           <DrawerButton
             drawerType={drawerType}
             formType="duplicate"
@@ -158,7 +160,7 @@ export const SelectedItemActivities = ({
       )}
       {DuplicateTodayItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Duplicate For Today</label>
+          <label>{t.DuplicateForToday}</label>
           <Button
             disabled={isToday}
             onClick={(e) => {
@@ -173,7 +175,7 @@ export const SelectedItemActivities = ({
       )}
       {BringTodayItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Bring Today</label>
+          <label>{t.BringToday}</label>
           <Button
             disabled={isToday}
             onClick={(e) => {
@@ -188,7 +190,7 @@ export const SelectedItemActivities = ({
       )}
       {AddOneDayToItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Add 1 Day</label>
+          <label>{t.AddOneDay}</label>
           <Button
             disabled={isComplete}
             onClick={(e) => {
@@ -203,7 +205,7 @@ export const SelectedItemActivities = ({
       )}
       {AddSevenDaysToItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Add 7 Days</label>
+          <label>{t.AddSevenDays}</label>
           <Button
             disabled={isComplete}
             onClick={(e) => {
@@ -218,7 +220,7 @@ export const SelectedItemActivities = ({
       )}
       {DelItem && (
         <div className="w-full flex flex-row flex-1 gap-2 justify-between items-center">
-          <label>Delete</label>
+          <label>{t.Delete}</label>
           <Button
             onClick={(e) => {
               e && e.preventDefault();

@@ -9,7 +9,7 @@ function HomeVisitItem() {
   return (
     <MenuItems
       href={"/visits"}
-      tilte="Visits"
+      title="Visits"
       infoNumber={`${FinishedArray(ListVisitFiltered).length} / ${ListVisitFiltered?.length}`}
     />
   );

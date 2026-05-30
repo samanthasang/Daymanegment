@@ -1,6 +1,7 @@
 "use client";
 import { Star, Stars } from "lucide-react";
 import SelectedItemContainer from "./SelectedItemContainer.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export const SelectedItemHabbit = ({
   score,
@@ -11,11 +12,12 @@ export const SelectedItemHabbit = ({
   highest?: number;
   drawerType?: string;
 }) => {
+  const t: any = UseLangComponent("Selected");
   return (
     (score || highest) && (
       <div className="w-full flex flex-row justify-between gap-x-2">
         {score && (
-          <SelectedItemContainer title="Score">
+          <SelectedItemContainer title={t.Score}>
             <label
               className={
                 (score && drawerType == "Goals" && score > 4) ||
@@ -32,7 +34,7 @@ export const SelectedItemHabbit = ({
           </SelectedItemContainer>
         )}
         {highest && (
-          <SelectedItemContainer title="Highest">
+          <SelectedItemContainer title={t.Score}>
             <label className="text-successGreen">
               <div className="flex flex-row items-center gap-x-0.5">
                 <Stars width={16} height={16} />

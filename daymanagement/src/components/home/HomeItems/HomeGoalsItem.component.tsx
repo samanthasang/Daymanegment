@@ -9,7 +9,7 @@ function HomeGoalsItem() {
   return (
     <MenuItems
       href={"/goals"}
-      tilte="Goals"
+      title="Goals"
       infoNumber={`${FinishedArray(ListGoalsFiltered).length} / ${ListGoalsFiltered?.length}`}
     />
   );

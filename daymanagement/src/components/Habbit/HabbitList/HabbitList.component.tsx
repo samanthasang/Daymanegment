@@ -43,7 +43,6 @@ function HabbitList() {
         SelectItem={SelectItem}
         UndoneItem={() => UndoItem(selectedHabbit)}
         PauseItem={() => PauseItem(selectedHabbit.id, selectedHabbit.title)}
-        DuplicateItem
         isComplete={selectedHabbit && selectedHabbit.isComplete}
         selected={selectedHabbit}
       />

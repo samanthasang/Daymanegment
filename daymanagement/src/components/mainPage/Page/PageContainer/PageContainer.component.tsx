@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/lib/hook";
 import MenuSideBarComponent from "../MenuSideBar/MenuSideBar.component";
 
 function PageContainer({
@@ -7,8 +8,12 @@ function PageContainer({
   witDate?: boolean;
   children: React.ReactNode;
 }) {
+  const { lang } = useAppSelector((state) => state.Menu);
   return (
-    <div className="w-full flex flex-row gap-x-2 flex-1 relative m-auto h-[100vh] p-2">
+    <div
+      dir={lang == " en" ? "ltr" : "rtl"}
+      className="w-full flex flex-row gap-x-2 flex-1 relative m-auto h-[100vh] p-2"
+    >
       <MenuSideBarComponent witDate={witDate} />
       <div className="flex flex-row gap-x-2 flex-1 w-full mx-auto">
         {children}

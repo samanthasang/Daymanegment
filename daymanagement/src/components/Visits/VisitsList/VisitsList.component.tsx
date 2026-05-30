@@ -54,7 +54,6 @@ function VisitsList() {
         AddOneDayToItem={() => AddDayToItem({ ...selectedVisit }, 1)}
         AddSevenDaysToItem={() => AddDayToItem({ ...selectedVisit }, 7)}
         PaymentCompleteItem={() => PaymentCompleteItem({ ...selectedVisit })}
-        DuplicateItem
         selected={selectedVisit}
       />
     </>

@@ -44,7 +44,6 @@ function ReminderList() {
           CompleteItem(selectedReminder.id, selectedReminder.title)
         }
         UndoneItem={() => UndoItem(selectedReminder)}
-        DuplicateItem
         DelItem={() => DelItem(selectedReminder.id, selectedReminder.title)}
         SelectItem={() => SelectItem()}
         selected={selectedReminder}

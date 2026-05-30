@@ -6,6 +6,7 @@ import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
 import { DialogTrigger } from "../ui/dialog";
 import { SelectButtonGroup } from "../ui/SelectButtonGroup";
 import { cn } from "@/lib/utils";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 interface ICategotySelect {
   className?: string;
@@ -13,7 +14,6 @@ interface ICategotySelect {
   errors?: boolean;
   onValueChange: (category: string) => void;
   value?: string;
-  description?: string;
 }
 
 function TagSelectComponent({
@@ -21,7 +21,6 @@ function TagSelectComponent({
   errors = false,
   onValueChange,
   value,
-  description,
 }: ICategotySelect) {
   const {
     ListTag,
@@ -30,12 +29,13 @@ function TagSelectComponent({
     selectedTag: {};
   } = useAppSelector((state) => state.TagList) || [];
 
+  const t: any = UseLangComponent("TagList");
   return (
     <SelectButtonGroup
-      title="Tag"
+      title={t.title}
       name="tag"
       errors={errors}
-      placeholder="Choose Tag"
+      placeholder={t.placeholder}
       required={required}
       itemArray={ListTag}
       onValueChange={(e) => e && onValueChange(e)}

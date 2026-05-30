@@ -11,7 +11,7 @@ export const faLang = {
     forgotTilte: "یادآوری ها قدیمی",
     drawerTitle: "یادآوری ها",
   },
-  Habits: {
+  Habbits: {
     title: "عادت ها",
     single: "عادت ها",
     forgotTilte: "عادت های جدید",
@@ -81,7 +81,7 @@ export const faLang = {
     low: "پایین",
     noPay: "بدون پرداخت",
     withPay: "با پرداخت",
-    addpeoples: "افراد را اضافه کنید",
+    addpeople: "افراد را اضافه کنید",
     installmentslist: "لیست اقصاظ",
     advanceAmount: "مبلغ پیش پرادخت",
     paymentAmount: "مبلغ پرادختی",
@@ -120,7 +120,7 @@ export const faLang = {
     Spends: "خرج کردن",
     Shares: "سهم ها",
     Today: "امروز",
-    AllHabit: "تمام عادت ها",
+    AllHabbit: "تمام عادت ها",
     TodayGoals: "اهداف امروز",
     AllGoals: "تمام اهداف",
     AllVisits: "تمام بازدید کردن ها",
@@ -145,7 +145,8 @@ export const faLang = {
     Total: "کل",
     SomThingWentWrong: "چیزی اشتباه شده",
   },
-  selected: {
+  Selected: {
+    Priority: "اولویت",
     Status: "وضعیت",
     Type: "تایپ",
     Buy: "خرید",
@@ -163,6 +164,8 @@ export const faLang = {
     DoHour: "ساعت انجام",
     ReminderAfter: "بعد از یاد آوری",
     Friend: "دوست",
+    Visit: "بازدید",
+    Spends: "خرج",
     PhoneNumber: "شماره تلفن",
     IncomeAmount: "مقدار درآمد",
     OutcomeAmount: "مقدار نتیجه",
@@ -184,6 +187,7 @@ export const faLang = {
     Activities: "فعالیت ها",
     Shares: "سهم ها",
     Description: "توضیحات",
+    nothing: "چیزی برای نمایش وجود ندارد",
   },
   Buttons: {
     Pause: "مک‍‍ث",

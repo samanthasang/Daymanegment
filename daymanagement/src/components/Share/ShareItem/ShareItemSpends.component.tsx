@@ -3,6 +3,7 @@ import SelectedItemContainer from "@/components/mainPage/SelectedSection/selecte
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { delSpendsListShare } from "@/modules/spends/spends.slice";
 import { selectVisitList } from "@/modules/visitsList/visit.slice";
 import { BadgeDollarSign, Eye, Trash } from "lucide-react";
@@ -17,13 +18,14 @@ export const ShareItemSpends = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+    const t: any = UseLangComponent("Selected");
 
   const { ListSpendsAll } = useSpendsList();
   const SpendsSelected =
     ListSpendsAll && ListSpendsAll.filter((spends) => spends.id == spendsId)[0];
 
   return (
-    <SelectedItemContainer title="Spends">
+    <SelectedItemContainer title={t.Spends}>
       <div className="w-full h-10 flex flex-row items-center justify-between rounded-3xl">
         <div className="flex gap-x-1 items-center">
           <BadgeDollarSign width={16} height={16} />

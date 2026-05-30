@@ -41,7 +41,6 @@ function TimerList() {
         DelItem={() => DelItem(selectedTimer.id, selectedTimer.title)}
         SelectItem={SelectItem}
         selected={selectedTimer}
-        DuplicateItem
       />
     </>
   );

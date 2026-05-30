@@ -8,7 +8,7 @@ function HomeFriendsItem() {
   return (
     <MenuItems
       href={"/friends"}
-      tilte="Friends"
+      title="Friends"
       infoNumber={`${ListPeople && ListPeople.length}`}
     />
   );

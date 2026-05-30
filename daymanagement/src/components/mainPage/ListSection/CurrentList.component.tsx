@@ -44,7 +44,7 @@ function CurrentList({
 
   const { complateArray, complateFIlter, setcomplateFIlter } = withpriority
     ? ComplateFIlter([...priorityArray])
-    : ComplateFIlter([...List]);
+    : ComplateFIlter([...finishArray]);
 
   const FinishedArrayList = NotFinishedArray(complateArray);
 

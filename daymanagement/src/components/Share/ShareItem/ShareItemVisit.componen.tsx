@@ -3,6 +3,7 @@ import SelectedItemContainer from "@/components/mainPage/SelectedSection/selecte
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import {
   delVisitListShare,
   selectVisitList,
@@ -19,13 +20,14 @@ export const ShareItemVisit = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const t: any = UseLangComponent("Selected");
 
   const { ListVisitAll } = useVisitList();
   const VisitSelected =
     ListVisitAll && ListVisitAll.filter((visit) => visit.id == visitId)[0];
 
   return (
-    <SelectedItemContainer title="Visit">
+    <SelectedItemContainer title={t.Visit}>
       <div className="w-full h-10 flex flex-row items-center justify-between rounded-3xl">
         <div className="flex gap-x-1 items-center">
           <BookUser width={16} height={16} />

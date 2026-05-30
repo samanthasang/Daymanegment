@@ -19,6 +19,7 @@ import SelectedItemTimerList from "./SelectedItemTimerList.component";
 import SelectedItemVisit from "./SelectedItemVisit.component";
 import SelectedPeopleItem from "./SelectedPeopleItem.component";
 import SelectedShareItem from "./SelectedShareItem.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export const SelectedItem = ({
   id,
@@ -123,6 +124,7 @@ export const SelectedItem = ({
   AddSevenDaysToItem?: () => void;
   PaymentCompleteItem?: () => void;
 }) => {
+  const t: any = UseLangComponent("Selected");
   return (
     id && (
       <div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-2 rounded-3xl scroll-m-0 overflow-y-scroll">
@@ -138,10 +140,10 @@ export const SelectedItem = ({
           }
         />
         <div className="w-full flex flex-row justify-between gap-x-2">
-          <SelectedItemContainer title="Category">
+          <SelectedItemContainer title={t.Category}>
             {category && <ListCategorySelected category={category} />}
           </SelectedItemContainer>
-          <SelectedItemContainer title="Tag">
+          <SelectedItemContainer title={t.Tag}>
             {tag && <ListTagSelected tag={tag} />}
           </SelectedItemContainer>
         </div>
@@ -158,13 +160,13 @@ export const SelectedItem = ({
           timeDiff={timeDiff}
         />
         {peopleId && (
-          <SelectedItemContainer title="Friend">
+          <SelectedItemContainer title={t.Friend}>
             <SelectedPeopleItem id={peopleId} />
           </SelectedItemContainer>
         )}
         {phoneNumber && (
           <SelectedItemContainer
-            title="Phone Number"
+            title={t.PhoneNumber}
             description={phoneNumber}
           />
         )}
@@ -172,7 +174,7 @@ export const SelectedItem = ({
         {spendsId && <ShareItemSpends id={id} spendsId={spendsId} />}
         {(total || total == 0) && (
           <SelectedItemContainer
-            title="Total Amount"
+            title={t.TotalAmount}
             className={cn(total > 0 ? "text-successGreen" : "text-errorRed")}
             description={total.toString()}
           />
@@ -206,7 +208,7 @@ export const SelectedItem = ({
           numberOfProduct={numberOfProduct}
           priceOfProduct={priceOfProduct}
         />
-        <SelectedItemContainer title="Activities">
+        <SelectedItemContainer title={t.Activities}>
           <SelectedItemActivities
             drawerType={drawerType || ""}
             drawerTitle={drawerTitle}
@@ -233,7 +235,7 @@ export const SelectedItem = ({
           />
         </SelectedItemContainer>
         {installmentstList && (
-          <SelectedItemContainer title="Installments">
+          <SelectedItemContainer title={t.Installments}>
             {installmentstList.map((inss) => (
               <SelectedInsstalmentsItem
                 key={inss.doDate}
@@ -250,13 +252,16 @@ export const SelectedItem = ({
           </SelectedItemContainer>
         )}
         {drawerType != "Friends" && shareList && shareList.length > 0 && (
-          <SelectedItemContainer title="Shares">
+          <SelectedItemContainer title={t.Shares}>
             {shareList.map((share) => (
               <SelectedShareItem key={share} id={share} />
             ))}
           </SelectedItemContainer>
         )}
-        <SelectedItemContainer title="Description" description={description} />
+        <SelectedItemContainer
+          title={t.Description}
+          description={description}
+        />
       </div>
     )
   );

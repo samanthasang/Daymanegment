@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import SplashGate from "./splash-gate";
 import PWAInstallPrompt from "./PWAInstallPrompt";
+import { useAppSelector } from "@/lib/hook";
 
 const geistSans = localFont({
   src: "./fonts/GoogleSansFlex.ttf",

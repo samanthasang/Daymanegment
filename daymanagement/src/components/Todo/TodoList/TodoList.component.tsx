@@ -51,7 +51,6 @@ function TodoList() {
         DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedToDo })}
         AddOneDayToItem={() => AddDayToItem({ ...selectedToDo }, 1)}
         AddSevenDaysToItem={() => AddDayToItem({ ...selectedToDo }, 7)}
-        DuplicateItem
         selected={selectedToDo}
       />
     </>

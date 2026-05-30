@@ -314,7 +314,6 @@ export default function FormShare({
           <CategotySelectComponent
             required
             errors={!!errors.category?.message}
-            description={errors.category?.message}
             onValueChange={handleCategory}
             value={field.value}
           />
@@ -329,7 +328,6 @@ export default function FormShare({
           <TagSelectComponent
             required
             errors={!!errors.tag?.message}
-            description={errors.tag?.message}
             onValueChange={handleTag}
             value={field.value}
           />

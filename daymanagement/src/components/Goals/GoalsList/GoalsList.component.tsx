@@ -71,7 +71,6 @@ function GoalsList() {
         DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedGoal })}
         AddOneDayToItem={() => AddDayToItem({ ...selectedGoal }, 1)}
         AddSevenDaysToItem={() => AddDayToItem({ ...selectedGoal }, 7)}
-        DuplicateItem
         selected={selectedGoal}
       />
     </>

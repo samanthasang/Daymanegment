@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { DollarSign } from "lucide-react";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export const SelectedItemVisit = ({
   advancePayment,
@@ -13,6 +14,7 @@ export const SelectedItemVisit = ({
   paymentCompleteValue?: string;
   installmentstList?: TInstallmentst[];
 }) => {
+  const t: any = UseLangComponent("Selected");
   const incomeArray =
     installmentstList &&
     installmentstList.reduce((acc, obj) => {
@@ -34,7 +36,7 @@ export const SelectedItemVisit = ({
       <>
         <div className="w-full flex flex-row justify-between gap-x-2">
           {paymentCompleteValue && (
-            <SelectedItemContainer title="Complete Payment">
+            <SelectedItemContainer title={t.CompletePayment}>
               <div
                 className={cn(
                   "flex flex-row items-center gap-x-0.5",
@@ -48,7 +50,7 @@ export const SelectedItemVisit = ({
             </SelectedItemContainer>
           )}
           {paymentCompleteValue && advancePayment && (
-            <SelectedItemContainer title="Advance Payment">
+            <SelectedItemContainer title={t.AdvancePayment}>
               <div
                 className={cn(
                   "flex flex-row items-center gap-x-0.5",
@@ -63,7 +65,7 @@ export const SelectedItemVisit = ({
         </div>
         {installmentstList && (
           <div className="w-full flex flex-row justify-between gap-x-2">
-            <SelectedItemContainer title="Advanced Payment">
+            <SelectedItemContainer title={t.AdvancedPayment}>
               <div
                 className={cn(
                   "flex flex-row items-center gap-x-0.5",
@@ -76,7 +78,7 @@ export const SelectedItemVisit = ({
               </div>
             </SelectedItemContainer>
 
-            <SelectedItemContainer title="Leftover Payment">
+            <SelectedItemContainer title={t.LeftoverPayment}>
               <div
                 className={cn(
                   "flex flex-row items-center gap-x-0.5",
@@ -92,7 +94,7 @@ export const SelectedItemVisit = ({
         {paymentCompleteValue &&
           advancePayment &&
           +advancePayment - +paymentCompleteValue != 0 && (
-            <SelectedItemContainer title="Total Payment">
+            <SelectedItemContainer title={t.TotalPayment}>
               <div
                 className={cn(
                   "flex flex-row items-center gap-x-0.5",

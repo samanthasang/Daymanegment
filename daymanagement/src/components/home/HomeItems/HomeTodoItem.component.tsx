@@ -9,7 +9,7 @@ function HomeTodoList() {
   return (
     <MenuItems
       href={"/todos"}
-      tilte="Todos"
+      title="Todos"
       infoNumber={`${FinishedArray(ListToDoFiltered).length} / ${ListToDoFiltered?.length}`}
     />
   );

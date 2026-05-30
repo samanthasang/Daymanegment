@@ -14,6 +14,7 @@ export type TVisit = {
   paymentCompleteValue: string;
   category: string;
   tag: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -61,6 +62,7 @@ export const visitSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: false,
+              dType: "Visit",
             },
           ]
         : [
@@ -77,6 +79,7 @@ export const visitSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: false,
+              dType: "Visit",
             },
           ];
     },
@@ -126,6 +129,7 @@ export const visitSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: visit.isComplete,
+              dType: "Visit",
             }
           : visit
       );

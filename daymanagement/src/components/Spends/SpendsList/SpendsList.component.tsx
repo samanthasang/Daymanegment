@@ -35,7 +35,6 @@ function SpendsList() {
         drawerTitle="Spend"
         DelItem={() => DelItem(selectedSpends.id, selectedSpends.title)}
         SelectItem={() => SelectItem()}
-        DuplicateItem
         DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedSpends })}
         selected={selectedSpends}
       />

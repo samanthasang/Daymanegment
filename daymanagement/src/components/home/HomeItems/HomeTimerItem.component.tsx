@@ -9,7 +9,7 @@ function HomeTimerItem() {
   return (
     <MenuItems
       href={"/timers"}
-      tilte="Timers"
+      title="Timers"
       infoNumber={`${FinishedArray(ListTimerFiltered).length} / ${ListTimerFiltered?.length}`}
     />
   );

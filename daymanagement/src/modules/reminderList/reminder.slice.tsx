@@ -17,6 +17,7 @@ export type TReminder = {
   category: string;
   tag: string;
   description: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -66,6 +67,7 @@ export const reminderListSlice = createSlice({
               description: action.payload.description,
               isComplete: false,
               isPause: false,
+              dType: "Reminder",
             },
           ]
         : [
@@ -84,6 +86,7 @@ export const reminderListSlice = createSlice({
               description: action.payload.description,
               isComplete: false,
               isPause: false,
+              dType: "Reminder",
             },
           ];
     },
@@ -166,6 +169,7 @@ export const reminderListSlice = createSlice({
               category: action.payload.category,
               description: action.payload.description,
               tag: action.payload.tag,
+              dType: "Reminder",
             }
           : reminder
       );

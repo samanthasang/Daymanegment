@@ -4,19 +4,37 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ListItemsIcon from "../../ListSection/ListItem/ListItemsIcon.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 function MenuItems({
   href,
-  tilte,
+  title,
   infoNumber,
 }: {
   href: string;
-  tilte: string;
+  title: string;
   infoNumber?: string;
 }) {
   const { OpenMenu } = useAppSelector((state) => state.Menu);
   const pathname = usePathname();
   const { isSX } = useMediaQueryValues();
+  const t: any = UseLangComponent(
+    title as
+      | "Todos"
+      | "Reminders"
+      | "Habbits"
+      | "Timers"
+      | "Spends"
+      | "Friends"
+      | "Visits"
+      | "Goals"
+      | "Shares"
+      | "CategoryList"
+      | "TagList"
+      | "Menu"
+      | "Form"
+      | "Drawer"
+  );
   return (
     <Link
       href={href}
@@ -26,8 +44,8 @@ function MenuItems({
       )}
     >
       <div className="flex items-center gap-x-1">
-        {tilte && ListItemsIcon(tilte, 16)}
-        <span>{tilte}</span>
+        {title && ListItemsIcon(title, 16)}
+        <span>{t?.title || title}</span>
       </div>
       {(isSX || OpenMenu) && infoNumber && <span>{infoNumber}</span>}
     </Link>

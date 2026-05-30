@@ -9,7 +9,7 @@ function HomeReminderItem() {
   return (
     <MenuItems
       href={"/reminders"}
-      tilte="Reminders"
+      title="Reminders"
       infoNumber={`${FinishedArray(ListReminderFiltered).length} / ${ListReminderFiltered?.length}`}
     />
   );

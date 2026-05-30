@@ -2,6 +2,7 @@
 import { ShoppingCart } from "@/components/icons";
 import { DollarSign } from "lucide-react";
 import SelectedItemContainer from "./SelectedItemContainer.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export const SelectedItemSpends = ({
   income,
@@ -16,12 +17,13 @@ export const SelectedItemSpends = ({
   numberOfProduct?: string;
   priceOfProduct?: string;
 }) => {
+  const t: any = UseLangComponent("Selected");
   return (
     <>
       {!income && (priceOfProduct || numberOfProduct) && (
         <div className="w-full flex flex-row justify-between gap-x-2">
           {!!priceOfProduct && (
-            <SelectedItemContainer title="Price Of Product">
+            <SelectedItemContainer title={t.PriceProduct}>
               <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
                 <DollarSign width={16} height={16} />
                 {priceOfProduct}
@@ -29,7 +31,7 @@ export const SelectedItemSpends = ({
             </SelectedItemContainer>
           )}
           {!!numberOfProduct && (
-            <SelectedItemContainer title="Number Of Product">
+            <SelectedItemContainer title={t.NumberProduct}>
               <div className="flex flex-row items-center gap-x-1">
                 <ShoppingCart width={16} height={16} />
                 {numberOfProduct}
@@ -39,7 +41,7 @@ export const SelectedItemSpends = ({
         </div>
       )}
       {!!incomeAmount && (
-        <SelectedItemContainer title="Income Amount">
+        <SelectedItemContainer title={t.IncomeAmount}>
           <div className="flex flex-row items-center gap-x-0.5 text-successGreen">
             <DollarSign width={16} height={16} />
             {incomeAmount}
@@ -47,7 +49,7 @@ export const SelectedItemSpends = ({
         </SelectedItemContainer>
       )}
       {!!outcomeAmount && (
-        <SelectedItemContainer title="Outcome Amount">
+        <SelectedItemContainer title={t.OutcomeAmount}>
           <label>
             <div className="flex flex-row items-center gap-x-0.5 text-errorRed">
               <DollarSign width={16} height={16} />

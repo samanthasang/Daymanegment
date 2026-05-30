@@ -10,7 +10,7 @@ function HomeSpendsItem() {
   return (
     <MenuItems
       href={"/spends"}
-      tilte="Spends"
+      title="Spends"
       infoNumber={`${IncomeArray(ListSpendsFiltered).length} | ${OutcomeArray(ListSpendsFiltered).length}`}
     />
   );

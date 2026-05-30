@@ -18,7 +18,7 @@ function CurrentListSearch({
   useEffect(() => {
     title != "" && List.filter((li: any) => li.title.includes(title));
   }, [title]);
- 
+
   return (
     <>
       <div className="flex justify-center items-center gap-x-1">
