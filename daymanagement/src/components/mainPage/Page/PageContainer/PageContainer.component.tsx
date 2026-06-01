@@ -11,7 +11,7 @@ function PageContainer({
   const { lang } = useAppSelector((state) => state.Menu);
   return (
     <div
-      dir={lang == " en" ? "ltr" : "rtl"}
+      dir={lang == "en" ? "ltr" : "rtl"}
       className="w-full flex flex-row gap-x-2 flex-1 relative m-auto h-[100vh] p-2"
     >
       <MenuSideBarComponent witDate={witDate} />

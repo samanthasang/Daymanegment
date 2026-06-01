@@ -34,7 +34,7 @@ export const SelectedItemHabbit = ({
           </SelectedItemContainer>
         )}
         {highest && (
-          <SelectedItemContainer title={t.Score}>
+          <SelectedItemContainer title={t.Highest}>
             <label className="text-successGreen">
               <div className="flex flex-row items-center gap-x-0.5">
                 <Stars width={16} height={16} />
