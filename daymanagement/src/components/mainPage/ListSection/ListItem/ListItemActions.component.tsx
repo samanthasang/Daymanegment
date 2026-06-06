@@ -1,8 +1,8 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import {
   CheckCircle,
-  CircleOff,
   LucideCalendarSync,
   PauseCircle,
   Trash,

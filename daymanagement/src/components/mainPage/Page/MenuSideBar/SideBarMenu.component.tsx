@@ -6,6 +6,8 @@ import { Menu } from "lucide-react";
 import MenuMainSideBarComponent from "./MainMenuSideBar.component";
 import MenuBottomSideBarComponent from "./MenuBottomSideBarComponent";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
+import { useI18n } from "@/lib/Hooks/useI18n";
+import { useTranslations } from "next-intl";
 
 function SideBarMenu() {
   const { OpenMenu } = useAppSelector((state) => state.Menu);
@@ -13,6 +15,7 @@ function SideBarMenu() {
   const t: any = UseLangComponent("Menu");
   // const { t } = useI18n();
 
+  // const t = useTranslations("Menu");
   return (
     <div
       className={cn(
@@ -22,6 +25,7 @@ function SideBarMenu() {
     >
       <div className="w-full flex justify-center items-center gap-x-2 py-2 bg-primary rounded-full">
         <Menu width={16} height={16} />
+        {/* {t("menuTitle")} */}
         {t.menuTitle}
       </div>
       <MenuMainSideBarComponent />

@@ -25,36 +25,51 @@ function ListDetailsItem({
 }: {
   drawerType: string;
   List: [];
-  }) {
-  
-  
+}) {
   switch (drawerType) {
     case "Todos":
+    case "Todo":
       return List?.map((li: TToDo) => <TodoItem key={li.id} item={li} />);
     case "Spends":
+    case "Spend":
       return List?.map((li: TSpends) => <SpendsItem key={li.id} item={li} />);
     case "Habbits":
+    case "Habbit":
       return List?.map((li: Thabbit) => <HabbitItem key={li.id} item={li} />);
     case "Goals":
+    case "Goal":
       return List?.map((li: TGoals) => <GoalsItem key={li.id} item={li} />);
     case "Visits":
+    case "Visit":
       return List?.map((li: TVisit) => <VisitsItem key={li.id} item={li} />);
     case "Reminders":
+    case "Reminder":
       return List?.map((li: TReminder) => (
         <ReminderItem key={li.id} item={li} />
       ));
     case "Installments":
+    case "Installment":
       return List?.map((li: TInstallmentsts) => (
         <InstallmentsItem key={li.id} item={li} />
       ));
     case "Timers":
+    case "Timer":
       return List?.map((li: TTimer) => <Timeritem key={li.id} item={li} />);
     case "Friends":
       return List?.map((li: TPeople, index) => (
         <FriendsItem key={li && li.id ? li.id : index} item={li} />
       ));
     case "Shares":
+    case "Share":
       return List?.map((li: TShare) => <ShareItem key={li.id} item={li} />);
+    case "Today":
+      return List?.map((li: any) => (
+        <ListDetailsItem
+          key={li.id}
+          drawerType={li.dType}
+          List={[li] as unknown as []}
+        />
+      ));
     default:
       return <>nothing to show</>;
   }

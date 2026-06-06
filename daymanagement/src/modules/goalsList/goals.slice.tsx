@@ -13,6 +13,7 @@ export type TGoals = {
   category: string;
   tag: string;
   description: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -56,6 +57,7 @@ export const goalsListSlice = createSlice({
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
               isComplete: false,
+              dType: "Goal",
             },
           ]
         : [
@@ -70,6 +72,7 @@ export const goalsListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: false,
+              dType: "Goal",
             },
           ];
     },
@@ -120,6 +123,7 @@ export const goalsListSlice = createSlice({
               score: action.payload.score,
               category: action.payload.category,
               tag: action.payload.tag,
+              dType: "Goal",
             }
           : goal
       );

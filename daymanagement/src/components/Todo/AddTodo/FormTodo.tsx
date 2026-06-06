@@ -2,14 +2,14 @@
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { CalendarDialog } from "@/components/ui/calenderWithDialog";
-import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -20,7 +20,6 @@ import {
   setToDoList,
   updateToDoList,
 } from "../../../modules/toDoList/todo.slice";
-import { cn } from "@/lib/utils";
 
 interface IFormInputs {
   title: string;
@@ -165,30 +164,11 @@ export default function FormTodo({
         )}
       />
 
-      <ClendarButtonGroup
+      <CalendarWithTime
         dateValue={date}
-        errors={!date && !!errors.doDate?.message}
-      >
-        <Controller
-          name="doDate"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <CalendarDialog
-              required
-              mode="single"
-              selected={date}
-              month={date}
-              onSelect={setDate}
-              className=" border-white rounded py-1"
-              captionLayout="dropdown"
-              title="a"
-              dateValue={date}
-              setDate={setDate}
-            />
-          )}
-        />
-      </ClendarButtonGroup>
+        setDate={setDate}
+        message={!date && !!errors.doDate?.message}
+      />
 
       <Controller
         defaultValue={""}

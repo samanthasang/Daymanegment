@@ -15,6 +15,9 @@ export const useI18n = () => {
         return;
       }
 
+      console.log(i18nInstance);
+      console.log(i18nInstance.language);
+
       if (i18nInstance.language !== lang) {
         try {
           await i18nInstance.changeLanguage(lang);

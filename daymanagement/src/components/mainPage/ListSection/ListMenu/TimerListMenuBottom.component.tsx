@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import { setTimerList } from "@/modules/timerList/timer.slice";

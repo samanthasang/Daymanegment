@@ -14,6 +14,7 @@ export type TSpends = {
   category: string;
   tag: string;
   description: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -62,6 +63,7 @@ export const spendsListSlice = createSlice({
               tag: action.payload.tag,
               income: action.payload.income,
               description: action.payload.description,
+              dType: "Spends",
             },
           ]
         : [
@@ -78,6 +80,7 @@ export const spendsListSlice = createSlice({
               tag: action.payload.tag,
               income: action.payload.income,
               description: action.payload.description,
+              dType: "Spends",
             },
           ];
     },
@@ -118,6 +121,7 @@ export const spendsListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               description: action.payload.description,
+              dType: "Spends",
             }
           : spends
       );

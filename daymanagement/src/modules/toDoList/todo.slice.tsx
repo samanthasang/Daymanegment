@@ -10,6 +10,7 @@ export type TToDo = {
   category: string;
   tag: string;
   description: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -51,6 +52,7 @@ export const todoListSlice = createSlice({
               doDate: action.payload.doDate,
               createDate: action.payload.createDate,
               isComplete: false,
+              dType: "Todo",
             },
           ]
         : [
@@ -64,6 +66,7 @@ export const todoListSlice = createSlice({
               description: action.payload.description,
               tag: action.payload.tag,
               isComplete: false,
+              dType: "Todo",
             },
           ];
     },
@@ -104,6 +107,7 @@ export const todoListSlice = createSlice({
               createDate: action.payload.createDate,
               category: action.payload.category,
               tag: action.payload.tag,
+              dType: "Todo",
             }
           : todo
       );

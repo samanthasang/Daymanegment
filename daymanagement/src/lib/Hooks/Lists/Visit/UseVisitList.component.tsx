@@ -5,7 +5,10 @@ import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
-import { currentUnixTimestampZero } from "../../UseDayJS";
+import {
+  currentUnixTimestampZero,
+  TomorrowUnixTimestampZero,
+} from "../../UseDayJS";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
@@ -26,17 +29,24 @@ function useVisitList() {
   const ListVisitForgot = ListVisit.filter(
     (a) => +a.doDate < currentUnixTimestampZero
   );
+  const ListVisitToday = ListVisit.filter(
+    (a) =>
+      +a.doDate >= currentUnixTimestampZero &&
+      +a.doDate < TomorrowUnixTimestampZero
+  );
   const oldCategoryArray = CategoryFilter([...ListVisitForgot]);
 
   const oldListVisitFiltered = TagFilter([...oldCategoryArray]);
 
   const dateUpOrderArray: TVisit[] = DatePlusOrderFilter(ListVisitFiltered);
-  const dateDOwnOrderArray: TVisit[] = DateMinusOrderFilter(oldListVisitFiltered);
+  const dateDOwnOrderArray: TVisit[] =
+    DateMinusOrderFilter(oldListVisitFiltered);
 
   return {
     ListVisitFiltered: dateUpOrderArray,
     ListVisitForgot: dateDOwnOrderArray,
     ListVisitAll: ListVisit,
+    ListVisitToday,
     selectedVisit,
   };
 }

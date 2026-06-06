@@ -62,20 +62,18 @@ export const ListItemInfo = ({
           </div>
         </label>
       )}
-      {drawerType == "Visits" && (
-        <label
-          className={cn(
-            `cursor-pointer px-2 py-1 rounded-2xl text-white`,
-            date && date && DayUnixDiff(+date, "day") > 10
-              ? "text-successGreen"
-              : "text-errorRed",
-            incomeAmount && "text-successGreen",
-            priceOfProduct && "text-errorRed"
-          )}
-        >
-          {date && DayUnixFormat(+date, "YYYY-MM-DD HH:mm")}
-        </label>
-      )}
+      <label
+        className={cn(
+          `cursor-pointer px-2 py-1 rounded-2xl text-white`,
+          date && date && DayUnixDiff(+date, "hour") > 1
+            ? "text-successGreen"
+            : "text-errorRed",
+          incomeAmount && "text-successGreen",
+          priceOfProduct && "text-errorRed"
+        )}
+      >
+        {date && DayUnixFormat(+date, "HH:mm")}
+      </label>
       {drawerType == "Friends" && hasShare && (
         <label
           className={cn(
@@ -121,7 +119,7 @@ export const ListItemInfo = ({
           {diff.seconds() < 10 ? `0${diff.seconds()}` : `${diff.seconds()}`}
         </label>
       )}
-      {drawerType !== "Habbits" &&
+      {/* {drawerType !== "Habbits" &&
         drawerType !== "Visits" &&
         drawerType !== "Goals" &&
         drawerType != "Spends" &&
@@ -138,7 +136,7 @@ export const ListItemInfo = ({
           >
             {date && DayUnixFormat(+date, "YYYY-MM-DD")}
           </label>
-        )}
+        )} */}
     </div>
   );
 };

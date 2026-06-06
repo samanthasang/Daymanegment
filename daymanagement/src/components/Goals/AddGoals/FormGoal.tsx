@@ -21,6 +21,7 @@ import {
   setGoalList,
   updateGoalList,
 } from "../../../modules/goalsList/goals.slice";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 
 interface IFormInputs {
   title: string;
@@ -143,7 +144,7 @@ export default function FormGoals({
     reset();
     onSubmitForm();
   };
-  
+
   const onReset = () => {
     dispatch(selectGoalList(""));
     setValue("doDate", 0);
@@ -172,30 +173,11 @@ export default function FormGoals({
         )}
       />
 
-      <ClendarButtonGroup
+      <CalendarWithTime
         dateValue={date}
-        errors={!date && !!errors.doDate?.message}
-      >
-        <Controller
-          name="doDate"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <CalendarDialog
-              required
-              mode="single"
-              selected={date}
-              month={date}
-              onSelect={setDate}
-              className=" border-white rounded py-1"
-              captionLayout="dropdown"
-              title="a"
-              dateValue={date}
-              setDate={setDate}
-            />
-          )}
-        />
-      </ClendarButtonGroup>
+        setDate={setDate}
+        message={!date && !!errors.doDate?.message}
+      />
 
       <Controller
         defaultValue={""}

@@ -6,7 +6,9 @@ function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
     return List.reduce((acc: any, item: any) => {
       // Convert Unix seconds to milliseconds
       const date = new Date(
-        Number(item.birthDate || item.doDate || item.lastUpdate) * 1000
+        Number(
+          item.birthDate || item.doDate || item.lastUpdate || item.startDate
+        ) * 1000
       );
 
       // Use YYYY-MM-DD for stable sorting/keying

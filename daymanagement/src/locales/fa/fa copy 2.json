@@ -1,0 +1,180 @@
+{
+  "Todos": {
+    "title": "کارها",
+    "single": "کارها",
+    "forgot Tilte": "کارهای قدیمی",
+    "drawerTitle": "کارها"
+  },
+  "Reminders": {
+    "title": "یادآوری ها",
+    "single": "یادآوری ها",
+    "forgotTilte": "یادآوری ها قدیمی",
+    "drawerTitle": "یادآوری ها"
+  },
+  "Habits": {
+    "title": "عادت ها",
+    "single": "عادت ها",
+    "forgotTilte": "عادت های جدید",
+    "drawerTitle": "عادت"
+  },
+  "Timers": {
+    "title": "تایمرها",
+    "single": "تایمرها",
+    "forgotTilte": "تایمرهای قدیمی",
+    "drawerTitle": "تایمر"
+  },
+  "Spends": {
+    "title": " خرج کردن",
+    "single": "خرج کردن",
+    "forgot Tilte": " خرج کردن های قدیمی",
+    "drawerTitle": "خرج کردن"
+  },
+  "CategoryList": {
+    "title": "دسته بندی",
+    "placeholder": "اتخاب کردن دسته بندی"
+  },
+  "TagList": {
+    "title": "برچسب",
+    "placeholder": "انتخاب برچسب"
+  },
+  "Friends": {
+    "title": "دوستان",
+    "single": "دوستان",
+    "forgotTilte": "دوستان جدید",
+    "drawerTitle": "دوست"
+  },
+  "Installments": {
+    "title": "اقصاط",
+    "single": "اقصاط",
+    "forgotTilte": "اقصاط قدیمی",
+    "drawerTitle": "قصط"
+  },
+  "Visits": {
+    "title": "بازدید کردن ها",
+    "single": "بازدید کردن ها",
+    "forgotTilte": "بازدید کردن های قدیمی",
+    "drawerTitle": "بازدید کردن "
+  },
+  "Goals": {
+    "title": "اهداف",
+    "single": "اهداف",
+    "forgotTilte": "اهداف",
+    "drawerTitle": "هدف"
+  },
+  "Shares": {
+    "title": "سهم ها",
+    "single": "سهم ها",
+    "forgotTilte": "سهم های قدیمی",
+    "drawerTitle": "سهم"
+  },
+  "Menu": {
+    "menuTitle": "منو",
+    "filterTitle": "فیلتر"
+  },
+  "Form": {
+    "title": "عنوان کار را وارد کنید",
+    "firstName": "نام خود را وارد کنید",
+    "lasName": "نام خانوادگی خود را وارد کنید",
+    "priority": "اولویت را وارد کنید",
+    "high": "بالا",
+    "medium": "متوسط",
+    "low": "پایین",
+    "noPay": "بدون پرداخت",
+    "withPay": "با پرداخت",
+    "addpeoples": "افراد را اضافه کنید",
+    "installmentslist": "لیست اقصاظ",
+    "advanceAmount": "مبلغ پیش پرادخت",
+    "paymentAmount": "مبلغ پرادختی",
+    "completeAmount": "مقدار کامل"
+  },
+  "Drawer": {
+    "info": "اطلاعات",
+    "add": "افزودن",
+    "edit": "ویرایش",
+    "AllTodos": "تمام کارها",
+    "DoneStatus": "وضعیت انجام شده",
+    "TodayTodos": "کارهای امروز",
+    "AllSpends": "تمام اقصاط",
+    "Earn": "کسب کردن",
+    "Spends": "خرج کردن",
+    "Shares": "سهم ها",
+    "Today": "امروز",
+    "AllHabit": "تمام عادت ها",
+    "TodayGoals": "اهداف امروز",
+    "AllGoals": "تمام اهداف",
+    "AllVisits": "تمام بازدید کردن ها",
+    "Payment": "پرداخت",
+    "TodayVisits": "بازدید کردن های امروز",
+    "TodayPayment": "پرداخت های امروز",
+    "AllInstallments": "تمام اقصاط",
+    "TenDaysInstallments": "اقصاط در این ۱۰ روز",
+    "TodayInstallments": "اقصاط امروز",
+    "AllReminders": "تمام یادآوری ها",
+    "TenDaysReminders": "یادآوری های این ۱۰ روز",
+    "TodayReminders": "یادآوری های امروز",
+    "AllTimers": "تمام تایمرها",
+    "DoneTimers": "تایمرهای انجام شده",
+    "TodayTimers": "تایمرهای امروز",
+    "Friends With share": "دوستان با سهم ها",
+    "Friends Withousshare": "دوستان بدون سهم",
+    "IncomeAmount": "مقدار درآمد",
+    "OutcomeAmount": "مقدار نتیجه",
+    "TotalAmount": "کل مقدار",
+    "AllShares": "کل سهم ها",
+    "Total": "کل",
+    "SomThingWentWrong": "چیزی اشتباه شده"
+  },
+  "selected": {
+    "Status": "وضعیت",
+    "Type": "تایپ",
+    "Buy": "خرید",
+    "Finished": "تمام شده",
+    "Title": "عنوان",
+    "Category": "دسته بندی",
+    "Tag": "برجسب",
+    "CreateDay": "روز ساخت",
+    "DoDay": "روز انچام",
+    "BirthDay": "تولد",
+    "StartDay": "روز شروع",
+    "EndDay": "روز اتمام",
+    "UpdateDay": "روز آپدیت",
+    "CompleteDay": "روز تمام شده",
+    "DoHour": "ساعت انجام",
+    "ReminderAfter": "بعد از یاد آوری",
+    "Friend": "دوست",
+    "PhoneNumber": "شماره تلفن",
+    "IncomeAmount": "مقدار درآمد",
+    "OutcomeAmount": "مقدار نتیجه",
+    "TotalAmount": "کل درآمد",
+    "ShareList": "لیست سهم",
+    "Score": "امتیاز",
+    "Highest": "بیشترین",
+    "StartTime": "زمان شروع",
+    "EndTime": "زمان اتمام",
+    "Timer": "تایمر",
+    "CompletePayment": "پرداخت کامل",
+    "AdvancePayment": "پیش پرداخت",
+    "LeftoverPayment": "اضافه پرداخت",
+    "TotalPayment": "کل پرداخت",
+    "Installments": "اقصاط",
+    "Period": "دوره",
+    "PriceProduct": "قیمت محصول",
+    "NumberProduct": "تعداد محصول",
+    "Activities": "فعالیت ها",
+    "Shares": "سهم ها",
+    "Description": "توضیحات"
+  },
+  "Buttons": {
+    "Pause": "مک‍‍ث",
+    "Finish": "اتمام",
+    "Done": "انجام شد",
+    "Undone": "انجام نشده",
+    "Duplicate": "تکراری",
+    "DuplicateForToday": "تکراری برای امروز",
+    "BringToday": "به امروز بیاور",
+    "AddOneDay": "یک روز را ثبت کنید",
+    "AddSevenDays": "هفت روز را ثبت کنید",
+    "Delete": "حذف",
+    "PaymentComplete": "پرداخت کامل شد"
+  }
+}

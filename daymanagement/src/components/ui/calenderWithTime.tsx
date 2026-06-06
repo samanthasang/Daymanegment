@@ -67,7 +67,7 @@ function CalendarWithTime({
   };
 
   return (
-    <Card size="sm" className="mx-auto w-full bg-primary">
+    <Card size="sm" className="mx-auto w-full bg-primary h-fit">
       <CardContent>
         <FieldGroup>
           <Field>

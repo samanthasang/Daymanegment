@@ -8,7 +8,11 @@ import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
-import { currentUnixTimestampZero, DayUnixDiff } from "../../UseDayJS";
+import {
+  currentUnixTimestampZero,
+  DayUnixDiff,
+  TomorrowUnixTimestampZero,
+} from "../../UseDayJS";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 import { useEffect } from "react";
@@ -31,6 +35,11 @@ function useReminderList() {
 
   const ListReminderForgot = ListReminder.filter(
     (a) => +a.doDate < currentUnixTimestampZero
+  );
+  const ListReminderToday = ListReminder.filter(
+    (a) =>
+      +a.doDate >= currentUnixTimestampZero &&
+      +a.doDate < TomorrowUnixTimestampZero
   );
 
   const oldCategoryArray = CategoryFilter([...ListReminderForgot] as any);
@@ -57,6 +66,7 @@ function useReminderList() {
     ListReminderForgot: dateDOwnOrderArray,
     ListReminderAll: ListReminder,
     selectedReminder,
+    ListReminderToday,
   };
 }
 

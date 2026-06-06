@@ -10,7 +10,11 @@ import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
 import NextDateOrderMinusFilter from "../../ListFilter/NextDateOrderMinusFilter.component";
 import NextDateOrderPlusFilter from "../../ListFilter/NextDateOrderPlusFilter.component";
-import { currentUnixTimestampZero, DayUnixDiff } from "../../UseDayJS";
+import {
+  currentUnixTimestampZero,
+  DayUnixDiff,
+  TomorrowUnixTimestampZero,
+} from "../../UseDayJS";
 import { useEffect } from "react";
 
 function useInstallmentsList() {
@@ -32,6 +36,11 @@ function useInstallmentsList() {
 
   const ListInstallmentsForgot = ListInstallments.filter(
     (a) => +a.doDate < currentUnixTimestampZero
+  );
+  const ListInstallmentsToday = ListInstallments.filter(
+    (a) =>
+      +a.doDate >= currentUnixTimestampZero &&
+      +a.doDate < TomorrowUnixTimestampZero
   );
 
   const oldCategoryArray = CategoryFilter([...ListInstallmentsForgot]);
@@ -59,6 +68,7 @@ function useInstallmentsList() {
     ListInstallmentsForgot: dateDOwnOrderArray,
     ListInstallmentsAll: ListInstallments,
     selectedInstallmentstList,
+    ListInstallmentsToday,
   };
 }
 

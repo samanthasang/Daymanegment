@@ -1,3 +1,4 @@
+"use client";
 import { useAppSelector } from "@/lib/hook";
 import MenuSideBarComponent from "../MenuSideBar/MenuSideBar.component";
 

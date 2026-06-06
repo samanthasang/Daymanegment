@@ -7,7 +7,10 @@ import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
-import { currentUnixTimestampZero } from "../../UseDayJS";
+import {
+  currentUnixTimestampZero,
+  TomorrowUnixTimestampZero,
+} from "../../UseDayJS";
 
 function useTodoList() {
   const ToDos = useAppSelector((state) => state.Todos);
@@ -26,17 +29,24 @@ function useTodoList() {
   const ListToDoForgot = ListToDo.filter(
     (item) => +item.doDate < currentUnixTimestampZero
   );
+  const ListTodoToday = ListToDo.filter(
+    (a) =>
+      +a.doDate >= currentUnixTimestampZero &&
+      +a.doDate < TomorrowUnixTimestampZero
+  );
   const oldCategoryArray = CategoryFilter([...ListToDoForgot]);
 
   const oldListToDoFiltered = TagFilter([...oldCategoryArray]);
 
   const dateUpOrderArray: TToDo[] = DatePlusOrderFilter(ListToDoFiltered);
   const dateDOwnOrderArray: TToDo[] = DateMinusOrderFilter(oldListToDoFiltered);
+  
 
   return {
     ListToDoFiltered: dateUpOrderArray,
     ListToDoAll: ListToDo,
     ListToDoForgot: dateDOwnOrderArray,
+    ListTodoToday,
     selectedToDo,
   };
 }

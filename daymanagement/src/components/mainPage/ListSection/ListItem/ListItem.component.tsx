@@ -1,3 +1,4 @@
+"use client";
 import useMediaQueryValues from "@/lib/Hooks/useMediaQuery";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { cn } from "@/lib/utils";

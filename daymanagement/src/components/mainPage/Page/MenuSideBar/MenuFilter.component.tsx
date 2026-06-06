@@ -1,3 +1,4 @@
+"use client";
 import DrawerButton from "@/components/Drawer/DrawerButton.component";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";

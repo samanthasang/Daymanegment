@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { selectPeopleList, TPeople } from "@/modules/people/PeopleList.slice";

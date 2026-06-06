@@ -5,7 +5,10 @@ import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
-import { currentUnixTimestampZero } from "../../UseDayJS";
+import {
+  currentUnixTimestampZero,
+  TomorrowUnixTimestampZero,
+} from "../../UseDayJS";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
@@ -26,6 +29,11 @@ function useSpendsList() {
   const ListSpendsForgot = ListSpends.filter(
     (a) => +a.doDate < currentUnixTimestampZero
   );
+  const ListSpendsToday = ListSpends.filter(
+    (a) =>
+      +a.doDate >= currentUnixTimestampZero &&
+      +a.doDate < TomorrowUnixTimestampZero
+  );
   const oldCategoryArray = CategoryFilter(ListSpendsForgot);
 
   const oldListSpendsFiltered = TagFilter(oldCategoryArray);
@@ -39,6 +47,7 @@ function useSpendsList() {
     ListSpendsFiltered: dateUpOrderArray,
     ListSpendsAll: ListSpends,
     ListSpendsForgot: dateDOwnOrderArray,
+    ListSpendsToday,
     selectedSpends,
   };
 }

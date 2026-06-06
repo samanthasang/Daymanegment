@@ -5,7 +5,7 @@
         "id": "fGxyjFAufq01Ub7yE-e4o",
         "title": "test todo",
         "priority": "Medium",
-        "doDate": "1764966600",
+        "doDate": 1780139266,
         "isComplete": true,
         "category": "vGYJVptsSTddnRK5cM2gF",
         "tag": "_Ur_ZS2DDiSysHcFmKhPb"
@@ -498,7 +498,9 @@
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "doDate": 1778172674,
-        "isComplete": false
+        "isComplete": false,
+        "description": "",
+        "createDate": 1778172674
       },
       {
         "id": "ffM2yVCjMiJPkYzkPvmlt",
@@ -531,6 +533,17 @@
         "tag": "XwlWC-SCbSX8OQl6K8ot8",
         "doDate": 1779309000,
         "createDate": 1779352917,
+        "isComplete": false
+      },
+      {
+        "id": "7uKdOUa9P1XtB57mKmWUX",
+        "title": "test",
+        "priority": "Medium",
+        "category": "uOQQkNiNO8rZL4bIoJef_",
+        "description": "",
+        "tag": "N2MYWLv-0AqOL6v_keLZC",
+        "doDate": 1780492200,
+        "createDate": 1780491662,
         "isComplete": false
       }
     ]
@@ -745,12 +758,12 @@
         "description": "Practice",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 19,
-        "lastUpdate": 1779568200,
+        "score": 22,
+        "lastUpdate": 1780432200,
         "completeUpdate": "1776943013",
-        "highest": 19,
+        "highest": 23,
         "createDate": 1778242278,
-        "isComplete": false,
+        "isComplete": true,
         "isPause": false
       },
       {
@@ -761,12 +774,12 @@
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "score": 1,
-        "lastUpdate": 1779568200,
+        "lastUpdate": 1780432200,
         "completeUpdate": "1776724010",
         "highest": 3,
         "createDate": 1776990193,
         "isComplete": false,
-        "isPause": false
+        "isPause": true
       },
       {
         "id": "tMDj76pGocyc7CB8cI3LD",
@@ -775,12 +788,12 @@
         "description": "push up",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 7,
-        "lastUpdate": 1779568200,
+        "score": 10,
+        "lastUpdate": 1780432200,
         "completeUpdate": "1776943013",
         "highest": 19,
         "createDate": 1776984380,
-        "isComplete": false
+        "isComplete": true
       },
       {
         "id": "zubRSPM5JkhWvYcn6NDBI",
@@ -791,7 +804,7 @@
         "tag": "vlKy21k_-Dk3p7i-Ul9yn",
         "score": -44,
         "createDate": 1776990193,
-        "lastUpdate": 1779568200,
+        "lastUpdate": 1780432200,
         "highest": 2,
         "isComplete": true,
         "isPause": true
@@ -806,8 +819,9 @@
         "score": 1,
         "highest": 3,
         "createDate": 1779358104,
-        "lastUpdate": 1779568200,
-        "isComplete": false
+        "lastUpdate": 1780432200,
+        "isComplete": false,
+        "isPause": true
       },
       {
         "id": "foxXD0nnUJu3xDXsg9uYK",
@@ -816,14 +830,28 @@
         "description": "",
         "category": "wE9n6PtaYIGVWasne3yHr",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
-        "score": 12,
-        "highest": 8,
+        "score": 15,
+        "highest": 16,
         "createDate": 1778242278,
-        "lastUpdate": 1779568200,
-        "isComplete": false,
+        "lastUpdate": 1780432200,
+        "isComplete": true,
         "isPause": false
       }
-    ]
+    ],
+    "selectedhabbit": {
+      "id": "tMDj76pGocyc7CB8cI3LD",
+      "title": "Exercise",
+      "priority": "High",
+      "description": "push up",
+      "category": "wE9n6PtaYIGVWasne3yHr",
+      "tag": "GPoeAdsLX8zYBd1s38_KA",
+      "score": 10,
+      "lastUpdate": 1780432200,
+      "completeUpdate": "1776943013",
+      "highest": 19,
+      "createDate": 1776984380,
+      "isComplete": true
+    }
   },
   "Timers": {
     "ListTimer": [
@@ -1510,6 +1538,10 @@
       {
         "id": "wE9n6PtaYIGVWasne3yHr",
         "title": "self"
+      },
+      {
+        "id": "EZQGS-3cjVjNUtkhFwxn5",
+        "title": "app"
       }
     ]
   },
@@ -1533,7 +1565,7 @@
       },
       {
         "id": "vlKy21k_-Dk3p7i-Ul9yn",
-        "title": "test 2"
+        "title": "test 22"
       },
       {
         "id": "N2MYWLv-0AqOL6v_keLZC",
@@ -1542,6 +1574,10 @@
       {
         "id": "XwlWC-SCbSX8OQl6K8ot8",
         "title": "tag"
+      },
+      {
+        "id": "8T30P5Wujy7STgd7g-zmA",
+        "title": "app"
       }
     ]
   },
@@ -2167,13 +2203,14 @@
         "id": "Lz3co_tDf_F4mFK0-Hjye",
         "title": "test",
         "income": false,
-        "doDate": "1771228320",
+        "doDate": 1780491116,
         "description": "test dfes",
         "otherPayment": "",
         "advancePayment": "",
         "paymentCompleteValue": "",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
-        "tag": "GPoeAdsLX8zYBd1s38_KA"
+        "tag": "GPoeAdsLX8zYBd1s38_KA",
+        "dType": "Visit"
       },
       {
         "id": "ZzF8y97H7YoIIqSHcUVjw",
@@ -2399,22 +2436,23 @@
         "category": "rwVonh9Zgsowi8BmTfm_d",
         "tag": "_RFnU-s3G-8uXuXNNhU9c",
         "isComplete": true
+      },
+      {
+        "id": "8SD8cYekvDi6Bqe_zKXdT",
+        "title": "yusefi",
+        "income": true,
+        "doDate": 1780246800,
+        "createDate": 1780042022,
+        "description": "siatik",
+        "shareList": [],
+        "advancePayment": "200000",
+        "paymentCompleteValue": "1400000",
+        "category": "rwVonh9Zgsowi8BmTfm_d",
+        "tag": "-poV9UMqN41NAzIlc_KA3",
+        "isComplete": false,
+        "dType": "Visit"
       }
-    ],
-    "selectedVisit": {
-      "id": "qxBHJSFYVRJdB1NBN2ivv",
-      "title": "babaei copy",
-      "income": true,
-      "doDate": 1778235809,
-      "createDate": 1778235809,
-      "description": "",
-      "shareList": ["xHiGyaFt6_WvWKVcqehB4"],
-      "advancePayment": "1400000",
-      "paymentCompleteValue": "1400000",
-      "category": "rwVonh9Zgsowi8BmTfm_d",
-      "tag": "_RFnU-s3G-8uXuXNNhU9c",
-      "isComplete": true
-    }
+    ]
   },
   "Goals": {
     "ListTGoals": [
@@ -2505,7 +2543,7 @@
         "id": "eV0tAxDlpYjI0CDlJNB_j",
         "title": "Add Chart",
         "priority": "High",
-        "score": 7,
+        "score": 5,
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "tag": "GPoeAdsLX8zYBd1s38_KA",
         "doDate": 1780103903,
@@ -2644,20 +2682,31 @@
         "doDate": 1778704200,
         "createDate": 1778180505,
         "isComplete": false
+      },
+      {
+        "id": "tmZRZaF4w8H__pai-dFpz",
+        "title": "complete translate",
+        "priority": "High",
+        "score": 2,
+        "description": "",
+        "category": "EZQGS-3cjVjNUtkhFwxn5",
+        "tag": "8T30P5Wujy7STgd7g-zmA",
+        "doDate": 1779827400,
+        "createDate": 1779775481,
+        "isComplete": false
       }
     ],
     "selectedGoal": {
-      "id": "XrxI0PjKc5SR8S20jF1HB",
-      "title": "test 7",
-      "priority": "Low",
-      "score": 6,
+      "id": "tmZRZaF4w8H__pai-dFpz",
+      "title": "complete translate",
+      "priority": "High",
+      "score": 2,
       "description": "",
-      "category": "uOQQkNiNO8rZL4bIoJef_",
-      "tag": "N2MYWLv-0AqOL6v_keLZC",
-      "doDate": 1778358600,
-      "createDate": 1777878333,
-      "isComplete": true,
-      "completeUpdate": 1777878333
+      "category": "EZQGS-3cjVjNUtkhFwxn5",
+      "tag": "8T30P5Wujy7STgd7g-zmA",
+      "doDate": 1779827400,
+      "createDate": 1779775481,
+      "isComplete": false
     }
   },
   "Shares": {
@@ -3059,8 +3108,8 @@
     }
   },
   "Menu": {
-    "OpenMenu": false,
-    "OpenFilter": true,
+    "OpenMenu": true,
+    "OpenFilter": false,
     "lang": "en"
   }
 }

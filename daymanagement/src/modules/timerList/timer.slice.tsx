@@ -10,6 +10,7 @@ export type TTimer = {
   category: string;
   tag: string;
   description: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -52,6 +53,7 @@ export const timerListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: false,
+              dType: "Timer",
             },
           ]
         : [
@@ -65,6 +67,7 @@ export const timerListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               isComplete: false,
+              dType: "Timer",
             },
           ];
     },
@@ -116,6 +119,7 @@ export const timerListSlice = createSlice({
               description: action.payload.description,
               category: action.payload.category,
               tag: action.payload.tag,
+              dType: "Timer",
             }
           : timer
       );

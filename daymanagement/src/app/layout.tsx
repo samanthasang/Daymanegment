@@ -7,6 +7,8 @@ import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import SplashGate from "./splash-gate";
 import PWAInstallPrompt from "./PWAInstallPrompt";
+import { NextIntlClientProvider } from "next-intl";
+
 import { useAppSelector } from "@/lib/hook";
 
 const geistSans = localFont({
@@ -72,13 +74,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-          <ToastContainer />
-          <SplashGate>
-            <div className="min-h-dvh bg-primary">
-              <PWAInstallPrompt />
-              {children}
-            </div>
-          </SplashGate>
+          <NextIntlClientProvider locale="en">
+            <ToastContainer />
+            <SplashGate>
+              <div className="min-h-dvh bg-primary">
+                <PWAInstallPrompt />
+                {children}
+              </div>
+            </SplashGate>
+          </NextIntlClientProvider>
         </Provider>
       </body>
     </html>
