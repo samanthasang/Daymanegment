@@ -6,7 +6,11 @@ import TagFilter from "../../Filters/TagFilter.componen";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 import { useEffect } from "react";
-import { currentUnixTimestampZero, DayUnixDiff } from "../../UseDayJS";
+import {
+  currentUnixTimestamp,
+  currentUnixTimestampZero,
+  DayUnixDiff,
+} from "../../UseDayJS";
 
 function UseHabbitList() {
   const dispatch = useAppDispatch();
@@ -36,23 +40,23 @@ function UseHabbitList() {
         ? dispatch(
             updateHabbitList({
               ...item,
-              lastUpdate: currentUnixTimestampZero,
+              doDate: currentUnixTimestamp,
             })
           )
-        : (DayUnixDiff(item.lastUpdate, "day") < -1 &&
+        : (DayUnixDiff(item.doDate, "day") < -1 &&
             dispatch(
               updateHabbitList({
                 ...item,
-                lastUpdate: currentUnixTimestampZero,
-                score: item.score + 1 + DayUnixDiff(item.lastUpdate, "day"),
+                doDate: currentUnixTimestamp,
+                score: item.score + 1 + DayUnixDiff(item.doDate, "day"),
                 isComplete: false,
               })
             )) ||
-          (DayUnixDiff(item.lastUpdate, "day") < 0 &&
+          (DayUnixDiff(item.doDate, "day") < 0 &&
             dispatch(
               updateHabbitList({
                 ...item,
-                lastUpdate: currentUnixTimestampZero,
+                doDate: currentUnixTimestamp,
                 isComplete: false,
               })
             ))

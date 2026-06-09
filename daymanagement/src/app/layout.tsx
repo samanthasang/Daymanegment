@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import SplashGate from "./splash-gate";
 import PWAInstallPrompt from "./PWAInstallPrompt";
-import { NextIntlClientProvider } from "next-intl";
+// import { NextIntlClientProvider } from "next-intl";
 
 import { useAppSelector } from "@/lib/hook";
 
@@ -53,17 +53,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js", {
-          type: "module", // This is the key change
-        })
-        .catch((err) => {
-          console.error("Service worker registration failed:", err);
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if ("serviceWorker" in navigator) {
+  //     navigator.serviceWorker
+  //       .register("/sw.js", {
+  //         type: "module", // This is the key change
+  //       })
+  //       .catch((err) => {
+  //         console.error("Service worker registration failed:", err);
+  //       });
+  //   }
+  // }, []);
   return (
     <html lang="en">
       <head>
@@ -74,7 +74,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider store={store}>
-          <NextIntlClientProvider locale="en">
+          {/* <NextIntlClientProvider locale="en"> */}
             <ToastContainer />
             <SplashGate>
               <div className="min-h-dvh bg-primary">
@@ -82,7 +82,7 @@ export default function RootLayout({
                 {children}
               </div>
             </SplashGate>
-          </NextIntlClientProvider>
+          {/* </NextIntlClientProvider> */}
         </Provider>
       </body>
     </html>

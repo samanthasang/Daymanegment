@@ -7,6 +7,7 @@ export type TGoals = {
   isComplete: boolean;
   doDate: number;
   createDate: number;
+  lastUpdate: number;
   completeUpdate?: number;
   score: number;
   priority: string;
@@ -35,7 +36,6 @@ export const goalsListSlice = createSlice({
         id: string;
         title: string;
         doDate: number;
-        createDate: number;
         score: number;
         priority: string;
         description: string;
@@ -55,7 +55,8 @@ export const goalsListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               isComplete: false,
               dType: "Goal",
             },
@@ -65,7 +66,8 @@ export const goalsListSlice = createSlice({
               id: nanoid(),
               priority: action.payload.priority,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               title: action.payload.title,
               score: action.payload.score,
               description: action.payload.description,
@@ -91,6 +93,7 @@ export const goalsListSlice = createSlice({
               ...goal,
               isComplete: !goal.isComplete,
               score: action.payload.score,
+              lastUpdate: currentUnixTimestamp,
               completeUpdate: currentUnixTimestamp,
             }
           : goal
@@ -102,7 +105,6 @@ export const goalsListSlice = createSlice({
         id: any;
         title: string;
         doDate: number;
-        createDate: number;
         score: number;
         priority: string;
         description: string;
@@ -118,7 +120,7 @@ export const goalsListSlice = createSlice({
               isComplete: goal.isComplete,
               priority: action.payload.priority,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              lastUpdate: currentUnixTimestamp,
               description: action.payload.description,
               score: action.payload.score,
               category: action.payload.category,

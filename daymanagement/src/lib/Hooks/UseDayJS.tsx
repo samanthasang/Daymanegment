@@ -3,11 +3,17 @@ import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
+import jalaliday from "jalaliday";
+import { useAppSelector } from "../hook";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+if (typeof window !== "undefined") {
+  dayjs.extend(jalaliday);
+}
 
 export const currentUnixTimestamp = dayjs(
   Math.floor(new Date().getTime())
@@ -20,14 +26,23 @@ export const currentUnixTimestampZero = Math.floor(
 );
 export const DayUnix = (date: string) => dayjs.unix(Number(date));
 
-export const DayUnixFormat = (date: number, format: string) =>
-  dayjs(dayjs.unix(Number(date))).format(format);
+export const DayUnixFormat = (date: number, format: string) => {
+  const { lang } = useAppSelector((state) => state.Menu);
+  const time = dayjs.unix(Number(date));
+
+  return lang == "en"
+    ? time.format(format)
+    : time.calendar("jalali").format(format);
+};
 
 export const DayUnixFormatNow = (format: string) =>
   dayjs(dayjs.unix(Number(currentUnixTimestamp))).format(format);
 
 export const DayUnixDiff = (date: number, format: dayjs.QUnitType) =>
   dayjs.unix(Number(date)).diff(dayjs.unix(currentUnixTimestampZero), format);
+
+export const DayToday = (date: number) =>
+  +date >= currentUnixTimestampZero && +date < TomorrowUnixTimestampZero;
 
 export const DayUnixDuration = (dateStart: string, dateEnd: string) =>
   dayjs.duration(

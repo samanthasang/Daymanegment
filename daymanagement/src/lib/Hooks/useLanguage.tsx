@@ -1,17 +1,9 @@
-// import { languageSelector } from "@/modules/menu/menu.slice";
-// import { useSelector, useDispatch } from "react-redux";
+"use client";
+import { useAppSelector } from "../hook";
 
-// // application Language Hook
-// export const useLanguage = () => {
-//   const dispatch = useDispatch();
-//   const currentLanguage = useSelector(languageSelector);
+function UseLangState() {
+  const { lang } = useAppSelector((state) => state.Menu);
 
-//   const changeLanguage = (languageCode: string) => {
-//     dispatch(setLanguage(languageCode));
-//   };
-
-//   return {
-//     currentLanguage,
-//     changeLanguage,
-//   };
-// };
+  return lang;
+}
+export default UseLangState;

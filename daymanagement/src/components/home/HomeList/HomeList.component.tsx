@@ -38,8 +38,20 @@ function HomeList() {
     ...ListSpendsToday,
     ...ListSharesToday,
   ];
-  const ListFuture = listToday.filter((a) => +a.doDate >= currentUnixTimestamp);
-  const ListPast = listToday.filter((a) => +a.doDate < currentUnixTimestamp);
+  const ListTimerFuture = ListTimerFiltered.filter(
+    (a) => +a.startDate >= currentUnixTimestamp
+  );
+  const ListTimerPast = ListTimerFiltered.filter(
+    (a) => +a.startDate < currentUnixTimestamp
+  );
+  const ListFuture = [
+    ...listToday.filter((a) => +a.doDate >= currentUnixTimestamp),
+    ...ListTimerFuture,
+  ];
+  const ListPast = [
+    ...listToday.filter((a) => +a.doDate < currentUnixTimestamp),
+    ...ListTimerPast,
+  ];
   return (
     <>
       <ListSection
@@ -65,7 +77,7 @@ function HomeList() {
         // CompleteItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}
         // UndoneItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}
         // DelItem={() => DelItem(selectedVisit.id, selectedVisit.title)}
-        // SelectItem={() => SelectItem()}
+        SelectItem={() => console.log("set Item")}
         // BringTodayItem={() => BringTodayItem({ ...selectedVisit })}
         // DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedVisit })}
         // AddOneDayToItem={() => AddDayToItem({ ...selectedVisit }, 1)}

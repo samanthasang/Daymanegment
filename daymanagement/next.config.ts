@@ -1,18 +1,51 @@
 import type { NextConfig } from "next";
+import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true,
 };
 
-export default nextConfig;
-// /** @type {import('next').NextConfig} */
+const pwa = withPWA({
+  dest: "public",
+  register: true,
+  // Add these options to ensure more routes are cached
+  workboxOptions: {
+    runtimeCaching: [
+      {
+        urlPattern: /^https?.*/,
+        handler: "NetworkFirst", // Tries network, falls back to cache
+        options: {
+          cacheName: "offlineCache",
+          expiration: {
+            maxEntries: 200,
+          },
+        },
+      },
+    ],
+  },
+  disable: process.env.NODE_ENV === "development",
+});
 
-// const withPWA = require('next-pwa')({
-// 	dest: 'public',
-// 	register: true,
-// 	skipWaiting: true,
-// })
+// const withPWA = require("@ducanh2912/next-pwa")({
+//   dest: "public",
+//   register: true,
+//   skipWaiting: true,
+//   // Add these options to ensure more routes are cached
+//   workboxOptions: {
+//     runtimeCaching: [
+//       {
+//         urlPattern: /^https?.*/,
+//         handler: "NetworkFirst", // Tries network, falls back to cache
+//         options: {
+//           cacheName: "offlineCache",
+//           expiration: {
+//             maxEntries: 200,
+//           },
+//         },
+//       },
+//     ],
+//   },
+//   disable: process.env.NODE_ENV === "development",
+// });
 
-// module.exports = withPWA({
-// 	reactStrictMode: true,
-// })
+export default pwa(nextConfig);

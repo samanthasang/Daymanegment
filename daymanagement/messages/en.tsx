@@ -159,7 +159,7 @@ export const enLang = {
     BirthDay: "BirthDay",
     StartDay: "Start Day",
     EndDay: "End Day",
-    UpdateDay: "Update Day",
+    LastUpdate: "Update Day",
     CompleteDay: "Complete Day",
     DoHour: "Do Hour",
     ReminderAfter: "Reminde After",

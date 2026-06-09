@@ -3,6 +3,7 @@ import ListSection from "@/components/mainPage/ListSection/ListSection.component
 import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import VisitListActivities from "@/lib/Hooks/Lists/Visit/VisitListActivities.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -22,16 +23,17 @@ function VisitsList() {
     AddDayToItem,
     PaymentCompleteItem,
   } = VisitListActivities();
+  const t: any = UseLangComponent("Visits");
 
   return (
     <>
       <ListSection
         drawerType="Visits"
         formType="Add"
-        drawerTitle="Visit"
+        drawerTitle={t.single}
         selectedID={selectedVisit && !!selectedVisit.id}
-        ListFilteredTilte="Visits"
-        ListForgotTilte="Old Visits"
+        ListFilteredTilte={t.title}
+        ListForgotTilte={t.forgotTilte}
         ListFilteredCount={FinishedArray(ListVisitFiltered).length}
         ListForgotCount={FinishedArray(ListVisitForgot).length}
         ListFiltered={ListVisitFiltered as []}
@@ -42,9 +44,8 @@ function VisitsList() {
       <SelectedSection
         drawerType="Visits"
         formType="Edit"
-        drawerTitle="Visit"
+        drawerTitle={t.single}
         isComplete={(selectedVisit && selectedVisit.isComplete) || false}
-        time={selectedVisit && selectedVisit.doDate}
         CompleteItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}
         UndoneItem={() => CompleteItem(selectedVisit.id, selectedVisit.title)}
         DelItem={() => DelItem(selectedVisit.id, selectedVisit.title)}

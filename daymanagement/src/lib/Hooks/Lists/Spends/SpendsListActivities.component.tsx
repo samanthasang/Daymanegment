@@ -6,8 +6,8 @@ import {
   setSpendsList,
   TSpends,
 } from "@/modules/spends/spends.slice";
+import dayjs from "dayjs";
 import { toast } from "react-toastify";
-import { currentUnixTimestamp } from "../../UseDayJS";
 import useSpendsList from "./UseSpendsList.component";
 
 function SpendsListActivities() {
@@ -27,13 +27,23 @@ function SpendsListActivities() {
     toast(`${title} is deleted`);
   };
   const DuplicateTodayItem = (item: TSpends) => {
+    const oldDate = dayjs.unix(item.doDate);
+    const now = dayjs();
     dispatch(
       setSpendsList({
         ...item,
         id: "",
         title: `${item.title} copy`,
-        doDate: currentUnixTimestamp,
-        createDate: currentUnixTimestamp,
+        doDate: dayjs(
+          new Date(
+            now.year(),
+            now.month(),
+            now.date(),
+            oldDate.hour(),
+            oldDate.minute(),
+            oldDate.second()
+          )
+        ).unix(),
         numberOfProduct: item.numberOfProduct ?? "",
         priceOfProduct: item.priceOfProduct ?? "",
         incomeAmount: item.incomeAmount ?? "",

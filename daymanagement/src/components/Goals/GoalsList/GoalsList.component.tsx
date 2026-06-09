@@ -4,6 +4,7 @@ import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import GoalListActivities from "@/lib/Hooks/Lists/Goal/GoalListActivities.component";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -22,16 +23,17 @@ function GoalsList() {
     DuplicateTodayItem,
     AddDayToItem,
   } = GoalListActivities();
+  const t: any = UseLangComponent("Goals");
 
   return (
     <>
       <ListSection
         drawerType="Goals"
         formType="Add"
-        drawerTitle="Goal"
+        drawerTitle={t.single}
         selectedID={selectedGoal && !!selectedGoal.id}
-        ListFilteredTilte="Goals"
-        ListForgotTilte="Old Goals"
+        ListFilteredTilte={t.title}
+        ListForgotTilte={t.forgotTilte}
         ListFilteredCount={FinishedArray(ListGoalsFiltered).length}
         ListForgotCount={FinishedArray(ListGoalsForgot).length}
         ListFiltered={ListGoalsFiltered as []}
@@ -43,7 +45,7 @@ function GoalsList() {
       <SelectedSection
         drawerType="Goals"
         formType="Edit"
-        drawerTitle="Goal"
+        drawerTitle={t.single}
         isComplete={(selectedGoal && selectedGoal.isComplete) || false}
         CompleteItem={() =>
           CompleteItem(

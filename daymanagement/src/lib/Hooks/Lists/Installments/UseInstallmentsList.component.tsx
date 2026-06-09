@@ -4,6 +4,7 @@ import {
   TInstallmentsts,
   updateInstallmentstList,
 } from "@/modules/installmentstList/installmentst.slice";
+import { useEffect } from "react";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
@@ -15,7 +16,6 @@ import {
   DayUnixDiff,
   TomorrowUnixTimestampZero,
 } from "../../UseDayJS";
-import { useEffect } from "react";
 
 function useInstallmentsList() {
   const dispatch = useAppDispatch();

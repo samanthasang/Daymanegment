@@ -2,15 +2,13 @@
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import FormButtons from "@/components/FormItem/FormButton";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import {
-  currentUnixTimestamp,
-  currentUnixTimestampZero,
-} from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   selectHabbitList,
@@ -30,7 +28,7 @@ interface IFormInputs {
   priority: string;
   category: string;
   tag: string;
-  lastUpdate: number;
+  doDate: number;
   createDate?: number;
 }
 
@@ -52,7 +50,7 @@ export default function FormHabbit({
     priority: z.string().min(1, { message: "priority is required" }),
     category: z.string().min(1, { message: "Category is required" }),
     tag: z.string().min(1, { message: "Tag is required" }),
-    lastUpdate: z.number().min(1, { message: "date is required" }),
+    doDate: z.number().min(1, { message: "date is required" }),
     createDate: z.number().optional(),
   });
   type FormData = z.infer<typeof formSchema>;
@@ -69,8 +67,7 @@ export default function FormHabbit({
   });
 
   useEffect(() => {
-    date &&
-      setValue("lastUpdate", Math.floor(new Date(date).getTime() / 1000.0));
+    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
   }, [date]);
 
   useEffect(() => {
@@ -80,12 +77,12 @@ export default function FormHabbit({
       setValue("priority", selectedHabbit?.priority);
       setValue("category", selectedHabbit?.category);
       setValue("tag", selectedHabbit?.tag);
-      setValue("lastUpdate", selectedHabbit.lastUpdate);
+      setValue("doDate", selectedHabbit.doDate);
       setValue(
         "createDate",
-        selectedHabbit.createDate ?? +selectedHabbit.lastUpdate
+        selectedHabbit.createDate ?? +selectedHabbit.doDate
       );
-      setDate(new Date(Number(selectedHabbit.lastUpdate) * 1000));
+      setDate(new Date(Number(selectedHabbit.doDate) * 1000));
     }
   }, [selectedHabbit]);
 
@@ -112,9 +109,10 @@ export default function FormHabbit({
             description: data.description || "",
             priority: data.priority,
             createDate: currentUnixTimestamp,
-            lastUpdate: date
+            lastUpdate: currentUnixTimestamp,
+            doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
-              : data.lastUpdate,
+              : data.doDate,
             score: selectedHabbit.score,
             category: data.category,
             tag: data.tag,
@@ -127,7 +125,9 @@ export default function FormHabbit({
             description: data.description || "",
             priority: data.priority,
             createDate: currentUnixTimestamp,
-            lastUpdate: currentUnixTimestampZero,
+            doDate: date
+              ? Math.floor(new Date(date).getTime() / 1000.0)
+              : data.doDate,
             isComplete: false,
             score: 1,
             category: data.category,
@@ -164,6 +164,12 @@ export default function FormHabbit({
             {...field}
           />
         )}
+      />
+
+      <CalendarWithTime
+        dateValue={date}
+        setDate={setDate}
+        message={!date && !!errors.doDate?.message}
       />
 
       <Controller

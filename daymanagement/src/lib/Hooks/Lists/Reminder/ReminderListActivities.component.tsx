@@ -12,6 +12,7 @@ import {
 import { toast } from "react-toastify";
 import { DayUnixAdd } from "../../UseDayJS";
 import useReminderList from "./UseReminderList.component";
+import { ManipulateType } from "dayjs";
 
 function ReminderListActivities() {
   const dispatch = useAppDispatch();
@@ -43,8 +44,11 @@ function ReminderListActivities() {
     dispatch(
       updateReminderList({
         ...item,
-        doDate: item.lastUpdate,
-        lastUpdate: DayUnixAdd(item.lastUpdate, "day", -Number(item.timeDiff)),
+        doDate: DayUnixAdd(
+          item.doDate,
+          item.priodDiff as ManipulateType,
+          -Number(item.timeDiff)
+        ),
         isComplete: false,
       })
     );

@@ -1,4 +1,4 @@
-import { currentUnixTimestampZero } from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type Thabbit = {
@@ -10,10 +10,12 @@ export type Thabbit = {
   priority: string;
   createDate: number;
   lastUpdate: number;
+  doDate: number;
   isComplete: boolean;
   isPause: boolean;
   category: string;
   tag: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -38,7 +40,7 @@ export const habbitListSlice = createSlice({
         priority: string;
         score: number;
         createDate: number;
-        lastUpdate: number;
+        doDate: number;
         isComplete: boolean;
         category: string;
         tag: string;
@@ -59,9 +61,11 @@ export const habbitListSlice = createSlice({
               score: action.payload.score || 1,
               highest: action.payload.score || 1,
               createDate: action.payload.createDate,
-              lastUpdate: action.payload.lastUpdate,
+              lastUpdate: currentUnixTimestamp,
+              doDate: action.payload.doDate,
               isComplete: false,
               isPause: false,
+              dType: "Habbit",
             },
           ]
         : [
@@ -75,9 +79,11 @@ export const habbitListSlice = createSlice({
               score: action.payload.score || 1,
               highest: action.payload.score || 1,
               createDate: action.payload.createDate,
-              lastUpdate: action.payload.lastUpdate,
+              lastUpdate: currentUnixTimestamp,
+              doDate: action.payload.doDate,
               isComplete: false,
               isPause: false,
+              dType: "Habbit",
             },
           ];
     },
@@ -97,7 +103,7 @@ export const habbitListSlice = createSlice({
               score: !Habbit.isComplete ? Habbit.score + 1 : Habbit.score - 1,
               highest:
                 Habbit.highest >= Habbit.score ? Habbit.highest : Habbit.score,
-              lastUpdate: currentUnixTimestampZero,
+              lastUpdate: currentUnixTimestamp,
               isComplete: !Habbit.isComplete,
             }
           : Habbit
@@ -108,7 +114,7 @@ export const habbitListSlice = createSlice({
         Habbit.id == action.payload
           ? {
               ...Habbit,
-              lastUpdate: currentUnixTimestampZero,
+              lastUpdate: currentUnixTimestamp,
               isPause: !Habbit.isPause,
             }
           : Habbit
@@ -124,6 +130,7 @@ export const habbitListSlice = createSlice({
         priority: string;
         createDate: number;
         lastUpdate: number;
+        doDate: number;
         category: string;
         tag: string;
         isComplete?: boolean;
@@ -141,12 +148,13 @@ export const habbitListSlice = createSlice({
               priority: action.payload.priority,
               category: action.payload.category,
               tag: action.payload.tag,
-              createDate: action.payload.createDate,
-              lastUpdate: action.payload.lastUpdate,
+              lastUpdate: currentUnixTimestamp,
+              doDate: action.payload.doDate,
               isComplete:
                 action.payload.isComplete != undefined
                   ? action.payload.isComplete
                   : Habbit.isComplete,
+              dType: "Habbit",
             }
           : Habbit
       );

@@ -5,12 +5,12 @@ import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import DateFromFilter from "../../Filters/DateFromFilter";
 import DateToFilter from "../../Filters/DateToFilter";
 import TagFilter from "../../Filters/TagFilter.componen";
+import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
+import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import {
   currentUnixTimestampZero,
   TomorrowUnixTimestampZero,
 } from "../../UseDayJS";
-import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
-import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 
 function useSpendsList() {
   const Spends = useAppSelector((state) => state.Spends);

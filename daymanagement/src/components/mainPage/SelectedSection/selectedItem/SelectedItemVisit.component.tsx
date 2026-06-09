@@ -65,7 +65,7 @@ export const SelectedItemVisit = ({
         </div>
         {installmentstList && (
           <div className="w-full flex flex-row justify-between gap-x-2">
-            <SelectedItemContainer title={t.AdvancedPayment}>
+            <SelectedItemContainer title={t.AdvancePayment}>
               <div
                 className={cn(
                   "flex flex-row items-center gap-x-0.5",

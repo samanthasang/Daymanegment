@@ -138,10 +138,6 @@ export default function FormVisits({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
             shareList: shareList.map((share) => share.id) || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
@@ -158,7 +154,6 @@ export default function FormVisits({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate: currentUnixTimestamp,
             shareList: shareList.map((share) => share.id) || [],
             advancePayment: data.advancePayment || "",
             paymentCompleteValue: data.paymentCompleteValue || "",
@@ -295,6 +290,7 @@ export default function FormVisits({
           visitId: "",
           category: getValues("category"),
           tag: getValues("tag"),
+          dType: "Visit",
           description: share.description || getValues("description") || "",
         },
       ];
@@ -322,6 +318,7 @@ export default function FormVisits({
       visitId: "",
       category: getValues("category"),
       tag: getValues("tag"),
+      dType: "Visit",
       description: shareItem.description || getValues("description") || "",
     }));
 

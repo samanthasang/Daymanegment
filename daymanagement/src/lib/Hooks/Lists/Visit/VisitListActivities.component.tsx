@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import useVisitList from "./UseVisitList.component";
 import { currentUnixTimestamp, DayUnixAdd } from "../../UseDayJS";
 import { nanoid } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 
 function VisitListActivities() {
   const dispatch = useAppDispatch();
@@ -35,18 +36,44 @@ function VisitListActivities() {
     toast(`${title} is updated`);
   };
   const BringTodayItem = (item: TVisit) => {
-    dispatch(updateVisitList({ ...item, doDate: currentUnixTimestamp }));
+    const oldDate = dayjs.unix(item.doDate);
+    const now = dayjs();
+    dispatch(
+      updateVisitList({
+        ...item,
+        doDate: dayjs(
+          new Date(
+            now.year(),
+            now.month(),
+            now.date(),
+            oldDate.hour(),
+            oldDate.minute(),
+            oldDate.second()
+          )
+        ).unix(),
+      })
+    );
     item.id && selectedVisit && dispatch(selectVisitList(item.id));
     toast(`${item.title} is updated`);
   };
   const DuplicateTodayItem = (item: TVisit) => {
+    const oldDate = dayjs.unix(item.doDate);
+    const now = dayjs();
     dispatch(
       setVisitList({
         ...item,
         id: nanoid(),
         title: `${item.title} copy`,
-        doDate: currentUnixTimestamp,
-        createDate: currentUnixTimestamp,
+        doDate: dayjs(
+          new Date(
+            now.year(),
+            now.month(),
+            now.date(),
+            oldDate.hour(),
+            oldDate.minute(),
+            oldDate.second()
+          )
+        ).unix(),
       })
     );
     item.id && selectedVisit && dispatch(selectVisitList(item.id));
@@ -57,7 +84,6 @@ function VisitListActivities() {
       updateVisitList({
         ...item,
         doDate: DayUnixAdd(item.doDate, "day", day),
-        createDate: item.createDate ?? currentUnixTimestamp,
       })
     );
     item.id && selectedVisit && dispatch(selectVisitList(item.id));

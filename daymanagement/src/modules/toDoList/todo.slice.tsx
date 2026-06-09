@@ -1,3 +1,4 @@
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TToDo = {
@@ -6,6 +7,7 @@ export type TToDo = {
   isComplete: boolean;
   doDate: number;
   createDate: number;
+  lastUpdate: number;
   priority: string;
   category: string;
   tag: string;
@@ -32,7 +34,6 @@ export const todoListSlice = createSlice({
         id: string;
         title: string;
         doDate: number;
-        createDate: number;
         priority: string;
         description: string;
         category: string;
@@ -50,7 +51,8 @@ export const todoListSlice = createSlice({
               description: action.payload.description,
               tag: action.payload.tag,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               isComplete: false,
               dType: "Todo",
             },
@@ -60,7 +62,8 @@ export const todoListSlice = createSlice({
               id: nanoid(),
               priority: action.payload.priority,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               title: action.payload.title,
               category: action.payload.category,
               description: action.payload.description,
@@ -78,7 +81,11 @@ export const todoListSlice = createSlice({
     completeToDoList: (state: InitialState, action: PayloadAction<string>) => {
       state.ListToDo = state.ListToDo.map((todo) =>
         todo.id == action.payload
-          ? { ...todo, isComplete: !todo.isComplete }
+          ? {
+              ...todo,
+              isComplete: !todo.isComplete,
+              lastUpdate: currentUnixTimestamp,
+            }
           : todo
       );
     },
@@ -88,7 +95,6 @@ export const todoListSlice = createSlice({
         id: any;
         title: string;
         doDate: number;
-        createDate: number;
         priority: string;
         description: string;
         category: string;
@@ -104,7 +110,7 @@ export const todoListSlice = createSlice({
               priority: action.payload.priority,
               description: action.payload.description,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              lastUpdate: currentUnixTimestamp,
               category: action.payload.category,
               tag: action.payload.tag,
               dType: "Todo",

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TShare } from "../share/share.slice";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 
 export type TVisit = {
   id: string;
@@ -8,6 +8,7 @@ export type TVisit = {
   isComplete: boolean;
   doDate: number;
   createDate: number;
+  lastUpdate: number;
   description: string;
   shareList: string[];
   advancePayment?: string;
@@ -37,7 +38,6 @@ export const visitSlice = createSlice({
         title: string;
         income: boolean;
         doDate: number;
-        createDate: number;
         description: string;
         shareList: string[];
         advancePayment?: string;
@@ -54,7 +54,8 @@ export const visitSlice = createSlice({
               title: action.payload.title,
               income: action.payload.income,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               description: action.payload.description,
               shareList: action.payload.shareList,
               advancePayment: action.payload.advancePayment,
@@ -71,7 +72,8 @@ export const visitSlice = createSlice({
               title: action.payload.title,
               income: action.payload.income,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               description: action.payload.description,
               shareList: action.payload.shareList,
               advancePayment: action.payload.advancePayment,
@@ -94,6 +96,7 @@ export const visitSlice = createSlice({
           ? {
               ...visit,
               isComplete: !visit.isComplete,
+              lastUpdate: currentUnixTimestamp,
             }
           : visit
       );
@@ -105,7 +108,6 @@ export const visitSlice = createSlice({
         title: string;
         income: boolean;
         doDate: number;
-        createDate: number;
         description: string;
         shareList: string[];
         advancePayment?: string;
@@ -120,7 +122,7 @@ export const visitSlice = createSlice({
               ...visit,
               title: action.payload.title,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              lastUpdate: currentUnixTimestamp,
               income: action.payload.income,
               description: action.payload.description,
               shareList: action.payload.shareList,

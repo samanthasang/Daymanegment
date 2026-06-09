@@ -3,8 +3,7 @@ import CategotySelectComponent from "@/components/Category/CategotySelect.compon
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { CalendarDialog } from "@/components/ui/calenderWithDialog";
-import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
@@ -228,12 +227,7 @@ export default function FormInstallments({
             startDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.startDate,
-            lastUpdate: lastComplete,
             doDate: firstNOtComplete,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
             completeUpdate: lastNOtComplete,
             description: data.description || "",
             priority: data.priority || "",
@@ -252,9 +246,7 @@ export default function FormInstallments({
             startDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.startDate,
-            lastUpdate: currentUnixTimestampZero,
             doDate: firstNOtComplete,
-            createDate: currentUnixTimestampZero,
             completeUpdate: lastNOtComplete,
             description: data.description || "",
             priority: data.priority || "",
@@ -323,30 +315,11 @@ export default function FormInstallments({
         )}
       />
 
-      <ClendarButtonGroup
+      <CalendarWithTime
         dateValue={date}
-        errors={!date && !!errors.startDate?.message}
-      >
-        <Controller
-          name="startDate"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <CalendarDialog
-              required
-              mode="single"
-              selected={date}
-              month={date}
-              onSelect={setDate}
-              className=" border-white rounded py-1"
-              captionLayout="dropdown"
-              title="a"
-              dateValue={date}
-              setDate={setDate}
-            />
-          )}
-        />
-      </ClendarButtonGroup>
+        setDate={setDate}
+        message={!date && !!errors.doDate?.message}
+      />
 
       <Controller
         defaultValue={""}

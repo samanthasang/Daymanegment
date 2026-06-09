@@ -1,6 +1,6 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { TTimer, updateTimerList } from "@/modules/timerList/timer.slice";
+import { useAppSelector } from "@/lib/hook";
+import { TTimer } from "@/modules/timerList/timer.slice";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import EndDateToFilter from "../../Filters/EndDateToFilter";
 import StartDateToFilter from "../../Filters/StartDateToFilter";
@@ -11,7 +11,6 @@ import {
   currentUnixTimestampZero,
   TomorrowUnixTimestampZero,
 } from "../../UseDayJS";
-import { useEffect } from "react";
 
 function useTimerList() {
   const Timer = useAppSelector((state) => state.Timers);
@@ -51,16 +50,6 @@ function useTimerList() {
   const dateDOwnOrderArray: TTimer[] =
     StartDateOrderMinusFilter(oldListTimerFiltered);
 
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    ListTimer.map((li) =>
-      dispatch(
-        updateTimerList({
-          ...li,
-        })
-      )
-    );
-  }, []);
   return {
     ListTimerFiltered: dateUpOrderArray,
     ListTimerAll: ListTimer,

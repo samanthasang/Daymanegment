@@ -3,6 +3,7 @@ import ListSection from "@/components/mainPage/ListSection/ListSection.component
 import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import ReminderListActivities from "@/lib/Hooks/Lists/Reminder/ReminderListActivities.component";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -16,16 +17,17 @@ function ReminderList() {
     useReminderList();
   const { CompleteItem, DelItem, SelectItem, PauseItem, UndoItem } =
     ReminderListActivities();
+  const t: any = UseLangComponent("Reminders");
 
   return (
     <>
       <ListSection
         drawerType="Reminders"
         formType="Add"
-        drawerTitle="Reminder"
+        drawerTitle={t.single}
         selectedID={selectedReminder && !!selectedReminder.id}
-        ListFilteredTilte="Reminders"
-        ListForgotTilte="Old Reminders"
+        ListFilteredTilte={t.title}
+        ListForgotTilte={t.forgotTilte}
         ListFilteredCount={FinishedArray(ListReminderFiltered).length}
         ListForgotCount={FinishedArray(ListReminderForgot).length}
         ListFiltered={ListReminderFiltered as []}
@@ -37,7 +39,7 @@ function ReminderList() {
       <SelectedSection
         drawerType="Reminders"
         formType="Edit"
-        drawerTitle="Reminder"
+        drawerTitle={t.single}
         isComplete={(selectedReminder && selectedReminder.isComplete) || false}
         PauseItem={() => PauseItem(selectedReminder.id, selectedReminder.title)}
         CompleteItem={() =>

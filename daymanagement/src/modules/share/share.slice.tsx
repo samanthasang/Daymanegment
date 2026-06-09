@@ -14,6 +14,7 @@ export type TShare = {
   category: string;
   tag: string;
   description: string;
+  dType: string;
 };
 
 export interface InitialState {
@@ -64,6 +65,7 @@ export const shareListSlice = createSlice({
               createDate: action.payload.createDate,
               income: action.payload.income,
               description: action.payload.description,
+              dType: "Share",
             },
           ]
         : [
@@ -81,6 +83,7 @@ export const shareListSlice = createSlice({
               createDate: action.payload.createDate,
               income: action.payload.income,
               description: action.payload.description,
+              dType: "Share",
             },
           ];
     },
@@ -155,6 +158,7 @@ export const shareListSlice = createSlice({
               createDate: action.payload.createDate,
               income: action.payload.income,
               description: action.payload.description,
+              dType: "Share",
             }
           : share
       );

@@ -6,8 +6,6 @@ import { Menu } from "lucide-react";
 import MenuMainSideBarComponent from "./MainMenuSideBar.component";
 import MenuBottomSideBarComponent from "./MenuBottomSideBarComponent";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
-import { useI18n } from "@/lib/Hooks/useI18n";
-import { useTranslations } from "next-intl";
 
 function SideBarMenu() {
   const { OpenMenu } = useAppSelector((state) => state.Menu);

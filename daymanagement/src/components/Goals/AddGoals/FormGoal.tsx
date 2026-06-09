@@ -107,10 +107,6 @@ export default function FormGoals({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
             priority: data.priority,
             description: data.description || "",
             category: data.category,
@@ -125,7 +121,6 @@ export default function FormGoals({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate: currentUnixTimestamp,
             priority: data.priority,
             description: data.description || "",
             category: data.category,

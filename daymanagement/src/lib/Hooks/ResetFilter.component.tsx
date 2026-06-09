@@ -32,6 +32,7 @@ function UseResetFilterComponent({
 
   return (
     <div
+      dir="ltr"
       className={cn(
         "w-full flex justify-around items-center gap-x-1",
         fullButton ? "w-full" : "w-fit"

@@ -1,5 +1,6 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { TShare } from "../share/share.slice";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 
 export type TSpends = {
   id: string;
@@ -7,6 +8,7 @@ export type TSpends = {
   income: boolean;
   doDate: number;
   createDate: number;
+  lastUpdate: number;
   incomeAmount?: string;
   shareList: string[];
   numberOfProduct?: string;
@@ -37,7 +39,6 @@ export const spendsListSlice = createSlice({
         title: string;
         income: boolean;
         doDate: number;
-        createDate: number;
         shareList: string[];
         numberOfProduct: string;
         priceOfProduct: string;
@@ -56,14 +57,15 @@ export const spendsListSlice = createSlice({
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               incomeAmount: action.payload.incomeAmount,
               shareList: action.payload.shareList,
               category: action.payload.category,
               tag: action.payload.tag,
               income: action.payload.income,
               description: action.payload.description,
-              dType: "Spends",
+              dType: "Spend",
             },
           ]
         : [
@@ -72,7 +74,8 @@ export const spendsListSlice = createSlice({
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               title: action.payload.title,
               shareList: action.payload.shareList,
               incomeAmount: action.payload.incomeAmount,
@@ -80,7 +83,7 @@ export const spendsListSlice = createSlice({
               tag: action.payload.tag,
               income: action.payload.income,
               description: action.payload.description,
-              dType: "Spends",
+              dType: "Spend",
             },
           ];
     },
@@ -96,7 +99,6 @@ export const spendsListSlice = createSlice({
         title: string;
         income: boolean;
         doDate: number;
-        createDate: number;
         shareList: string[];
         numberOfProduct: string;
         priceOfProduct: string;
@@ -113,7 +115,7 @@ export const spendsListSlice = createSlice({
               title: action.payload.title,
               income: action.payload.income,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              lastUpdate: currentUnixTimestamp,
               numberOfProduct: action.payload.numberOfProduct,
               priceOfProduct: action.payload.priceOfProduct,
               incomeAmount: action.payload.incomeAmount,
@@ -121,7 +123,7 @@ export const spendsListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               description: action.payload.description,
-              dType: "Spends",
+              dType: "Spend",
             }
           : spends
       );

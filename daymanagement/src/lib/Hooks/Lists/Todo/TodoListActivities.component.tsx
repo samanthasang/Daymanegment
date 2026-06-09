@@ -11,6 +11,7 @@ import {
 import { toast } from "react-toastify";
 import { currentUnixTimestamp, DayUnixAdd } from "../../UseDayJS";
 import useTodoList from "./UseTodoList.component";
+import dayjs from "dayjs";
 
 function TodoListActivities() {
   const dispatch = useAppDispatch();
@@ -34,18 +35,44 @@ function TodoListActivities() {
     toast(`${title} is updated`);
   };
   const BringTodayItem = (item: TToDo) => {
-    dispatch(updateToDoList({ ...item, doDate: currentUnixTimestamp }));
+    const oldDate = dayjs.unix(item.doDate);
+    const now = dayjs();
+    dispatch(
+      updateToDoList({
+        ...item,
+        doDate: dayjs(
+          new Date(
+            now.year(),
+            now.month(),
+            now.date(),
+            oldDate.hour(),
+            oldDate.minute(),
+            oldDate.second()
+          )
+        ).unix(),
+      })
+    );
     item.id && selectedToDo && dispatch(selectToDoList(item.id));
     toast(`${item.title} is updated`);
   };
   const DuplicateTodayItem = (item: TToDo) => {
+    const oldDate = dayjs.unix(item.doDate);
+    const now = dayjs();
     dispatch(
       setToDoList({
         ...item,
         id: "",
         title: `${item.title} copy`,
-        doDate: currentUnixTimestamp,
-        createDate: currentUnixTimestamp,
+        doDate: dayjs(
+          new Date(
+            now.year(),
+            now.month(),
+            now.date(),
+            oldDate.hour(),
+            oldDate.minute(),
+            oldDate.second()
+          )
+        ).unix(),
       })
     );
     item.id && selectedToDo && dispatch(selectToDoList(item.id));
@@ -56,7 +83,6 @@ function TodoListActivities() {
       updateToDoList({
         ...item,
         doDate: DayUnixAdd(item.doDate, "day", day),
-        createDate: item.createDate ?? currentUnixTimestamp,
       })
     );
     item.id && selectedToDo && dispatch(selectToDoList(item.id));

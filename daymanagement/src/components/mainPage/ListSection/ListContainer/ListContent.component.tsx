@@ -12,7 +12,7 @@ function ListContent({
     <div
       className={cn(
         "flex flex-col gap-y-2 flex-1 rounded-3xl",
-        ListCount && ListCount > 4 ? "scroll-m-0 overflow-y-scroll" : ""
+        ListCount && ListCount > 3 ? "scroll-m-0 overflow-y-scroll" : ""
       )}
     >
       {ListCount && ListCount != 0 ? children : <EmptyList />}

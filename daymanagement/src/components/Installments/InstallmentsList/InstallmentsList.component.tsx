@@ -3,6 +3,7 @@ import ListSection from "@/components/mainPage/ListSection/ListSection.component
 import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import InstallmentsListActivities from "@/lib/Hooks/Lists/Installments/InstallmentsListActivities.component";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -19,16 +20,17 @@ function InstallmentsList() {
   } = useInstallmentsList();
   const { CompleteItem, DelItem, SelectItem, UndoItem } =
     InstallmentsListActivities();
+  const t: any = UseLangComponent("Installments");
 
   return (
     <>
       <ListSection
         drawerType="Installments"
         formType="Add"
-        drawerTitle="Installment"
+        drawerTitle={t.single}
         selectedID={selectedInstallmentstList && !!selectedInstallmentstList.id}
-        ListFilteredTilte="Installments"
-        ListForgotTilte="Old Installments"
+        ListFilteredTilte={t.title}
+        ListForgotTilte={t.forgotTilte}
         ListFilteredCount={FinishedArray(ListInstallmentsFiltered).length}
         ListForgotCount={FinishedArray(ListInstallmentsForgot).length}
         ListFiltered={ListInstallmentsFiltered as []}
@@ -39,7 +41,7 @@ function InstallmentsList() {
       <SelectedSection
         drawerType="Installments"
         formType="Edit"
-        drawerTitle="Installment"
+        drawerTitle={t.single}
         CompleteItem={() =>
           CompleteItem(
             selectedInstallmentstList.id,

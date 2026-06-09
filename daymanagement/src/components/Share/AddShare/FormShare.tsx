@@ -4,6 +4,7 @@ import PeopleSelectComponent from "@/components/Friends/PeopleSelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { CalendarDialog } from "@/components/ui/calenderWithDialog";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
@@ -212,31 +213,13 @@ export default function FormShare({
           />
         )}
       />
-      <ClendarButtonGroup
+
+      <CalendarWithTime
         dateValue={date}
-        errors={!!errors.category?.message}
-        description={errors.category?.message}
-      >
-        <Controller
-          name="doDate"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <CalendarDialog
-              required
-              mode="single"
-              selected={date}
-              month={date}
-              onSelect={setDate}
-              className=" border-white rounded py-1"
-              captionLayout="dropdown"
-              title="a"
-              dateValue={date}
-              setDate={setDate}
-            />
-          )}
-        />
-      </ClendarButtonGroup>
+        setDate={setDate}
+        message={!date && !!errors.doDate?.message}
+      />
+
       <div className="bg-primary p-2 rounded-2xl flex flex-col gap-y-2">
         <div className="w-full flex justify-center items-center gap-x-2 bg-primary rounded-full">
           <div

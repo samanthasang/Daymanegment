@@ -14,6 +14,7 @@ function UseLangComponent(
     | "CategoryList"
     | "TagList"
     | "Friends"
+    | "Installments"
     | "Visits"
     | "Goals"
     | "Shares"
@@ -22,6 +23,7 @@ function UseLangComponent(
     | "Drawer"
     | "Selected"
     | "Buttons"
+    | "Priority"
 ) {
   const [langChoosen, setLangChoosen] = useState(enLang);
 

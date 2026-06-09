@@ -1,4 +1,4 @@
-import { DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { ManipulateType } from "dayjs";
 
@@ -24,6 +24,7 @@ export type TInstallmentsts = {
   paymentCompleteValue: string;
   category: string;
   tag: string;
+  dType: string;
   installmentstList: TInstallmentst[];
 };
 
@@ -48,9 +49,7 @@ export const installmentstListSlice = createSlice({
         description: string;
         priority: string;
         startDate: number;
-        lastUpdate: number;
         doDate: number;
-        createDate: number;
         completeUpdate: number;
         paymentNumber: string;
         numberOfPayment: string;
@@ -73,9 +72,9 @@ export const installmentstListSlice = createSlice({
               priority: action.payload.priority,
               startDate: action.payload.startDate,
               description: action.payload.description,
-              lastUpdate: action.payload.lastUpdate,
+              lastUpdate: currentUnixTimestamp,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
               completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,
@@ -85,6 +84,7 @@ export const installmentstListSlice = createSlice({
               installmentstList: action.payload.installmentstList,
               isComplete: false,
               isFinish: false,
+              dType: "Installmentst",
             },
           ]
         : [
@@ -94,9 +94,9 @@ export const installmentstListSlice = createSlice({
               priority: action.payload.priority,
               startDate: action.payload.startDate,
               description: action.payload.description,
-              lastUpdate: action.payload.lastUpdate,
+              lastUpdate: currentUnixTimestamp,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
               completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,
@@ -106,6 +106,7 @@ export const installmentstListSlice = createSlice({
               installmentstList: action.payload.installmentstList,
               isComplete: false,
               isFinish: false,
+              dType: "Installmentst",
             },
           ];
     },
@@ -191,9 +192,7 @@ export const installmentstListSlice = createSlice({
         description: string;
         priority: string;
         startDate: number;
-        lastUpdate: number;
         doDate: number;
-        createDate: number;
         completeUpdate: number;
         paymentNumber: string;
         numberOfPayment: string;
@@ -212,9 +211,8 @@ export const installmentstListSlice = createSlice({
               priority: action.payload.priority,
               startDate: action.payload.startDate,
               description: action.payload.description,
-              lastUpdate: action.payload.lastUpdate,
+              lastUpdate: currentUnixTimestamp,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
               completeUpdate: action.payload.completeUpdate,
               paymentNumber: action.payload.paymentNumber,
               numberOfPayment: action.payload.numberOfPayment,
@@ -223,6 +221,7 @@ export const installmentstListSlice = createSlice({
               tag: action.payload.tag,
               isComplete: action.payload.isComplete ?? installmentst.isComplete,
               installmentstList: action.payload.installmentstList,
+              dType: "Installmentst",
             }
           : installmentst
       );

@@ -1,7 +1,7 @@
 "use client";
 import ShareItemSpends from "@/components/Share/ShareItem/ShareItemSpends.component";
 import ShareItemVisit from "@/components/Share/ShareItem/ShareItemVisit.componen";
-import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import { DayToday, DayUnixDiff } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import ListCategorySelected from "../../ListSection/listCategorySelected/ListCategorySelected.component";
@@ -132,11 +132,12 @@ export const SelectedItem = ({
           title={title}
           isFinish={isFinish || (!!endDate && isComplete)}
           priority={priority}
-          incomeAmount={drawerType != "Shares" ? incomeAmount : undefined}
+          incomeAmount={
+            (drawerType != "Shares" && income && incomeAmount) || undefined
+          }
           priceOfProduct={
-            drawerType != "Shares"
-              ? (priceOfProduct ?? outcomeAmount)
-              : undefined
+            (drawerType != "Shares" && (priceOfProduct ?? outcomeAmount)) ||
+            undefined
           }
         />
         <div className="w-full flex flex-row justify-between gap-x-2">
@@ -149,7 +150,7 @@ export const SelectedItem = ({
         </div>
         <SelectedItemDate
           completeUpdate={completeUpdate}
-          createDate={createDate || startDate || doDate || 0}
+          createDate={createDate || 0}
           doDate={doDate || 0}
           lastUpdate={lastUpdate}
           priodDiff={priodDiff}
@@ -220,7 +221,7 @@ export const SelectedItem = ({
               !!advancePayment &&
               +paymentCompleteValue - +advancePayment != 0
             }
-            isToday={DayUnixDiff(doDate, "day") == 0}
+            isToday={DayToday(doDate)}
             CompleteItem={CompleteItem}
             FinishItem={FinishItem}
             BringTodayItem={BringTodayItem}

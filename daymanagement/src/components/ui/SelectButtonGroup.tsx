@@ -39,7 +39,7 @@ export function SelectButtonGroup({
   return (
     <Field data-invalid={errors}>
       {/* <FieldLabel htmlFor={name}>{title}</FieldLabel> */}
-      <ButtonGroup>
+      <ButtonGroup dir="ltr">
         <Select
           required={required}
           onValueChange={(data) => data && onValueChange(data)}

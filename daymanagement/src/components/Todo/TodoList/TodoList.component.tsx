@@ -4,6 +4,7 @@ import TodoListActivities from "@/lib/Hooks/Lists/Todo/TodoListActivities.compon
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
 import dynamic from "next/dynamic";
 import ListSection from "../../mainPage/ListSection/ListSection.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 const SelectedSection = dynamic(
   () =>
@@ -21,16 +22,17 @@ function TodoList() {
     DuplicateTodayItem,
     AddDayToItem,
   } = TodoListActivities();
-
+  const t: any = UseLangComponent("Todos");
+  
   return (
     <>
       <ListSection
         drawerType="Todos"
         formType="Add"
-        drawerTitle="Todo"
+        drawerTitle={t.single}
         selectedID={selectedToDo && !!selectedToDo.id}
-        ListFilteredTilte="Todos"
-        ListForgotTilte="Old Todos"
+        ListFilteredTilte={t.title}
+        ListForgotTilte={t.forgotTilte}
         ListFilteredCount={FinishedArray(ListToDoFiltered).length}
         ListForgotCount={FinishedArray(ListToDoForgot).length}
         ListFiltered={ListToDoFiltered as []}
@@ -42,7 +44,7 @@ function TodoList() {
       <SelectedSection
         drawerType="Todos"
         formType="Edit"
-        drawerTitle="Todo"
+        drawerTitle={t.single}
         CompleteItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         UndoneItem={() => CompleteItem(selectedToDo.id, selectedToDo.title)}
         DelItem={() => DelItem(selectedToDo.id, selectedToDo.title)}

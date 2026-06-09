@@ -2,7 +2,7 @@ import { DayUnixDiff, DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import duration from "dayjs/plugin/duration";
 import ListItemTimeDiff from "./ListItemTimeDiff.component";
-import { BadgeDollarSign, Star } from "lucide-react";
+import { BadgeDollarSign, Clock, Star } from "lucide-react";
 
 export const ListItemInfo = ({
   isComplete,
@@ -29,21 +29,6 @@ export const ListItemInfo = ({
 }) => {
   return (
     <div className="flex flex-col w-fit gap-y-1 justify-end items-end">
-      {drawerType == "Goals" && (
-        <label
-          className={cn(
-            `cursor-pointer px-2 py-1 rounded-2xl text-white`,
-            score && (score > 5 ? "text-successGreen" : "text-errorRed")
-          )}
-        >
-          <div className="flex flex-row items-center gap-x-0.5">
-            {!isComplete && date && DayUnixFormat(+date, "YYYY-MM-DD")}
-            {!isComplete && ` | `}
-            <Star width={16} height={16} />
-            {score}
-          </div>
-        </label>
-      )}
       {drawerType == "Habbits" && (
         <label
           className={cn(
@@ -72,8 +57,26 @@ export const ListItemInfo = ({
           priceOfProduct && "text-errorRed"
         )}
       >
-        {date && DayUnixFormat(+date, "HH:mm")}
+        <div dir="ltr" className="flex flex-row items-center gap-x-1">
+          <Clock width={12} height={12} />
+          {date && DayUnixFormat(+date, "HH:mm")}{" "}
+          {drawerType == "Goals" && (
+            <>
+              {!isComplete && ` | `}
+              <Star width={16} height={16} />
+              {score}
+            </>
+          )}
+          {(incomeAmount || priceOfProduct || outcomeAmount) && (
+            <>
+              {(incomeAmount || priceOfProduct || outcomeAmount) && ` | `}
+              <BadgeDollarSign width={16} height={16} />
+              {`${incomeAmount || priceOfProduct || outcomeAmount}`}
+            </>
+          )}
+        </div>
       </label>
+
       {drawerType == "Friends" && hasShare && (
         <label
           className={cn(
@@ -84,23 +87,6 @@ export const ListItemInfo = ({
           <div className="flex gap-x-1 items-center">
             <BadgeDollarSign width={16} height={16} />
             <label>{total}</label>
-          </div>
-        </label>
-      )}
-      {(incomeAmount || priceOfProduct || outcomeAmount) && (
-        <label
-          className={cn(
-            `cursor-pointer px-2 py-1 rounded-2xl text-white`,
-            incomeAmount
-              ? "text-successGreen"
-              : (priceOfProduct || outcomeAmount) && "text-errorRed"
-          )}
-        >
-          <div className="flex gap-x-1 items-center">
-            {date && DayUnixFormat(+date, "MM-DD")}
-            {(incomeAmount || priceOfProduct || outcomeAmount) && ` | `}
-            <BadgeDollarSign width={16} height={16} />
-            {`${incomeAmount || priceOfProduct || outcomeAmount}`}
           </div>
         </label>
       )}

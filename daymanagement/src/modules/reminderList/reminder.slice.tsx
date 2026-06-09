@@ -1,4 +1,4 @@
-import { DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { ManipulateType } from "dayjs";
 
@@ -39,8 +39,6 @@ export const reminderListSlice = createSlice({
         id: string;
         title: string;
         doDate: number;
-        createDate: number;
-        lastUpdate: number;
         timeDiff: string;
         priodDiff: string;
         priority: string;
@@ -59,8 +57,8 @@ export const reminderListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
-              lastUpdate: action.payload.lastUpdate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               startDate: action.payload.doDate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
@@ -75,8 +73,8 @@ export const reminderListSlice = createSlice({
               id: nanoid(),
               priority: action.payload.priority,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
-              lastUpdate: action.payload.lastUpdate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               startDate: action.payload.doDate,
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
@@ -109,7 +107,7 @@ export const reminderListSlice = createSlice({
                 reminder.priodDiff as ManipulateType,
                 +reminder.timeDiff
               ),
-              lastUpdate: reminder.doDate,
+              lastUpdate: currentUnixTimestamp,
             }
           : reminder
       );
@@ -143,8 +141,6 @@ export const reminderListSlice = createSlice({
         id: any;
         title: string;
         doDate: number;
-        createDate: number;
-        lastUpdate: number;
         isComplete?: boolean;
         timeDiff: string;
         priodDiff: string;
@@ -164,8 +160,7 @@ export const reminderListSlice = createSlice({
               timeDiff: action.payload.timeDiff,
               priodDiff: action.payload.priodDiff,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
-              lastUpdate: action.payload.lastUpdate,
+              lastUpdate: currentUnixTimestamp,
               category: action.payload.category,
               description: action.payload.description,
               tag: action.payload.tag,

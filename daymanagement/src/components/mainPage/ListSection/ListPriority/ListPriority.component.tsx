@@ -3,6 +3,7 @@ import {
   ChevronSmallTripleUp,
   ChevronSmallUp,
 } from "@/components/icons";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 
 export const ListPriority = ({
@@ -12,6 +13,8 @@ export const ListPriority = ({
   priority: string;
   showTitle?: boolean;
 }) => {
+  const t: any = UseLangComponent("Priority");
+
   const priorityIcon = () => {
     switch (priority) {
       case "High":
@@ -26,6 +29,19 @@ export const ListPriority = ({
     }
   };
 
+  const priorityTitle = () => {
+    switch (priority) {
+      case "High":
+        return t.High;
+      case "Medium":
+        return t.Medium;
+      case "Low":
+        return t.Low;
+
+      default:
+        return t.High;
+    }
+  };
   return (
     <div className="flex items-center">
       {priorityIcon()}
@@ -40,7 +56,7 @@ export const ListPriority = ({
                 : "text-white"
         )}
       >
-        {showTitle && priority}
+        {showTitle && priorityTitle()}
       </label>
     </div>
   );
