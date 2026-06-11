@@ -1,6 +1,5 @@
-import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
-import { TShare } from "../share/share.slice";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TSpends = {
   id: string;

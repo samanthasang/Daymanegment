@@ -105,7 +105,6 @@ export default function PeopleForm({
             birthDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.birthDate,
-            createDate: currentUnixTimestamp,
             phoneNumber: data.phoneNumber || "",
             description: data.description || "",
           })

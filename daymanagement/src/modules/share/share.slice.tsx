@@ -1,3 +1,4 @@
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TShare = {
@@ -7,6 +8,7 @@ export type TShare = {
   income: boolean;
   doDate: number;
   createDate?: number;
+  lastUpdate: number;
   incomeAmount?: string;
   outcomeAmount?: string;
   spendsId?: string;
@@ -38,7 +40,6 @@ export const shareListSlice = createSlice({
         peopleId: string;
         income: boolean;
         doDate: number;
-        createDate: number;
         incomeAmount?: string;
         outcomeAmount?: string;
         spendsId?: string;
@@ -62,7 +63,8 @@ export const shareListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               income: action.payload.income,
               description: action.payload.description,
               dType: "Share",
@@ -80,7 +82,8 @@ export const shareListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               income: action.payload.income,
               description: action.payload.description,
               dType: "Share",
@@ -103,7 +106,11 @@ export const shareListSlice = createSlice({
         share.id != action.payload.id
           ? {
               ...share,
-              shareList: { ...share, visitId: "" },
+              shareList: {
+                ...share,
+                lastUpdate: currentUnixTimestamp,
+                visitId: "",
+              },
             }
           : share
       );
@@ -119,7 +126,11 @@ export const shareListSlice = createSlice({
         share.id != action.payload.id
           ? {
               ...share,
-              shareList: { ...share, spendsId: "" },
+              shareList: {
+                ...share,
+                lastUpdate: currentUnixTimestamp,
+                spendsId: "",
+              },
             }
           : share
       );
@@ -132,7 +143,6 @@ export const shareListSlice = createSlice({
         peopleId: string;
         income: boolean;
         doDate: number;
-        createDate: number;
         incomeAmount?: string;
         outcomeAmount?: string;
         spendsId?: string;
@@ -155,7 +165,7 @@ export const shareListSlice = createSlice({
               category: action.payload.category,
               tag: action.payload.tag,
               doDate: action.payload.doDate,
-              createDate: action.payload.createDate,
+              lastUpdate: currentUnixTimestamp,
               income: action.payload.income,
               description: action.payload.description,
               dType: "Share",

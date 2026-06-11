@@ -109,10 +109,6 @@ export default function FormTimer({
             endDate: endDate
               ? Math.floor(new Date(endDate).getTime() / 1000.0)
               : data.startDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.startDate,
             isComplete:
               startDate &&
               endDate &&
@@ -135,7 +131,6 @@ export default function FormTimer({
             endDate: endDate
               ? Math.floor(new Date(endDate).getTime() / 1000.0)
               : data.startDate,
-            createDate: currentUnixTimestamp,
             isComplete: false,
             category: data.category,
             tag: data.tag,

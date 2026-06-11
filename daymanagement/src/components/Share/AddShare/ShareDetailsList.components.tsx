@@ -49,6 +49,8 @@ export default function ShareDetailsList({
       category: "",
       tag: "",
       description: "",
+      dType: "",
+      lastUpdate: 0,
     });
   };
 

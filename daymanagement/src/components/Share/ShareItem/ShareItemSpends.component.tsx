@@ -6,7 +6,7 @@ import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { delSpendsListShare } from "@/modules/spends/spends.slice";
 import { selectVisitList } from "@/modules/visitsList/visit.slice";
-import { BadgeDollarSign, Eye, Trash } from "lucide-react";
+import { BadgeDollarSign, CircuitBoard, Eye, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const ShareItemSpends = ({
@@ -18,7 +18,7 @@ export const ShareItemSpends = ({
 }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-    const t: any = UseLangComponent("Selected");
+  const t: any = UseLangComponent("Selected");
 
   const { ListSpendsAll } = useSpendsList();
   const SpendsSelected =
@@ -42,7 +42,7 @@ export const ShareItemSpends = ({
             className="hover:bg-error/30"
             size="sm"
           >
-            <Trash width="16px" height="16px" className="text-error" />
+            <CircuitBoard width="16px" height="16px" className="text-error" />
           </Button>
           <Button
             onClick={(e) => {

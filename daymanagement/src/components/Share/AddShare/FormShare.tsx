@@ -3,13 +3,10 @@ import CategotySelectComponent from "@/components/Category/CategotySelect.compon
 import PeopleSelectComponent from "@/components/Friends/PeopleSelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
-import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   selectShareList,
@@ -123,7 +120,6 @@ export default function FormShare({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate: data.createDate ? +data.createDate : data.doDate,
             incomeAmount: data.income ? data.incomeAmount : "",
             outcomeAmount: !data.income ? data.outcomeAmount : "",
             category: data.category,
@@ -140,32 +136,14 @@ export default function FormShare({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate: currentUnixTimestamp,
             incomeAmount: data.income ? data.incomeAmount : "",
             outcomeAmount: !data.income ? data.outcomeAmount : "",
             category: data.category,
             tag: data.tag,
             description: data.description || "",
           })
-        );
-    // selectedShare &&
-    //   selectedShare.visitId &&
-    //   dispatch(
-    //     updateVisitListShare({
-    //       id: selectedShare.id,
-    //       peopleId: data.peopleId,
-    //       income: data.income || false,
-    //       doDate: date
-    //         ? Math.floor(new Date(date).getTime() / 1000.0)
-    //         : data.doDate,
-    //       createDate: data.createDate ?? data.doDate,
-    //       visitId: selectedShare.visitId,
-    //       incomeAmount: data.income ? data.incomeAmount : "",
-    //       outcomeAmount: !data.income ? data.outcomeAmount : "",
-    //       category: data.category,
-    //       tag: data.tag,
-    //     })
-    //   );
+      );
+    
     dispatch(selectShareList(""));
     setValue("doDate", 0);
     reset();

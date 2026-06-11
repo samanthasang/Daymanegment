@@ -38,9 +38,9 @@ export const ListItemTimeDiff = ({ date }: { date?: string | number }) => {
   }, [date]);
 
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center text-success">
       <Timer width={12} height={12} />
-      <label className="text-success px-1">
+      <label className="px-1">
         {dateState.years() > 0 && `${dateState.years()} : `}
         {dateState.months() > 0 && `${dateState.months()} : `}
         {dateState.days() > 0 && `${dateState.days()} : `}

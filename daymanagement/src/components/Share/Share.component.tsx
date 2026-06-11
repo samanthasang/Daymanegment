@@ -5,9 +5,7 @@ import ShareList from "./ShareList/ShareList.component";
 function ShareListComponent() {
   return (
     <PageContainer>
-      <Suspense>
-        <ShareList />
-      </Suspense>
+      <ShareList />
     </PageContainer>
   );
 }

@@ -8,7 +8,7 @@ import {
   delVisitListShare,
   selectVisitList,
 } from "@/modules/visitsList/visit.slice";
-import { BookUser, Eye, Trash } from "lucide-react";
+import { BookUser, CircuitBoard, DiscIcon, Eye, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const ShareItemVisit = ({
@@ -44,7 +44,7 @@ export const ShareItemVisit = ({
             className="hover:bg-error/30"
             size="sm"
           >
-            <Trash width="16px" height="16px" className="text-error" />
+            <CircuitBoard width="16px" height="16px" className="text-error" />
           </Button>
           <Button
             onClick={(e) => {

@@ -39,7 +39,6 @@ export const habbitListSlice = createSlice({
         description: string;
         priority: string;
         score: number;
-        createDate: number;
         doDate: number;
         isComplete: boolean;
         category: string;
@@ -60,7 +59,7 @@ export const habbitListSlice = createSlice({
               tag: action.payload.tag,
               score: action.payload.score || 1,
               highest: action.payload.score || 1,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
               lastUpdate: currentUnixTimestamp,
               doDate: action.payload.doDate,
               isComplete: false,
@@ -78,7 +77,7 @@ export const habbitListSlice = createSlice({
               tag: action.payload.tag,
               score: action.payload.score || 1,
               highest: action.payload.score || 1,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
               lastUpdate: currentUnixTimestamp,
               doDate: action.payload.doDate,
               isComplete: false,
@@ -128,8 +127,6 @@ export const habbitListSlice = createSlice({
         description: string;
         score: number;
         priority: string;
-        createDate: number;
-        lastUpdate: number;
         doDate: number;
         category: string;
         tag: string;

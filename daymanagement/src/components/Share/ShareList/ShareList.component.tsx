@@ -2,6 +2,7 @@
 import ListSection from "@/components/mainPage/ListSection/ListSection.component";
 import ShareListActivities from "@/lib/Hooks/Lists/Share/ShareListActivities.component";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -10,38 +11,29 @@ const SelectedSection = dynamic(
   { ssr: false }
 );
 
-function ShareListList({ peopleId }: { peopleId?: string }) {
+function ShareListList() {
   const { ListShareFriends, ListShareForgot, selectedShare } = useShareList();
   const { DelItem, SelectItem, DuplicateTodayItem } = ShareListActivities();
-
-  const ListShareWithId =
-    ListShareFriends && peopleId
-      ? ListShareFriends.filter((share) => share.peopleId == peopleId)
-      : ListShareFriends;
-
-  const ListShareForgotWithId =
-    ListShareForgot && peopleId
-      ? ListShareForgot.filter((share) => share.peopleId == peopleId)
-      : ListShareForgot;
+  const t: any = UseLangComponent("Shares");
 
   return (
     <>
       <ListSection
         drawerType="Shares"
         formType="Add"
-        drawerTitle="Share"
+        drawerTitle={t.single}
         selectedID={selectedShare && !!selectedShare.id}
-        ListFilteredTilte="Shares"
-        ListForgotTilte="Old Shares"
-        ListFiltered={ListShareWithId as []}
-        ListForgot={ListShareForgotWithId as []}
+        ListFilteredTilte={t.title}
+        ListForgotTilte={t.forgotTilte}
+        ListFiltered={ListShareFriends as []}
+        ListForgot={ListShareForgot as []}
         withShop
         withBalance
       />
       <SelectedSection
         drawerType="Shares"
         formType="Edit"
-        drawerTitle="Share"
+        drawerTitle={t.single}
         DelItem={() => DelItem(selectedShare.id, selectedShare.title)}
         SelectItem={() => SelectItem()}
         DuplicateTodayItem={() => DuplicateTodayItem({ ...selectedShare })}

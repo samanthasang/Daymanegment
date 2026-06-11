@@ -1,3 +1,4 @@
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TPeople = {
@@ -9,6 +10,7 @@ export type TPeople = {
   phoneNumber: string;
   birthDate: number;
   createDate: number;
+  lastUpdate: number;
   description: string;
 };
 
@@ -34,7 +36,6 @@ export const PeopleListSlice = createSlice({
         lastName: string;
         phoneNumber: string;
         birthDate: number;
-        createDate: number;
         description: string;
       }>
     ) => {
@@ -48,7 +49,8 @@ export const PeopleListSlice = createSlice({
               lastName: action.payload.lastName,
               phoneNumber: action.payload.phoneNumber,
               birthDate: action.payload.birthDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               description: action.payload.description,
               shareList: [],
             },
@@ -61,7 +63,8 @@ export const PeopleListSlice = createSlice({
               lastName: action.payload.lastName,
               phoneNumber: action.payload.phoneNumber,
               birthDate: action.payload.birthDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               description: action.payload.description,
               shareList: [],
             },
@@ -93,6 +96,7 @@ export const PeopleListSlice = createSlice({
               lastName: action.payload.lastName,
               phoneNumber: action.payload.phoneNumber,
               birthDate: action.payload.birthDate,
+              lastUpdate: currentUnixTimestamp,
               description: action.payload.description,
             }
           : people
@@ -109,6 +113,7 @@ export const PeopleListSlice = createSlice({
         people.id == action.payload.peopleId
           ? {
               ...people,
+              lastUpdate: currentUnixTimestamp,
               shareList: people.shareList
                 ? !people.shareList.includes(action.payload.id)
                   ? [...people.shareList, action.payload.id]

@@ -108,8 +108,6 @@ export default function FormHabbit({
             title: data.title,
             description: data.description || "",
             priority: data.priority,
-            createDate: currentUnixTimestamp,
-            lastUpdate: currentUnixTimestamp,
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
@@ -124,7 +122,6 @@ export default function FormHabbit({
             title: data.title,
             description: data.description || "",
             priority: data.priority,
-            createDate: currentUnixTimestamp,
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,

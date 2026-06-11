@@ -1,3 +1,4 @@
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 
 export type TTimer = {
@@ -7,6 +8,7 @@ export type TTimer = {
   startDate: number;
   endDate: number;
   createDate: number;
+  lastUpdate: number;
   category: string;
   tag: string;
   description: string;
@@ -33,7 +35,6 @@ export const timerListSlice = createSlice({
         title: string;
         startDate: number;
         endDate: number;
-        createDate: number;
         isComplete: boolean;
         category: string;
         tag: string;
@@ -48,7 +49,8 @@ export const timerListSlice = createSlice({
               title: action.payload.title,
               startDate: action.payload.startDate,
               endDate: action.payload.endDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               description: action.payload.description,
               category: action.payload.category,
               tag: action.payload.tag,
@@ -61,7 +63,8 @@ export const timerListSlice = createSlice({
               id: nanoid(),
               startDate: action.payload.startDate,
               endDate: action.payload.startDate,
-              createDate: action.payload.createDate,
+              createDate: currentUnixTimestamp,
+              lastUpdate: currentUnixTimestamp,
               title: action.payload.title,
               description: action.payload.description,
               category: action.payload.category,
@@ -89,6 +92,7 @@ export const timerListSlice = createSlice({
               ...timer,
               isComplete: !timer.isComplete,
               endDate: action.payload.endDate,
+              lastUpdate: currentUnixTimestamp,
             }
           : timer
       );
@@ -100,7 +104,6 @@ export const timerListSlice = createSlice({
         title: string;
         startDate: number;
         endDate: number;
-        createDate: number;
         isComplete: boolean;
         description: string;
         category: string;
@@ -114,7 +117,7 @@ export const timerListSlice = createSlice({
               title: action.payload.title,
               isComplete: action.payload.isComplete,
               startDate: action.payload.startDate,
-              createDate: action.payload.createDate,
+              lastUpdate: currentUnixTimestamp,
               endDate: action.payload.endDate,
               description: action.payload.description,
               category: action.payload.category,

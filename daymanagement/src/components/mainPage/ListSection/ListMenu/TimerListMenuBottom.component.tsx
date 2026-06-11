@@ -15,7 +15,6 @@ function TimerListMenuBottom() {
         title: `timer-${dayjs(Math.floor(new Date().getTime())).unix()}`,
         startDate: dayjs(Math.floor(new Date().getTime())).unix(),
         endDate: dayjs(Math.floor(new Date().getTime())).unix(),
-        createDate: dayjs(Math.floor(new Date().getTime())).unix(),
         description: "",
         isComplete: false,
         category: "",

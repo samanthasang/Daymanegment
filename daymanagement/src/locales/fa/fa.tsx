@@ -147,6 +147,8 @@ export const faLang = {
     SomThingWentWrong: "چیزی اشتباه شده",
   },
   Selected: {
+    firstName: "نام",
+    lastName: "نام خانوادگی",
     Priority: "اولویت",
     Status: "وضعیت",
     Type: "تایپ",

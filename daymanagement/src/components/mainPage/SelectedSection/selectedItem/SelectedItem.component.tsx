@@ -25,6 +25,8 @@ export const SelectedItem = ({
   id,
   priority,
   title,
+  firstName,
+  lastName,
   category,
   tag,
   isComplete,
@@ -76,6 +78,8 @@ export const SelectedItem = ({
   id: string;
   priority?: string;
   title: string;
+  firstName: string;
+  lastName: string;
   peopleId: string;
   spendsId?: string;
   visitId?: string;
@@ -140,6 +144,15 @@ export const SelectedItem = ({
             undefined
           }
         />
+        {drawerType == "Friends" && (
+          <div className="w-full flex flex-row justify-between gap-x-2">
+            <SelectedItemContainer
+              title={t.firstName}
+              description={firstName}
+            />
+            <SelectedItemContainer title={t.lastName} description={lastName} />
+          </div>
+        )}
         <div className="w-full flex flex-row justify-between gap-x-2">
           <SelectedItemContainer title={t.Category}>
             {category && <ListCategorySelected category={category} />}
@@ -255,7 +268,12 @@ export const SelectedItem = ({
         {drawerType != "Friends" && shareList && shareList.length > 0 && (
           <SelectedItemContainer title={t.Shares}>
             {shareList.map((share) => (
-              <SelectedShareItem key={share} id={share} />
+              <SelectedShareItem
+                key={share}
+                id={id}
+                shareid={share}
+                drawerType={drawerType || ""}
+              />
             ))}
           </SelectedItemContainer>
         )}

@@ -3,6 +3,7 @@ import ListSection from "@/components/mainPage/ListSection/ListSection.component
 import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import SelectHabbitListActivities from "@/lib/Hooks/Lists/Habbit/HabbitListActivities.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import dynamic from "next/dynamic";
 
 const SelectedSection = dynamic(
@@ -14,16 +15,17 @@ function HabbitList() {
   const { ListHabbitNew, ListMyHabbit, selectedHabbit } = UseHabbitList();
   const { CompleteItem, DelItem, SelectItem, UndoItem, PauseItem } =
     SelectHabbitListActivities();
+  const t: any = UseLangComponent("Habbits");
 
   return (
     <>
       <ListSection
         drawerType="Habbits"
         formType="Add"
-        drawerTitle="Habbit"
+        drawerTitle={t.single}
         selectedID={selectedHabbit && !!selectedHabbit.id}
-        ListFilteredTilte="Habbit"
-        ListForgotTilte="New Habbit"
+        ListFilteredTilte={t.title}
+        ListForgotTilte={t.forgotTilte}
         ListFilteredCount={FinishedArray(ListMyHabbit).length}
         ListForgotCount={FinishedArray(ListHabbitNew).length}
         ListFiltered={ListMyHabbit as []}
@@ -35,7 +37,7 @@ function HabbitList() {
       <SelectedSection
         drawerType="Habbits"
         formType="Edit"
-        drawerTitle="Habbit"
+        drawerTitle={t.single}
         CompleteItem={() =>
           CompleteItem(selectedHabbit.id, selectedHabbit.title)
         }

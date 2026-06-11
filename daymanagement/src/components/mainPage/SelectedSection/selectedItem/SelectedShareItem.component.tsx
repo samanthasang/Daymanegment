@@ -2,16 +2,29 @@
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/hook";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
-import { delShareList, selectShareList } from "@/modules/share/share.slice";
+import {
+  delShareList,
+  delVisitShareList,
+  selectShareList,
+} from "@/modules/share/share.slice";
+import { delSpendsListShare } from "@/modules/spends/spends.slice";
 import { Eye, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export const SelectedShareItem = ({ id }: { id: string }) => {
+export const SelectedShareItem = ({
+  id,
+  shareid,
+  drawerType,
+}: {
+  id: string;
+  shareid: string;
+  drawerType: string;
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { ListShareAll } = useShareList();
 
-  const share = ListShareAll.filter((share) => share.id == id)[0];
+  const share = ListShareAll.filter((share) => share.id == shareid)[0];
 
   return (
     <div className="w-full h-10 flex flex-row items-center justify-between rounded-3xl p-1 ">
@@ -20,7 +33,11 @@ export const SelectedShareItem = ({ id }: { id: string }) => {
         <Button
           onClick={(e) => {
             e && e.preventDefault();
-            dispatch(delShareList(id));
+            dispatch(delShareList(shareid));
+            drawerType == "Spends" &&
+              dispatch(delSpendsListShare({ id, spendsId: shareid }));
+            drawerType == "Visits" &&
+              dispatch(delVisitShareList({ id, visitId: shareid }));
           }}
           className="hover:bg-error/30"
           size="sm"
@@ -30,10 +47,10 @@ export const SelectedShareItem = ({ id }: { id: string }) => {
         <Button
           onClick={(e) => {
             e && e.preventDefault();
-            id &&
-              id &&
+            shareid &&
+              shareid &&
               dispatch(
-                selectShareList(id),
+                selectShareList(shareid),
                 router.push(`/shares?dateFrom=${share.doDate}`)
               );
           }}

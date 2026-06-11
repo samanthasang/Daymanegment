@@ -147,6 +147,8 @@ export const enLang = {
     SomThingWentWrong: "SomThing Went Wrong",
   },
   Selected: {
+    firstName: "First Name",
+    lastName: "Last Name",
     Priority: "Priority",
     Status: "Status",
     Type: "Type",
