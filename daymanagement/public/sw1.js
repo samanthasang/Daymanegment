@@ -8,7 +8,7 @@ const PRECACHE_URLS = [
   "/",
   "/todos",
   "/goals",
-  "/habbits",
+  "/habits",
   "/timers",
   "/reminders",
   "/installments",

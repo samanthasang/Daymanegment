@@ -8,9 +8,9 @@ function UseLangComponent(
   section:
     | "Todos"
     | "Reminders"
-    | "Habbits"
+    | "Habits"
     | "Timers"
-    | "Spends"
+    | "Transactions"
     | "CategoryList"
     | "TagList"
     | "Friends"

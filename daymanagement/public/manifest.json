@@ -1,50 +1,169 @@
 {
-  "name": "Mountains",
+  "name": "Mountains Day Management",
   "short_name": "Mountains",
-  "description": "Mountains Day Management APP",
+  "description": "Mountains Day Management APP - Organize your tasks, goals, and daily activities efficiently",
   "background_color": "#151E26",
   "theme_color": "#1C2733",
   "start_url": "/",
   "scope": "/",
   "orientation": "portrait-primary",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "dir": "ltr",
   "lang": "en-US",
+  "categories": ["productivity", "lifestyle", "organization"],
+  "id": "mountains-day-management",
+  "launch_handler": {
+    "client_mode": ["focus-existing", "auto"]
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "My Tasks",
+      "short_name": "Tasks",
+      "description": "View your tasks",
+      "url": "/todos",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "My Goals",
+      "short_name": "Goals",
+      "description": "View your goals",
+      "url": "/goals",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Habits",
+      "short_name": "Habits",
+      "description": "Track your habits",
+      "url": "/habits",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Timers",
+      "short_name": "Timers",
+      "description": "Manage your timers",
+      "url": "/timers",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/mobile-home.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home Screen"
+    },
+    {
+      "src": "/assets/screenshots/mobile-tasks.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Tasks Management"
+    },
+    {
+      "src": "/assets/screenshots/desktop-home.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop View"
+    }
+  ],
   "icons": [
     {
       "src": "/assets/icons/icon-48x48.png",
       "type": "image/png",
-      "sizes": "48x48"
+      "sizes": "48x48",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-72x72.png",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "any"
     },
     {
       "src": "/assets/icons/icon-96x96.png",
       "type": "image/png",
-      "sizes": "96x96"
+      "sizes": "96x96",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-114x114.png",
+      "type": "image/png",
+      "sizes": "114x114",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-128x128.png",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "any"
     },
     {
       "src": "/assets/icons/icon-144x144.png",
       "type": "image/png",
-      "sizes": "144x144"
+      "sizes": "144x144",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-152x152.png",
+      "type": "image/png",
+      "sizes": "152x152",
+      "purpose": "any"
     },
     {
       "src": "/assets/icons/icon-192x192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "/assets/icons/icon-256x256.png",
       "type": "image/png",
-      "sizes": "256x256"
+      "sizes": "256x256",
+      "purpose": "any"
     },
     {
       "src": "/assets/icons/icon-384x384.png",
       "type": "image/png",
-      "sizes": "384x384"
+      "sizes": "384x384",
+      "purpose": "any maskable"
     },
     {
       "src": "/assets/icons/icon-512x512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ]
 }

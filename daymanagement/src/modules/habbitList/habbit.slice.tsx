@@ -1,7 +1,8 @@
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ManipulateType } from "dayjs";
 
-export type Thabbit = {
+export type Thabit = {
   id: string;
   title: string;
   score: number;
@@ -16,22 +17,24 @@ export type Thabbit = {
   category: string;
   tag: string;
   dType: string;
+  everyDay: boolean;
+  customDays: string;
 };
 
 export interface InitialState {
-  ListHabbit: Thabbit[];
-  selectedhabbit: Thabbit | {};
+  ListHabit: Thabit[];
+  selectedhabit: Thabit | {};
 }
 
-export const habbitListSlice = createSlice({
-  reducerPath: "Habbits",
-  name: "@Habbits",
+export const habitListSlice = createSlice({
+  reducerPath: "Habits",
+  name: "@Habits",
   initialState: {
-    ListHabbit: [],
-    selectedhabbit: {},
+    ListHabit: [],
+    selectedhabit: {},
   },
   reducers: {
-    setHabbitList: (
+    setHabitList: (
       state: InitialState,
       action: PayloadAction<{
         id: string;
@@ -43,13 +46,13 @@ export const habbitListSlice = createSlice({
         isComplete: boolean;
         category: string;
         tag: string;
+        everyDay: boolean;
+        customDays: string;
       }>
     ) => {
-      state.ListHabbit = state.ListHabbit
+      state.ListHabit = state.ListHabit
         ? [
-            ...state.ListHabbit.filter(
-              (Habbit) => Habbit.id != action.payload.id
-            ),
+            ...state.ListHabit.filter((Habit) => Habit.id != action.payload.id),
             {
               id: action.payload.id,
               title: action.payload.title,
@@ -64,7 +67,9 @@ export const habbitListSlice = createSlice({
               doDate: action.payload.doDate,
               isComplete: false,
               isPause: false,
-              dType: "Habbit",
+              everyDay: action.payload.everyDay,
+              customDays: action.payload.customDays,
+              dType: "Habit",
             },
           ]
         : [
@@ -82,44 +87,48 @@ export const habbitListSlice = createSlice({
               doDate: action.payload.doDate,
               isComplete: false,
               isPause: false,
-              dType: "Habbit",
+              everyDay: action.payload.everyDay,
+              customDays: action.payload.customDays,
+              dType: "Habit",
             },
           ];
     },
-    delHabbitList: (state: InitialState, action: PayloadAction<string>) => {
-      state.ListHabbit = state.ListHabbit.filter(
-        (Habbit) => Habbit.id != action.payload
+    delHabitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListHabit = state.ListHabit.filter(
+        (Habit) => Habit.id != action.payload
       );
     },
-    completeHabbitList: (
-      state: InitialState,
-      action: PayloadAction<string>
-    ) => {
-      state.ListHabbit = state.ListHabbit.map((Habbit) =>
-        Habbit.id == action.payload
+    completeHabitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListHabit = state.ListHabit.map((Habit) =>
+        Habit.id == action.payload
           ? {
-              ...Habbit,
-              score: !Habbit.isComplete ? Habbit.score + 1 : Habbit.score - 1,
+              ...Habit,
+              score: !Habit.isComplete ? Habit.score + 1 : Habit.score - 1,
               highest:
-                Habbit.highest >= Habbit.score ? Habbit.highest : Habbit.score,
+                Habit.highest >= Habit.score ? Habit.highest : Habit.score,
               lastUpdate: currentUnixTimestamp,
-              isComplete: !Habbit.isComplete,
+              isComplete: !Habit.isComplete,
+              doDate: DayUnixAdd(
+                +Habit.doDate,
+                "day" as ManipulateType,
+                Habit.everyDay ? 1 : +(Habit.customDays ?? 1)
+              ),
             }
-          : Habbit
+          : Habit
       );
     },
-    PauseHabbitList: (state: InitialState, action: PayloadAction<string>) => {
-      state.ListHabbit = state.ListHabbit.map((Habbit) =>
-        Habbit.id == action.payload
+    PauseHabitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.ListHabit = state.ListHabit.map((Habit) =>
+        Habit.id == action.payload
           ? {
-              ...Habbit,
+              ...Habit,
               lastUpdate: currentUnixTimestamp,
-              isPause: !Habbit.isPause,
+              isPause: !Habit.isPause,
             }
-          : Habbit
+          : Habit
       );
     },
-    updateHabbitList: (
+    updateHabitList: (
       state: InitialState,
       action: PayloadAction<{
         id: any;
@@ -131,17 +140,19 @@ export const habbitListSlice = createSlice({
         category: string;
         tag: string;
         isComplete?: boolean;
+        everyDay: boolean;
+        customDays: string;
       }>
     ) => {
-      state.ListHabbit = state.ListHabbit.map((Habbit) =>
-        Habbit.id == action.payload.id
+      state.ListHabit = state.ListHabit.map((Habit) =>
+        Habit.id == action.payload.id
           ? {
-              ...Habbit,
+              ...Habit,
               title: action.payload.title,
               description: action.payload.description,
-              score: action.payload.score || Habbit.score,
+              score: action.payload.score || Habit.score,
               highest:
-                Habbit.highest > Habbit.score ? Habbit.highest : Habbit.score,
+                Habit.highest > Habit.score ? Habit.highest : Habit.score,
               priority: action.payload.priority,
               category: action.payload.category,
               tag: action.payload.tag,
@@ -150,28 +161,30 @@ export const habbitListSlice = createSlice({
               isComplete:
                 action.payload.isComplete != undefined
                   ? action.payload.isComplete
-                  : Habbit.isComplete,
-              dType: "Habbit",
+                  : Habit.isComplete,
+              dType: "Habit",
+              everyDay: action.payload.everyDay,
+              customDays: action.payload.customDays,
             }
-          : Habbit
+          : Habit
       );
     },
-    selectHabbitList: (state: InitialState, action: PayloadAction<string>) => {
-      state.selectedhabbit = state.ListHabbit.filter(
-        (Habbit) => Habbit.id == action.payload
+    selectHabitList: (state: InitialState, action: PayloadAction<string>) => {
+      state.selectedhabit = state.ListHabit.filter(
+        (Habit) => Habit.id == action.payload
       )[0];
     },
   },
 });
 
-export const habbitReducer = habbitListSlice.reducer;
-export const habbitReducerPath = habbitListSlice.reducerPath;
+export const habitReducer = habitListSlice.reducer;
+export const habitReducerPath = habitListSlice.reducerPath;
 
 export const {
-  completeHabbitList,
-  setHabbitList,
-  delHabbitList,
-  updateHabbitList,
-  selectHabbitList,
-  PauseHabbitList,
-} = habbitListSlice.actions;
+  completeHabitList,
+  setHabitList,
+  delHabitList,
+  updateHabitList,
+  selectHabitList,
+  PauseHabitList,
+} = habitListSlice.actions;

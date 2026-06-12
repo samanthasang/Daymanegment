@@ -19,14 +19,10 @@ export default function useQueryParams() {
       }
       // END RESET PAGE NUMBER
 
-      console.log(name);
-      console.log(value);
       if (value === false || value === "") {
         // REMOVE FILTER ACTION
 
         if (params.has(name)) {
-          console.log(params);
-          console.log(params.has(name));
           params.delete(name);
         }
       } else if (params.has(name)) {
@@ -38,7 +34,6 @@ export default function useQueryParams() {
         );
       }
       // RETURNING NEW PAGE URL
-      console.log(pathname + "?" + params.toString());
 
       return pathname + "?" + params.toString();
     },

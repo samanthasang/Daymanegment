@@ -9,8 +9,8 @@ function HomeSpendsItem() {
 
   return (
     <MenuItems
-      href={"/spends"}
-      title="Spends"
+      href={"/transactions"}
+      title="Transactions"
       infoNumber={`${IncomeArray(ListSpendsFiltered).length} | ${OutcomeArray(ListSpendsFiltered).length}`}
     />
   );

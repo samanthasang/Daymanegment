@@ -22,9 +22,9 @@ function MenuItems({
     title as
       | "Todos"
       | "Reminders"
-      | "Habbits"
+      | "Habits"
       | "Timers"
-      | "Spends"
+      | "Transactions"
       | "Friends"
       | "Visits"
       | "Goals"

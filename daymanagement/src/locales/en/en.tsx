@@ -11,10 +11,10 @@ export const enLang = {
     forgotTilte: "Old Reminders",
     drawerTitle: "Reminder",
   },
-  Habbits: {
-    title: "Habbits",
+  Habits: {
+    title: "Habits",
     single: "Habbit",
-    forgotTilte: "New Habbits",
+    forgotTilte: "New Habits",
     drawerTitle: "Habbit",
   },
   Timers: {
@@ -23,11 +23,11 @@ export const enLang = {
     forgotTilte: "Old Timers",
     drawerTitle: "Timer",
   },
-  Spends: {
-    title: "Spends",
-    single: "Spend",
-    forgotTilte: "Old Spends",
-    drawerTitle: "Spend",
+  Transactions: {
+    title: "Transactions",
+    single: "Transaction",
+    forgotTilte: "Old Transactions",
+    drawerTitle: "Transaction",
   },
   CategoryList: {
     title: "Category",
@@ -116,7 +116,7 @@ export const enLang = {
     AllTodos: "All Todos",
     DoneStatus: "Done Status",
     TodayTodos: "Today Todos",
-    AllSpends: "All Spends",
+    AllSpends: "All Transactions",
     Earn: "Earn",
     Spends: "Spends",
     Shares: "Shares",
@@ -177,6 +177,10 @@ export const enLang = {
     ShareList: "Share List",
     Score: "Score",
     Highest: "Highest",
+    habbitPeriod: "Habbit Period",
+    everyDay: "Every Day",
+    skip: "Skip",
+    days: "Days",
     StartTime: "Start Time",
     EndTime: "End Time",
     Timer: "Timer",

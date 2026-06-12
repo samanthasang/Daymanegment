@@ -20,7 +20,6 @@ export const GoalsItem = ({ item }: { item: TGoals }) => {
           id: item.id,
           title: item.title,
           doDate: item.doDate,
-          createDate: item.createDate ?? item.doDate,
           score: DayUnixDiff(item.doDate, "day") + 1,
           priority: item.priority,
           description: item.description,

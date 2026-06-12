@@ -13,6 +13,7 @@ import RemindersInfo from "../Reminder/RemindersInfo/InstallmentsInfo.component"
 import TimerInfo from "../Timer/TimerInfo/TimerInfo.component";
 import FriendsInfo from "../Friends/FriendsInfo/FriendsInfo.component";
 import ShareInfo from "../Share/ShareInfo/ShareInfo.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export function DrawerInfos({
   drawerType,
@@ -20,12 +21,13 @@ export function DrawerInfos({
   drawerType: string;
   className?: React.ComponentProps<"form">;
 }) {
+  const t: any = UseLangComponent("Drawer");
   switch (drawerType) {
     case "Todos":
       return <TodoInfo />;
     case "Spends":
       return <SpendsInfo />;
-    case "Habbits":
+    case "Habits":
       return <HabbitInfo />;
     case "Goals":
       return <GoalsInfo />;
@@ -50,7 +52,7 @@ export function DrawerInfos({
     default:
       return (
         <div className="grid gap-3">
-          <Label htmlFor="username">SomThing Went Wrong</Label>
+          <Label>{t.SomThingWentWrong}</Label>
         </div>
       );
   }

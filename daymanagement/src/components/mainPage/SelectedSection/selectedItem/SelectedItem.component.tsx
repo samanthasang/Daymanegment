@@ -39,6 +39,8 @@ export const SelectedItem = ({
   createDate,
   score,
   highest,
+  everyDay,
+  customDays,
   time,
   total,
   income,
@@ -112,6 +114,8 @@ export const SelectedItem = ({
   description?: string;
   score?: number;
   highest?: number;
+  everyDay: boolean;
+  customDays: string;
   timeDiff?: string;
   priodDiff?: string;
   drawerType?: string;
@@ -163,8 +167,8 @@ export const SelectedItem = ({
         </div>
         <SelectedItemDate
           completeUpdate={completeUpdate}
-          createDate={createDate || 0}
-          doDate={doDate || 0}
+          createDate={createDate}
+          doDate={doDate}
           lastUpdate={lastUpdate}
           priodDiff={priodDiff}
           startDate={startDate}
@@ -198,6 +202,8 @@ export const SelectedItem = ({
           score={score}
           highest={highest}
           drawerType={drawerType}
+          everyDay={everyDay}
+          customDays={customDays}
         />
         {drawerType == "Timers" && (
           <SelectedItemTimerList

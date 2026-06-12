@@ -5,6 +5,7 @@ import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { useState } from "react";
 
 function TodoInfo() {
@@ -26,26 +27,28 @@ function TodoInfo() {
   const OldTodosFinishLenght = NotFinishedArray(ListToDoForgot).length;
   const OldTodosNotFinishLenght = FinishedArray(ListToDoForgot).length;
 
+  const tTodo: any = UseLangComponent("Todos");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Todos"}
+          title={tTodo.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Todos"}
+          title={tTodo.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Todos :</span>
+        <span>{t.AllTodos}</span>
         {!forgot ? TodosLenght : OldTodosLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
+        <span>{t.DoneStatus}</span>
         <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
           <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
             {!forgot ? TodosFinishLenght : OldTodosFinishLenght}
@@ -56,7 +59,7 @@ function TodoInfo() {
         </div>
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Todos :</span>
+        <span>{t.TodayTodos}</span>
         <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
           <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
             {TodayTodosFinishLenght}

@@ -15,12 +15,12 @@ function HabbitList() {
   const { ListHabbitNew, ListMyHabbit, selectedHabbit } = UseHabbitList();
   const { CompleteItem, DelItem, SelectItem, UndoItem, PauseItem } =
     SelectHabbitListActivities();
-  const t: any = UseLangComponent("Habbits");
+  const t: any = UseLangComponent("Habits");
 
   return (
     <>
       <ListSection
-        drawerType="Habbits"
+        drawerType="Habits"
         formType="Add"
         drawerTitle={t.single}
         selectedID={selectedHabbit && !!selectedHabbit.id}
@@ -35,7 +35,7 @@ function HabbitList() {
         withComplateSort
       />
       <SelectedSection
-        drawerType="Habbits"
+        drawerType="Habits"
         formType="Edit"
         drawerTitle={t.single}
         CompleteItem={() =>

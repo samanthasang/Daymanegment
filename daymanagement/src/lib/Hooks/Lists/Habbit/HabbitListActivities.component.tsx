@@ -5,7 +5,7 @@ import {
   delHabbitList,
   PauseHabbitList,
   selectHabbitList,
-  Thabbit,
+  Thabit,
   updateHabbitList,
 } from "@/modules/habbitList/habbit.slice";
 import { toast } from "react-toastify";
@@ -38,11 +38,15 @@ function SelectHabbitListActivities() {
     id && selectedHabbit && dispatch(selectHabbitList(id));
     toast(`${title} is updated`);
   };
-  const UndoItem = (item: Thabbit) => {
+  const UndoItem = (item: Thabit) => {
     dispatch(
       updateHabbitList({
         ...item,
-        lastUpdate: DayUnixAdd(item.lastUpdate, "day", -1),
+        doDate: DayUnixAdd(
+          item.doDate,
+          "day",
+          !!item?.customDays ? -item?.customDays : -1
+        ),
         score: item.score - 1,
         isComplete: false,
       })

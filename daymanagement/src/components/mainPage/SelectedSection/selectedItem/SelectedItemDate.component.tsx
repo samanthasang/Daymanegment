@@ -31,7 +31,10 @@ export const SelectedItemDate = ({
     <>
       {!!createDate && (
         <SelectedItemContainer title={t.CreateDay}>
-          <div className="w-full flex flex-row justify-between gap-x-2" dir="ltr">
+          <div
+            className="w-full flex flex-row justify-between gap-x-2"
+            dir="ltr"
+          >
             <div className="flex flex-row items-center gap-x-1">
               <Calendar width={12} height={12} />
               {DayUnixFormat(createDate, "YYYY-MM-DD")}
@@ -45,7 +48,10 @@ export const SelectedItemDate = ({
       )}
       {!!doDate && (
         <SelectedItemContainer title={t.DoDay}>
-          <div className="w-full flex flex-row justify-between gap-x-2" dir="ltr">
+          <div
+            className="w-full flex flex-row justify-between gap-x-2"
+            dir="ltr"
+          >
             <div className="flex flex-row items-center gap-x-1">
               <Calendar width={12} height={12} />
               {DayUnixFormat(doDate, "YYYY-MM-DD")}
@@ -57,7 +63,7 @@ export const SelectedItemDate = ({
           </div>
         </SelectedItemContainer>
       )}
-      {birthDate && (
+      {!!birthDate && (
         <SelectedItemContainer title={t.BirthDay}>
           <div className="flex flex-row items-center gap-x-1" dir="ltr">
             <Calendar width={12} height={12} />
@@ -65,9 +71,12 @@ export const SelectedItemDate = ({
           </div>
         </SelectedItemContainer>
       )}
-      {startDate && (
+      {!!startDate && (
         <SelectedItemContainer title={t.StartDay}>
-          <div className="w-full flex flex-row justify-between gap-x-2" dir="ltr">
+          <div
+            className="w-full flex flex-row justify-between gap-x-2"
+            dir="ltr"
+          >
             <div className="flex flex-row items-center gap-x-1">
               <Calendar width={12} height={12} />
               {DayUnixFormat(startDate, "YYYY-MM-DD")}
@@ -79,9 +88,12 @@ export const SelectedItemDate = ({
           </div>
         </SelectedItemContainer>
       )}
-      {endDate && (
+      {!!endDate && (
         <SelectedItemContainer title={t.EndDay}>
-          <div className="w-full flex flex-row justify-between gap-x-2" dir="ltr">
+          <div
+            className="w-full flex flex-row justify-between gap-x-2"
+            dir="ltr"
+          >
             <div className="flex flex-row items-center gap-x-1">
               <Calendar width={12} height={12} />
               {DayUnixFormat(endDate, "YYYY-MM-DD")}
@@ -93,9 +105,12 @@ export const SelectedItemDate = ({
           </div>
         </SelectedItemContainer>
       )}
-      {lastUpdate && (
+      {!!lastUpdate && (
         <SelectedItemContainer title={t.LastUpdate}>
-          <div className="w-full flex flex-row justify-between gap-x-2" dir="ltr">
+          <div
+            className="w-full flex flex-row justify-between gap-x-2"
+            dir="ltr"
+          >
             <div className="flex flex-row items-center gap-x-1">
               <Calendar width={12} height={12} />
               {DayUnixFormat(lastUpdate, "YYYY-MM-DD")}
@@ -109,7 +124,10 @@ export const SelectedItemDate = ({
       )}
       {completeUpdate && (
         <SelectedItemContainer title={t.CompleteDay}>
-          <div className="w-full flex flex-row justify-between gap-x-2" dir="ltr">
+          <div
+            className="w-full flex flex-row justify-between gap-x-2"
+            dir="ltr"
+          >
             <div className="flex flex-row items-center gap-x-1">
               <Calendar width={12} height={12} />
               {DayUnixFormat(completeUpdate, "YYYY-MM-DD")}
@@ -121,7 +139,7 @@ export const SelectedItemDate = ({
           </div>
         </SelectedItemContainer>
       )}
-      {time && (
+      {!!time && (
         <SelectedItemContainer title={t.DoHour}>
           <div className="flex flex-row items-center gap-x-1" dir="ltr">
             <Clock width={12} height={12} />
@@ -129,7 +147,7 @@ export const SelectedItemDate = ({
           </div>
         </SelectedItemContainer>
       )}
-      {timeDiff && (
+      {!!timeDiff && (
         <SelectedItemContainer title={t.ReminderAfter}>
           <div className="flex flex-row items-center gap-x-1" dir="ltr">
             <Timer width={12} height={12} />

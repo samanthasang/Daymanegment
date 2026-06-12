@@ -20,8 +20,6 @@ export default function useFilters() {
       } else {
         url = getUrlWithNewQueryParam(parameter, value);
       }
-      console.log(parameter);
-      console.log(value);
 
       return url;
     },

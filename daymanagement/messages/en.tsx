@@ -11,10 +11,10 @@ export const enLang = {
     forgotTilte: "Old Reminders",
     drawerTitle: "Reminder",
   },
-  Habbits: {
-    title: "Habbits",
-    single: "Habbits",
-    forgotTilte: "New Habbits",
+  Habits: {
+    title: "Habits",
+    single: "Habits",
+    forgotTilte: "New Habits",
     drawerTitle: "Habbit",
   },
   Timers: {

@@ -1,88 +1,88 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
+import type { BeforeInstallPromptEvent } from "@/types/pwa";
 
-type PwaInfos = {
-  isInstallPromptSupported: boolean;
-  promptInstall: () => Promise<boolean> | null;
-  isStandalone: boolean;
-};
+interface UsePWAOptions {
+  onInstallPrompt?: () => void;
+  onAppInstalled?: () => void;
+}
 
-const initialState: PwaInfos = {
-  isInstallPromptSupported: false,
-  promptInstall: () => null,
-  isStandalone: true,
-};
+interface UsePWAReturn {
+  canInstall: boolean;
+  isInstalled: boolean;
+  isOnline: boolean;
+  showInstallPrompt: () => Promise<void>;
+}
 
-const usePWA = () => {
-  const [pwaInfos, setPwaInfos] = React.useState<PwaInfos>(initialState);
+export function usePWA(options: UsePWAOptions = {}): UsePWAReturn {
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [isInstalled, setIsInstalled] = useState<boolean>(false);
+  const [isOnline, setIsOnline] = useState<boolean>(
+    typeof navigator !== "undefined" ? navigator.onLine : true
+  );
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const beforeinstallpromptHandler = (e: Event) => {
-        // Prevent install prompt from showing so we can prompt it later
-        e.preventDefault();
+  useEffect(() => {
+    // Check if app is installed
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as any).standalone === true;
+    setIsInstalled(isStandalone);
 
-        const promptInstall = async () => {
-          // @ts-ignore
-          const promptRes = await e.prompt();
-          if (promptRes.outcome === "accepted") {
-            setPwaInfos({
-              ...pwaInfos,
-              isStandalone: true,
-            });
-            return true;
-          }
-          return false;
-        };
+    // Check online status
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
 
-        setPwaInfos({
-          isInstallPromptSupported: true,
-          promptInstall,
-          isStandalone: true,
-        });
-      };
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
-      const onAppInstalled = () => {
-        setTimeout(() => setPwaInfos({ ...pwaInfos, isStandalone: true }), 200);
-      };
+    // Before install prompt
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+      options.onInstallPrompt?.();
+    };
 
-      const onMatchMedia = () => {
-        setPwaInfos({
-          ...pwaInfos,
-          isStandalone: true,
-        });
-      };
+    // App installed event
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setDeferredPrompt(null);
+      options.onAppInstalled?.();
+    };
 
-      // Listen on the installation prompt. If this listener is triggered,
-      // it means PWA install is possible.
-      window.addEventListener(
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener(
         "beforeinstallprompt",
-        beforeinstallpromptHandler
+        handleBeforeInstallPrompt
       );
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, [options]);
 
-      // It's also possible to know when the user installed the app by
-      // listening the app installed event
-      window.addEventListener("appinstalled", onAppInstalled);
+  const showInstallPrompt = async (): Promise<void> => {
+    if (!deferredPrompt) return;
 
-      // On Chrome, when user opens the previous installed app
-      // from the website (via the shortcut in the address bar),
-      // we want to check again if the app is in standalone mode.
-      window.matchMedia("(display-mode: standalone)").addListener(onMatchMedia);
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
 
-      return () => {
-        // Cleanup event listeners
-        window.removeEventListener(
-          "beforeinstallprompt",
-          beforeinstallpromptHandler
-        );
-        window.removeEventListener("appinstalled", onAppInstalled);
-        window
-          .matchMedia("(display-mode: standalone)")
-          .removeEventListener("change", onMatchMedia);
-      };
+      if (outcome === "accepted") {
+        console.log("App installation accepted");
+        setDeferredPrompt(null);
+      }
+    } catch (error) {
+      console.error("Error showing install prompt:", error);
     }
-  }, [pwaInfos]);
+  };
 
-  return pwaInfos;
-};
-
-export default usePWA;
+  return {
+    canInstall: !!deferredPrompt && !isInstalled,
+    isInstalled,
+    isOnline,
+    showInstallPrompt,
+  };
+}

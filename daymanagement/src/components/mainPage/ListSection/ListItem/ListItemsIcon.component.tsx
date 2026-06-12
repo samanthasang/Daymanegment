@@ -1,5 +1,5 @@
 import {
-  BadgeDollarSign,
+  Banknote,
   BookUser,
   CalendarRange,
   CalendarSync,
@@ -8,7 +8,7 @@ import {
   ListTodo,
   Target,
   TimerIcon,
-  User,
+  User
 } from "lucide-react";
 
 function ListItemsIcon(title: string, size: number) {
@@ -17,12 +17,13 @@ function ListItemsIcon(title: string, size: number) {
       return <CalendarSync width={size} height={size} />;
     case "Todos":
       return <ListTodo width={size} height={size} />;
-    case "Habbits":
+    case "Habits":
       return <CalendarRange width={size} height={size} />;
     case "Timers":
       return <TimerIcon width={size} height={size} />;
+    case "Transactions":
     case "Spends":
-      return <BadgeDollarSign width={size} height={size} />;
+      return <Banknote width={size} height={size} />;
     case "Installments":
       return <FileSpreadsheet width={size} height={size} />;
     case "Visits":

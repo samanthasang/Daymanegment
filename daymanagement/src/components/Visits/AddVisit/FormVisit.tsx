@@ -175,10 +175,6 @@ export default function FormVisits({
                 doDate: date
                   ? Math.floor(new Date(date).getTime() / 1000.0)
                   : share.doDate,
-                createDate:
-                  share.createDate && share.createDate > 0
-                    ? +share.createDate
-                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 visitId: visitId,
@@ -196,10 +192,6 @@ export default function FormVisits({
                 doDate: date
                   ? Math.floor(new Date(date).getTime() / 1000.0)
                   : share.doDate,
-                createDate:
-                  share.createDate && share.createDate > 0
-                    ? +share.createDate
-                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 visitId: visitId,
@@ -292,6 +284,7 @@ export default function FormVisits({
           tag: getValues("tag"),
           dType: "Visit",
           description: share.description || getValues("description") || "",
+          lastUpdate: currentUnixTimestamp,
         },
       ];
 
@@ -320,6 +313,7 @@ export default function FormVisits({
       tag: getValues("tag"),
       dType: "Visit",
       description: shareItem.description || getValues("description") || "",
+      lastUpdate: currentUnixTimestamp,
     }));
 
     setValue(
@@ -457,6 +451,7 @@ export default function FormVisits({
           </>
         )}
       </div>
+
       <Controller
         defaultValue={""}
         name="category"

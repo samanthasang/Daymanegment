@@ -15,7 +15,7 @@ function SpendsList() {
   const { ListSpendsFiltered, ListSpendsForgot, selectedSpends } =
     useSpendsList();
   const { DelItem, SelectItem, DuplicateTodayItem } = SpendsListActivities();
-  const t: any = UseLangComponent("Spends");
+  const t: any = UseLangComponent("Transactions");
 
   return (
     <>

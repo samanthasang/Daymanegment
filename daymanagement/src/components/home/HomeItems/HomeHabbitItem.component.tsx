@@ -8,8 +8,8 @@ function HomeHabbitItem() {
 
   return (
     <MenuItems
-      href={"/habbits"}
-      title="Habbits"
+      href={"/habits"}
+      title="Habits"
       infoNumber={`${FinishedArray(ListHabbitAll).length} / ${ListHabbitAll?.length}`}
     />
   );

@@ -8,10 +8,10 @@ import {
   TGoals,
   updateGoalList,
 } from "@/modules/goalsList/goals.slice";
-import { toast } from "react-toastify";
-import { currentUnixTimestamp, DayUnixAdd, DayUnixDiff } from "../../UseDayJS";
-import useGoalsList from "./UseGoalsList.component";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
+import { DayUnixAdd, DayUnixDiff } from "../../UseDayJS";
+import useGoalsList from "./UseGoalsList.component";
 
 function GoalListActivities() {
   const dispatch = useAppDispatch();
@@ -35,42 +35,45 @@ function GoalListActivities() {
     toast(`${title} is updated`);
   };
   const BringTodayItem = (item: TGoals) => {
-      const oldDate = dayjs.unix(item.doDate);
-      const now = dayjs();
+    const oldDate = dayjs.unix(item.doDate);
+    const now = dayjs();
     dispatch(
-      updateGoalList({ ...item, 
-              doDate: dayjs(
-                new Date(
-                  now.year(),
-                  now.month(),
-                  now.date(),
-                  oldDate.hour(),
-                  oldDate.minute(),
-                  oldDate.second()
-                )
-              ).unix(), score: 0 })
+      updateGoalList({
+        ...item,
+        doDate: dayjs(
+          new Date(
+            now.year(),
+            now.month(),
+            now.date(),
+            oldDate.hour(),
+            oldDate.minute(),
+            oldDate.second()
+          )
+        ).unix(),
+        score: 0,
+      })
     );
     item.id && selectedGoal && dispatch(selectGoalList(item.id));
     toast(`${item.title} is updated`);
   };
   const DuplicateTodayItem = (item: TGoals) => {
-      const oldDate = dayjs.unix(item.doDate);
-      const now = dayjs();
+    const oldDate = dayjs.unix(item.doDate);
+    const now = dayjs();
     dispatch(
       setGoalList({
         ...item,
         id: "",
         title: `${item.title} copy`,
-                doDate: dayjs(
-                  new Date(
-                    now.year(),
-                    now.month(),
-                    now.date(),
-                    oldDate.hour(),
-                    oldDate.minute(),
-                    oldDate.second()
-                  )
-                ).unix(),
+        doDate: dayjs(
+          new Date(
+            now.year(),
+            now.month(),
+            now.date(),
+            oldDate.hour(),
+            oldDate.minute(),
+            oldDate.second()
+          )
+        ).unix(),
       })
     );
     item.id && selectedGoal && dispatch(selectGoalList(item.id));
@@ -81,7 +84,6 @@ function GoalListActivities() {
       updateGoalList({
         ...item,
         doDate: DayUnixAdd(item.doDate, "day", day),
-        createDate: item.createDate ?? item.doDate,
         score: DayUnixDiff(DayUnixAdd(item.doDate, "day", day), "day"),
       })
     );

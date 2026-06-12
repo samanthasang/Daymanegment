@@ -77,7 +77,7 @@ export function DrawerForms({
       return <FormReminder formType={formType} onSubmitForm={onSubmit} />;
     case "Todos":
       return <FormTodo formType={formType} onSubmitForm={onSubmit} />;
-    case "Habbits":
+    case "Habits":
       return <FormHabbit formType={formType} onSubmitForm={onSubmit} />;
     case "CategoryList":
       return <CategoryForm />;

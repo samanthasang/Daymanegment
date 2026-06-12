@@ -8,7 +8,7 @@ import SpendsItem from "@/components/Spends/SpendsItem/SpendsItem.component";
 import Timeritem from "@/components/Timer/TimerItem/TimerItem.component";
 import VisitsItem from "@/components/Visits/VisitsItem/VisitsItem.component";
 import { TGoals } from "@/modules/goalsList/goals.slice";
-import { Thabbit } from "@/modules/habbitList/habbit.slice";
+import { Thabit } from "@/modules/habbitList/habbit.slice";
 import { TInstallmentsts } from "@/modules/installmentstList/installmentst.slice";
 import { TPeople } from "@/modules/people/PeopleList.slice";
 import { TReminder } from "@/modules/reminderList/reminder.slice";
@@ -33,9 +33,9 @@ function ListDetailsItem({
     case "Spends":
     case "Spend":
       return List?.map((li: TSpends) => <SpendsItem key={li.id} item={li} />);
-    case "Habbits":
+    case "Habits":
     case "Habbit":
-      return List?.map((li: Thabbit) => <HabbitItem key={li.id} item={li} />);
+      return List?.map((li: Thabit) => <HabbitItem key={li.id} item={li} />);
     case "Goals":
     case "Goal":
       return List?.map((li: TGoals) => <GoalsItem key={li.id} item={li} />);

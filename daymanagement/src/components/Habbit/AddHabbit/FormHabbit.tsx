@@ -8,7 +8,6 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import {
   selectHabbitList,
@@ -30,6 +29,8 @@ interface IFormInputs {
   tag: string;
   doDate: number;
   createDate?: number;
+  everyDay: boolean;
+  customDays: string;
 }
 
 export default function FormHabbit({
@@ -52,6 +53,8 @@ export default function FormHabbit({
     tag: z.string().min(1, { message: "Tag is required" }),
     doDate: z.number().min(1, { message: "date is required" }),
     createDate: z.number().optional(),
+    everyDay: z.boolean(),
+    customDays: z.string(),
   });
   type FormData = z.infer<typeof formSchema>;
   const {
@@ -60,6 +63,7 @@ export default function FormHabbit({
     getValues,
     handleSubmit,
     register,
+    watch,
     formState: { errors },
     reset,
   } = useForm<FormData>({
@@ -74,6 +78,8 @@ export default function FormHabbit({
     if (formType != "Add" && selectedHabbit) {
       setValue("title", selectedHabbit?.title);
       setValue("description", selectedHabbit?.description);
+      setValue("everyDay", selectedHabbit?.everyDay ?? true);
+      setValue("customDays", selectedHabbit?.customDays ?? "1");
       setValue("priority", selectedHabbit?.priority);
       setValue("category", selectedHabbit?.category);
       setValue("tag", selectedHabbit?.tag);
@@ -114,6 +120,9 @@ export default function FormHabbit({
             score: selectedHabbit.score,
             category: data.category,
             tag: data.tag,
+            everyDay: data.everyDay,
+            customDays:
+              data.everyDay && !!data.customDays ? "1" : data.customDays,
           })
         )
       : dispatch(
@@ -129,6 +138,9 @@ export default function FormHabbit({
             score: 1,
             category: data.category,
             tag: data.tag,
+            everyDay: data.everyDay || true,
+            customDays:
+              data.everyDay && !!data.customDays ? "1" : data.customDays,
           })
         );
 
@@ -168,6 +180,53 @@ export default function FormHabbit({
         setDate={setDate}
         message={!date && !!errors.doDate?.message}
       />
+
+      <div className="bg-primary p-2 rounded-2xl flex flex-col gap-y-2">
+        <div className="w-full flex justify-center items-center gap-x-1 bg-primary rounded-full">
+          <div
+            className={cn(
+              "cursor-pointer w-full text-center py-1 rounded-xl px-1 hover:bg-card/15",
+              !!getValues("everyDay")
+                ? "bg-card/15 text-card"
+                : "text-TextForeground hover:text-white"
+            )}
+            onClick={() => setValue("everyDay", true)}
+          >
+            Every Day
+          </div>
+          <div
+            className={cn(
+              "cursor-pointer w-full text-center py-1 rounded-xl px-1 hover:bg-card/15",
+              !getValues("everyDay")
+                ? "bg-card/15 text-card"
+                : "text-TextForeground "
+            )}
+            onClick={() => setValue("everyDay", false)}
+          >
+            Custom Days
+          </div>
+        </div>
+        {!watch("everyDay") && (
+          <Controller
+            defaultValue={""}
+            name="customDays"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <InputField
+                title="Skip Days"
+                type="number"
+                // className="!text-white w-full px-3 border-white rounded py-1"
+                placeholder="Enter Advance Payment"
+                disabled={!!errors.customDays?.message}
+                content={errors.customDays?.message}
+                required
+                {...field}
+              />
+            )}
+          />
+        )}
+      </div>
 
       <Controller
         defaultValue={""}

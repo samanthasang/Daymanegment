@@ -1,1 +1,124 @@
-if(!self.define){let e,s={};const n=(n,a)=>(n=new URL(n+".js",a).href,s[n]||new Promise(s=>{if("document"in self){const e=document.createElement("script");e.src=n,e.onload=s,document.head.appendChild(e)}else e=n,importScripts(n),s()}).then(()=>{let e=s[n];if(!e)throw new Error(`Module ${n} didn’t register its module`);return e}));self.define=(a,i)=>{const c=e||("document"in self?document.currentScript.src:"")||location.href;if(s[c])return;let t={};const r=e=>n(e,c),o={module:{uri:c},exports:t,require:r};s[c]=Promise.all(a.map(e=>o[e]||r(e))).then(e=>(i(...e),t))}}define(["./workbox-f1770938"],function(e){"use strict";importScripts(),self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"/_next/static/chunks/237-7fb90ff2dd75b4de.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/382-d59c27e79ff8fb03.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/455-21eb4df53d07ce42.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/4bd1b696-6f8657089a0fb4c2.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/54-5a2fb2a836b153bf.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/562-6b377f692084159a.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/755-ef17f334aa52f366.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/_not-found/page-c9d5628a7e157d69.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/friends/page-28640e98f1648a68.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/goals/page-2800ab683ce5d1b7.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/habbits/page-3b973a79097f60d4.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/installments/page-4e73185f6a630a2d.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/layout-3db6cd949c72552b.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/offline/page-e42bf952a057b339.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/page-52d49bd8c4ff4297.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/reminders/page-46423f0a07285c30.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/shares/page-b96a7a6e6e04f271.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/spends/page-733f0cab80b6cc60.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/timers/page-52e89a254d5deb5d.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/todos/page-9435b131415868ad.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/app/visits/page-020717fa4b1f896d.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/framework-23759ace909c0a4a.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/main-4215a2573957bcf3.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/main-app-cf309402cb1dd06b.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/pages/_app-abffdcde9d309a0c.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/pages/_error-94b8133dd8229633.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/chunks/polyfills-42372ed130431b0a.js",revision:"846118c33b2c0e922d7b3a7676f81f6f"},{url:"/_next/static/chunks/webpack-34967a2901c7176b.js",revision:"fDnh051yFQrp3cKDa__xq"},{url:"/_next/static/css/1dbfedb565e3aea1.css",revision:"1dbfedb565e3aea1"},{url:"/_next/static/fDnh051yFQrp3cKDa__xq/_buildManifest.js",revision:"29bd6b838b953e5a7af112a9c233c3c6"},{url:"/_next/static/fDnh051yFQrp3cKDa__xq/_ssgManifest.js",revision:"b6652df95db52feb4daf4eca35380933"},{url:"/_next/static/media/463dafcda517f24f-s.p.woff",revision:"cbeb6d2d96eaa268b4b5beb0b46d9632"},{url:"/assets/icons/apple-icon-152x152.png",revision:"de378bc32b0889476fbf86607a2d1285"},{url:"/assets/icons/apple-icon-167x167.png",revision:"215840be2541ca18830a08e67e37f7a4"},{url:"/assets/icons/apple-icon-180x180.png",revision:"c4d7b231d2339f119d7822ecf925fa77"},{url:"/assets/icons/icon-114x114.png",revision:"2edbdf79e9000376e22cb3458482852a"},{url:"/assets/icons/icon-144x144.png",revision:"9d499bb494777ffd81da5abd77697c26"},{url:"/assets/icons/icon-192x192.png",revision:"7f809a66177d9f0514d23c05aea647cd"},{url:"/assets/icons/icon-256x256.png",revision:"4ffd88a93c46472ba053c44eb57664eb"},{url:"/assets/icons/icon-384x384.png",revision:"b13ef4e6074017b0dfb98d25294bed0d"},{url:"/assets/icons/icon-48x48.png",revision:"c991b970e725c39c47dfacbdb5cd98ab"},{url:"/assets/icons/icon-512x512.png",revision:"5383f184d714cb14d672bfceb8a1e385"},{url:"/assets/icons/icon-57x57.png",revision:"d2b4d6e827702267f9899d13064f84fd"},{url:"/assets/icons/icon-72x72.png",revision:"55ea6fa9f8f6ac676e42e4016206364a"},{url:"/assets/icons/icon-76x76.png",revision:"488ea6fc1c6b430b7be36cefb56f317a"},{url:"/assets/icons/icon-96x96.png",revision:"1a0db6dc3929cbe1805853d5966bdc6b"},{url:"/file.svg",revision:"cb15540b83420cb9b81987da5d44d9db"},{url:"/globe.svg",revision:"d6066198061ef37513f43e7c882afdfc"},{url:"/manifest.json",revision:"f18c1499c4a42107bbe38efecf60e73f"},{url:"/next.svg",revision:"8e061864f388b47f33a1c3780831193e"},{url:"/sw1.js",revision:"a5565459d9c9d58506275de3aa8d6acc"},{url:"/sw2.js",revision:"a10fba756ea1806b015bc87dda63c375"},{url:"/swe-worker-5c72df51bb1f6ee0.js",revision:"5a47d90db13bb1309b25bdf7b363570e"},{url:"/vercel.svg",revision:"c0af2f507b369b085b35ef4bbe3bcf1e"},{url:"/window.svg",revision:"c3ec7f229f9a92b12997aa6af1d606aa"}],{ignoreURLParametersMatching:[/^utm_/,/^fbclid$/]}),e.cleanupOutdatedCaches(),e.registerRoute("/",new e.NetworkFirst({cacheName:"start-url",plugins:[{cacheWillUpdate:function(e){return _ref.apply(this,arguments)}}]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-webfonts",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:31536e3})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,new e.StaleWhileRevalidate({cacheName:"google-fonts-stylesheets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,new e.StaleWhileRevalidate({cacheName:"static-font-assets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,new e.StaleWhileRevalidate({cacheName:"static-image-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/\/_next\/static.+\.js$/i,new e.CacheFirst({cacheName:"next-static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/image\?url=.+$/i,new e.StaleWhileRevalidate({cacheName:"next-image",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp3|wav|ogg)$/i,new e.CacheFirst({cacheName:"static-audio-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp4|webm)$/i,new e.CacheFirst({cacheName:"static-video-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:js)$/i,new e.StaleWhileRevalidate({cacheName:"static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:48,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:css|less)$/i,new e.StaleWhileRevalidate({cacheName:"static-style-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/data\/.+\/.+\.json$/i,new e.StaleWhileRevalidate({cacheName:"next-data",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:json|xml|csv)$/i,new e.NetworkFirst({cacheName:"static-data-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(function(e){var s=e.sameOrigin,n=e.url.pathname;return!(!s||n.startsWith("/api/auth/callback")||!n.startsWith("/api/"))},new e.NetworkFirst({cacheName:"apis",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:16,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(function(e){var s=e.request,n=e.url.pathname,a=e.sameOrigin;return"1"===s.headers.get("RSC")&&"1"===s.headers.get("Next-Router-Prefetch")&&a&&!n.startsWith("/api/")},new e.NetworkFirst({cacheName:"pages-rsc-prefetch",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(function(e){var s=e.request,n=e.url.pathname,a=e.sameOrigin;return"1"===s.headers.get("RSC")&&a&&!n.startsWith("/api/")},new e.NetworkFirst({cacheName:"pages-rsc",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(function(e){var s=e.url.pathname;return e.sameOrigin&&!s.startsWith("/api/")},new e.NetworkFirst({cacheName:"pages",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(function(e){return!e.sameOrigin},new e.NetworkFirst({cacheName:"cross-origin",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:3600})]}),"GET"),self.__WB_DISABLE_DEV_LOGS=!0});
+// public/sw.js
+const CACHE_NAME = "mountains-v1";
+const OFFLINE_URL = "/offline";
+
+// Only cache static assets during install (not dynamic routes)
+const STATIC_ASSETS = [
+  "/",
+  "/offline",
+  "/manifest.json",
+  "/assets/icons/icon-48x48.png",
+  "/assets/icons/icon-72x72.png",
+  "/assets/icons/icon-96x96.png",
+  "/assets/icons/icon-128x128.png",
+  "/assets/icons/icon-144x144.png",
+  "/assets/icons/icon-152x152.png",
+  "/assets/icons/icon-192x192.png",
+  "/assets/icons/icon-256x256.png",
+  "/assets/icons/icon-384x384.png",
+  "/assets/icons/icon-512x512.png",
+];
+
+
+// Install event
+self.addEventListener('install', (event) => {
+  console.log('[SW] Installing...');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(async (cache) => {
+      for (const asset of STATIC_ASSETS) {
+        try {
+          const response = await fetch(asset);
+          if (response.ok) {
+            await cache.put(asset, response);
+          }
+        } catch (error) {
+          console.log(`[SW] Failed to cache ${asset}:`, error);
+        }
+      }
+    })
+  );
+  self.skipWaiting();
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating...');
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter((name) => name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
+      );
+    })
+  );
+  // Ensure the service worker takes control immediately
+  event.waitUntil(self.clients.claim());
+  console.log('[SW] Activated!');
+});
+
+// Add a message handler to respond to ping messages
+self.addEventListener('message', (event) => {
+  console.log('[SW] Message received:', event.data);
+  
+  if (event.data && event.data.type === 'PING') {
+    // Respond back to the client
+    if (event.ports && event.ports[0]) {
+      event.ports[0].postMessage({ type: 'PONG' });
+    } else {
+      // Fallback for clients without MessagePort
+      event.source.postMessage({ type: 'PONG' });
+    }
+  }
+});
+
+// Fetch event with proper error handling
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Skip non-GET requests and cross-origin requests
+  if (request.method !== 'GET' || url.origin !== location.origin) {
+    return;
+  }
+
+  // Navigation requests - Network first, fallback to cache
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(async () => {
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          return caches.match(OFFLINE_URL);
+        })
+    );
+    return;
+  }
+
+  // Static assets - Cache first with network fallback
+  event.respondWith(
+    caches.match(request).then((cached) => {
+      if (cached) return cached;
+      return fetch(request).then((response) => {
+        if (response.ok && request.method === 'GET') {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
+        }
+        return response;
+      });
+    }).catch(() => {
+      // Fallback for images that fail completely
+      if (request.destination === 'image') {
+        return new Response(null, { status: 404, statusText: 'Not Found' });
+      }
+      return new Response('Offline content unavailable', { status: 503 });
+    })
+  );
+});

@@ -11,7 +11,10 @@ import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import {
+  currentUnixTimestamp,
+  currentUnixTimestampZero,
+} from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import { addFriendsListShare } from "@/modules/people/PeopleList.slice";
 import {
@@ -145,10 +148,6 @@ export default function FormSpends({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate:
-              data.createDate && data.createDate > 0
-                ? data.createDate
-                : data.doDate,
             numberOfProduct: data.numberOfProduct || "",
             priceOfProduct: data.priceOfProduct || "",
             incomeAmount: data.incomeAmount || "",
@@ -166,7 +165,6 @@ export default function FormSpends({
             doDate: date
               ? Math.floor(new Date(date).getTime() / 1000.0)
               : data.doDate,
-            createDate: currentUnixTimestamp,
             numberOfProduct: data.numberOfProduct || "",
             shareList: shareList.map((share) => share.id) || [],
             priceOfProduct: data.priceOfProduct || "",
@@ -190,10 +188,6 @@ export default function FormSpends({
                 doDate: date
                   ? Math.floor(new Date(date).getTime() / 1000.0)
                   : share.doDate,
-                createDate:
-                  share.createDate && share.createDate > 0
-                    ? +share.createDate
-                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 spendsId: spendsId,
@@ -211,10 +205,6 @@ export default function FormSpends({
                 doDate: date
                   ? Math.floor(new Date(date).getTime() / 1000.0)
                   : share.doDate,
-                createDate:
-                  share.createDate && share.createDate > 0
-                    ? +share.createDate
-                    : share.doDate,
                 incomeAmount: share.incomeAmount || "",
                 outcomeAmount: share.outcomeAmount || "",
                 spendsId: spendsId,
@@ -309,6 +299,8 @@ export default function FormSpends({
           category: getValues("category"),
           tag: getValues("tag"),
           description: share.description || getValues("description") || "",
+          lastUpdate: currentUnixTimestamp,
+          dType: "Spend",
         },
       ];
 
@@ -336,6 +328,8 @@ export default function FormSpends({
       category: getValues("category"),
       tag: getValues("tag"),
       description: shareItem.description || getValues("description") || "",
+      lastUpdate: currentUnixTimestamp,
+      dType: "Spend",
     }));
 
     setValue(

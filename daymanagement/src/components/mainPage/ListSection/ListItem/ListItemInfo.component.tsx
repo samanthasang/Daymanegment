@@ -78,8 +78,8 @@ export const ListItemInfo = ({
                 </label>
               </div>
             )}
-            {drawerType == "Habbits" && ` | `}
-            {drawerType == "Habbits" && (
+            {drawerType == "Habits" && ` | `}
+            {drawerType == "Habits" && (
               <label
                 className={cn(
                   "cursor-pointer px-2 py-1 rounded-2xl",
@@ -113,7 +113,7 @@ export const ListItemInfo = ({
           </div>
         </label>
       )}
-      {/* {drawerType !== "Habbits" &&
+      {/* {drawerType !== "Habits" &&
         drawerType !== "Visits" &&
         drawerType !== "Goals" &&
         drawerType != "Spends" &&

@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-globals */
-const CACHE_NAME = 'next-app-precache-v1';
+const CACHE_NAME = "next-app-precache-v1";
 const PRECACHE_URLS = [
   "/",
   "/todos",
   "/goals",
-  "/habbits",
+  "/habits",
   "/timers",
   "/reminders",
   "/installments",
@@ -15,10 +15,10 @@ const PRECACHE_URLS = [
   "/offline",
   "/manifest.json",
   "/icons/icon-192.png",
-  "/icons/icon-512.png"
+  "/icons/icon-512.png",
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
@@ -28,17 +28,17 @@ self.addEventListener('install', (event) => {
   );
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
   const { request } = event;
 
-  if (request.method !== 'GET') return;
+  if (request.method !== "GET") return;
 
   // Navigation requests: network first, fallback to cache/offline
-  if (request.mode === 'navigate') {
+  if (request.mode === "navigate") {
     event.respondWith(
       (async () => {
         try {
@@ -48,7 +48,7 @@ self.addEventListener('fetch', (event) => {
           // If offline, check if the request is in our list, else show /offline
           const cached = await caches.match(request);
           if (cached) return cached;
-          return await caches.match('/offline');
+          return await caches.match("/offline");
         }
       })()
     );
@@ -63,7 +63,7 @@ self.addEventListener('fetch', (event) => {
 
       try {
         const response = await fetch(request);
-        if (response && response.status === 200 && response.type === 'basic') {
+        if (response && response.status === 200 && response.type === "basic") {
           const cache = await caches.open(CACHE_NAME);
           cache.put(request, response.clone());
         }

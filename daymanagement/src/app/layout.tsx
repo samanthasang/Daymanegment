@@ -10,6 +10,7 @@ import PWAInstallPrompt from "./PWAInstallPrompt";
 // import { NextIntlClientProvider } from "next-intl";
 
 import { useAppSelector } from "@/lib/hook";
+import { ReduxProvider } from "@/components/ReduxProvider";
 
 const geistSans = localFont({
   src: "./fonts/GoogleSansFlex.ttf",
@@ -53,17 +54,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // useEffect(() => {
-  //   if ("serviceWorker" in navigator) {
-  //     navigator.serviceWorker
-  //       .register("/sw.js", {
-  //         type: "module", // This is the key change
-  //       })
-  //       .catch((err) => {
-  //         console.error("Service worker registration failed:", err);
-  //       });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js", {
+          type: "module", // This is the key change
+        })
+        .catch((err) => {
+          console.error("Service worker registration failed:", err);
+        });
+    }
+  }, []);
   return (
     <html lang="en">
       <head>
@@ -73,17 +74,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider store={store}>
+        <ReduxProvider>
           {/* <NextIntlClientProvider locale="en"> */}
-            <ToastContainer />
-            <SplashGate>
-              <div className="min-h-dvh bg-primary">
-                <PWAInstallPrompt />
-                {children}
-              </div>
-            </SplashGate>
+          <ToastContainer />
+          <SplashGate>
+            <div className="min-h-dvh bg-primary">
+              <PWAInstallPrompt />
+              {children}
+            </div>
+          </SplashGate>
           {/* </NextIntlClientProvider> */}
-        </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );

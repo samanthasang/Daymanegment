@@ -240,7 +240,7 @@
       },
       {
         "id": "JLplromM4BgzhKAcFPkmZ",
-        "title": "finish My Habbits",
+        "title": "finish My Habits",
         "priority": "Medium",
         "category": "_J1pUjWD-J_mx6zBpXsG8",
         "description": "",
@@ -749,7 +749,7 @@
       "isPause": true
     }
   },
-  "Habbits": {
+  "Habits": {
     "ListHabbit": [
       {
         "id": "MFWesSlRANjuM93_DnrGm",
@@ -838,7 +838,7 @@
         "isPause": false
       }
     ],
-    "selectedhabbit": {
+    "selectedhabit": {
       "id": "tMDj76pGocyc7CB8cI3LD",
       "title": "Exercise",
       "priority": "High",

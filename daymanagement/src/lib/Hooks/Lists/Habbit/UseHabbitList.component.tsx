@@ -1,23 +1,19 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
-import { Thabbit, updateHabbitList } from "@/modules/habbitList/habbit.slice";
+import { Thabit, updateHabitList } from "@/modules/habbitList/habbit.slice";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import TagFilter from "../../Filters/TagFilter.componen";
 import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
 import { useEffect } from "react";
-import {
-  currentUnixTimestamp,
-  currentUnixTimestampZero,
-  DayUnixDiff,
-} from "../../UseDayJS";
+import { currentUnixTimestamp, DayUnixDiff } from "../../UseDayJS";
 
 function UseHabbitList() {
   const dispatch = useAppDispatch();
-  const Habbit = useAppSelector((state) => state.Habbits);
+  const Habit = useAppSelector((state) => state.Habits);
 
-  const selectedHabbit = Habbit?.selectedhabbit as Thabbit;
-  const ListHabbit = Habbit?.ListHabbit as Thabbit[];
+  const selectedHabbit = Habit?.selectedhabit as Thabit;
+  const ListHabbit = Habit?.ListHabit as Thabit[];
 
   const categoryArray = CategoryFilter([...ListHabbit] as any);
 
@@ -30,22 +26,21 @@ function UseHabbitList() {
 
   const oldListAfterFilter = TagFilter([...oldCategoryArray] as any);
 
-  const dateUpOrderArray: Thabbit[] = DatePlusOrderFilter(ListMyHabbit);
-  const dateDOwnOrderArray: Thabbit[] =
-    DateMinusOrderFilter(oldListAfterFilter);
+  const dateUpOrderArray: Thabit[] = DatePlusOrderFilter(ListMyHabbit);
+  const dateDOwnOrderArray: Thabit[] = DateMinusOrderFilter(oldListAfterFilter);
 
   useEffect(() => {
     ListHabbit.map((item) =>
       item.isPause
         ? dispatch(
-            updateHabbitList({
+            updateHabitList({
               ...item,
               doDate: currentUnixTimestamp,
             })
           )
         : (DayUnixDiff(item.doDate, "day") < -1 &&
             dispatch(
-              updateHabbitList({
+              updateHabitList({
                 ...item,
                 doDate: currentUnixTimestamp,
                 score: item.score + 1 + DayUnixDiff(item.doDate, "day"),
@@ -54,7 +49,7 @@ function UseHabbitList() {
             )) ||
           (DayUnixDiff(item.doDate, "day") < 0 &&
             dispatch(
-              updateHabbitList({
+              updateHabitList({
                 ...item,
                 doDate: currentUnixTimestamp,
                 isComplete: false,

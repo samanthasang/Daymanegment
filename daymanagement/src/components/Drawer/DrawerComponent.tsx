@@ -19,6 +19,7 @@ import { FieldErrors } from "react-hook-form";
 import { DrawerForms } from "./DrawerForms";
 import { DrawerIcon } from "./DrawerIcon";
 import { DrawerInfos } from "./DrawerInfos";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 export function DrawerDialogDemo({
   drawerType,
@@ -65,6 +66,8 @@ export function DrawerDialogDemo({
   const [open, setOpen] = useState(false);
   const { isMDMin } = useMediaQueryValues();
 
+  const t: any = UseLangComponent("Drawer");
+
   const openDrawer = (e: boolean) => {
     setOpen(e);
   };
@@ -83,9 +86,9 @@ export function DrawerDialogDemo({
               <DialogTitle>
                 {formType != "Info"
                   ? formType != "Edit"
-                    ? "Add "
-                    : "Edit "
-                  : "Info "}
+                    ? t.Add
+                    : t.edit
+                  : t.info}
                 {formType == "Info" ? drawerType : drawerTitle}
               </DialogTitle>
             </div>
