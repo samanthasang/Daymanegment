@@ -49,8 +49,11 @@ function TodoInfo() {
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
         <span>{t.DoneStatus}</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {!forgot ? TodosFinishLenght : OldTodosFinishLenght}
           </span>
           <span className="text-errorRed">
@@ -60,8 +63,11 @@ function TodoInfo() {
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
         <span>{t.TodayTodos}</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {TodayTodosFinishLenght}
           </span>
           <span className="text-errorRed">{TodayTodosNotFinishLenght}</span>

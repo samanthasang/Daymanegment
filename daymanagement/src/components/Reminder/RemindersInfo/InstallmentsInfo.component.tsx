@@ -5,6 +5,7 @@ import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { useState } from "react";
 
 function RemindersInfo() {
@@ -35,28 +36,33 @@ function RemindersInfo() {
   const OldRemindersFinishLenght = NotFinishedArray(ListReminderForgot).length;
   const OldRemindersNotFinishLenght = FinishedArray(ListReminderForgot).length;
 
+  const tReminders: any = UseLangComponent("Reminders");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Reminders"}
+          title={tReminders.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Reminders"}
+          title={tReminders.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Reminders :</span>
+        <span>{t.AllReminders}</span>
         {!forgot ? RemindersLenght : OldRemindersLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.DoneStatus}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {!forgot ? RemindersFinishLenght : OldRemindersFinishLenght}
           </span>
           <span className="text-errorRed">
@@ -65,13 +71,16 @@ function RemindersInfo() {
         </div>
       </div>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>In 10 days Reminders :</span>
+        <span>{t.TenDaysReminders}</span>
         {RemindersTenDayLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Reminders :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.TodayReminders}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {TodayRemindersFinishLenght}
           </span>
           <span className="text-errorRed">{TodayRemindersNotFinishLenght}</span>

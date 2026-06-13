@@ -6,6 +6,7 @@ import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { useState } from "react";
 
 function VisitsInfo() {
@@ -66,29 +67,34 @@ function VisitsInfo() {
     return acc;
   }, 0);
 
+  const tVisits: any = UseLangComponent("Visits");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Visits"}
+          title={tVisits.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Visits"}
+          title={tVisits.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Visits :</span>
+        <span>{t.AllVisits}</span>
         {!forgot ? VisitsLenght : OldVisitsLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
-            {!forgot ? VisitsFinishLenght : OldVisitsFinishLenght}{" "}
+        <span>{t.DoneStatus}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
+            {!forgot ? VisitsFinishLenght : OldVisitsFinishLenght}
           </span>
           <span className="text-errorRed">
             {!forgot ? VisitsNotFinishLenght : OldVisitsNotFinishLenght}
@@ -96,9 +102,12 @@ function VisitsInfo() {
         </div>
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Paytment :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.Payment}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {!forgot ? VisitsPaymentArray : OldVisitsPaymentArray}
           </span>
           <span className="text-errorRed">
@@ -107,18 +116,24 @@ function VisitsInfo() {
         </div>
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Visits :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.TodayVisits}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {TodayVisitsFinishLenght}
           </span>
           <span className="text-errorRed">{TodayVisitsNotFinishLenght}</span>
         </div>
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Payment :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.TodayPayment}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {TodayVisitsPaymentArray}
           </span>
           <span className="text-errorRed">{TodayVisitsAdvanceArray}</span>

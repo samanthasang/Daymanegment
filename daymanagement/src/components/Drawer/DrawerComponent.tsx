@@ -20,6 +20,7 @@ import { DrawerForms } from "./DrawerForms";
 import { DrawerIcon } from "./DrawerIcon";
 import { DrawerInfos } from "./DrawerInfos";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
+import { useAppSelector } from "@/lib/hook";
 
 export function DrawerDialogDemo({
   drawerType,
@@ -66,6 +67,7 @@ export function DrawerDialogDemo({
   const [open, setOpen] = useState(false);
   const { isMDMin } = useMediaQueryValues();
 
+  const { lang } = useAppSelector((state) => state.Menu);
   const t: any = UseLangComponent("Drawer");
 
   const openDrawer = (e: boolean) => {
@@ -74,12 +76,49 @@ export function DrawerDialogDemo({
   const onSubmitFormHandler = () => {
     onSubmitForm && onSubmitForm();
   };
+  const translateTitle = () => {
+    switch (drawerType) {
+      case "Todos":
+        return t.titleTodos;
+      case "Spends":
+        return t.titleSpends;
+      case "Habits":
+        return t.titleHabits;
+      case "Goals":
+        return t.titleGoals;
+      case "Visits":
+        return t.titleVisits;
+      case "Installments":
+        return t.titleInstallments;
+      case "Reminders":
+        return t.titleReminders;
+      case "Timers":
+        return t.titleTimers;
+      case "Friends":
+        return t.titleFriends;
+      case "Shares":
+        return t.titleShares;
+      case "BootomsList":
+        return t.titleBootomsList;
+      case "MenuList":
+        return t.titleMenuList;
+      case "FilterList":
+        return t.titleFilterList;
+
+      default:
+        return t.titleTodos;
+    }
+  };
+  console.log(translateTitle());
 
   if (isMDMin) {
     return (
       <Dialog open={open} onOpenChange={(e) => openDrawer(e)}>
         {children}
-        <DialogContent className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter p-3 gap-y-3 backdrop-blur-md rounded-2xl">
+        <DialogContent
+          dir={lang == "en" ? "ltr" : "rtl"}
+          className="max-w-[425px] sm:max-w-fit w-fit bg-secondary backdrop-filter p-3 gap-y-3 backdrop-blur-md rounded-2xl"
+        >
           <DialogHeader>
             <div className="flex justify-start items-center gap-x-1">
               <DrawerIcon formType={formType} />
@@ -89,7 +128,7 @@ export function DrawerDialogDemo({
                     ? t.Add
                     : t.edit
                   : t.info}
-                {formType == "Info" ? drawerType : drawerTitle}
+                {formType == "Info" ? translateTitle() : t[`${drawerTitle}`]}
               </DialogTitle>
             </div>
           </DialogHeader>

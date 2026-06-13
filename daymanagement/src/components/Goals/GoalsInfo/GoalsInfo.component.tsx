@@ -5,6 +5,7 @@ import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { useState } from "react";
 
 function GoalsInfo() {
@@ -27,28 +28,33 @@ function GoalsInfo() {
   const OldGoalsFinishLenght = NotFinishedArray(ListGoalsForgot).length;
   const OldGoalsNotFinishLenght = FinishedArray(ListGoalsForgot).length;
 
+  const tGoals: any = UseLangComponent("Goals");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Goals"}
+          title={tGoals.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Goals"}
+          title={tGoals.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Goals :</span>
+        <span>{t.AllGoals}</span>
         {!forgot ? GoalsLenght : OldGoalsLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.DoneStatus}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {!forgot ? GoalsFinishLenght : OldGoalsFinishLenght}{" "}
           </span>
           <span className="text-errorRed">
@@ -57,9 +63,12 @@ function GoalsInfo() {
         </div>
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Goals :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.TodayGoals}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {TodayGoalsFinishLenght}
           </span>
           <span className="text-errorRed">{TodayGoalsNotFinishLenght}</span>

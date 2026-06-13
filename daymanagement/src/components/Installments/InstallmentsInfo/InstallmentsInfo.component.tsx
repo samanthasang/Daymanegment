@@ -5,6 +5,7 @@ import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { useState } from "react";
 
 function InstallmentsInfo() {
@@ -48,28 +49,33 @@ function InstallmentsInfo() {
     ListInstallmentsForgot
   ).length;
 
+  const tInstallments: any = UseLangComponent("Installments");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Installments"}
+          title={tInstallments.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Installments"}
+          title={tInstallments.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Installments :</span>
+        <span>{t.AllInstallments}</span>
         {!forgot ? InstallmentsLenght : OldInstallmentsLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.DoneStatus}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {!forgot ? InstallmentsFinishLenght : OldInstallmentsFinishLenght}
           </span>
           <span className="text-errorRed">
@@ -80,13 +86,16 @@ function InstallmentsInfo() {
         </div>
       </div>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>In 10 days Installments :</span>
+        <span>{t.TenDaysReminders}</span>
         {InstallmentsTenDayLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Installments :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.TodayInstallments}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {TodayInstallmentsFinishLenght}
           </span>
           <span className="text-errorRed">

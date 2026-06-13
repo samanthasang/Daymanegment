@@ -5,6 +5,7 @@ import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -61,28 +62,33 @@ function TimerInfo() {
   const oldEndD = dayjs.unix(oldTimersEndTimeArray);
   const oldDiff = dayjs.duration(oldEndD.diff(oldStartD));
 
+  const tTimers: any = UseLangComponent("Timers");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Timers"}
+          title={tTimers.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Timers"}
+          title={tTimers.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Timers :</span>
+        <span>{t.AllTimers}</span>
         {!forgot ? TimersLenght : OldTimersLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.DoneStatus}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {!forgot ? TimersFinishLenght : OldTimersFinishLenght}
           </span>
           <span className="text-errorRed">
@@ -91,7 +97,7 @@ function TimerInfo() {
         </div>
       </div>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Timers :</span>
+        <span>{t.DoneTimers}</span>
         <label>
           {!forgot ? (
             <>
@@ -117,9 +123,12 @@ function TimerInfo() {
         </label>
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today Timers :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.TodayTimers}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {TodayTimersFinishLenght}
           </span>
           <span className="text-errorRed">{TodayTimersNotFinishLenght}</span>

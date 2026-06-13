@@ -5,6 +5,7 @@ import IncomeFilter from "@/lib/Hooks/Filters/IncomeFilter.componen";
 import IncomeMFilter from "@/lib/Hooks/Filters/IncomeMFilter.componen";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import { currentUnixTimestampZero, DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import { CircleDollarSign } from "lucide-react";
 import { useState } from "react";
@@ -70,28 +71,30 @@ function ShareInfo() {
       return acc;
     }, 0);
 
+  const tShares: any = UseLangComponent("Shares");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Shares"}
+          title={tShares.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"Old Shares"}
+          title={tShares.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Shares :</span>
+        <span>{t.AllShares}</span>
         {!forgot ? SharesLenght : OldSharesLenght}
       </div>
       <div className="flex justify-between items-center text-successGreen bg-primary py-1 px-3 rounded-3xl">
-        <span>Earn :</span>
+        <span>{t.Earn}</span>
         {!forgot ? (
-          <div className="flex items-center gap-x-1">
+          <div dir="ltr" className="flex items-center gap-x-1">
             <CircleDollarSign
               width={16}
               height={16}
@@ -100,7 +103,7 @@ function ShareInfo() {
             <label>{SharesIncomeArray}</label>
           </div>
         ) : (
-          <div className="flex items-center gap-x-1">
+          <div dir="ltr" className="flex items-center gap-x-1">
             <CircleDollarSign
               width={16}
               height={16}
@@ -111,9 +114,9 @@ function ShareInfo() {
         )}
       </div>
       <div className="flex justify-between items-center text-errorRed bg-primary py-1 px-3 rounded-3xl">
-        <span>Shares :</span>
+        <span>{t.Spends}</span>
         {!forgot ? (
-          <div className="flex items-center gap-x-1">
+          <div dir="ltr" className="flex items-center gap-x-1">
             <CircleDollarSign
               width={16}
               height={16}
@@ -122,7 +125,7 @@ function ShareInfo() {
             <label>{SharesOutcomeArray}</label>
           </div>
         ) : (
-          <div className="flex items-center gap-x-1">
+          <div dir="ltr" className="flex items-center gap-x-1">
             <CircleDollarSign
               width={16}
               height={16}
@@ -141,9 +144,9 @@ function ShareInfo() {
             : "text-errorRed"
         )}
       >
-        <span className="text-blue-500">Total :</span>
+        <span className="text-blue-500">{t.Total}</span>
         {!forgot ? (
-          <div className="flex items-center gap-x-1">
+          <div dir="ltr" className="flex items-center gap-x-1">
             <CircleDollarSign
               width={16}
               height={16}
@@ -152,7 +155,7 @@ function ShareInfo() {
             <label>{SharesIncomeArray - SharesOutcomeArray}</label>
           </div>
         ) : (
-          <div className="flex items-center gap-x-1">
+          <div dir="ltr" className="flex items-center gap-x-1">
             <CircleDollarSign
               width={16}
               height={16}
@@ -163,9 +166,12 @@ function ShareInfo() {
         )}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Today :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-1">
-          <div className="flex items-center gap-x-1 text-successGreen border-r-2 border-blue-500 pr-1">
+        <span>{t.Today}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-1"
+        >
+          <div className="flex items-center gap-x-1 text-successGreen border-r-2 border-blue-500 pr-1 mr-0.5">
             <CircleDollarSign width={16} height={16} />
             <label>{EarnToday}</label>
           </div>

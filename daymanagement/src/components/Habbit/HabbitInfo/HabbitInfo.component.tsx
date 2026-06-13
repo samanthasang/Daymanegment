@@ -4,6 +4,7 @@ import ListTitleContainer from "@/components/mainPage/ListSection/ListContainer/
 import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import NotFinishedArray from "@/lib/Hooks/ListInfo/NotFinishedArray.componen";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { useState } from "react";
 
 function HabbitInfo() {
@@ -18,28 +19,33 @@ function HabbitInfo() {
   const OldHabbitFinishLenght = NotFinishedArray(ListHabbitNew).length;
   const OldHabbitNotFinishLenght = FinishedArray(ListHabbitNew).length;
 
+  const tHabit: any = UseLangComponent("Habits");
+  const t: any = UseLangComponent("Drawer");
   return (
     <div className="w-full min-w-96 flex flex-col gap-y-2">
       <ListTitleContainer>
         <ListTitle
           forgot={!forgot}
           setForgot={() => setForgot(false)}
-          title={"Habbit"}
+          title={tHabit.title}
         />
         <ListTitle
           forgot={forgot}
           setForgot={() => setForgot(true)}
-          title={"New Habbit"}
+          title={tHabit.forgotTilte}
         />
       </ListTitleContainer>
       <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>All Habbit :</span>
+        <span>{t.AllHabit}</span>
         {!forgot ? HabbitLenght : OldHabbitLenght}
       </div>
       <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>Done Status :</span>
-        <div className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5">
-          <span className="text-successGreen border-r-[1px] pr-1 border-blue-500">
+        <span>{t.DoneStatus}</span>
+        <div
+          dir="ltr"
+          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+        >
+          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
             {!forgot ? HabbitFinishLenght : OldHabbitFinishLenght}
           </span>
           <span className="text-errorRed">
