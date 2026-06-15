@@ -2,14 +2,14 @@
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { CalendarDialog } from "@/components/ui/calenderWithDialog";
-import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
+import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
-import { currentUnixTimestamp, DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import { DayUnixDiff } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ import {
   setGoalList,
   updateGoalList,
 } from "../../../modules/goalsList/goals.slice";
-import { CalendarWithTime } from "@/components/ui/calenderWithTime";
+import FormButtons from "@/components/FormItem/FormButton";
 
 interface IFormInputs {
   title: string;
@@ -44,6 +44,8 @@ export default function FormGoals({
   const dispatch = useAppDispatch();
   const { selectedGoal } = useGoalsList();
   const [date, setDate] = useState<Date>();
+  const t: any = UseLangComponent("Form");
+  const tPriority: any = UseLangComponent("Priority");
 
   // creating a schema for strings
   const formSchema = z.object({
@@ -160,20 +162,18 @@ export default function FormGoals({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Task Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
           />
         )}
       />
-
       <CalendarWithTime
         dateValue={date}
         setDate={setDate}
         message={!date && !!errors.doDate?.message}
       />
-
       <Controller
         defaultValue={""}
         name="priority"
@@ -181,14 +181,14 @@ export default function FormGoals({
         rules={{ required: true }}
         render={({ field }) => (
           <SelectField
-            title="Priority"
-            placeholder="Choose Priority"
+            title={t.priority}
+            placeholder={t.ChoosePriority}
             required
             invalid={!field.value && !!errors.priority?.message}
             itemArray={[
-              { id: "High", title: "High" },
-              { id: "Medium", title: "Medium" },
-              { id: "Low", title: "Low" },
+              { id: "High", title: tPriority.High },
+              { id: "Medium", title: tPriority.Medium },
+              { id: "Low", title: tPriority.Low },
             ]}
             onValueChange={(data) => data && handlePriority(data)}
             {...field}
@@ -202,7 +202,6 @@ export default function FormGoals({
           />
         )}
       />
-
       <Controller
         defaultValue={""}
         name="category"
@@ -217,7 +216,6 @@ export default function FormGoals({
           />
         )}
       />
-
       <Controller
         defaultValue={""}
         name="tag"
@@ -232,7 +230,6 @@ export default function FormGoals({
           />
         )}
       />
-
       <Controller
         defaultValue={""}
         name="description"
@@ -241,21 +238,12 @@ export default function FormGoals({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
-      />
-      <div className="flex gap-4">
-        {selectedGoal?.title && (
-          <Button type="button" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      />{" "}
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

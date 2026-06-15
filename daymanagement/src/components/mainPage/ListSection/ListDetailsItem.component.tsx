@@ -34,7 +34,7 @@ function ListDetailsItem({
     case "Spend":
       return List?.map((li: TSpends) => <SpendsItem key={li.id} item={li} />);
     case "Habits":
-    case "Habbit":
+    case "Habit":
       return List?.map((li: Thabit) => <HabbitItem key={li.id} item={li} />);
     case "Goals":
     case "Goal":

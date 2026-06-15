@@ -104,7 +104,6 @@ export function DrawerDialogDemo({
         return t.titleMenuList;
       case "FilterList":
         return t.titleFilterList;
-
       default:
         return t.titleTodos;
     }

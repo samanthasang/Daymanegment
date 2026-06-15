@@ -1,12 +1,18 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
 import { Thabit, updateHabitList } from "@/modules/habbitList/habbit.slice";
+import { ManipulateType } from "dayjs";
+import { useEffect } from "react";
 import CategoryFilter from "../../Filters/CategoryFilter.componen";
 import TagFilter from "../../Filters/TagFilter.componen";
-import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
 import DateMinusOrderFilter from "../../ListFilter/DateMinusOrderFilter.component";
-import { useEffect } from "react";
-import { currentUnixTimestamp, DayUnixDiff } from "../../UseDayJS";
+import DatePlusOrderFilter from "../../ListFilter/DatePlusOrderFilter.component";
+import {
+  currentUnixTimestampZero,
+  DayUnixAdd,
+  DayUnixDiff,
+  TomorrowUnixTimestampZero,
+} from "../../UseDayJS";
 
 function UseHabbitList() {
   const dispatch = useAppDispatch();
@@ -35,14 +41,17 @@ function UseHabbitList() {
         ? dispatch(
             updateHabitList({
               ...item,
-              doDate: currentUnixTimestamp,
             })
           )
         : (DayUnixDiff(item.doDate, "day") < -1 &&
             dispatch(
               updateHabitList({
                 ...item,
-                doDate: currentUnixTimestamp,
+                doDate: DayUnixAdd(
+                  +item.doDate,
+                  "day" as ManipulateType,
+                  item.everyDay ? 1 : +(item.customDays ?? 1)
+                ),
                 score: item.score + 1 + DayUnixDiff(item.doDate, "day"),
                 isComplete: false,
               })
@@ -51,18 +60,28 @@ function UseHabbitList() {
             dispatch(
               updateHabitList({
                 ...item,
-                doDate: currentUnixTimestamp,
+                doDate: DayUnixAdd(
+                  +item.doDate,
+                  "day" as ManipulateType,
+                  item.everyDay ? 1 : +(item.customDays ?? 1)
+                ),
                 isComplete: false,
               })
             ))
     );
   }, []);
 
+  const ListHabbitToday = ListHabbit.filter(
+    (a) =>
+      +a.doDate >= currentUnixTimestampZero &&
+      +a.doDate < TomorrowUnixTimestampZero
+  );
   return {
     ListMyHabbit: dateUpOrderArray,
     ListHabbitAll: ListHabbit,
     ListHabbitNew: dateDOwnOrderArray,
     selectedHabbit,
+    ListHabbitToday,
   };
 }
 

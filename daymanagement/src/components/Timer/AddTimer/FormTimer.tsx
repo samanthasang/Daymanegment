@@ -1,13 +1,13 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import FormButtons from "@/components/FormItem/FormButton";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
-import { Button } from "@/components/ui/button";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import {
   selectTimerList,
   setTimerList,
@@ -38,6 +38,7 @@ export default function FormTimer({
 }) {
   const dispatch = useAppDispatch();
   const { ListTimerAll, selectedTimer } = useTimerList();
+  const t: any = UseLangComponent("Form");
 
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -169,14 +170,13 @@ export default function FormTimer({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Reminder Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
           />
         )}
       />
-
       <Controller
         defaultValue={""}
         name="category"
@@ -191,7 +191,6 @@ export default function FormTimer({
           />
         )}
       />
-
       <Controller
         defaultValue={""}
         name="tag"
@@ -206,21 +205,18 @@ export default function FormTimer({
           />
         )}
       />
-
       <CalendarWithTime
-        title="start time"
+        title={t.start}
         dateValue={startDate}
         setDate={setStartDate}
         message={!startDate && !!errors.startDate?.message}
       />
-
       <CalendarWithTime
-        title="end time"
+        title={t.end}
         dateValue={endDate}
         setDate={setEndDate}
         message={!endDate && !!errors.endDate?.message}
       />
-
       <Controller
         defaultValue={""}
         name="description"
@@ -229,21 +225,12 @@ export default function FormTimer({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
       />
-      <div className="flex gap-4">
-        {selectedTimer?.title && (
-          <Button type="submit" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

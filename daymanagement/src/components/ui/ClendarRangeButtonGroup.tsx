@@ -1,5 +1,6 @@
 import { ButtonGroup } from "@/components/ui/buttonGroup";
 import { Field, FieldError } from "@/components/ui/field";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import React from "react";
@@ -15,6 +16,7 @@ export function ClendarButtonGroup({
   errors: boolean;
   children: React.ReactNode;
 }) {
+  const t: any = UseLangComponent("Form");
   return (
     <Field data-invalid={errors}>
       <ButtonGroup>
@@ -24,7 +26,7 @@ export function ClendarButtonGroup({
             !dateValue && "text-muted-foreground"
           )}
         >
-          {dateValue ? format(dateValue, "PPP") : <span>Pick a date</span>}
+          {dateValue ? format(dateValue, "PPP") : <span>{t.PickDate}</span>}
         </div>
         <div
           className={cn(
@@ -32,7 +34,7 @@ export function ClendarButtonGroup({
             !dateValue && "text-muted-foreground"
           )}
         >
-          {dateValue ? format(dateValue, "PPP") : <span>Pick a date</span>}
+          {dateValue ? format(dateValue, "PPP") : <span>{t.PickDate}</span>}
         </div>
         <div>{children}</div>
       </ButtonGroup>

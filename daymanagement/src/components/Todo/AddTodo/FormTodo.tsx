@@ -8,7 +8,6 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -20,6 +19,8 @@ import {
   setToDoList,
   updateToDoList,
 } from "../../../modules/toDoList/todo.slice";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
+import FormButtons from "@/components/FormItem/FormButton";
 
 interface IFormInputs {
   title: string;
@@ -40,6 +41,8 @@ export default function FormTodo({
 }) {
   const dispatch = useAppDispatch();
   const { selectedToDo } = useTodoList();
+  const t: any = UseLangComponent("Form");
+  const tPriority: any = UseLangComponent("Priority");
 
   const [date, setDate] = useState<Date>();
 
@@ -154,7 +157,7 @@ export default function FormTodo({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Task Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -175,14 +178,14 @@ export default function FormTodo({
         rules={{ required: true }}
         render={({ field }) => (
           <SelectField
-            title="Priority"
-            placeholder="Choose Priority"
+            title={t.priority}
+            placeholder={t.ChoosePriority}
             required
             invalid={!field.value && !!errors.priority?.message}
             itemArray={[
-              { id: "High", title: "High" },
-              { id: "Medium", title: "Medium" },
-              { id: "Low", title: "Low" },
+              { id: "High", title: tPriority.High },
+              { id: "Medium", title: tPriority.Medium },
+              { id: "Low", title: tPriority.Low },
             ]}
             onValueChange={(data) => data && handlePriority(data)}
             {...field}
@@ -235,22 +238,12 @@ export default function FormTodo({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
       />
-
-      <div className="flex gap-4">
-        {formType != "Add" && (
-          <Button type="button" className="flex-1" onClick={() => onReset()}>
-            reset
-          </Button>
-        )}
-        <Button type="submit" variant="default" className="flex-1">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

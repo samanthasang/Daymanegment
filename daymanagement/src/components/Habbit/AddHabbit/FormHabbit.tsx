@@ -8,11 +8,12 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import {
-  selectHabbitList,
-  setHabbitList,
-  updateHabbitList,
+  selectHabitList,
+  setHabitList,
+  updateHabitList,
 } from "@/modules/habbitList/habbit.slice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { nanoid } from "@reduxjs/toolkit";
@@ -43,6 +44,8 @@ export default function FormHabbit({
   const dispatch = useAppDispatch();
   const { selectedHabbit } = UseHabbitList();
   const [date, setDate] = useState<Date>();
+  const t: any = UseLangComponent("Form");
+  const tPriority: any = UseLangComponent("Priority");
 
   // creating a schema for strings
   const formSchema = z.object({
@@ -109,7 +112,7 @@ export default function FormHabbit({
   const onSubmit: SubmitHandler<IFormInputs> = (data) => {
     formType == "Edit"
       ? dispatch(
-          updateHabbitList({
+          updateHabitList({
             id: selectedHabbit.id,
             title: data.title,
             description: data.description || "",
@@ -126,7 +129,7 @@ export default function FormHabbit({
           })
         )
       : dispatch(
-          setHabbitList({
+          setHabitList({
             id: nanoid(),
             title: data.title,
             description: data.description || "",
@@ -148,7 +151,7 @@ export default function FormHabbit({
       ? toast(`${data.title} is updated`)
       : toast(`${data.title} is created`);
 
-    dispatch(selectHabbitList(""));
+    dispatch(selectHabitList(""));
     reset();
     onSubmitForm();
   };
@@ -166,8 +169,7 @@ export default function FormHabbit({
           <InputField
             title="Title"
             type="string"
-            // className="!text-white w-full px-3 border-white rounded py-1"
-            placeholder="Enter Task Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -192,7 +194,7 @@ export default function FormHabbit({
             )}
             onClick={() => setValue("everyDay", true)}
           >
-            Every Day
+            {t.EveryDay}
           </div>
           <div
             className={cn(
@@ -203,7 +205,7 @@ export default function FormHabbit({
             )}
             onClick={() => setValue("everyDay", false)}
           >
-            Custom Days
+            {t.CustomDays}
           </div>
         </div>
         {!watch("everyDay") && (
@@ -216,8 +218,7 @@ export default function FormHabbit({
               <InputField
                 title="Skip Days"
                 type="number"
-                // className="!text-white w-full px-3 border-white rounded py-1"
-                placeholder="Enter Advance Payment"
+                placeholder={t.SkipDay}
                 disabled={!!errors.customDays?.message}
                 content={errors.customDays?.message}
                 required
@@ -235,14 +236,14 @@ export default function FormHabbit({
         rules={{ required: true }}
         render={({ field }) => (
           <SelectField
-            title="Priority"
-            placeholder="Choose Priority"
+            title={t.priority}
+            placeholder={t.ChoosePriority}
             required
             invalid={!field.value && !!errors.priority?.message}
             itemArray={[
-              { id: "High", title: "High" },
-              { id: "Medium", title: "Medium" },
-              { id: "Low", title: "Low" },
+              { id: "High", title: tPriority.High },
+              { id: "Medium", title: tPriority.Medium },
+              { id: "Low", title: tPriority.Low },
             ]}
             onValueChange={(data) => data && handlePriority(data)}
             value={field.value}
@@ -294,7 +295,7 @@ export default function FormHabbit({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}

@@ -1,5 +1,6 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import FormButtons from "@/components/FormItem/FormButton";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
@@ -8,7 +9,7 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import {
   selectReminderList,
@@ -43,6 +44,8 @@ export default function FormReminder({
 }) {
   const dispatch = useAppDispatch();
   const { selectedReminder } = useReminderList();
+  const t: any = UseLangComponent("Form");
+  const tPriority: any = UseLangComponent("Priority");
 
   const [date, setDate] = useState<Date>();
 
@@ -173,20 +176,18 @@ export default function FormReminder({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Reminder Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
           />
         )}
       />
-
       <CalendarWithTime
         dateValue={date}
         setDate={setDate}
         message={!date && !!errors.doDate?.message}
       />
-
       <Controller
         defaultValue={""}
         name="timeDiff"
@@ -196,7 +197,7 @@ export default function FormReminder({
           <InputField
             title="Title"
             type="number"
-            placeholder="Number for Repeat"
+            placeholder={t.repeat}
             disabled={!!errors.timeDiff?.message}
             required
             {...field}
@@ -211,14 +212,14 @@ export default function FormReminder({
         render={({ field }) => (
           <SelectField
             title="priodDiff"
-            placeholder="Choose Priod"
+            placeholder={t.ChoosePriod}
             required
             invalid={!field.value && !!errors.priodDiff?.message}
             itemArray={[
-              { id: "hour", title: "Hour" },
-              { id: "day", title: "Day" },
-              { id: "month", title: "Month" },
-              { id: "year", title: "Year" },
+              { id: "hour", title: t.hour },
+              { id: "day", title: t.day },
+              { id: "month", title: t.month },
+              { id: "year", title: t.year },
             ]}
             onValueChange={(data) => data && handlePriod(data)}
             {...field}
@@ -239,14 +240,14 @@ export default function FormReminder({
         rules={{ required: true }}
         render={({ field }) => (
           <SelectField
-            title="Priority"
-            placeholder="Choose Priority"
+            title={t.priority}
+            placeholder={t.ChoosePriority}
             required
             invalid={!field.value && !!errors.priority?.message}
             itemArray={[
-              { id: "High", title: "High" },
-              { id: "Medium", title: "Medium" },
-              { id: "Low", title: "Low" },
+              { id: "High", title: tPriority.High },
+              { id: "Medium", title: tPriority.Medium },
+              { id: "Low", title: tPriority.Low },
             ]}
             onValueChange={(data) => data && handlePriority(data)}
             {...field}
@@ -296,21 +297,12 @@ export default function FormReminder({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
       />
-      <div className="flex gap-4">
-        {formType != "Add" && (
-          <Button type="submit" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

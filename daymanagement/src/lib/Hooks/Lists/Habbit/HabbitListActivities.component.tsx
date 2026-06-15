@@ -1,12 +1,12 @@
 "use client";
 import { useAppDispatch } from "@/lib/hook";
 import {
-  completeHabbitList,
-  delHabbitList,
-  PauseHabbitList,
-  selectHabbitList,
+  completeHabitList,
+  delHabitList,
+  PauseHabitList,
+  selectHabitList,
   Thabit,
-  updateHabbitList,
+  updateHabitList,
 } from "@/modules/habbitList/habbit.slice";
 import { toast } from "react-toastify";
 import { DayUnixAdd } from "../../UseDayJS";
@@ -18,29 +18,29 @@ function SelectHabbitListActivities() {
   const { selectedHabbit } = UseHabbitList();
 
   const SelectItem = () => {
-    dispatch(selectHabbitList(""));
+    dispatch(selectHabitList(""));
   };
   const SelectWithId = (id: string) => {
-    dispatch(selectHabbitList(id));
+    dispatch(selectHabitList(id));
   };
   const DelItem = (id: string, title: string) => {
-    dispatch(delHabbitList(id));
+    dispatch(delHabitList(id));
     SelectItem();
     toast(`${title} is deleted`);
   };
   const CompleteItem = (id: string, title: string) => {
-    dispatch(completeHabbitList(id));
-    id && selectedHabbit && dispatch(selectHabbitList(id));
+    dispatch(completeHabitList(id));
+    id && selectedHabbit && dispatch(selectHabitList(id));
     toast(`${title} is updated`);
   };
   const PauseItem = (id: string, title: string) => {
-    dispatch(PauseHabbitList(id));
-    id && selectedHabbit && dispatch(selectHabbitList(id));
+    dispatch(PauseHabitList(id));
+    id && selectedHabbit && dispatch(selectHabitList(id));
     toast(`${title} is updated`);
   };
   const UndoItem = (item: Thabit) => {
     dispatch(
-      updateHabbitList({
+      updateHabitList({
         ...item,
         doDate: DayUnixAdd(
           item.doDate,
@@ -51,7 +51,7 @@ function SelectHabbitListActivities() {
         isComplete: false,
       })
     );
-    item.id && selectedHabbit && dispatch(selectHabbitList(item.id));
+    item.id && selectedHabbit && dispatch(selectHabitList(item.id));
     toast(`${item.title} is updated`);
   };
   return {

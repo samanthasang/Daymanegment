@@ -4,7 +4,7 @@ import HabbitList from "./HabbitList/HabbitList.component";
 function HabbitListComponent() {
   return (
     <PageContainer witDate={false}>
-        <HabbitList />
+      <HabbitList />
     </PageContainer>
   );
 }

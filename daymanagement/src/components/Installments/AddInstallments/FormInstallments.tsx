@@ -10,7 +10,6 @@ import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
 import {
-  currentUnixTimestampZero,
   DayUnixAdd
 } from "@/lib/Hooks/UseDayJS";
 import { cn } from "@/lib/utils";

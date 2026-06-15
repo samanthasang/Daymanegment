@@ -14,6 +14,7 @@ import { Card, CardContent } from "./card";
 import { ClendarButtonGroup } from "./ClendarButtonGroup";
 import { Field, FieldGroup, FieldLabel } from "./field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -39,6 +40,7 @@ function CalendarWithTime({
   title?: string;
   message?: boolean;
 }) {
+  const t: any = UseLangComponent("Form");
   const handleInputChange = (event: any) => {
     const yearMMDD = dayjs(dateValue).format("YYYY, MM, DD");
 

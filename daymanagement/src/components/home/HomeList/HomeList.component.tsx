@@ -1,27 +1,22 @@
 "use client";
-import PageContainer from "@/components/mainPage/Page/PageContainer/PageContainer.component";
-import HomeListContainer from "./HomeListContainer.component";
-import SectionOne from "./SectionOne.component";
-import SectionThree from "./SectionThree.component";
-import SectionTwo from "./SectionTwoList.component";
-import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
-import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
-import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
-import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
-import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
-import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
-import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
 import ListSection from "@/components/mainPage/ListSection/ListSection.component";
 import SelectedSection from "@/components/mainPage/SelectedSection/SelectedSection.component";
-import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import FinishedArray from "@/lib/Hooks/ListInfo/FinishedArray.componen";
+import useGoalsList from "@/lib/Hooks/Lists/Goal/UseGoalsList.component";
 import UseHabbitList from "@/lib/Hooks/Lists/Habbit/UseHabbitList.component";
-import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
+import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
+import useReminderList from "@/lib/Hooks/Lists/Reminder/UseReminderList.component";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
+import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
+import useTimerList from "@/lib/Hooks/Lists/Timer/UseTimerList.component";
+import useTodoList from "@/lib/Hooks/Lists/Todo/UseTodoList.component";
+import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
 
 function HomeList() {
   const { ListTodoToday } = useTodoList();
   const { ListGoalsToday } = useGoalsList();
-  const { ListHabbitAll } = UseHabbitList();
+  const { ListHabbitToday } = UseHabbitList();
   const { ListTimerFiltered } = useTimerList();
   const { ListReminderToday } = useReminderList();
   const { ListVisitToday, selectedVisit } = useVisitList();
@@ -37,6 +32,7 @@ function HomeList() {
     ...ListInstallmentsToday,
     ...ListSpendsToday,
     ...ListSharesToday,
+    ...ListHabbitToday,
   ];
   const ListTimerFuture = ListTimerFiltered.filter(
     (a) => +a.startDate >= currentUnixTimestamp
