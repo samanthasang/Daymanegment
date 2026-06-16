@@ -1,20 +1,17 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import FormButtons from "@/components/FormItem/FormButton";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
-import { CalendarDialog } from "@/components/ui/calenderWithDialog";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
-import { ClendarButtonGroup } from "@/components/ui/ClendarButtonGroup";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useSpendsList from "@/lib/Hooks/Lists/Spends/UseSpendsList.component";
-import {
-  currentUnixTimestamp,
-  currentUnixTimestampZero,
-} from "@/lib/Hooks/UseDayJS";
+import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import { addFriendsListShare } from "@/modules/people/PeopleList.slice";
 import {
@@ -60,6 +57,7 @@ export default function FormSpends({
 }) {
   const dispatch = useAppDispatch();
   const { selectedSpends } = useSpendsList();
+  const t: any = UseLangComponent("Form");
 
   const [date, setDate] = useState<Date>();
   const [spendsIdSelected, setSpendsIdSelected] = useState<string>();
@@ -363,7 +361,7 @@ export default function FormSpends({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Task Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -388,7 +386,7 @@ export default function FormSpends({
             )}
             onClick={() => setValue("income", false)}
           >
-            Buy
+            {t.buy}
           </div>
           <div
             className={cn(
@@ -399,7 +397,7 @@ export default function FormSpends({
             )}
             onClick={() => setValue("income", true)}
           >
-            Recive
+            {t.recive}
           </div>
         </div>
 
@@ -414,7 +412,7 @@ export default function FormSpends({
                 <InputField
                   title="NumberOfProduct"
                   type="number"
-                  placeholder="Number Of Product"
+                  placeholder={t.product}
                   disabled={!!errors.numberOfProduct?.message}
                   content={errors.numberOfProduct?.message}
                   required
@@ -432,7 +430,7 @@ export default function FormSpends({
                 <InputField
                   title="PriceOfProduct"
                   type="number"
-                  placeholder="Price Of Product"
+                  placeholder={t.price}
                   disabled={!!errors.priceOfProduct?.message}
                   content={errors.priceOfProduct?.message}
                   required
@@ -453,7 +451,7 @@ export default function FormSpends({
               <InputField
                 title="IncomeAmount"
                 type="number"
-                placeholder="Income Amount"
+                placeholder={t.incomeAmount}
                 disabled={!!errors.incomeAmount?.message}
                 content={errors.incomeAmount?.message}
                 required
@@ -501,7 +499,7 @@ export default function FormSpends({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
@@ -510,7 +508,7 @@ export default function FormSpends({
       <DrawerDialogDemo
         drawerType={"ShareListDetails"}
         formType="Share List Details"
-        drawerTitle="Share List"
+        drawerTitle={t.ShareList}
         errors={errors}
         shareList={shareList || []}
         onSubmitForm={onChangeShareSubmit}
@@ -520,7 +518,7 @@ export default function FormSpends({
         <DialogTrigger asChild>
           <Button variant="default" disabled={!date} className="w-full">
             <div className="w-full flex flex-row justify-between px-2">
-              <span>add people</span>
+              <span>{t.addpeople}</span>
               <span>
                 {shareList && shareList.length ? shareList.length : 0}
               </span>
@@ -529,16 +527,7 @@ export default function FormSpends({
         </DialogTrigger>
       </DrawerDialogDemo>
 
-      <div className="flex gap-4">
-        {formType.split(" ")[0] && (
-          <Button type="submit" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

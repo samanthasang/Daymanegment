@@ -1,6 +1,7 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import FormButtons from "@/components/FormItem/FormButton";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
@@ -10,6 +11,7 @@ import { useAppDispatch } from "@/lib/hook";
 import useShareList from "@/lib/Hooks/Lists/Share/UseShareList.component";
 import useVisitList from "@/lib/Hooks/Lists/Visit/UseVisitList.component";
 import { currentUnixTimestamp } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import { addFriendsListShare } from "@/modules/people/PeopleList.slice";
 import {
@@ -54,6 +56,7 @@ export default function FormVisits({
 }) {
   const dispatch = useAppDispatch();
   const { selectedVisit } = useVisitList();
+  const t: any = UseLangComponent("Form");
 
   const [date, setDate] = useState<Date>();
   const [visitIdSelected, setVisitIdSelected] = useState<string>();
@@ -348,7 +351,7 @@ export default function FormVisits({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Visit Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -373,7 +376,7 @@ export default function FormVisits({
             )}
             onClick={() => setValue("income", false)}
           >
-            No Pay
+            {t.noPay}
           </div>
           <div
             className={cn(
@@ -384,7 +387,7 @@ export default function FormVisits({
             )}
             onClick={() => setValue("income", true)}
           >
-            With Pay
+            {t.withPay}
           </div>
         </div>
         {watch("income") && (
@@ -392,7 +395,7 @@ export default function FormVisits({
             <DrawerDialogDemo
               drawerType={"ShareListDetails"}
               formType="Share List Details"
-              drawerTitle="Share List Details"
+              drawerTitle={t.ShareList}
               errors={errors}
               shareList={shareList || []}
               onSubmitForm={onChangeShareSubmit}
@@ -402,7 +405,7 @@ export default function FormVisits({
               <DialogTrigger asChild>
                 <Button variant="default" disabled={!date} className="w-full">
                   <div className="w-full flex flex-row justify-between px-2">
-                    <span>add people</span>
+                    <span>{t.addpeople}</span>
                     <span>
                       {shareList && shareList.length ? shareList.length : 0}
                     </span>
@@ -420,8 +423,7 @@ export default function FormVisits({
                 <InputField
                   title="Advance Payment"
                   type="number"
-                  // className="!text-white w-full px-3 border-white rounded py-1"
-                  placeholder="Enter Advance Payment"
+                  placeholder={t.advanceAmount}
                   disabled={!!errors.advancePayment?.message}
                   content={errors.advancePayment?.message}
                   required
@@ -439,8 +441,7 @@ export default function FormVisits({
                 <InputField
                   title="Advance Payment"
                   type="number"
-                  // className="!text-white w-full px-3 border-white rounded py-1"
-                  placeholder="Enter Income Amount"
+                  placeholder={t.incomeAmount}
                   disabled={!!errors.paymentCompleteValue?.message}
                   content={errors.paymentCompleteValue?.message}
                   required
@@ -490,22 +491,13 @@ export default function FormVisits({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
       />
 
-      <div className="flex gap-4">
-        {formType != "Add" && (
-          <Button type="button" className="flex-1" onClick={() => onReset()}>
-            reset
-          </Button>
-        )}
-        <Button type="submit" variant="default" className="flex-1">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

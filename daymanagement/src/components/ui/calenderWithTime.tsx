@@ -78,7 +78,6 @@ function CalendarWithTime({
               <ClendarButtonGroup
                 dateValue={dateValue}
                 errors={message || false}
-                // description={errors.category?.message}
               >
                 <CalendarDialog
                   required

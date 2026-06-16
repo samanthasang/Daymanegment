@@ -11,6 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DayPicker } from "react-day-picker";
 import { Calender } from "../icons";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
+import { CalendarPersian } from "./calendarPersian";
+import { useAppSelector } from "@/lib/hook";
 
 export function CalendarDialog({
   className,
@@ -30,7 +33,10 @@ export function CalendarDialog({
   setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   title: string;
 }) {
+  const { lang } = useAppSelector((state) => state.Menu);
+
   const [isOpen, setIsOpen] = React.useState(false);
+  const t: any = UseLangComponent("Form");
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -40,17 +46,31 @@ export function CalendarDialog({
         </div>
       </DialogTrigger>
       <DialogContent className="w-fit p-3 bg-secondary backdrop-filter backdrop-blur-[10px] rounded-[16px] border-[1px] border-solid border-[rgba(255,255,255,0.35)] [box-shadow:0_8px_32px_0_rgba(31,_38,_135,_0.1)]">
-        <DialogHeader className="text-left">
-          <DialogTitle>Select a Date</DialogTitle>
+        <DialogHeader>
+          <DialogTitle
+            className={
+              lang == "en" ? " w-full text-left" : " w-full text-right "
+            }
+          >
+            {t.PickDate}
+          </DialogTitle>
         </DialogHeader>
         <Input
           value={dateValue ? dateValue.toLocaleDateString() : ""}
           readOnly
-          placeholder="Selected Date"
+          placeholder={t.PickDate}
         />
-        <Calendar mode="single" selected={dateValue} onSelect={setDate} />
+        {lang == "en" ? (
+          <Calendar mode="single" selected={dateValue} onSelect={setDate} />
+        ) : (
+          <CalendarPersian
+            mode="single"
+            selected={dateValue}
+            onSelect={setDate}
+          />
+        )}
         <Button onClick={() => setIsOpen(false)} className="w-full">
-          Close
+          {t.Close}
         </Button>
       </DialogContent>
     </Dialog>

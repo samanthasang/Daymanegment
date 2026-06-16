@@ -6,6 +6,7 @@ import { useAppSelector } from "../../lib/hook";
 import { DrawerDialogDemo } from "../Drawer/DrawerComponent";
 import { Edit } from "../icons";
 import { SelectButtonGroup } from "../ui/SelectButtonGroup";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 interface ICategotySelect {
   className?: string;
@@ -29,13 +30,14 @@ function PeopleSelectComponent({
     ListPeople: TPeople[];
     selectedPeople: {};
   } = useAppSelector((state) => state.Friends) || {};
+  const t: any = UseLangComponent("Form");
 
   return (
     <SelectButtonGroup
       title="PeopleList"
       name="people"
       errors={errors}
-      placeholder="Choose Your Friend"
+      placeholder={t.ChooseFriend}
       required={required}
       itemArray={ListPeople}
       onValueChange={(e) => e && onValueChange(e)}
@@ -46,7 +48,7 @@ function PeopleSelectComponent({
       <DrawerDialogDemo
         drawerType="Friends"
         formType="Add"
-        drawerTitle="Friend"
+        drawerTitle={t.Friends}
       >
         <DialogTrigger asChild>
           <div className="text-red-400 w-8 h-8 flex justify-center items-center rounded-r-xl border border-border bg-transparent text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm">

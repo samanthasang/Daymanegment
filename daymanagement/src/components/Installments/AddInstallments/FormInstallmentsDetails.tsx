@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
 import dayjs from "dayjs";
 import { CheckCircle } from "lucide-react";
@@ -34,6 +35,7 @@ export default function FormInstallmentsDetails({
     completeUpdate: string;
   }>;
 }) {
+  const t: any = UseLangComponent("Form");
   const [instalmentDetail, setInstalmentDetail] =
     useState<TInstallmentst>(installment);
 
@@ -55,7 +57,7 @@ export default function FormInstallmentsDetails({
       </label>
       <Input
         className="!text-white w-full px-3 rounded-2xl py-1 flex-1"
-        placeholder="paymentAmount"
+        placeholder={t.paymentAmount}
         value={instalmentDetail.payment}
         onChange={(e) => onChageInput(e)}
       />

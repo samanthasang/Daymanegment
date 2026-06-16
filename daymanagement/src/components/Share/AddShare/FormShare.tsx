@@ -1,5 +1,6 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
+import FormButtons from "@/components/FormItem/FormButton";
 import PeopleSelectComponent from "@/components/Friends/PeopleSelect.component";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { CalendarWithTime } from "@/components/ui/calenderWithTime";
 import { InputField } from "@/components/ui/inputField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch, useAppSelector } from "@/lib/hook";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import {
   selectShareList,
@@ -41,6 +43,7 @@ export default function FormShare({
   formType: string;
 }) {
   const [date, setDate] = useState<Date>();
+  const t: any = UseLangComponent("Form");
 
   // creating a schema for strings
   const formSchema = z.object({
@@ -142,8 +145,8 @@ export default function FormShare({
             tag: data.tag,
             description: data.description || "",
           })
-      );
-    
+        );
+
     dispatch(selectShareList(""));
     setValue("doDate", 0);
     reset();
@@ -170,7 +173,7 @@ export default function FormShare({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Share Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -209,7 +212,7 @@ export default function FormShare({
             )}
             onClick={() => setValue("income", false)}
           >
-            Outcome
+            {t.outcome}
           </div>
           <div
             className={cn(
@@ -220,7 +223,7 @@ export default function FormShare({
             )}
             onClick={() => setValue("income", true)}
           >
-            Income
+            {t.income}
           </div>
         </div>
         {!watch("income") && (
@@ -234,8 +237,7 @@ export default function FormShare({
                 <InputField
                   title="Title"
                   type="number"
-                  // className="!text-white w-full px-3 border-white rounded py-1"
-                  placeholder="Outcome Amount"
+                  placeholder={t.outcomeAmount}
                   disabled={!!errors.outcomeAmount?.message}
                   content={errors.outcomeAmount?.message}
                   required
@@ -255,8 +257,7 @@ export default function FormShare({
               <InputField
                 title="Title"
                 type="string"
-                // className="!text-white w-full px-3 border-white rounded py-1"
-                placeholder="Income Amount"
+                placeholder={t.incomeAmount}
                 disabled={!!errors.incomeAmount?.message}
                 content={errors.incomeAmount?.message}
                 required
@@ -302,22 +303,13 @@ export default function FormShare({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
       />
 
-      <div className="flex gap-4">
-        {formType != "Add" && selectedShare?.title && (
-          <Button type="submit" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

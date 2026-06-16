@@ -1,6 +1,7 @@
 "use client";
 import CategotySelectComponent from "@/components/Category/CategotySelect.component";
 import { DrawerDialogDemo } from "@/components/Drawer/DrawerComponent";
+import FormButtons from "@/components/FormItem/FormButton";
 import TagSelectComponent from "@/components/Tags/TagSelect.component";
 import { Button } from "@/components/ui/button";
 import { CalendarWithTime } from "@/components/ui/calenderWithTime";
@@ -9,9 +10,8 @@ import { SelectField } from "@/components/ui/selectField";
 import { TextAreaField } from "@/components/ui/textAreaField";
 import { useAppDispatch } from "@/lib/hook";
 import useInstallmentsList from "@/lib/Hooks/Lists/Installments/UseInstallmentsList.component";
-import {
-  DayUnixAdd
-} from "@/lib/Hooks/UseDayJS";
+import { DayUnixAdd } from "@/lib/Hooks/UseDayJS";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { cn } from "@/lib/utils";
 import {
   selectInstallmentstList,
@@ -82,6 +82,7 @@ export default function FormInstallments({
 }) {
   const dispatch = useAppDispatch();
   const { selectedInstallmentstList } = useInstallmentsList();
+  const t: any = UseLangComponent("Form");
 
   const [date, setDate] = useState<Date>();
   const [instalmentDetails, setInstalmentDetails] =
@@ -306,7 +307,7 @@ export default function FormInstallments({
           <InputField
             title="Title"
             type="string"
-            placeholder="Enter Task Name"
+            placeholder={t.TaskName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -329,8 +330,7 @@ export default function FormInstallments({
           <InputField
             title="Number Of Payment"
             type="number"
-            // className="!text-white w-full px-3 border-white rounded py-1"
-            placeholder="Number Of Payment"
+            placeholder={t.payment}
             disabled={!!errors.numberOfPayment?.message}
             required
             {...field}
@@ -347,14 +347,14 @@ export default function FormInstallments({
           <SelectField
             title="paymentNumber"
             description={errors.paymentNumber?.message}
-            placeholder="Priod for repeat"
+            placeholder={t.PriodRepeat}
             required
             invalid={!!errors.paymentNumber?.message}
             itemArray={[
-              { id: "day", title: "Day" },
-              { id: "week", title: "Week" },
-              { id: "month", title: "Month" },
-              { id: "year", title: "Year" },
+              { id: "day", title: t.day },
+              { id: "week", title: t.week },
+              { id: "month", title: t.month },
+              { id: "year", title: t.year },
             ]}
             onValueChange={(data) => data && handlePriod(data)}
             {...field}
@@ -378,8 +378,7 @@ export default function FormInstallments({
           <InputField
             title="PaymentCompleteValue"
             type="number"
-            // className="!text-white w-full px-3 border-white rounded py-1"
-            placeholder="Payment Complete Amount"
+            placeholder={t.CompleteAmount}
             disabled={!!errors.paymentCompleteValue?.message}
             required
             {...field}
@@ -425,15 +424,15 @@ export default function FormInstallments({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
       />
       <DrawerDialogDemo
-        drawerType={"InstallmentsListDetails"}
+        drawerType="InstallmentsListDetails"
         formType="Installments List Details"
-        drawerTitle="Installments List"
+        drawerTitle={t.installmentslist}
         errors={errors}
         installment={instalmentDetails || []}
         onSubmitForm={onSubmitHandler}
@@ -441,7 +440,7 @@ export default function FormInstallments({
       >
         <DialogTrigger asChild disabled={!date}>
           <Button variant="default" className="flex-1 w-full">
-            Installments list
+            {t.installmentslist}
           </Button>
         </DialogTrigger>
       </DrawerDialogDemo>
@@ -465,16 +464,7 @@ export default function FormInstallments({
           </DialogTrigger>
         </DrawerDialogDemo>
       </div> */}
-      <div className="flex gap-4">
-        {formType != "Add" && selectedInstallmentstList?.title && (
-          <Button type="submit" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }

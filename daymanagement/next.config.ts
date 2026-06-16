@@ -2,6 +2,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  // If you use next/image, you also need to disable default image optimization:
+  images: { unoptimized: true },
   reactStrictMode: true,
 
   async headers() {

@@ -16,6 +16,8 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../../ui/button";
 import { InputField } from "../../ui/inputField";
+import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
+import FormButtons from "@/components/FormItem/FormButton";
 
 interface IFormInputs {
   title: string;
@@ -37,6 +39,7 @@ export default function PeopleForm({
   const dispatch = useAppDispatch();
   const { selectedPeople } = usePeopleList();
   const [date, setDate] = useState<Date>();
+  const t: any = UseLangComponent("Form");
 
   const formSchema = z.object({
     title: z.string().min(3, { message: "Name is required" }),
@@ -133,7 +136,7 @@ export default function PeopleForm({
           <InputField
             title="Nick Name"
             type="string"
-            placeholder="Enter Name"
+            placeholder={t.nickName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -149,7 +152,7 @@ export default function PeopleForm({
           <InputField
             title="First Name"
             type="string"
-            placeholder="Enter First Name"
+            placeholder={t.firstName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -165,7 +168,7 @@ export default function PeopleForm({
           <InputField
             title="Last Name"
             type="string"
-            placeholder="Enter Last Name"
+            placeholder={t.lastName}
             disabled={!!errors.title?.message}
             required
             {...field}
@@ -204,7 +207,7 @@ export default function PeopleForm({
         render={({ field }) => (
           <InputField
             title="PhoneNumber"
-            placeholder="Phone Number"
+            placeholder={t.phone}
             disabled={!!errors.phoneNumber?.message}
             content={errors.phoneNumber?.message}
             required
@@ -220,21 +223,12 @@ export default function PeopleForm({
         render={({ field }) => (
           <TextAreaField
             className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder="Description"
+            placeholder={t.description}
             {...field}
           />
         )}
       />
-      <div className="flex gap-4">
-        {selectedPeople?.title && (
-          <Button type="button" className="flex-1">
-            reset
-          </Button>
-        )}
-        <Button type="submit" className="flex-1" variant="default">
-          submit
-        </Button>
-      </div>
+      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
     </form>
   );
 }
