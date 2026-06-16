@@ -1,123 +1,121 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
-  :root {
-    --primary: 222.2 47.4% 11.2%;
+	:root {
+		--primary: 222.2 47.4% 11.2%;
 
-    --primary-foreground: 210 40% 98%;
+		--primary-foreground: 210 40% 98%;
 
-    --background: 222.2 84% 4.9%;
+		--background: 222.2 84% 4.9%;
 
-    --foreground: 210 40% 98%;
+		--foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+		--card: 222.2 84% 4.9%;
 
-    --card-foreground: 210 40% 98%;
+		--card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+		--popover: 222.2 84% 4.9%;
 
-    --popover-foreground: 210 40% 98%;
+		--popover-foreground: 210 40% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
+		--secondary: 217.2 32.6% 17.5%;
 
-    --secondary-foreground: 210 40% 98%;
+		--secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
+		--muted: 217.2 32.6% 17.5%;
 
-    --muted-foreground: 215 20.2% 65.1%;
+		--muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+		--accent: 217.2 32.6% 17.5%;
 
-    --accent-foreground: 210 40% 98%;
+		--accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+		--destructive: 0 62.8% 30.6%;
 
-    --destructive-foreground: 210 40% 98%;
+		--destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
+		--border: 217.2 32.6% 17.5%;
 
-    --input: 217.2 32.6% 17.5%;
+		--input: 217.2 32.6% 17.5%;
 
-    --ring: 212.7 26.8% 83.9%;
+		--ring: 212.7 26.8% 83.9%;
 
-    --chart-1: 220 70% 50%;
+		--chart-1: 220 70% 50%;
 
-    --chart-2: 160 60% 45%;
+		--chart-2: 160 60% 45%;
 
-    --chart-3: 30 80% 55%;
+		--chart-3: 30 80% 55%;
 
-    --chart-4: 280 65% 60%;
+		--chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%;
-  }
+		--chart-5: 340 75% 55%;
+	}
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+	* {
+		@apply border-gray-200;
+	}
+	body {
+		@apply bg-[#18222d] text-[#7F8C99];
+	}
 }
 ::-webkit-scrollbar {
-  width: 10px; /* Set scrollbar width */
-  background: transparent; /* Background color */
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
+	width: 10px; /* Set scrollbar width */
+	background: transparent; /* Background color */
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* Track color */
-  width: 5px;
+	background: transparent; /* Track color */
+	width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0f172a; /* Thumb color */
-  width: 5px;
-  border-radius: 3px; /* Rounded corners */
+	background: #0f172a; /* Thumb color */
+	width: 5px;
+	border-radius: 3px; /* Rounded corners */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0f172a; /* Thumb color on hover */
+	background: #0f172a; /* Thumb color on hover */
 }
 @keyframes slide-up {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+	from {
+		transform: translateY(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 
 @keyframes slide-down {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+	from {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 
 .animate-slide-up {
-  animation: slide-up 0.3s ease-out;
+	animation: slide-up 0.3s ease-out;
 }
 
 .animate-slide-down {
-  animation: slide-down 0.3s ease-out;
+	animation: slide-down 0.3s ease-out;
 }
 
 /* Optional: Add responsive styles for the install prompt */
 @media (max-width: 640px) {
-  .fixed {
-    padding: 1rem;
-  }
+	.fixed {
+		padding: 1rem;
+	}
 }

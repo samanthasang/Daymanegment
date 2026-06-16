@@ -83,19 +83,6 @@ export default function FormShareDetails({
             >
               <Trash width="16px" height="16px" className="text-error" />
             </Button>
-            {/* <BasicSwitch
-              checked={share.income}
-              handleToggle={(e) => {
-                e && e.preventDefault();
-                share.doDate &&
-                  setShareDetail({
-                    ...share,
-                    income: !share.income,
-                  });
-              }}
-              label=""
-              key={"income"}
-            /> */}
           </div>
         </div>
         <div className="flex-1">
