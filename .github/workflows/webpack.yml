@@ -1,4 +1,4 @@
-name: NodeJS with Webpack
+name: Next.js Build
 
 on:
   push:
@@ -21,8 +21,23 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
-    - name: Build
+    - name: Install dependencies
       run: |
-        npm install
-        npx webpack
+        npm ci --legacy-peer-deps
+        # OR if you prefer:
+        # npm install --legacy-peer-deps
+
+    - name: Build Next.js app
+      run: npm run build
+      # This runs "next build" from your package.json
+
+    - name: Lint (optional)
+      run: npm run lint || true
+
+    - name: Upload build artifacts (optional)
+      uses: actions/upload-artifact@v4
+      with:
+        name: next-build
+        path: .next/
