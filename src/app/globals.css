@@ -1,5 +1,65 @@
 @import "tailwindcss";
 
+@theme {
+	/* Primary Colors */
+	--color-primary: #151e26;
+	--color-primary-foreground: hsl(var(--primary-foreground));
+
+	/* Secondary Colors */
+	--color-secondary: #1c2733;
+	--color-secondary-foreground: hsl(var(--secondary-foreground));
+
+	/* Background Colors */
+	--color-background: #18222d;
+	--color-background-menu: #2b3f56;
+	--color-background-main: #151e26;
+
+	/* Button Colors */
+	--color-button: #499bf0;
+
+	/* Status Colors */
+	--color-error-red: #e5656c;
+	--color-error: #e5656c99;
+	--color-success-green: #47c341;
+	--color-success: #47c34199;
+
+	/* Text Colors */
+	--color-foreground: #fff;
+	--color-text-foreground: #7f8c99;
+	--color-describtion: #3e5164;
+
+	/* Card Colors */
+	--color-card: #6abdff;
+	--color-card-foreground: hsl(var(--card-foreground));
+
+	/* Popover Colors */
+	--color-popover: hsl(var(--popover));
+	--color-popover-foreground: hsl(var(--popover-foreground));
+
+	/* Muted Colors */
+	--color-muted: hsl(var(--muted));
+	--color-muted-foreground: hsl(var(--muted-foreground));
+
+	/* Accent Colors */
+	--color-accent: hsl(var(--accent));
+	--color-accent-foreground: hsl(var(--accent-foreground));
+
+	/* Destructive Colors */
+	--color-destructive: hsl(var(--destructive));
+	--color-destructive-foreground: hsl(var(--destructive-foreground));
+
+	/* Border & Input */
+	--color-border: #253444;
+	--color-input: hsl(var(--input));
+	--color-ring: hsl(var(--ring));
+
+	/* Chart Colors */
+	--color-chart-1: hsl(var(--chart-1));
+	--color-chart-2: hsl(var(--chart-2));
+	--color-chart-3: hsl(var(--chart-3));
+	--color-chart-4: hsl(var(--chart-4));
+	--color-chart-5: hsl(var(--chart-5));
+}
 @layer base {
 	:root {
 		--primary: 222.2 47.4% 11.2%;
@@ -54,10 +114,55 @@
 
 @layer base {
 	* {
-		@apply border-gray-200;
+		@apply border-[#253444];
 	}
 	body {
-		@apply bg-[#18222d] text-[#7F8C99];
+		@apply bg-[#2B3F56] text-[#7F8C99];
+	}
+}
+@layer base {
+	* {
+		border-color: var(--color-border);
+	}
+
+	body {
+		background-color: var(--color-background);
+		color: var(--color-foreground);
+	}
+}
+
+/* Your custom component styles */
+@layer components {
+	.bg-primary {
+		background-color: var(--color-primary);
+	}
+
+	.bg-secondary {
+		background-color: var(--color-secondary);
+	}
+
+	.bg-background-menu {
+		background-color: var(--color-background-menu);
+	}
+
+	.bg-background-main {
+		background-color: var(--color-background-main);
+	}
+
+	.text-text-foreground {
+		color: var(--color-text-foreground);
+	}
+
+	.bg-button {
+		background-color: var(--color-button);
+	}
+
+	.text-error {
+		color: var(--color-error);
+	}
+
+	.text-success {
+		color: var(--color-success);
 	}
 }
 ::-webkit-scrollbar {

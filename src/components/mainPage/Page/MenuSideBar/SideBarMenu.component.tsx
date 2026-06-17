@@ -8,28 +8,28 @@ import MenuBottomSideBarComponent from "./MenuBottomSideBarComponent";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 
 function SideBarMenu() {
-  const { OpenMenu } = useAppSelector((state) => state.Menu);
-  const { isSX } = useMediaQueryValues();
-  const t: any = UseLangComponent("Menu");
-  // const { t } = useI18n();
+	const { OpenMenu } = useAppSelector((state) => state.Menu);
+	const { isSX } = useMediaQueryValues();
+	const t: any = UseLangComponent("Menu");
+	// const { t } = useI18n();
 
-  // const t = useTranslations("Menu");
-  return (
-    <div
-      className={cn(
-        "bg-secondary flex flex-col justify-start items-start h-full rounded-3xl w-fit p-1.5",
-        isSX || OpenMenu ? "w-[250px]" : "w-[150px]"
-      )}
-    >
-      <div className="w-full flex justify-center items-center gap-x-2 py-2 bg-primary rounded-full">
-        <Menu width={16} height={16} />
-        {/* {t("menuTitle")} */}
-        {t.menuTitle}
-      </div>
-      <MenuMainSideBarComponent />
-      <MenuBottomSideBarComponent />
-    </div>
-  );
+	// const t = useTranslations("Menu");
+	return (
+		<div
+			className={cn(
+				"bg-secondary flex flex-col justify-start items-start h-full rounded-3xl w-fit p-1.5",
+				isSX || OpenMenu ? "w-62.5" : "w-37.5",
+			)}
+		>
+			<div className="w-full flex justify-center items-center gap-x-2 py-2 bg-primary rounded-full">
+				<Menu width={16} height={16} />
+				{/* {t("menuTitle")} */}
+				{t.menuTitle}
+			</div>
+			<MenuMainSideBarComponent />
+			<MenuBottomSideBarComponent />
+		</div>
+	);
 }
 
 export default SideBarMenu;
