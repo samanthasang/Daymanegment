@@ -13,14 +13,14 @@ import { useAppSelector } from "@/lib/hook";
 import { ReduxProvider } from "@/components/ReduxProvider";
 
 const geistSans = localFont({
-  src: "./fonts/GoogleSansFlex.ttf",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+	src: "./fonts/GoogleSansFlex.ttf",
+	variable: "--font-geist-sans",
+	weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+	src: "./fonts/GeistMonoVF.woff",
+	variable: "--font-geist-mono",
+	weight: "100 900",
 });
 
 // export const metadata = {
@@ -50,42 +50,43 @@ const geistMono = localFont({
 // };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js", {
-          type: "module", // This is the key change
-        })
-        .catch((err) => {
-          console.error("Service worker registration failed:", err);
-        });
-    }
-  }, []);
-  return (
-    <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1C2733" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ReduxProvider>
-          {/* <NextIntlClientProvider locale="en"> */}
-          <ToastContainer />
-          <SplashGate>
-            <div className="min-h-dvh bg-primary">
-              <PWAInstallPrompt />
-              {children}
-            </div>
-          </SplashGate>
-          {/* </NextIntlClientProvider> */}
-        </ReduxProvider>
-      </body>
-    </html>
-  );
+	useEffect(() => {
+		if ("serviceWorker" in navigator) {
+			navigator.serviceWorker
+				.register("/sw.js", {
+					type: "module", // This is the key change
+				})
+				.catch((err) => {
+					console.error("Service worker registration failed:", err);
+				});
+		}
+	}, []);
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<head>
+				<link rel="manifest" href="/manifest.json" />
+				<meta name="theme-color" content="#1C2733" />
+			</head>
+			<body
+				suppressHydrationWarning
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			>
+				<ReduxProvider>
+					{/* <NextIntlClientProvider locale="en"> */}
+					<ToastContainer />
+					<SplashGate>
+						<div className="min-h-dvh bg-primary">
+							<PWAInstallPrompt />
+							{children}
+						</div>
+					</SplashGate>
+					{/* </NextIntlClientProvider> */}
+				</ReduxProvider>
+			</body>
+		</html>
+	);
 }
