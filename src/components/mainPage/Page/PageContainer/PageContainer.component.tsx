@@ -13,7 +13,7 @@ function PageContainer({
 	return (
 		<div
 			dir={lang == "en" ? "ltr" : "rtl"}
-			className="w-full flex flex-row gap-x-2 flex-1 relative m-auto h-full p-2"
+			className="w-full flex flex-row gap-x-2 flex-1 relative m-auto h-dvh p-2"
 		>
 			<MenuSideBarComponent witDate={witDate} />
 			<div className="flex flex-row gap-x-2 flex-1 w-full mx-auto">
