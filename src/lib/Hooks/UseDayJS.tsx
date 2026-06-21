@@ -4,7 +4,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import jalaliday from "jalaliday";
-import { useAppSelector } from "../hook";
 import UseLangState from "./useLanguage";
 
 dayjs.extend(relativeTime);
@@ -13,56 +12,56 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 if (typeof window !== "undefined") {
-  dayjs.extend(jalaliday);
+	dayjs.extend(jalaliday);
 }
 
 export const currentUnixTimestamp = dayjs(
-  Math.floor(new Date().getTime())
+	Math.floor(new Date().getTime()),
 ).unix();
 
 export const zeroHour = new Date().setHours(0, 0, 0, 0);
 
 export const currentUnixTimestampZero = Math.floor(
-  new Date(zeroHour).getTime() / 1000.0
+	new Date(zeroHour).getTime() / 1000.0,
 );
 export const DayUnix = (date: string) => dayjs.unix(Number(date));
 
 export const DayUnixFormat = (date: number, format: string) => {
-  const lang = UseLangState();
-  const time = dayjs.unix(Number(date));
+	const lang = UseLangState();
+	const time = dayjs.unix(Number(date));
 
-  return lang == "en"
-    ? time.format(format)
-    : time.calendar("jalali").format(format);
+	return lang == "en"
+		? time.format(format)
+		: time.calendar("jalali").format(format);
 };
 
 export const DayUnixFormatNow = (format: string) =>
-  dayjs(dayjs.unix(Number(currentUnixTimestamp))).format(format);
+	dayjs(dayjs.unix(Number(currentUnixTimestamp))).format(format);
 
 export const DayUnixDiff = (date: number, format: dayjs.QUnitType) =>
-  dayjs.unix(Number(date)).diff(dayjs.unix(currentUnixTimestampZero), format);
+	dayjs.unix(Number(date)).diff(dayjs.unix(currentUnixTimestampZero), format);
 
 export const DayToday = (date: number) =>
-  +date >= currentUnixTimestampZero && +date < TomorrowUnixTimestampZero;
+	+date >= currentUnixTimestampZero && +date < TomorrowUnixTimestampZero;
 
 export const DayUnixDuration = (dateStart: string, dateEnd: string) =>
-  dayjs.duration(
-    dayjs.unix(Number(dateStart)).diff(dayjs.unix(Number(dateEnd)))
-  );
+	dayjs.duration(
+		dayjs.unix(Number(dateStart)).diff(dayjs.unix(Number(dateEnd))),
+	);
 
 export const DayUnixDurationDiff = (dateStart: string, dateEnd: string) =>
-  dayjs.duration(
-    dayjs.unix(Number(dateStart)).diff(dayjs.unix(Number(dateEnd)))
-  );
+	dayjs.duration(
+		dayjs.unix(Number(dateStart)).diff(dayjs.unix(Number(dateEnd))),
+	);
 
 export const DayUnixAdd = (
-  dateStart: number,
-  dateEnd: ManipulateType,
-  addIndex: number
+	dateStart: number,
+	dateEnd: ManipulateType,
+	addIndex: number,
 ) => dayjs(dayjs.unix(dateStart).add(addIndex, dateEnd)).unix();
 
 export const TomorrowUnixTimestampZero = DayUnixAdd(
-  currentUnixTimestampZero,
-  "day",
-  1
+	currentUnixTimestampZero,
+	"day",
+	1,
 );

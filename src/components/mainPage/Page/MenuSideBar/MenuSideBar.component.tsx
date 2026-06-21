@@ -11,7 +11,7 @@ function MenuSideBarComponent({ witDate }: { witDate?: boolean }) {
     isMDMin && (
       <div
         className={cn(
-          "flex flex-row gap-x-2 h-full relative w-fit",
+          "flex flex-row gap-x-1.5 h-full relative w-fit",
           !isSX ? "w-fit" : "w-full"
         )}
       >

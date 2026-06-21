@@ -1,18 +1,31 @@
 import { useMemo } from "react";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import ListDetailsItem from "./ListDetailsItem.component";
+import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
+
+// Extend dayjs with UTC plugin for consistent timezone handling
+dayjs.extend(utc);
 
 function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
 	const grouped = useMemo<any>(() => {
 		return List.reduce((acc: any, item: any) => {
-			// Convert Unix seconds to milliseconds
-			const date = new Date(
-				Number(
-					item.birthDate || item.doDate || item.lastUpdate || item.startDate,
-				) * 1000,
+			// Get the timestamp (already in seconds)
+			const timestamp = Number(
+				item.birthDate || item.doDate || item.lastUpdate || item.startDate,
 			);
 
-			// Use YYYY-MM-DD for stable sorting/keying
-			const dayKey = date.toISOString().split("T")[0];
+			// Skip invalid timestamps
+			if (!timestamp || isNaN(timestamp)) {
+				return acc;
+			}
+
+			// Use day.js to convert Unix seconds to a date
+			// dayjs.unix() takes seconds (not milliseconds)
+			const date = dayjs.unix(timestamp / 1000);
+
+			// Get YYYY-MM-DD format for grouping
+			const dayKey = +timestamp;
 
 			if (!acc[dayKey]) {
 				acc[dayKey] = [];
@@ -22,17 +35,22 @@ function ListDetails({ drawerType, List }: { drawerType: string; List: [] }) {
 		}, {});
 	}, [List]);
 
-	// Sort dates so the oldest/newest appear correctly
-	const sortedDays = Object.keys(grouped).sort(
-		(a, b) => new Date(a).getTime() - new Date(b).getTime(),
-	);
+	// Sort dates using day.js
+	const sortedDays = Object.keys(grouped).sort((a, b) => {
+		// Parse the YYYY-MM-DD strings with dayjs
+		const dayA = dayjs(a);
+		const dayB = dayjs(b);
+		return dayA.unix() - dayB.unix(); // Oldest first
+	});
+
+	console.log(sortedDays);
 
 	return sortedDays.map((day) => (
 		<section key={day}>
 			<div className="flex flex-col w-full justify-center items-center bg-secondary rounded-3xl mb-2">
 				<div className="flex-1 h-px bg-white" />
 				<h2 className="text-center whitespace-nowrap">
-					{new Date(day).toDateString()}
+					{DayUnixFormat(+day, "dddd, MMMM D, YYYY")}
 				</h2>
 				<div className="flex-1 h-px bg-white" />
 			</div>

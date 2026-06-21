@@ -43,31 +43,17 @@ function UseHabbitList() {
 							...item,
 						}),
 					)
-				: (DayUnixDiff(item.doDate, "day") < -1 &&
-						dispatch(
-							updateHabitList({
-								...item,
-								doDate: DayUnixAdd(
-									+item.doDate,
-									"day" as ManipulateType,
-									item.everyDay ? 1 : +(item.customDays ?? 1),
-								),
-								score: item.score + 1 + DayUnixDiff(item.doDate, "day"),
-								isComplete: false,
-							}),
-						)) ||
-					(DayUnixDiff(item.doDate, "day") == 0 &&
-						dispatch(
-							updateHabitList({
-								...item,
-								doDate: DayUnixAdd(
-									+item.doDate,
-									"day" as ManipulateType,
-									item.everyDay ? 1 : +(item.customDays ?? 1),
-								),
-								isComplete: false,
-							}),
-						)),
+				: item.lastUpdate < currentUnixTimestampZero &&
+					dispatch(
+						updateHabitList({
+							...item,
+							score:
+								DayUnixDiff(item.doDate, "day") < -1
+									? item.score + 1 + DayUnixDiff(item.doDate, "day")
+									: item.score,
+							isComplete: false,
+						}),
+					),
 		);
 	}, []);
 

@@ -11,17 +11,14 @@ function SideBarMenu() {
 	const { OpenMenu } = useAppSelector((state) => state.Menu);
 	const { isSX } = useMediaQueryValues();
 	const t: any = UseLangComponent("Menu");
-	// const { t } = useI18n();
-
-	// const t = useTranslations("Menu");
 	return (
 		<div
 			className={cn(
-				"bg-secondary flex flex-col justify-start items-start h-full rounded-3xl w-fit p-1.5",
+				"flex flex-col justify-start items-start h-full rounded-3xl w-fit p-0.5 gap-y-2",
 				isSX || OpenMenu ? "w-62.5" : "w-37.5",
 			)}
 		>
-			<div className="w-full flex justify-center items-center gap-x-2 py-2 bg-primary rounded-full">
+			<div className="bg-secondary w-full flex justify-center items-center gap-x-2 py-2 rounded-full">
 				<Menu width={16} height={16} />
 				{/* {t("menuTitle")} */}
 				{t.menuTitle}
