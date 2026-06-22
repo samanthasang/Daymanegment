@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../hook";
 
 function UseLangState() {
-  const { lang } = useAppSelector((state) => state.Menu);
+	const { lang } = useAppSelector((state) => state.Menu) || "en";
 
-  const [langChoosen, setLangChoosen] = useState("en");
+	const [langChoosen, setLangChoosen] = useState("en");
 
-  useEffect(() => {
-    lang == "en" ? setLangChoosen("en") : setLangChoosen("fa");
-  }, [lang]);
+	useEffect(() => {
+		lang == "en" ? setLangChoosen("en") : setLangChoosen("fa");
+	}, [lang]);
 
-  return langChoosen;
+	return langChoosen;
 }
 export default UseLangState;

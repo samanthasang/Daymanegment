@@ -47,6 +47,11 @@ function UseHabbitList() {
 					dispatch(
 						updateHabitList({
 							...item,
+							doDate: DayUnixAdd(
+								+item.doDate,
+								"day" as ManipulateType,
+								item.everyDay ? 1 : +(item.customDays ?? 1),
+							),
 							score:
 								DayUnixDiff(item.doDate, "day") < -1
 									? item.score + 1 + DayUnixDiff(item.doDate, "day")

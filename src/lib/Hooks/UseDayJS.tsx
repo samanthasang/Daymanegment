@@ -4,7 +4,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import jalaliday from "jalaliday";
-import UseLangState from "./useLanguage";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -26,8 +25,11 @@ export const currentUnixTimestampZero = Math.floor(
 );
 export const DayUnix = (date: string) => dayjs.unix(Number(date));
 
-export const DayUnixFormat = (date: number, format: string) => {
-	const lang = UseLangState();
+export const DayUnixFormat = (
+	date: number,
+	format: string,
+	lang: string = "en",
+) => {
 	const time = dayjs.unix(Number(date));
 
 	return lang == "en"
