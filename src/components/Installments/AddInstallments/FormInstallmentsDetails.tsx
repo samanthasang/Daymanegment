@@ -5,7 +5,6 @@ import { useAppSelector } from "@/lib/hook";
 import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { TInstallmentst } from "@/modules/installmentstList/installmentst.slice";
-import dayjs from "dayjs";
 import { CheckCircle } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FieldErrors } from "react-hook-form";

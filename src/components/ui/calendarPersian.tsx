@@ -28,11 +28,10 @@ function CalendarPersian({
 	return (
 		<DayPicker
 			locale={faIR}
+			dir="ltr"
 			showOutsideDays={showOutsideDays}
 			className={cn(
-				"bg-background group/calendar p-3 [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
-				String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
-				String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
+				"bg-background group/calendar p-3 [--cell-size:2rem] in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent",
 				className,
 			)}
 			captionLayout={captionLayout}
@@ -158,7 +157,7 @@ function CalendarPersian({
 				DayButton: CalendarPersianDayButton,
 				WeekNumber: ({ children, ...props }) => {
 					return (
-						<td {...props}>
+						<td {...props} dir="ltr">
 							<div className="flex size-[--cell-size] items-center justify-center text-center">
 								{children}
 							</div>
