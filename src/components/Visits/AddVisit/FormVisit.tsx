@@ -403,7 +403,7 @@ export default function FormVisits({
               removeShare={removeShare}
             >
               <DialogTrigger asChild>
-                <Button variant="default" disabled={!date} className="w-full">
+                <Button variant="default" disabled={!date} className="w-full bg-secondary">
                   <div className="w-full flex flex-row justify-between px-2">
                     <span>{t.addpeople}</span>
                     <span>
@@ -490,7 +490,7 @@ export default function FormVisits({
         rules={{ required: true }}
         render={({ field }) => (
           <TextAreaField
-            className="!text-white h-32 w-full px-3 border-white rounded py-1"
+            className="text-white! h-32 w-full px-3 border-white rounded py-1"
             placeholder={t.description}
             {...field}
           />

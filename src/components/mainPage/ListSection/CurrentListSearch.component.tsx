@@ -1,10 +1,11 @@
 "use client";
 
 import { InputField } from "@/components/ui/inputField";
-import { Suspense, useEffect, useState } from "react";
+import UseResetFilterComponent from "@/lib/Hooks/ResetFilter.component";
+import { useEffect, useState } from "react";
 import ListContent from "./ListContainer/ListContent.component";
 import ListDetails from "./ListDetails.component";
-import UseResetFilterComponent from "@/lib/Hooks/ResetFilter.component";
+import ListDetailsByHourMinute from "./ListDetailsByHourMinute";
 
 function CurrentListSearch({
 	List,
@@ -32,18 +33,33 @@ function CurrentListSearch({
 				<UseResetFilterComponent />
 			</div>
 			<ListContent ListCount={List.length}>
-				<Suspense>
-					<ListDetails
-						List={
-							title.trim() != ""
-								? (List.filter((li: any) =>
-										li.title.toLowerCase().includes(title.trim().toLowerCase()),
-									) as [])
-								: List
-						}
-						drawerType={drawerType}
-					/>
-				</Suspense>
+					{drawerType == "Today" ? (
+						<ListDetailsByHourMinute
+							List={
+								title.trim() != ""
+									? (List.filter((li: any) =>
+											li.title
+												.toLowerCase()
+												.includes(title.trim().toLowerCase()),
+										) as [])
+									: List
+							}
+							drawerType={drawerType}
+						/>
+					) : (
+						<ListDetails
+							List={
+								title.trim() != ""
+									? (List.filter((li: any) =>
+											li.title
+												.toLowerCase()
+												.includes(title.trim().toLowerCase()),
+										) as [])
+									: List
+							}
+							drawerType={drawerType}
+						/>
+					)}
 			</ListContent>
 		</>
 	);

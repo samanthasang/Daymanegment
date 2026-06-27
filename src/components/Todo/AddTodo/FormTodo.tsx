@@ -16,233 +16,233 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import {
-  selectToDoList,
-  setToDoList,
-  updateToDoList,
+	selectToDoList,
+	setToDoList,
+	updateToDoList,
 } from "../../../modules/toDoList/todo.slice";
 
 interface IFormInputs {
-  title: string;
-  priority: string;
-  doDate: number;
-  createDate?: number;
-  category: string;
-  tag: string;
-  description?: string;
+	title: string;
+	priority: string;
+	doDate: number;
+	createDate?: number;
+	category: string;
+	tag: string;
+	description?: string;
 }
 
 export default function FormTodo({
-  onSubmitForm,
-  formType,
+	onSubmitForm,
+	formType,
 }: {
-  onSubmitForm: () => void;
-  formType: string;
+	onSubmitForm: () => void;
+	formType: string;
 }) {
-  const dispatch = useAppDispatch();
-  const { selectedToDo } = useTodoList();
-  const t: any = UseLangComponent("Form");
-  const tPriority: any = UseLangComponent("Priority");
+	const dispatch = useAppDispatch();
+	const { selectedToDo } = useTodoList();
+	const t: any = UseLangComponent("Form");
+	const tPriority: any = UseLangComponent("Priority");
 
-  const [date, setDate] = useState<Date>();
+	const [date, setDate] = useState<Date>();
 
-  // creating a schema for strings
-  const formSchema = z.object({
-    title: z.string().min(4, { message: "Title is required" }),
-    priority: z.string().min(1, { message: "Priority is required" }),
-    category: z.string().min(1, { message: "Category is required" }),
-    tag: z.string().min(1, { message: "Tag is required" }),
-    doDate: z.number().min(1, { message: "date is required" }),
-    createDate: z.number().optional(),
-    description: z.string().optional(),
-  });
-  type FormData = z.infer<typeof formSchema>;
+	// creating a schema for strings
+	const formSchema = z.object({
+		title: z.string().min(4, { message: "Title is required" }),
+		priority: z.string().min(1, { message: "Priority is required" }),
+		category: z.string().min(1, { message: "Category is required" }),
+		tag: z.string().min(1, { message: "Tag is required" }),
+		doDate: z.number().min(1, { message: "date is required" }),
+		createDate: z.number().optional(),
+		description: z.string().optional(),
+	});
+	type FormData = z.infer<typeof formSchema>;
 
-  const methods = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-  });
+	const methods = useForm<FormData>({
+		resolver: zodResolver(formSchema),
+	});
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    setValue,
-    reset,
-    register,
-    getValues,
-  } = methods;
+	const {
+		handleSubmit,
+		control,
+		formState: { errors },
+		setValue,
+		reset,
+		register,
+		getValues,
+	} = methods;
 
-  useEffect(() => {
-    date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
-  }, [date]);
+	useEffect(() => {
+		date && setValue("doDate", Math.floor(new Date(date).getTime() / 1000.0));
+	}, [date]);
 
-  useEffect(() => {
-    if (formType != "Add" && selectedToDo) {
-      setValue("title", selectedToDo?.title);
-      setValue("priority", selectedToDo.priority);
-      setValue("category", selectedToDo.category);
-      setValue("tag", selectedToDo.tag);
-      setValue("description", selectedToDo?.description);
-      setValue("doDate", selectedToDo.doDate);
-      setValue("createDate", selectedToDo.createDate ?? +selectedToDo.doDate);
-      setDate(new Date(Number(selectedToDo.doDate) * 1000));
-    }
-  }, [selectedToDo, setValue]);
+	useEffect(() => {
+		if (formType != "Add" && selectedToDo) {
+			setValue("title", selectedToDo?.title);
+			setValue("priority", selectedToDo.priority);
+			setValue("category", selectedToDo.category);
+			setValue("tag", selectedToDo.tag);
+			setValue("description", selectedToDo?.description);
+			setValue("doDate", selectedToDo.doDate);
+			setValue("createDate", selectedToDo.createDate ?? +selectedToDo.doDate);
+			setDate(new Date(Number(selectedToDo.doDate) * 1000));
+		}
+	}, [selectedToDo, setValue]);
 
-  const handlePriority = (data: string) => {
-    setValue("priority", data);
-  };
-  const handleCategory = (data: string) => {
-    setValue("category", data);
-  };
-  const handleTag = (data: string) => {
-    setValue("tag", data);
-  };
+	const handlePriority = (data: string) => {
+		setValue("priority", data);
+	};
+	const handleCategory = (data: string) => {
+		setValue("category", data);
+	};
+	const handleTag = (data: string) => {
+		setValue("tag", data);
+	};
 
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => {
-    formType == "Edit"
-      ? dispatch(
-          updateToDoList({
-            id: selectedToDo.id,
-            title: data.title,
-            doDate: date
-              ? Math.floor(new Date(date).getTime() / 1000.0)
-              : data.doDate,
-            priority: data.priority,
-            description: data.description || "",
-            category: data.category,
-            tag: data.tag,
-          })
-        )
-      : dispatch(
-          setToDoList({
-            id: "",
-            title: data.title,
-            doDate: date
-              ? Math.floor(new Date(date).getTime() / 1000.0)
-              : data.doDate,
-            priority: data.priority,
-            description: data.description || "",
-            category: data.category,
-            tag: data.tag,
-          })
-        );
+	const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+		formType == "Edit"
+			? dispatch(
+					updateToDoList({
+						id: selectedToDo.id,
+						title: data.title,
+						doDate: date
+							? Math.floor(new Date(date).getTime() / 1000.0)
+							: data.doDate,
+						priority: data.priority,
+						description: data.description || "",
+						category: data.category,
+						tag: data.tag,
+					}),
+				)
+			: dispatch(
+					setToDoList({
+						id: "",
+						title: data.title,
+						doDate: date
+							? Math.floor(new Date(date).getTime() / 1000.0)
+							: data.doDate,
+						priority: data.priority,
+						description: data.description || "",
+						category: data.category,
+						tag: data.tag,
+					}),
+				);
 
-    setValue("doDate", 0);
+		setValue("doDate", 0);
 
-    formType == "Edit"
-      ? toast(`${data.title} is updated`)
-      : toast(`${data.title} is created`);
+		formType == "Edit"
+			? toast(`${data.title} is updated`)
+			: toast(`${data.title} is created`);
 
-    dispatch(selectToDoList(""));
-    reset();
-    onSubmitForm();
-  };
-  const onReset = () => {
-    setValue("doDate", 0);
-    reset();
-  };
+		dispatch(selectToDoList(""));
+		reset();
+		onSubmitForm();
+	};
+	const onReset = () => {
+		setValue("doDate", 0);
+		reset();
+	};
 
-  return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-full min-w-60 flex flex-col gap-y-3"
-    >
-      <Controller
-        defaultValue={""}
-        name="title"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) => (
-          <InputField
-            title="Title"
-            type="string"
-            placeholder={t.TaskName}
-            disabled={!!errors.title?.message}
-            required
-            {...field}
-          />
-        )}
-      />
+	return (
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className="w-full min-w-60 flex flex-col gap-y-3"
+		>
+			<Controller
+				defaultValue={""}
+				name="title"
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<InputField
+						title="Title"
+						type="string"
+						placeholder={t.TaskName}
+						disabled={!!errors.title?.message}
+						required
+						{...field}
+					/>
+				)}
+			/>
 
-      <CalendarWithTime
-        dateValue={date}
-        setDate={setDate}
-        message={!date && !!errors.doDate?.message}
-      />
+			<CalendarWithTime
+				dateValue={date}
+				setDate={setDate}
+				message={!date && !!errors.doDate?.message}
+			/>
 
-      <Controller
-        defaultValue={""}
-        name="priority"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) => (
-          <SelectField
-            title={t.priority}
-            placeholder={t.ChoosePriority}
-            required
-            invalid={!field.value && !!errors.priority?.message}
-            itemArray={[
-              { id: "High", title: tPriority.High },
-              { id: "Medium", title: tPriority.Medium },
-              { id: "Low", title: tPriority.Low },
-            ]}
-            onValueChange={(data) => data && handlePriority(data)}
-            {...field}
-            value={field.value}
-            className={cn(
-              !field.value && errors.priority?.message
-                ? "border-[1px] border-red-600"
-                : ""
-            )}
-            {...register("priority")}
-          />
-        )}
-      />
+			<Controller
+				defaultValue={""}
+				name="priority"
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<SelectField
+						title={t.priority}
+						placeholder={t.ChoosePriority}
+						required
+						invalid={!field.value && !!errors.priority?.message}
+						itemArray={[
+							{ id: "High", title: tPriority.High },
+							{ id: "Medium", title: tPriority.Medium },
+							{ id: "Low", title: tPriority.Low },
+						]}
+						onValueChange={(data) => data && handlePriority(data)}
+						{...field}
+						value={field.value}
+						className={cn(
+							!field.value && errors.priority?.message
+								? "border-[1px] border-red-600"
+								: "",
+						)}
+						{...register("priority")}
+					/>
+				)}
+			/>
 
-      <Controller
-        defaultValue={""}
-        name="category"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) => (
-          <CategotySelectComponent
-            required
-            errors={!field.value && !!errors.category?.message}
-            onValueChange={handleCategory}
-            value={field.value}
-          />
-        )}
-      />
+			<Controller
+				defaultValue={""}
+				name="category"
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<CategotySelectComponent
+						required
+						errors={!field.value && !!errors.category?.message}
+						onValueChange={handleCategory}
+						value={field.value}
+					/>
+				)}
+			/>
 
-      <Controller
-        defaultValue={""}
-        name="tag"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TagSelectComponent
-            required
-            errors={!field.value && !!errors.tag?.message}
-            onValueChange={handleTag}
-            value={field.value}
-          />
-        )}
-      />
+			<Controller
+				defaultValue={""}
+				name="tag"
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<TagSelectComponent
+						required
+						errors={!field.value && !!errors.tag?.message}
+						onValueChange={handleTag}
+						value={field.value}
+					/>
+				)}
+			/>
 
-      <Controller
-        defaultValue={""}
-        name="description"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextAreaField
-            className="!text-white h-32 w-full px-3 border-white rounded py-1"
-            placeholder={t.description}
-            {...field}
-          />
-        )}
-      />
-      <FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
-    </form>
-  );
+			<Controller
+				defaultValue={""}
+				name="description"
+				control={control}
+				rules={{ required: true }}
+				render={({ field }) => (
+					<TextAreaField
+						className="text-white! h-32 w-full px-3 border-white rounded py-1"
+						placeholder={t.description}
+						{...field}
+					/>
+				)}
+			/>
+			<FormButtons onReset={() => onReset()} resetOn={formType != "Add"} />
+		</form>
+	);
 }

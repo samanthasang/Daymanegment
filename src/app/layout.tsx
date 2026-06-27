@@ -1,15 +1,11 @@
 "use client";
-import { store } from "@/lib/store";
 import localFont from "next/font/local";
 import { useEffect } from "react";
-import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
-import SplashGate from "./splash-gate";
 import PWAInstallPrompt from "./PWAInstallPrompt";
-// import { NextIntlClientProvider } from "next-intl";
+import SplashGate from "./splash-gate";
 
-import { useAppSelector } from "@/lib/hook";
 import { ReduxProvider } from "@/components/ReduxProvider";
 
 const geistSans = localFont({
