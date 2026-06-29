@@ -1,5 +1,5 @@
 1:"$Sreact.fragment"
 2:I[97367,["/_next/static/chunks/12kmphgcauor3.js","/_next/static/chunks/2vf1oe5tmz--z.js","/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
 3:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"style":{"padding":24},"children":[["$","h1",null,{"children":"You are offline"}],["$","p",null,{"children":"Please reconnect to load the app."}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"JpdudY2OgcjiNjBrAgHQ8"}
+0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"style":{"padding":24},"children":[["$","h1",null,{"children":"You are offline"}],["$","p",null,{"children":"Please reconnect to load the app."}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"d-N2XoGy-RDleGf-PNqqG"}
 4:null
