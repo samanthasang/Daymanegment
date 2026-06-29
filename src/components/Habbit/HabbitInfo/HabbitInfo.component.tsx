@@ -8,53 +8,53 @@ import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
 import { useState } from "react";
 
 function HabbitInfo() {
-  const [forgot, setForgot] = useState(false);
-  const { ListHabbitNew, ListMyHabbit } = UseHabbitList();
+	const [forgot, setForgot] = useState(false);
+	const { ListHabbitNew, ListMyHabbit } = UseHabbitList();
 
-  const HabbitLenght = ListMyHabbit.length;
-  const HabbitFinishLenght = NotFinishedArray(ListMyHabbit).length;
-  const HabbitNotFinishLenght = FinishedArray(ListMyHabbit).length;
+	const HabbitLenght = ListMyHabbit.length;
+	const HabbitFinishLenght = NotFinishedArray(ListMyHabbit).length;
+	const HabbitNotFinishLenght = FinishedArray(ListMyHabbit).length;
 
-  const OldHabbitLenght = ListHabbitNew.length;
-  const OldHabbitFinishLenght = NotFinishedArray(ListHabbitNew).length;
-  const OldHabbitNotFinishLenght = FinishedArray(ListHabbitNew).length;
+	const OldHabbitLenght = ListHabbitNew.length;
+	const OldHabbitFinishLenght = NotFinishedArray(ListHabbitNew).length;
+	const OldHabbitNotFinishLenght = FinishedArray(ListHabbitNew).length;
 
-  const tHabit: any = UseLangComponent("Habits");
-  const t: any = UseLangComponent("Drawer");
-  return (
-    <div className="w-full min-w-96 flex flex-col gap-y-2">
-      <ListTitleContainer>
-        <ListTitle
-          forgot={!forgot}
-          setForgot={() => setForgot(false)}
-          title={tHabit.title}
-        />
-        <ListTitle
-          forgot={forgot}
-          setForgot={() => setForgot(true)}
-          title={tHabit.forgotTilte}
-        />
-      </ListTitleContainer>
-      <div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
-        <span>{t.AllHabit}</span>
-        {!forgot ? HabbitLenght : OldHabbitLenght}
-      </div>
-      <div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
-        <span>{t.DoneStatus}</span>
-        <div
-          dir="ltr"
-          className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
-        >
-          <span className="text-successGreen border-r-[1px] pr-1 mr-0.5 border-blue-500">
-            {!forgot ? HabbitFinishLenght : OldHabbitFinishLenght}
-          </span>
-          <span className="text-errorRed">
-            {!forgot ? HabbitNotFinishLenght : OldHabbitNotFinishLenght}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+	const tHabit: any = UseLangComponent("Habits");
+	const t: any = UseLangComponent("Drawer");
+	return (
+		<div className="w-full min-w-96 flex flex-col gap-y-2">
+			<ListTitleContainer>
+				<ListTitle
+					forgot={!forgot}
+					setForgot={() => setForgot(false)}
+					title={tHabit.title}
+				/>
+				<ListTitle
+					forgot={forgot}
+					setForgot={() => setForgot(true)}
+					title={tHabit.forgotTilte}
+				/>
+			</ListTitleContainer>
+			<div className="flex justify-between items-center bg-primary py-1 px-3 rounded-3xl">
+				<span>{t.AllHabit}</span>
+				{!forgot ? HabbitLenght : OldHabbitLenght}
+			</div>
+			<div className="flex justify-between items-center text-blue-500 bg-primary py-1 px-3 rounded-3xl">
+				<span>{t.DoneStatus}</span>
+				<div
+					dir="ltr"
+					className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-0.5"
+				>
+					<span className="text-successGreen border-r-px pr-1 mr-px border-blue-500">
+						{!forgot ? HabbitFinishLenght : OldHabbitFinishLenght}
+					</span>
+					<span className="text-errorRed">
+						{!forgot ? HabbitNotFinishLenght : OldHabbitNotFinishLenght}
+					</span>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default HabbitInfo;

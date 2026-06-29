@@ -133,6 +133,7 @@ export const faLang = {
 		AllSpends: "همه تراکنش ‌ها",
 		Earn: "درآمد",
 		Spends: "مخارج",
+		Transactions: "تراکنش ‌ها",
 		Shares: "سهم ‌ها",
 		Today: "امروز",
 		AllHabit: "همه عادت ها",

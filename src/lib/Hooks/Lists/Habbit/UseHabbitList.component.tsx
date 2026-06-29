@@ -64,10 +64,8 @@ function UseHabbitList() {
 
 	const ListHabbitToday = ListHabbit.filter(
 		(a) =>
-			(+a.doDate >= currentUnixTimestampZero &&
-				+a.doDate < TomorrowUnixTimestampZero) ||
-			(+a.lastUpdate >= currentUnixTimestampZero &&
-				+a.lastUpdate < TomorrowUnixTimestampZero),
+			+a.doDate >= currentUnixTimestampZero &&
+			+a.doDate < TomorrowUnixTimestampZero,
 	);
 	return {
 		ListMyHabbit: dateUpOrderArray,

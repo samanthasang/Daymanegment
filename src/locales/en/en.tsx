@@ -133,6 +133,7 @@ export const enLang = {
 		AllSpends: "All Transactions",
 		Earn: "Earn",
 		Spends: "Spends",
+		Transactions: "Transactions",
 		Shares: "Shares",
 		Today: "Today",
 		AllHabit: "All Habit",

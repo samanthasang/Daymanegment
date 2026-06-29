@@ -172,7 +172,7 @@ function SpendsInfo() {
           dir="ltr"
           className="flex justify-center items-center w-fit h-2 text-blue-500 bg-primary py-1 gap-x-1"
         >
-          <div className="flex items-center gap-x-1 text-successGreen border-r-2 border-blue-500 pr-1 mr-0.5">
+          <div className="flex items-center gap-x-1 text-successGreen border-r-2 border-blue-500 pr-1 mr-px">
             <CircleDollarSign width={16} height={16} />
             <label>{EarnToday}</label>
           </div>

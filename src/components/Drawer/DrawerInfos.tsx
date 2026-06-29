@@ -14,46 +14,49 @@ import TimerInfo from "../Timer/TimerInfo/TimerInfo.component";
 import FriendsInfo from "../Friends/FriendsInfo/FriendsInfo.component";
 import ShareInfo from "../Share/ShareInfo/ShareInfo.component";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
+import TodayInfo from "../Today/TodayInfo.component";
 
 export function DrawerInfos({
-  drawerType,
+	drawerType,
 }: {
-  drawerType: string;
-  className?: React.ComponentProps<"form">;
+	drawerType: string;
+	className?: React.ComponentProps<"form">;
 }) {
-  const t: any = UseLangComponent("Drawer");
-  switch (drawerType) {
-    case "Todos":
-      return <TodoInfo />;
-    case "Spends":
-      return <SpendsInfo />;
-    case "Habits":
-      return <HabbitInfo />;
-    case "Goals":
-      return <GoalsInfo />;
-    case "Visits":
-      return <VisitsInfo />;
-    case "Installments":
-      return <InstallmentsInfo />;
-    case "Reminders":
-      return <RemindersInfo />;
-    case "Timers":
-      return <TimerInfo />;
-    case "Friends":
-      return <FriendsInfo />;
-    case "Shares":
-      return <ShareInfo />;
-    case "BootomsList":
-      return <ListMenuButtons />;
-    case "MenuList":
-      return <MenuMainSideBarComponent />;
-    case "FilterList":
-      return <FilterComponent witDate />;
-    default:
-      return (
-        <div className="grid gap-3">
-          <Label>{t.SomThingWentWrong}</Label>
-        </div>
-      );
-  }
+	const t: any = UseLangComponent("Drawer");
+	switch (drawerType) {
+		case "Todos":
+			return <TodoInfo />;
+		case "Spends":
+			return <SpendsInfo />;
+		case "Habits":
+			return <HabbitInfo />;
+		case "Goals":
+			return <GoalsInfo />;
+		case "Visits":
+			return <VisitsInfo />;
+		case "Installments":
+			return <InstallmentsInfo />;
+		case "Reminders":
+			return <RemindersInfo />;
+		case "Timers":
+			return <TimerInfo />;
+		case "Friends":
+			return <FriendsInfo />;
+		case "Shares":
+			return <ShareInfo />;
+		case "BootomsList":
+			return <ListMenuButtons />;
+		case "MenuList":
+			return <MenuMainSideBarComponent />;
+		case "FilterList":
+			return <FilterComponent witDate />;
+		case "Today":
+			return <TodayInfo />;
+		default:
+			return (
+				<div className="grid gap-3">
+					<Label>{t.SomThingWentWrong}</Label>
+				</div>
+			);
+	}
 }

@@ -78,6 +78,8 @@ export function DrawerDialogDemo({
 	};
 	const translateTitle = () => {
 		switch (drawerType) {
+			case "Today":
+				return t.Today;
 			case "Todos":
 				return t.titleTodos;
 			case "Spends":
