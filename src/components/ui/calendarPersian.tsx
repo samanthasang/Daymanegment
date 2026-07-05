@@ -9,7 +9,54 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { DayButton, getDefaultClassNames, DayPicker } from "react-day-picker";
-import { faIR } from "date-fns-jalali/locale";
+import dayjs from "dayjs";
+
+
+// Persian month names
+const PERSIAN_MONTHS = [
+	"فروردین",
+	"اردیبهشت",
+	"خرداد",
+	"تیر",
+	"مرداد",
+	"شهریور",
+	"مهر",
+	"آبان",
+	"آذر",
+	"دی",
+	"بهمن",
+	"اسفند",
+];
+
+// Persian weekdays
+const PERSIAN_WEEKDAYS = [
+	"شنبه",
+	"یکشنبه",
+	"دوشنبه",
+	"سه‌شنبه",
+	"چهارشنبه",
+	"پنج‌شنبه",
+	"جمعه",
+];
+
+// Helper functions
+const toJalali = (date: Date) => {
+	return dayjs(date).calendar("jalali");
+};
+
+const getPersianMonth = (date: Date) => {
+	const jalaliDate = toJalali(date);
+	const monthIndex = parseInt(jalaliDate.format("jM")) - 1;
+	return PERSIAN_MONTHS[monthIndex];
+};
+
+const getPersianYear = (date: Date) => {
+	return toJalali(date).format("jYYYY");
+};
+
+const getPersianDay = (date: Date) => {
+	return toJalali(date).format("jD");
+};
 
 function CalendarPersian({
 	className,
@@ -27,8 +74,7 @@ function CalendarPersian({
 
 	return (
 		<DayPicker
-			locale={faIR}
-			dir="ltr"
+			dir="rtl"
 			showOutsideDays={showOutsideDays}
 			className={cn(
 				"bg-background group/calendar p-3 [--cell-size:2rem] in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent",
@@ -36,8 +82,21 @@ function CalendarPersian({
 			)}
 			captionLayout={captionLayout}
 			formatters={{
-				formatMonthDropdown: (date) =>
-					date.toLocaleString("default", { month: "short" }),
+				formatMonthDropdown: (date) => {
+					return getPersianMonth(date);
+				},
+				formatYearDropdown: (date) => {
+					return `${getPersianYear(date)}`;
+				},
+				formatCaption: (date) => {
+					return `${getPersianMonth(date)} ${getPersianYear(date)}`;
+				},
+				formatDay: (date) => {
+					return `${getPersianDay(date)}`;
+				},
+				formatWeekdayName: (weekday) => {
+					return PERSIAN_WEEKDAYS[weekday.getDay()];
+				},
 				...formatters,
 			}}
 			classNames={{
@@ -157,7 +216,7 @@ function CalendarPersian({
 				DayButton: CalendarPersianDayButton,
 				WeekNumber: ({ children, ...props }) => {
 					return (
-						<td {...props} dir="ltr">
+						<td {...props} dir="rtl">
 							<div className="flex size-[--cell-size] items-center justify-center text-center">
 								{children}
 							</div>
@@ -184,12 +243,15 @@ function CalendarPersianDayButton({
 		if (modifiers.focused) ref.current?.focus();
 	}, [modifiers.focused]);
 
+	// Get Persian day number
+	const persianDay = getPersianDay(day.date);
+
 	return (
 		<Button
 			ref={ref}
 			variant="ghost"
 			size="icon"
-			data-day={day.date.toLocaleDateString()}
+			data-day={persianDay}
 			data-selected-single={
 				modifiers.selected &&
 				!modifiers.range_start &&
@@ -205,7 +267,9 @@ function CalendarPersianDayButton({
 				className,
 			)}
 			{...props}
-		/>
+		>
+			{persianDay}
+		</Button>
 	);
 }
 

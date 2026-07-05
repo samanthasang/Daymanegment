@@ -1,3 +1,4 @@
+import { toPersianDate } from "@/components/ui/FormatDateToPersian";
 import dayjs, { ManipulateType } from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -31,10 +32,15 @@ export const DayUnixFormat = (
 	lang: string = "en",
 ) => {
 	const time = dayjs.unix(Number(date));
+	console.log(date);
+	console.log(time);
+	console.log(
+		toPersianDate(time.year(), time.month(), time.date(), time.day()),
+	);
 
 	return lang == "en"
 		? time.format(format)
-		: time.calendar("jalali").format(format);
+		: toPersianDate(time.year(), time.month(), time.date(), time.day());
 };
 
 export const DayUnixFormatNow = (format: string) =>

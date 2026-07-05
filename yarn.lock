@@ -2225,6 +2225,13 @@
   dependencies:
     minimatch "*"
 
+"@types/moment-jalaali@^0.7.9":
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/@types/moment-jalaali/-/moment-jalaali-0.7.9.tgz#c8daf05753427ac9bbc098f0b73f7f884d810269"
+  integrity sha512-gsDOoAzRnCfQTbfdlUrCvX6R0wIto6CvwfvV2C3j4qJLK+DEiTK8Rl/xlOCBO9C6qeUfX8oyZ2UfjnXJTOvHSA==
+  dependencies:
+    moment ">=2.14.0"
+
 "@types/node@*", "@types/node@^25.9.3":
   version "25.9.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-25.9.3.tgz#11dfe7a33e68fa5c560f0aa76cc5595621ef26b9"
@@ -3252,15 +3259,17 @@ data-view-byte-offset@^1.0.1:
     es-errors "^1.3.0"
     is-data-view "^1.0.1"
 
-date-fns-jalali@3.2.0-0:
-  version "3.2.0-0"
-  resolved "https://registry.yarnpkg.com/date-fns-jalali/-/date-fns-jalali-3.2.0-0.tgz#5ab00c60ed491bd46e4996b19f3a21ab3ca8bb68"
-  integrity sha512-ufksQntsttjzp5mA8yyVEI0PGMlA6iEoBktbbDUbNs9NoDBbjwfW2IygZoENJz4K0BHMOpINfgaUSUkskYd8xg==
-
 date-fns@^4.1.0, date-fns@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-4.4.0.tgz#806539edf45c616b2b76b5f78b88c56ed3c7e036"
   integrity sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==
+
+dayjs-jalali@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/dayjs-jalali/-/dayjs-jalali-0.0.2.tgz#b7e1bf1c66c094bd5c2303d30d09aff7ee9cf92f"
+  integrity sha512-pwsgYXAES7Jziyv+6l72t3ovoXRC4QTr0zjlCkbaWSvTxmgdnGOhp6nWIXO5b+fmCv0COWfYs7wwPP38fJrNVA==
+  dependencies:
+    jalaali-js "^1.1.0"
 
 dayjs@^1.11.21:
   version "1.11.21"
@@ -5050,7 +5059,7 @@ jake@^10.8.5:
     filelist "^1.0.4"
     picocolors "^1.1.1"
 
-jalaali-js@^1.1.0:
+jalaali-js@^1.1.0, jalaali-js@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/jalaali-js/-/jalaali-js-1.2.8.tgz#dfc80398a0c4b4182f3eb883363b3b621e7a3878"
   integrity sha512-Jl/EwY84JwjW2wsWqeU4pNd22VNQ7EkjI36bDuLw31wH98WQW4fPjD0+mG7cdCK+Y8D6s9R3zLiQ3LaKu6bD8A==
@@ -5526,7 +5535,23 @@ minipass@^7.1.2, minipass@^7.1.3:
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-7.1.3.tgz#79389b4eb1bb2d003a9bba87d492f2bd37bdc65b"
   integrity sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==
 
-moment@^2.30.1:
+moment-jalaali@^0.10.4:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/moment-jalaali/-/moment-jalaali-0.10.4.tgz#8ca2c1651e3310be947049a1013acf9025cecfd6"
+  integrity sha512-/eD0HeyvATznb5iE0G1BHjKRZAFEpJ9ZNUkcHwXhNgt1WJJVVzHD7+uDmqzZWVFLdbGme2gvIXKb3ezDYOXcZA==
+  dependencies:
+    jalaali-js "^1.2.7"
+    moment "^2.29.4"
+    moment-timezone "^0.5.46"
+
+moment-timezone@^0.5.46:
+  version "0.5.48"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.48.tgz#111727bb274734a518ae154b5ca589283f058967"
+  integrity sha512-f22b8LV1gbTO2ms2j2z13MuPogNoh5UzxL3nzNAYKGraILnbGc9NEE6dyiiiLv46DGRb8A4kg8UKWLjPthxBHw==
+  dependencies:
+    moment "^2.29.4"
+
+moment@>=2.14.0, moment@^2.29.4, moment@^2.30.1:
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
