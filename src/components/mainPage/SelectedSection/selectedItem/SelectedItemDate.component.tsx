@@ -2,6 +2,7 @@ import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import SelectedItemContainer from "./SelectedItemContainer.component";
 import { Calendar, Clock, Timer } from "lucide-react";
 import UseLangComponent from "@/lib/Hooks/UseLangComponent.component";
+import { useAppSelector } from "@/lib/hook";
 
 export const SelectedItemDate = ({
 	doDate,
@@ -26,6 +27,8 @@ export const SelectedItemDate = ({
 	endDate?: number;
 	birthDate?: number;
 }) => {
+	const { lang } = useAppSelector((state) => state.Menu) || { lang: "en" };
+
 	const t: any = UseLangComponent("Selected");
 	return (
 		<>
@@ -37,7 +40,7 @@ export const SelectedItemDate = ({
 					>
 						<div className="flex flex-row items-center gap-x-1">
 							<Calendar width={12} height={12} />
-							{DayUnixFormat(createDate, "YYYY-MM-DD")}
+							{DayUnixFormat(+createDate, "YYYY-MM-DD", lang)}
 						</div>
 						<div className="flex flex-row items-center gap-x-1">
 							<Clock width={12} height={12} />
@@ -54,7 +57,7 @@ export const SelectedItemDate = ({
 					>
 						<div className="flex flex-row items-center gap-x-1">
 							<Calendar width={12} height={12} />
-							{DayUnixFormat(doDate, "YYYY-MM-DD")}
+							{DayUnixFormat(+doDate, "YYYY-MM-DD", lang)}
 						</div>
 						<div className="flex flex-row items-center gap-x-1">
 							<Clock width={12} height={12} />
@@ -67,7 +70,7 @@ export const SelectedItemDate = ({
 				<SelectedItemContainer title={t.BirthDay}>
 					<div className="flex flex-row items-center gap-x-1" dir="ltr">
 						<Calendar width={12} height={12} />
-						{DayUnixFormat(birthDate, "YYYY-MM-DD")}
+						{DayUnixFormat(+birthDate, "YYYY-MM-DD", lang)}
 					</div>
 				</SelectedItemContainer>
 			)}
@@ -79,7 +82,7 @@ export const SelectedItemDate = ({
 					>
 						<div className="flex flex-row items-center gap-x-1">
 							<Calendar width={12} height={12} />
-							{DayUnixFormat(startDate, "YYYY-MM-DD")}
+							{DayUnixFormat(+startDate, "YYYY-MM-DD", lang)}
 						</div>
 						<div className="flex flex-row items-center gap-x-1">
 							<Clock width={12} height={12} />
@@ -96,7 +99,7 @@ export const SelectedItemDate = ({
 					>
 						<div className="flex flex-row items-center gap-x-1">
 							<Calendar width={12} height={12} />
-							{DayUnixFormat(endDate, "YYYY-MM-DD")}
+							{DayUnixFormat(+endDate, "YYYY-MM-DD", lang)}
 						</div>
 						<div className="flex flex-row items-center gap-x-1">
 							<Clock width={12} height={12} />
@@ -113,7 +116,7 @@ export const SelectedItemDate = ({
 					>
 						<div className="flex flex-row items-center gap-x-1">
 							<Calendar width={12} height={12} />
-							{DayUnixFormat(lastUpdate, "YYYY-MM-DD")}
+							{DayUnixFormat(+lastUpdate, "YYYY-MM-DD", lang)}
 						</div>
 						<div className="flex flex-row items-center gap-x-1">
 							<Clock width={12} height={12} />
@@ -130,7 +133,7 @@ export const SelectedItemDate = ({
 					>
 						<div className="flex flex-row items-center gap-x-1">
 							<Calendar width={12} height={12} />
-							{DayUnixFormat(completeUpdate, "YYYY-MM-DD")}
+							{DayUnixFormat(+completeUpdate, "YYYY-MM-DD", lang)}
 						</div>
 						<div className="flex flex-row items-center gap-x-1">
 							<Clock width={12} height={12} />
