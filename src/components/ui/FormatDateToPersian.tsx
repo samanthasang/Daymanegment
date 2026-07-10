@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { format } from "date-fns-jalali";
 
 // Shared Persian month names
 const PERSIAN_MONTHS = [
@@ -42,6 +43,8 @@ export const toPersianDate = (
 export const formatDate = (date: Date | undefined, lang: string): string => {
 	if (!date) return "";
 	const d = dayjs(date);
+	console.log(format(new Date(2014, 1, 11), "yyyy-MM-dd"));
+
 	return lang === "fa"
 		? toPersianDate(d.year(), d.month(), d.date(), d.day())
 		: d.format("dddd, MMMM D, YYYY");
