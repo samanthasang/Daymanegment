@@ -1,12 +1,10 @@
-"use client";
 import localFont from "next/font/local";
-import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
-import PWAInstallPrompt from "./PWAInstallPrompt";
-import SplashGate from "./splash-gate";
-
 import { ReduxProvider } from "@/components/ReduxProvider";
+import { SWRegistration } from "./SWRegistration";
+import SplashGate from "./splash-gate";
+import { PWAInstallPrompt } from "./PWAInstallPrompt";
 
 const geistSans = localFont({
 	src: "./fonts/GoogleSansFlex.ttf",
@@ -18,61 +16,33 @@ const geistMono = localFont({
 	variable: "--font-geist-mono",
 	weight: "100 900",
 });
-
-// export const metadata = {
-//   manifest: "/manifest.json",
-// };
-
-// export const metadata = {
-//   applicationName: "Mountains",
-//   title: {
-//     default: "Mountains",
-//     template: "%s - NJS App",
-//   },
-//   description: "Mountains Day Management APP",
-//   manifest: "/manifest.json",
-//   appleWebApp: {
-//     capable: true,
-//     statusBarStyle: "default",
-//     title: "Mountains",
-//   },
-//   formatDetection: {
-//     telephone: false,
-//   },
-//   icons: {
-//     shortcut: "/icon.png",
-//     apple: [{ url: "/assets/icons/apple-icon-152x152.png", sizes: "180x180" }],
-//   },
-// };
+export const metadata = {
+	applicationName: "Mountains",
+	title: { default: "Mountains", template: "%s - NJS App" },
+	description: "Mountains Day Management APP",
+	manifest: "/manifest.json",
+	appleWebApp: { capable: true, statusBarStyle: "default", title: "Mountains" },
+	icons: {
+		shortcut: "/icon.png",
+		apple: [{ url: "/assets/icons/apple-icon-152x152.png", sizes: "180x180" }],
+	},
+};
 
 export default function RootLayout({
 	children,
-}: Readonly<{
+}: {
 	children: React.ReactNode;
-}>) {
-	useEffect(() => {
-		if ("serviceWorker" in navigator) {
-			navigator.serviceWorker
-				.register("/sw.js", {
-					type: "module", // This is the key change
-				})
-				.catch((err) => {
-					console.error("Service worker registration failed:", err);
-				});
-		}
-	}, []);
+}) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
-				<link rel="manifest" href="/manifest.json" />
 				<meta name="theme-color" content="#1C2733" />
 			</head>
 			<body
-				suppressHydrationWarning
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<SWRegistration />
 				<ReduxProvider>
-					{/* <NextIntlClientProvider locale="en"> */}
 					<ToastContainer />
 					<SplashGate>
 						<div className="min-h-dvh bg-primary">
@@ -80,7 +50,6 @@ export default function RootLayout({
 							{children}
 						</div>
 					</SplashGate>
-					{/* </NextIntlClientProvider> */}
 				</ReduxProvider>
 			</body>
 		</html>
