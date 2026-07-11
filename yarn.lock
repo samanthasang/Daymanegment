@@ -1998,6 +1998,13 @@
     serwist "9.5.11"
     zod "4.4.1"
 
+"@serwist/precaching@^9.5.11":
+  version "9.5.11"
+  resolved "https://registry.yarnpkg.com/@serwist/precaching/-/precaching-9.5.11.tgz#4117d94e101d9f1e865d372cf17f7c5a3011af2a"
+  integrity sha512-ZWA8ebNvFmnmZFKPaG75nMXyB3tahMDT/OBqsFyGWzmDGeaihlCe5GL8H2U1dAcvPVfLBFAoQKShhh9lDcJ5HA==
+  dependencies:
+    serwist "9.5.11"
+
 "@serwist/sw@^9.5.11":
   version "9.5.11"
   resolved "https://registry.yarnpkg.com/@serwist/sw/-/sw-9.5.11.tgz#8c4ef3b991ed31a254317f7db0e1c26cbca4a332"
@@ -2273,10 +2280,10 @@
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.20.2.tgz#97d26e00cd4a0423b4af620abecf3e6f442b7975"
   integrity sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==
 
-"@types/serviceworker@^0.0.197":
-  version "0.0.197"
-  resolved "https://registry.yarnpkg.com/@types/serviceworker/-/serviceworker-0.0.197.tgz#225de2de09deb3abea54cf6128fc0c386a61c9e2"
-  integrity sha512-PaeOFYHcR2c7guBn9M4Y5H1++snluHYzZ6DzzRCUf6kue2FFfpTjF82aZq31DJ2c/Qyb3KGf5ROQH/fOU8NdxQ==
+"@types/serviceworker@^0.0.199":
+  version "0.0.199"
+  resolved "https://registry.yarnpkg.com/@types/serviceworker/-/serviceworker-0.0.199.tgz#acd61abe0d2bec0ed66e80488cd18eb482122829"
+  integrity sha512-F8Xa1kKQFYrc+TMhHMeKsbC2v1d8eMYJIXQqAukL4GQ+cATgFBPq+b6oHifhOwt8ZkzTdnpSyDvm6vrOBhjFsA==
 
 "@types/trusted-types@2.0.7", "@types/trusted-types@^2.0.2":
   version "2.0.7"
@@ -5393,9 +5400,9 @@ loose-envify@^1.4.0:
     js-tokens "^3.0.0 || ^4.0.0"
 
 lru-cache@^11.0.0:
-  version "11.5.1"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-11.5.1.tgz#f3daa3540847b9737ebc02499ddb36765e54db4a"
-  integrity sha512-RPimw/7aMdv2oqRrxKwvZXcPfwBrn/JZ2xYcY9Hus/6LaS3VOAKVWKWgNLCFSiOm1ESXinjsDlidVU7JlnCN2A==
+  version "11.5.2"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-11.5.2.tgz#00e16665c90c620fba14a3c368732a976493f760"
+  integrity sha512-4pfM1Ff0x50o0tQwb5ucw/RzNyD0/YJME6IVcStalZuMWxdt3sR3huStTtxz4PUmvZfRguvDejasvQ2kifR11g==
 
 lru-cache@^5.1.1:
   version "5.1.1"

@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
 	// If you use next/image, you also need to disable default image optimization:
 	images: { unoptimized: true },
 	reactStrictMode: true,
+	turbopack: {},
 
 	async headers() {
 		return [
