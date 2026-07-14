@@ -2,9 +2,9 @@ import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import { ReduxProvider } from "@/components/ReduxProvider";
-import { SWRegistration } from "./SWRegistration";
 import SplashGate from "./splash-gate";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
+import ServiceWorkerRegister from "./SWRegistration";
 
 const geistSans = localFont({
 	src: "./fonts/GoogleSansFlex.ttf",
@@ -41,7 +41,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<SWRegistration />
+				<ServiceWorkerRegister />
 				<ReduxProvider>
 					<ToastContainer />
 					<SplashGate>

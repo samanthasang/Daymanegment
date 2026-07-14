@@ -8,7 +8,7 @@ export function registerServiceWorker() {
       // Use a timeout to ensure the service worker doesn't block the main thread
       setTimeout(() => {
         navigator.serviceWorker
-          .register("/sw.js", { scope: "/" })
+          .register("/sw.ts", { scope: "/" })
           .then((registration) => {
             console.log(
               "Service Worker registered with scope:",

@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import ListDetailsItem from "./ListDetailsItem.component";
+import AnimatedList from "@/components/ui/AnimatedList";
 
 dayjs.extend(utc);
 
@@ -50,9 +51,17 @@ function ListDetailsByHourMinute({
 					<h2 className="text-center whitespace-nowrap">{displayTime}</h2>
 					<div className="flex-1 h-px bg-white" />
 				</div>
-				<ul className="flex-1 w-full flex flex-col gap-y-1">
+				{/* <ul className="flex-1 w-full flex flex-col gap-y-1">
 					<ListDetailsItem drawerType={drawerType} List={grouped[hour] as []} />
-				</ul>
+				</ul> */}
+				<AnimatedList
+					items={grouped[hour] as []}
+					onItemSelect={(item, index) => console.log(item, index)}
+					showGradients
+					enableArrowNavigation
+					displayScrollbar
+					drawerType={drawerType}
+				/>
 			</section>
 		);
 	});

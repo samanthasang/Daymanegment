@@ -1,31 +1,20 @@
-// next.config.ts
 import type { NextConfig } from "next";
 import withSerwistInit from "@serwist/next";
+import path from "path";
 
 const withSerwist = withSerwistInit({
-	swSrc: "app/sw.ts",
-	swDest: "public/sw.js",
+	swSrc: "src/sw.ts",
+	swDest: path.join(process.cwd(), "public/sw.js"),
+	// This ensures Serwist doesn't try to use experimental turbo features during build
+	disable: process.env.NODE_ENV === "development",
 });
+
 const nextConfig: NextConfig = {
 	output: "export",
-	// If you use next/image, you also need to disable default image optimization:
 	images: { unoptimized: true },
 	reactStrictMode: true,
+	// Adding an empty turbopack config often silences the "no turbopack config" error
 	turbopack: {},
-
-	async headers() {
-		return [
-			{
-				source: "/sw.js",
-				headers: [
-					{
-						key: "Cache-Control",
-						value: "public, max-age=0, must-revalidate",
-					},
-				],
-			},
-		];
-	},
 };
 
 export default withSerwist(nextConfig);

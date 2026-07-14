@@ -2,15 +2,22 @@
 
 import { useEffect } from "react";
 
-export function SWRegistration() {
+export default function ServiceWorkerRegister() {
 	useEffect(() => {
-		if ("serviceWorker" in navigator) {
+		if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
 			navigator.serviceWorker
-				.register("/sw.js", { type: "module" })
-				.catch((err) =>
-					console.error("Service worker registration failed:", err),
-				);
+				.register("/sw.js")
+				.then((registration) => {
+					console.log(
+						"SW registration successful with scope: ",
+						registration.scope,
+					);
+				})
+				.catch((err) => {
+					console.error("SW registration failed: ", err);
+				});
 		}
 	}, []);
+
 	return null; // This component renders nothing
 }

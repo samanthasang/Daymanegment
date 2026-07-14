@@ -5,6 +5,7 @@ import utc from "dayjs/plugin/utc";
 import ListDetailsItem from "./ListDetailsItem.component";
 import { DayUnixFormat } from "@/lib/Hooks/UseDayJS";
 import { useAppSelector } from "@/lib/hook";
+import AnimatedList from "@/components/ui/AnimatedList";
 
 dayjs.extend(utc);
 
@@ -55,9 +56,19 @@ function ListDetailsByDay({
 				</h2>
 				<div className="flex-1 h-px bg-white" />
 			</div>
-			<ul className="flex-1 w-full flex flex-col gap-y-1">
+			{/* <ul className="flex-1 w-full flex flex-col gap-y-1">
 				<ListDetailsItem drawerType={drawerType} List={grouped[day] as []} />
-			</ul>
+			</ul> */}
+			{/* <ul className="flex-1 w-full flex flex-col gap-y-1">
+					<ListDetailsItem drawerType={drawerType} List={grouped[hour] as []} />
+				</ul> */}
+			<AnimatedList
+				items={grouped[day] as []}
+				onItemSelect={(item, index) => console.log(item, index)}
+				enableArrowNavigation
+				displayScrollbar
+				drawerType={drawerType}
+			/>
 		</section>
 	));
 }
