@@ -1,5 +1,5 @@
 1:"$Sreact.fragment"
 2:I[90484,[],"OutletBoundary"]
 3:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"style":{"padding":24},"children":[["$","h1",null,{"children":"You are offline"}],["$","p",null,{"children":"Please reconnect to load the app."}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"2nPG0qMsR6r7GR8-DLI_H"}
+0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"style":{"padding":24},"children":[["$","h1",null,{"children":"You are offline"}],["$","p",null,{"children":"Please reconnect to load the app."}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"5h_cudvYQInq-11Ejw70q"}
 4:null
