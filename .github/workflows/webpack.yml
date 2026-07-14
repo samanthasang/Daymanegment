@@ -4,18 +4,34 @@ on:
   push:
     branches: ["main"]
 
+# This ensures that if you push multiple times quickly,
+# old builds are cancelled to save resources.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Explicitly set this to avoid version confusion
+          cache: "yarn" # This automatically caches your yarn dependencies!
+
+      - name: Install dependencies
+        # Using --frozen-lockfile is good practice for CI
+        run: yarn install --frozen-lockfile --ignore-engines
 
       - name: Build
-        run: |
-          yarn install --frozen-lockfile --ignore-engines
-          yarn build
+        # We use the flag we discussed earlier to ensure the Service Worker builds correctly
+        run: yarn build --webpack
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
