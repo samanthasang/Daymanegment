@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
 	output: "export",
 	images: { unoptimized: true },
 	reactStrictMode: true,
+	basePath: "/Daymanegment",
+	assetPrefix: "/Daymanegment/",
+
 	// Adding an empty turbopack config often silences the "no turbopack config" error
 	turbopack: {},
 };
