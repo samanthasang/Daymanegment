@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # Explicitly set this to avoid version confusion
+          node-version: 24 # Explicitly set this to avoid version confusion
           cache: "yarn" # This automatically caches your yarn dependencies!
 
       - name: Install dependencies
