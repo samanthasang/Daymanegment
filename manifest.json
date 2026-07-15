@@ -4,7 +4,7 @@
 	"description": "Mountains Day Management APP - Organize your tasks, goals, and daily activities efficiently",
 	"background_color": "#151E26",
 	"theme_color": "#1C2733",
-	"start_url": "/Daymanegment/",
+	"start_url": "/",
 	"scope": "/",
 	"orientation": "portrait-primary",
 	"display": "standalone",
