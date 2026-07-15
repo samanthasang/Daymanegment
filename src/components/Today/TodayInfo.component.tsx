@@ -31,72 +31,72 @@ import TodayInfoShares from "./TodayInfoShares.component";
 import TodayInfoFriends from "./TodayInfoFriends.componen";
 
 function TodayInfo() {
-	const { ListGoalsToday } = useGoalsList();
-	const { ListHabbitToday } = UseHabbitList();
-	const { ListTimerFiltered } = useTimerList();
-	const { ListReminderToday } = useReminderList();
-	const { ListVisitToday, selectedVisit } = useVisitList();
-	const { ListInstallmentsToday } = useInstallmentsList();
-	const { ListSharesToday } = useShareList();
+	// const { ListGoalsToday } = useGoalsList();
+	// const { ListHabbitToday } = UseHabbitList();
+	// const { ListTimerFiltered } = useTimerList();
+	// const { ListReminderToday } = useReminderList();
+	// const { ListVisitToday, selectedVisit } = useVisitList();
+	// const { ListInstallmentsToday } = useInstallmentsList();
+	// const { ListSharesToday } = useShareList();
 
-	const SharesLenght = ListSharesToday.length;
-	const { incomeArray: inComeArray } = IncomeFilter(ListSharesToday);
-	const { incomeMArray: outComeArray } = IncomeMFilter(ListSharesToday);
-	const SharesIncomeArray = inComeArray?.reduce((acc, obj) => {
-		if (obj.income && obj.incomeAmount) {
-			return acc + +obj.incomeAmount;
-		}
-		return acc;
-	}, 0);
-	const SharesOutcomeArray = outComeArray?.reduce((acc, obj) => {
-		if (!obj.income && obj.outcomeAmount) {
-			return acc + +obj.outcomeAmount;
-		}
-		return acc;
-	}, 0);
+	// const SharesLenght = ListSharesToday.length;
+	// const { incomeArray: inComeArray } = IncomeFilter(ListSharesToday);
+	// const { incomeMArray: outComeArray } = IncomeMFilter(ListSharesToday);
+	// const SharesIncomeArray = inComeArray?.reduce((acc, obj) => {
+	// 	if (obj.income && obj.incomeAmount) {
+	// 		return acc + +obj.incomeAmount;
+	// 	}
+	// 	return acc;
+	// }, 0);
+	// const SharesOutcomeArray = outComeArray?.reduce((acc, obj) => {
+	// 	if (!obj.income && obj.outcomeAmount) {
+	// 		return acc + +obj.outcomeAmount;
+	// 	}
+	// 	return acc;
+	// }, 0);
 
-	const OldSharesLenght = ListSharesToday.length;
-	const { incomeArray } = IncomeFilter(ListSharesToday);
-	const { incomeMArray: outcomeArray } = IncomeMFilter(ListSharesToday);
-	const OldSharesInComeArray = incomeArray?.reduce((acc, obj) => {
-		if (obj.income && obj.incomeAmount) {
-			return acc + +obj.incomeAmount;
-		}
-		return acc;
-	}, 0);
-	const OldSharesOutComeArray = outcomeArray?.reduce((acc, obj) => {
-		if (!obj.income && obj.outcomeAmount) {
-			return acc + +obj.outcomeAmount;
-		}
-		return acc;
-	}, 0);
+	// const OldSharesLenght = ListSharesToday.length;
+	// const { incomeArray } = IncomeFilter(ListSharesToday);
+	// const { incomeMArray: outcomeArray } = IncomeMFilter(ListSharesToday);
+	// const OldSharesInComeArray = incomeArray?.reduce((acc, obj) => {
+	// 	if (obj.income && obj.incomeAmount) {
+	// 		return acc + +obj.incomeAmount;
+	// 	}
+	// 	return acc;
+	// }, 0);
+	// const OldSharesOutComeArray = outcomeArray?.reduce((acc, obj) => {
+	// 	if (!obj.income && obj.outcomeAmount) {
+	// 		return acc + +obj.outcomeAmount;
+	// 	}
+	// 	return acc;
+	// }, 0);
 
-	const EarnToday = inComeArray
-		.filter(
-			(item) =>
-				+item.doDate >= currentUnixTimestampZero &&
-				+item.doDate <= DayUnixAdd(currentUnixTimestampZero, "day", 1),
-		)
-		.reduce((acc, obj) => {
-			if (obj.income && obj.incomeAmount) {
-				return acc + +obj.incomeAmount;
-			}
-			return acc;
-		}, 0);
-	const SharesToday = outComeArray
-		.filter(
-			(item) =>
-				+item.doDate >= currentUnixTimestampZero &&
-				+item.doDate <= DayUnixAdd(currentUnixTimestampZero, "day", 1),
-		)
-		.reduce((acc, obj) => {
-			if (!obj.income && obj.outcomeAmount) {
-				return acc + +obj.outcomeAmount;
-			}
-			return acc;
-		}, 0);
+	// const EarnToday = inComeArray
+	// 	.filter(
+	// 		(item) =>
+	// 			+item.doDate >= currentUnixTimestampZero &&
+	// 			+item.doDate <= DayUnixAdd(currentUnixTimestampZero, "day", 1),
+	// 	)
+	// 	.reduce((acc, obj) => {
+	// 		if (obj.income && obj.incomeAmount) {
+	// 			return acc + +obj.incomeAmount;
+	// 		}
+	// 		return acc;
+	// 	}, 0);
+	// const SharesToday = outComeArray
+	// 	.filter(
+	// 		(item) =>
+	// 			+item.doDate >= currentUnixTimestampZero &&
+	// 			+item.doDate <= DayUnixAdd(currentUnixTimestampZero, "day", 1),
+	// 	)
+	// 	.reduce((acc, obj) => {
+	// 		if (!obj.income && obj.outcomeAmount) {
+	// 			return acc + +obj.outcomeAmount;
+	// 		}
+	// 		return acc;
+	// 	}, 0);
 
-	const t: any = UseLangComponent("Drawer");
+	// const t: any = UseLangComponent("Drawer");
 	return (
 		<div className="w-full min-w-96 flex flex-col gap-y-2">
 			<TodayInfoTodos />
@@ -113,8 +113,8 @@ function TodayInfo() {
 
 			<TodayInfoVisits />
 
-      <TodayInfoSpends />
-      
+			<TodayInfoSpends />
+
 			<TodayInfoFriends />
 
 			<TodayInfoShares />

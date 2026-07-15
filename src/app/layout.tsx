@@ -5,6 +5,7 @@ import { ReduxProvider } from "@/components/ReduxProvider";
 import SplashGate from "./splash-gate";
 import { PWAInstallPrompt } from "./PWAInstallPrompt";
 import ServiceWorkerRegister from "./SWRegistration";
+import PageContainer from "@/components/mainPage/Page/PageContainer/PageContainer.component";
 
 const geistSans = localFont({
 	src: "./fonts/GoogleSansFlex.ttf",
@@ -47,7 +48,7 @@ export default function RootLayout({
 					<SplashGate>
 						<div className="min-h-dvh bg-primary">
 							<PWAInstallPrompt />
-							{children}
+							<PageContainer>{children}</PageContainer>
 						</div>
 					</SplashGate>
 				</ReduxProvider>
