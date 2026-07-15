@@ -6,7 +6,9 @@ export default function ServiceWorkerRegister() {
 	useEffect(() => {
 		if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
 			navigator.serviceWorker
-				.register("/sw.js")
+				.register("/Daymanegment/sw.js", {
+					scope: "/Daymanegment/",
+				})
 				.then((registration) => {
 					console.log(
 						"SW registration successful with scope: ",
