@@ -29,7 +29,7 @@
 			"url": "/todos",
 			"icons": [
 				{
-					"src": "/assets/icons/icon-96x96.png",
+					"src": "/Daymanement/assets/icons/icon-96x96.png",
 					"sizes": "96x96",
 					"type": "image/png"
 				}
@@ -42,7 +42,7 @@
 			"url": "/goals",
 			"icons": [
 				{
-					"src": "/assets/icons/icon-96x96.png",
+					"src": "/Daymanement/assets/icons/icon-96x96.png",
 					"sizes": "96x96",
 					"type": "image/png"
 				}
@@ -55,7 +55,7 @@
 			"url": "/habits",
 			"icons": [
 				{
-					"src": "/assets/icons/icon-96x96.png",
+					"src": "/Daymanement/assets/icons/icon-96x96.png",
 					"sizes": "96x96",
 					"type": "image/png"
 				}
@@ -68,7 +68,7 @@
 			"url": "/timers",
 			"icons": [
 				{
-					"src": "/assets/icons/icon-96x96.png",
+					"src": "/Daymanement/assets/icons/icon-96x96.png",
 					"sizes": "96x96",
 					"type": "image/png"
 				}
@@ -77,21 +77,21 @@
 	],
 	"screenshots": [
 		{
-			"src": "/assets/screenshots/mobile-home.png",
+			"src": "/Daymanement/assets/screenshots/mobile-home.png",
 			"sizes": "750x1334",
 			"type": "image/png",
 			"form_factor": "narrow",
 			"label": "Home Screen"
 		},
 		{
-			"src": "/assets/screenshots/mobile-tasks.png",
+			"src": "/Daymanement/assets/screenshots/mobile-tasks.png",
 			"sizes": "750x1334",
 			"type": "image/png",
 			"form_factor": "narrow",
 			"label": "Tasks Management"
 		},
 		{
-			"src": "/assets/screenshots/desktop-home.png",
+			"src": "/Daymanement/assets/screenshots/desktop-home.png",
 			"sizes": "1920x1080",
 			"type": "image/png",
 			"form_factor": "wide",
@@ -100,67 +100,67 @@
 	],
 	"icons": [
 		{
-			"src": "/assets/icons/icon-48x48.png",
+			"src": "/Daymanement/assets/icons/icon-48x48.png",
 			"type": "image/png",
 			"sizes": "48x48",
 			"purpose": "any"
 		},
 		{
-			"src": "/assets/icons/icon-72x72.png",
+			"src": "/Daymanement/assets/icons/icon-72x72.png",
 			"type": "image/png",
 			"sizes": "72x72",
 			"purpose": "any"
 		},
 		{
-			"src": "/assets/icons/icon-96x96.png",
+			"src": "/Daymanement/assets/icons/icon-96x96.png",
 			"type": "image/png",
 			"sizes": "96x96",
 			"purpose": "any maskable"
 		},
 		{
-			"src": "/assets/icons/icon-114x114.png",
+			"src": "/Daymanement/assets/icons/icon-114x114.png",
 			"type": "image/png",
 			"sizes": "114x114",
 			"purpose": "any"
 		},
 		{
-			"src": "/assets/icons/icon-128x128.png",
+			"src": "/Daymanement/assets/icons/icon-128x128.png",
 			"type": "image/png",
 			"sizes": "128x128",
 			"purpose": "any"
 		},
 		{
-			"src": "/assets/icons/icon-144x144.png",
+			"src": "/Daymanement/assets/icons/icon-144x144.png",
 			"type": "image/png",
 			"sizes": "144x144",
 			"purpose": "any maskable"
 		},
 		{
-			"src": "/assets/icons/icon-152x152.png",
+			"src": "/Daymanement/assets/icons/icon-152x152.png",
 			"type": "image/png",
 			"sizes": "152x152",
 			"purpose": "any"
 		},
 		{
-			"src": "/assets/icons/icon-192x192.png",
+			"src": "/Daymanement/assets/icons/icon-192x192.png",
 			"type": "image/png",
 			"sizes": "192x192",
 			"purpose": "any maskable"
 		},
 		{
-			"src": "/assets/icons/icon-256x256.png",
+			"src": "/Daymanement/assets/icons/icon-256x256.png",
 			"type": "image/png",
 			"sizes": "256x256",
 			"purpose": "any"
 		},
 		{
-			"src": "/assets/icons/icon-384x384.png",
+			"src": "/Daymanement/assets/icons/icon-384x384.png",
 			"type": "image/png",
 			"sizes": "384x384",
 			"purpose": "any maskable"
 		},
 		{
-			"src": "/assets/icons/icon-512x512.png",
+			"src": "/Daymanement/assets/icons/icon-512x512.png",
 			"type": "image/png",
 			"sizes": "512x512",
 			"purpose": "any maskable"
