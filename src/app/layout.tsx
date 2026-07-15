@@ -20,7 +20,7 @@ export const metadata = {
 	applicationName: "Mountains",
 	title: { default: "Mountains", template: "%s - NJS App" },
 	description: "Mountains Day Management APP",
-	manifest: "/manifest.json",
+	manifest: "/Daymanegment/manifest.json",
 	appleWebApp: { capable: true, statusBarStyle: "default", title: "Mountains" },
 	icons: {
 		shortcut: "/icon.png",
