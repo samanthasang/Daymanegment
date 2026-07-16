@@ -66,7 +66,7 @@ function ListMenuBottom({
 
 	const { isMDMax, isSMMax } = useMediaQueryValues();
 	return (
-		<div className="flex justify-center items-center gap-x-1 bg-secondary p-1.5 gap-y-2 rounded-3xl">
+		<div className="flex justify-center items-center gap-x-1 bg-secondary p-1.25 gap-y-2 rounded-3xl">
 			{isSMMax && (
 				<DrawerButton
 					drawerType="MenuList"

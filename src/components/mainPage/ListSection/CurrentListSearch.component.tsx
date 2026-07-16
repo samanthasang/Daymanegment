@@ -22,7 +22,7 @@ function CurrentListSearch({
 
 	return (
 		<>
-			<div className="flex justify-center items-center gap-x-1 bg-secondary p-1.5 gap-y-2 rounded-3xl">
+			<div className="flex justify-center items-center gap-x-1 bg-secondary p-1.25 gap-y-2 rounded-3xl">
 				<InputField
 					title="Title"
 					type="string"
@@ -33,33 +33,29 @@ function CurrentListSearch({
 				<UseResetFilterComponent />
 			</div>
 			<ListContent ListCount={List.length}>
-					{drawerType == "Today" ? (
-						<ListDetailsByHourMinute
-							List={
-								title.trim() != ""
-									? (List.filter((li: any) =>
-											li.title
-												.toLowerCase()
-												.includes(title.trim().toLowerCase()),
-										) as [])
-									: List
-							}
-							drawerType={drawerType}
-						/>
-					) : (
-						<ListDetails
-							List={
-								title.trim() != ""
-									? (List.filter((li: any) =>
-											li.title
-												.toLowerCase()
-												.includes(title.trim().toLowerCase()),
-										) as [])
-									: List
-							}
-							drawerType={drawerType}
-						/>
-					)}
+				{drawerType == "Today" ? (
+					<ListDetailsByHourMinute
+						List={
+							title.trim() != ""
+								? (List.filter((li: any) =>
+										li.title.toLowerCase().includes(title.trim().toLowerCase()),
+									) as [])
+								: List
+						}
+						drawerType={drawerType}
+					/>
+				) : (
+					<ListDetails
+						List={
+							title.trim() != ""
+								? (List.filter((li: any) =>
+										li.title.toLowerCase().includes(title.trim().toLowerCase()),
+									) as [])
+								: List
+						}
+						drawerType={drawerType}
+					/>
+				)}
 			</ListContent>
 		</>
 	);

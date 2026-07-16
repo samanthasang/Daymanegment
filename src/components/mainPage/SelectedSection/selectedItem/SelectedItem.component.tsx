@@ -135,7 +135,7 @@ export const SelectedItem = ({
 	const t: any = UseLangComponent("Selected");
 	return (
 		id && (
-			<div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-1 rounded-3xl scroll-m-0 overflow-y-scroll">
+			<div className="w-full flex-1 h-full flex flex-col justify-start items-start gap-y-1.25 rounded-3xl scroll-m-0 overflow-y-scroll">
 				<SelectedItemMainInfocomponen
 					title={title}
 					isFinish={isFinish || (!!endDate && isComplete)}

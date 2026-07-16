@@ -25,7 +25,12 @@ export const metadata = {
 	appleWebApp: { capable: true, statusBarStyle: "default", title: "Mountains" },
 	icons: {
 		shortcut: "/icon.png",
-		apple: [{ url: "/assets/icons/apple-icon-152x152.png", sizes: "180x180" }],
+		apple: [
+			{
+				url: "/Daymanegment/assets/icons/apple-icon-152x152.png",
+				sizes: "180x180",
+			},
+		],
 	},
 };
 
